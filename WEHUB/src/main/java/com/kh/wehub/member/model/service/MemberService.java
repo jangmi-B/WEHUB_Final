@@ -1,5 +1,12 @@
 package com.kh.wehub.member.model.service;
 
-public class MemberService {
+import com.kh.wehub.member.model.vo.Member;
+
+public interface MemberService {
+
+	Member login(String userId, String userPwd);
+
+	Member findMemberByUserId(String userId);
+
 
 }

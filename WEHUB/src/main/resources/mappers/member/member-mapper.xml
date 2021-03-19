@@ -2,7 +2,49 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="member">
+<mapper namespace="com.kh.wehub.member.model.dao.MemberDao">
+
+	<sql id="selectMemberSql">
+		 SELECT USER_NO,
+		 		USER_COMPANYNAME,
+		        USER_ID,
+		        USER_PWD,
+		        USER_NAME,
+		        RANK,
+	         	EMAIL,
+	         	COMCALL,
+	         	PHONE,
+	         	ADDRESS,
+		        USER_STATUS,
+		        DEPT_CODE
+			FROM MEMBER
+			WHERE USER_STATUS ='Y'
+	</sql>
+	
+	<resultMap type="Member" id="memberResultMap">
+		<!-- property : 자바의 인스턴스 변수 이름, column : DB에서 select 된 결과 컬럼명 -->
+		<!-- DB에서 기본키를 의미 -->
+		<id property="user_no" column="USER_NO"/>
+		<!-- DB에서 일반 컬럼들 -->
+		<id property="user_companyname" column="USER_COMPANYNAME"/>
+		<id property="user_id" column="USER_ID"/>
+		<id property="user_pwd" column="USER_PWD"/>
+		<id property="user_name" column="USER_NAME"/>
+		<id property="rank" column="RANK"/>
+		<id property="email" column="EMAIL"/>
+		<id property="comcall" column="COMCALL"/>
+		<id property="phone" column="PHONE"/>
+		<id property="address" column="ADDRESS"/>
+		<id property="user_status" column="USER_STATUS"/>
+		<id property="dept_code" column="DEPT_CODE"/>
+	</resultMap>
+	
+	<select id="selectMember" parameterType="string" resultMap="memberResultMap">
+		<include refid="selectMemberSql"></include>
+	 	AND USER_ID = #{id}
+	</select>
+
+
 	<select id="selectCount" resultType="_int">
 		SELECT COUNT(*) FROM MEMBER
 	</select>

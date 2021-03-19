@@ -15,6 +15,7 @@
   <script src="https://kit.fontawesome.com/d854b17d02.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="${path}/css/style.css">
   <link rel="stylesheet" href="${path}/css/homeContent.css">
+  <link rel="stylesheet" href="${path}/css/HumanManagement_green.css">
   <title>WEHUB</title>
 </head>
 <body>
@@ -45,7 +46,7 @@
         <li><a href="#"><i class="fas fa-bullhorn"></i></a></li>
         <li><a href="#"><i class="far fa-address-card" ></i></a></li>
         <li><a href="#"><i class="far fa-envelope"></i></a></li>
-        <li><a href="#"><i class="fas fa-users"></i></a></li>
+        <li><a href="${path}/member/memberInfo"><i class="fas fa-users"></i></a></li>
         <li><a href="#"><i class="far fa-calendar-alt"></i></a></li>
       </ul>
     </div>
