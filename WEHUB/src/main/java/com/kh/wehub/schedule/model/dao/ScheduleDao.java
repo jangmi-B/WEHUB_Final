@@ -1,5 +1,5 @@
 package com.kh.wehub.schedule.model.dao;
 
-public class ScheduleDao {
+public class SchduleDao {
 
 }
