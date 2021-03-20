@@ -14,7 +14,7 @@ public class Member {
 	private String USER_ID;
 	private String USER_PWD;
 	private String USER_NAME;
-	private String COMPANY_RANK;
+	private String RANK;
 	private String  EMAIL;
 	
 	private int COMCALL;
