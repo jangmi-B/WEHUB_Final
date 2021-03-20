@@ -25,6 +25,8 @@
             </form>
         </div>
     </div></c:if>
+   
+   
     <c:if test="${ loginMember != null }">
 	
 	<a href="${path}/home"></a>
