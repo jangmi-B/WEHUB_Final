@@ -1,7 +1,10 @@
 package com.kh.wehub.member.controller;
 
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,6 +56,22 @@ public class MemberController {
 		
 		return "redirect:/";
 		
+	}
+	@RequestMapping(value="member/findIDorPwd")
+		public String findIdorPwd() {
+		log.info("wanna go findIDorPwd");
+		return "member/findIDorPwd";
+		}
+	@RequestMapping(value="member/findID")
+	public String findID() {
+	log.info("findID go!!");
+	return "member/findID";
+	}
+	
+	@RequestMapping(value="member/findPwd")
+	public String findPWD() {
+	log.info("findPWD go!!");
+	return "member/findPwd";
 	}
 
 	@RequestMapping(value="main")

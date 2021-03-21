@@ -1,0 +1,70 @@
+@charset "UTF-8";
+
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    font-weight: 300;
+}
+
+body ::-webkit-input-placeholder {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    font-weight: 300;
+}
+
+body :-moz-placeholder {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    opacity: 1;
+    font-weight: 300;
+}
+
+body ::-moz-placeholder {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    opacity: 1;
+    font-weight: 300;
+}
+
+body :-ms-input-placeholder {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    font-weight: 300;
+}
+
+.wrapper {
+    background: #5b18ff;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+
+form button {
+    appearance: none;
+    outline: 0;
+    background-color: white;
+    border: 0;
+    padding: 10px 15px;
+    color: #5b18ff;
+    border-radius: 23px;
+    width: 150px;
+    height: 100px;
+    cursor: pointer;
+    font-size: 23px;
+    transition-duration: 0.25s;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    /* height: 30%; */
+    text-align: center;
+    margin-top: 20%;
+}
+
+form button a {
+    text-decoration: none;
+    color: #5b18ff;
+}

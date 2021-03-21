@@ -6,7 +6,7 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <%@ page session="false" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,7 +24,7 @@
                 <input type="password" name="userPwd" placeholder="Password">
                 <button type="submit" id="login-button">Log in</button>
                 <p id="findPwdAndSignUp">
-                    <a href="" id="fpas1">Forgot ID / Password?</a>
+                    <a onclick="location.replace('${path}/member/findIDorPwd')" id="fpas1">Forgot ID / Password?</a>
                     <a href="" id="fpas2">Sign Up</a>
                 </p>
             </form>
