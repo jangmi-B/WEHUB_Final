@@ -30,7 +30,8 @@
         <ul id="header_user">
           <li><a href="#">홍길동 사원</a>
             <ul>
-              <li><a href="#">Logout</a></li>
+            <!--   <li><a href="#">Logout</a></li> -->
+            <li><a onclick="location.replace('${path}/logout')">로그아웃</a></li>
               <li><a href="#">MyPage</a></li>
             </ul>
           </li>

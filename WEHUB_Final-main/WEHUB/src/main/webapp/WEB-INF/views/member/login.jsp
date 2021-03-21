@@ -18,7 +18,7 @@
 <body>
     <div class="wrapper">
         <div class="container">
-            <img src="resources/wehub(white).png"/>
+            <img src="resources/images/wehub(white).png"/>
             <form class="form" action="login" method="POST">
                 <input type="text" name="userId" placeholder="Username ">
                 <input type="password" name="userPwd" placeholder="Password">

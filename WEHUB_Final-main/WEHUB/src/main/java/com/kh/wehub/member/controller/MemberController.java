@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.wehub.member.model.service.MemberService;
@@ -40,6 +41,18 @@ public class MemberController {
 			model.setViewName("common/msg");
 		}
 		return model;
+	}
+	
+	@RequestMapping("/logout")
+	public String logout(SessionStatus status) {
+		// 세션 삭제함.
+		
+		log.info("status.isComplete() " +status.isComplete());
+		status.setComplete();
+		log.info("status.isComplete() " +status.isComplete());
+		
+		return "redirect:/";
+		
 	}
 
 	@RequestMapping(value="main")
