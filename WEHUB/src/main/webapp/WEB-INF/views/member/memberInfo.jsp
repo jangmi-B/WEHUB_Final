@@ -64,22 +64,31 @@
         </div>
     </thead>
     <tbody>
-        <tr>
-            <td class="HM_tdTag HM_NameT" id=" check_order"><input type="checkbox" id="check_1" class="normal"></td>
-            <td class="HM_tdTag HM_UserImgTd"><img class="HM_userProfileBox" src="${path}/image/프로필이미지.png"></td>
-            <td class="HM_tdTag HM_NameTd">홍길동</td>
-            <td class="HM_tdTag HM_RankTd">대표이사</td>
-            <td class="HM_tdTag HM_DepartmentTd">경영고문</td>
-            <td class="HM_tdTag HM_PhoneTd">010-1234-5678</td>
-            <td class="HM_tdTag HM_EmailTd">honggd@wehub.com</td>
-            <td class="HM_tdTag HM_TelephoneTd">02-1234-5678</td>
-        </tr>
+    	<c:choose>
+    		<c:when test=" ${ MemberList == null }">
+    			<tr><td colspan="8" align="center"> 존재하지 않습니다.</td></tr>
+    		</c:when>
+    		<c:when test="${ MemberList != null}">
+   				<c:forEach var="list" items="${MemberList}">
+			        <tr>
+			            <td class="HM_tdTag HM_NameT" id=" check_order"><input type="checkbox" id="check_1" class="normal"></td>
+			            <td class="HM_tdTag HM_UserImgTd"><img class="HM_userProfileBox" src="${path}/image/프로필이미지.png"></td>
+			            <td class="HM_tdTag HM_NameTd">${list.user_name}</td>
+			            <td class="HM_tdTag HM_RankTd">${list.rank}</td>
+			            <td class="HM_tdTag HM_DepartmentTd">${list.dept_code}</td>
+			            <td class="HM_tdTag HM_PhoneTd">${list.phone}</td>
+			            <td class="HM_tdTag HM_EmailTd">${list.email}</td>
+			            <td class="HM_tdTag HM_TelephoneTd">${list.comcall}</td>
+			        </tr>
+		        </c:forEach>
+        	</c:when>
+        </c:choose>
     </tbody>
   </table>
 
   <!-- 하단 페이징 -->
   <div class="HM_paging">
-    <button class="HM_pagingBtn HMltlt" onclick="">처음페이지</button>&nbsp;&nbsp;
+    <button class="HM_pagingBtn HMltlt" onclick="location.href='${path}/member/memberInfo?page=1'">처음페이지</button>&nbsp;&nbsp;
     <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="">&lt;&lt;</button>&nbsp;&nbsp;
     <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="">1</button>
     <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="">2</button>
@@ -89,6 +98,10 @@
     <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="">&gt;&gt;</button>&nbsp;&nbsp;
     <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="">마지막페이지</button>
   </div>
+  
+  
+  
+  
   <script>
     // 체크박스 전체 선택
     $(".checkbox_group").on("click", "#check_all", function () {

@@ -21,6 +21,8 @@
 			WHERE USER_STATUS ='Y'
 	</sql>
 	
+	
+	
 	<resultMap type="Member" id="memberResultMap">
 		<!-- property : 자바의 인스턴스 변수 이름, column : DB에서 select 된 결과 컬럼명 -->
 		<!-- DB에서 기본키를 의미 -->
@@ -41,11 +43,37 @@
 	
 	<select id="selectMember" parameterType="string" resultMap="memberResultMap">
 		<include refid="selectMemberSql"></include>
-	 	AND USER_ID = #{id}
+	 	AND USER_ID = #{userId}
 	</select>
-
-
-	<select id="selectCount" resultType="_int">
-		SELECT COUNT(*) FROM MEMBER
+	
+	<select id="infoCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE USER_STATUS ='Y'
 	</select>
+	
+	<select id="MemberInfo" parameterType="_int" resultMap="memberResultMap">
+		SELECT * FROM (
+             SELECT ROWNUM AS RNUM,
+                    USER_NO,
+                    USER_NAME,
+                    RANK,
+                    EMAIL,
+                    COMCALL,
+                    PHONE,
+                    USER_STATUS,
+                    DEPT_CODE
+            FROM(SELECT USER_NO,
+                    USER_NAME,
+                    RANK,
+                    EMAIL,
+                    COMCALL,
+                    PHONE,
+                    USER_STATUS,
+                    DEPT_CODE
+            FROM MEMBER
+            WHERE USER_STATUS ='Y')
+            ) WHERE RNUM BETWEEN #{start} AND #{end}
+	</select>
+	
 </mapper>
