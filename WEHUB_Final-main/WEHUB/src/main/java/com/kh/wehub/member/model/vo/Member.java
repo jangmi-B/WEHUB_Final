@@ -9,19 +9,29 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Member {
 
-	private int USER_NO;
-	private String USER_COMPANYNAME;
-	private String USER_ID;
-	private String USER_PWD;
-	private String USER_NAME;
-	private String RANK;
-	private String  EMAIL;
-	
-	private int COMCALL;
-	private int  PHONE;
-	private String  ADDRESS;
-	private String USER_STATUS;
-	private String DEPT_CODE  ;
+	private int user_no;
+
+	private String user_companyname;
+
+	private String user_id;
+
+	private String user_pwd;
+
+	private String user_name;
+
+	private String rank;
+
+	private String email;
+
+	private int comcall;
+
+	private int phone;
+
+	private String address;
+
+	private String user_status;
+
+	private String dept_code;
 
 	
 	
