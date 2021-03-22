@@ -1,4 +1,4 @@
-package com.kh.wehub.member.model.vo;
+package com.kh.wehub.common.util;
 
 import lombok.Data;
 

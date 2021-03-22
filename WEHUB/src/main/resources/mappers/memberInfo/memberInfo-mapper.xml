@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.kh.wehub.member.model.dao.MemberDao">
-
+<mapper namespace="com.kh.wehub.memberInfo.model.dao.MemberInfoDao">
+	
 	<sql id="selectMemberSql">
 		 SELECT USER_NO,
 		 		USER_COMPANYNAME,
@@ -20,8 +20,6 @@
 			FROM MEMBER
 			WHERE USER_STATUS ='Y'
 	</sql>
-	
-	
 	
 	<resultMap type="Member" id="memberResultMap">
 		<!-- property : 자바의 인스턴스 변수 이름, column : DB에서 select 된 결과 컬럼명 -->
@@ -41,9 +39,31 @@
 		<id property="dept_code" column="DEPT_CODE"/>
 	</resultMap>
 	
-	<select id="selectMember" parameterType="string" resultMap="memberResultMap">
-		<include refid="selectMemberSql"></include>
-	 	AND USER_ID = #{userId}
+	
+	<select id="infoCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE USER_STATUS ='Y'
+	</select>
+	
+	<select id="SearchList" parameterType="map" resultMap="memberResultMap">
+			<include refid="selectMemberSql"></include>
+		<choose>
+			<when test="searchList != 'all'">
+				AND dept_code LIKE '%'||#{searchText}||'%'
+				OR user_name LIKE '%'||#{searchText}||'%'
+				OR rank LIKE '%'||#{searchText}||'%'
+			</when>
+			<when test="searchList == 'all'">
+				AND dept_code LIKE '%'||#{searchText}||'%'
+				OR user_name LIKE '%'||#{searchText}||'%'
+				OR rank LIKE '%'||#{searchText}||'%'
+			</when>
+			<otherwise>
+				AND ${searchList} LIKE '%'||#{searchText}||'%'			
+			</otherwise>
+		</choose>
+	
 	</select>
 	
 </mapper>

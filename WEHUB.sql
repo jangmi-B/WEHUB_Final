@@ -48,18 +48,17 @@ COMMENT ON COLUMN MEMBER.DEPT_CODE IS '부서코드';
 INSERT INTO MEMBER VALUES(
     SEQ_USER_NO.NEXTVAL,
     '스마트컴퍼니',
-    'dddd',
+    'p12ppo',
     '1234',
-    '오라클',
-    '대리',
-    'oao1@naver.com',
-    2234885,
-    01042235555,
-    '서울시 강북구 미아동',
+    '가나다',
+    '사원',
+    'oo105@naver.com',
+    2134883,
+    01062289955,
+    '경기도 광주',
     DEFAULT,
     'D2'
     );
-
 
 
 

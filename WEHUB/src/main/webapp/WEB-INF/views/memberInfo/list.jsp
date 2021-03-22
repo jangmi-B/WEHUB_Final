@@ -26,7 +26,7 @@
       </ul>
     </div>
 
-<form class="HM_Area" action="${path}/member/memberInfo">
+<form class="HM_Area" action="${path}/memberInfo/list" method="get">
 
   <div>
     <!-- 관리자 일 때 -->
@@ -35,13 +35,13 @@
 
     <!-- SearchBar -->
     <div class="HM_Department_Sel">
-        <select>
-            <option value="">선택&nbsp;&nbsp;&nbsp;</option>
-            <option value="SelDepartment">부서</option>
-            <option value="Selname">이름</option>
-            <option value="SelRank">직급</option>
+        <select name="searchList">
+            <option value="all"<c:out value="${map.searchList == 'all'?'selected':''}"/> >전체</option>
+            <option value="dept_code"<c:out value="${map.searchList == 'dept_code'?'selected':''}"/>>부서</option>
+            <option value="user_name"<c:out value="${map.searchList == 'user_name'?'selected':''}"/>>이름</option>
+            <option value="rank"<c:out value="${map.searchList == 'rank'?'selected':''}"/>>직급</option>
         </select>&nbsp;
-        <input type="" class="HM_searchArea" placeholder="검색">
+        <input type="text" class="HM_searchArea" name="searchText" placeholder="검색">
         <button type="submit" class="HM_searchBox"><i class="fas fa-search"></i></button>
         <!-- <input type="text" class="search form-control" placeholder="검색어를 입력해주세요"> -->
         
@@ -65,11 +65,11 @@
     </thead>
     <tbody>
     	<c:choose>
-    		<c:when test=" ${ MemberList == null }">
+    		<c:when test=" ${ SearchList == null }">
     			<tr><td colspan="8" align="center"> 존재하지 않습니다.</td></tr>
     		</c:when>
-    		<c:when test="${ MemberList != null}">
-   				<c:forEach var="list" items="${MemberList}">
+    		<c:when test="${ SearchList != null}">
+   				<c:forEach var="list" items="${SearchList}">
 			        <tr>
 			            <td class="HM_tdTag HM_NameT" id=" check_order"><input type="checkbox" id="check_1" class="normal"></td>
 			            <td class="HM_tdTag HM_UserImgTd"><img class="HM_userProfileBox" src="${path}/image/프로필이미지.png"></td>
@@ -85,18 +85,25 @@
         </c:choose>
     </tbody>
   </table>
+</form>
 
   <!-- 하단 페이징 -->
   <div class="HM_paging">
-    <button class="HM_pagingBtn HMltlt" onclick="location.href='${path}/member/memberInfo?page=1'">처음페이지</button>&nbsp;&nbsp;
-    <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="">&lt;&lt;</button>&nbsp;&nbsp;
-    <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="">1</button>
-    <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="">2</button>
-    <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="">3</button>
-    <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="">4</button>
-    <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="">5</button>&nbsp;&nbsp;
-    <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="">&gt;&gt;</button>&nbsp;&nbsp;
-    <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="">마지막페이지</button>
+    <button class="HM_pagingBtn HMltlt" onclick="location.href='${path}/memberInfo/list?page=1'">처음페이지</button>&nbsp;&nbsp;
+    
+    <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="location.href='${path}/memberInfo/list?page=${info.getPrvePage()}'">&lt;&lt;</button>&nbsp;&nbsp;
+    <c:forEach var="page" begin="${info.getStartPage()}" end="${info.getEndPage()}">
+    	<c:choose>
+    		<c:when test="${page} == ${info.getCurrentPage()}">
+    			<button disabled="disabled" class="HM_pagingBtn" id="HM_pagingBtnId">${page}</button>
+    		</c:when>
+    		<c:otherwise>
+			    <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="location.href='${path}/memberInfo/list?page=${page}'">${page}</button>&nbsp;&nbsp;
+    		</c:otherwise>
+    	</c:choose>
+    </c:forEach>
+    <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="location.href='${path}/memberInfo/list?page=${info.getNextPage()}'">&gt;&gt;</button>&nbsp;&nbsp;
+    <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="location.href='${path}/memberInfo/list?page=${info.getMaxPage()}'">마지막페이지</button>
   </div>
   
   
@@ -119,7 +126,6 @@
         $("#check_all").prop("checked", is_checked);
     });
   </script>
-</form>
 </section>
   <hr>
   

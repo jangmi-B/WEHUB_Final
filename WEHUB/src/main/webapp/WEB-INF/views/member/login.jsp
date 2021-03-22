@@ -39,7 +39,7 @@
 	    $('.wrapper').addClass('form-success');
 
         setTimeout(function() {
-        location.href="${path}/main";
+        location.href="${path}/home";
         }, 2800);
 
      });

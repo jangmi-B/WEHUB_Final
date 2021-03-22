@@ -5,13 +5,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.wehub.member.model.service.MemberService;
 import com.kh.wehub.member.model.vo.Member;
-import com.kh.wehub.member.model.vo.PageInfo;
 
 @Controller
 @SessionAttributes("loginMember")
@@ -30,7 +28,7 @@ public class MemberController {
 		
 		if(loginMember != null) {
 			model.addObject("loginMember" , loginMember);
-			model.setViewName("redirect:/main");
+			model.setViewName("redirect:/home");
 		}else {
 			model.addObject("msg", "아이디 또는 비밀번호가 일치하지 않습니다.");
 			model.addObject("location", "/");
@@ -40,37 +38,10 @@ public class MemberController {
 	}
 	
 	//메인 화면 띄우기
-	@RequestMapping(value="main")
+	@RequestMapping(value="home")
 	public String mainPage() {
 		
-		return "/main";
+		return "/home";
 	}
-	
-	
-	// 인명관리 화면 띄우기
-	@RequestMapping(value="member/memberInfo")
-	public ModelAndView memberInfo(ModelAndView model, @RequestParam("page") int page,
-								@SessionAttribute(name="loginMember", required=false) Member memberInfo) {
-		
-		int count = 0;
-		PageInfo info = null;
-		int PNum = 0;
-		
-		try {
-			PNum = page; 
-		}catch(NumberFormatException e) {
-			PNum = 1;
-		}
-		count = service.infoCountList();
-		info = new PageInfo(PNum, 10, count, 10);
-		
-		model.addObject("info", info);
-		System.out.println(info.getStartList() + " " + info.getEndList());
-		model.addObject("MemberList", service.MemberInfo(info.getStartList(), info.getEndList()));
-		
-		return model;
-	}
-	
-	
 	
 }
