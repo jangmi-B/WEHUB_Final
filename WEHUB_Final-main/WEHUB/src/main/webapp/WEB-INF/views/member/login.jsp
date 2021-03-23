@@ -32,6 +32,7 @@
     </div>
 </body>
 <script>
+alert("당신의 아이디는${sessionScope.userID}입니다.");
      $("#login-button").click(function(event){
 		event.preventDefault();
 	 
@@ -41,8 +42,11 @@
         location.href="${path}/main";
         }, 2800);
      });
-    //  $("#fpas1").click(function() {
-    //     alert();
-    //  })
+    
 </script>
+ <c:if test="${not empty sessionScope.userID}">
+    <script>
+	alert("당신의 아이디는${sessionScope.userID}입니다.");
+	</script>
+	</c:if>
 </html>

@@ -26,4 +26,7 @@ public interface MemberDao {
 
 	public Member selectMember(String userId);
 
+	public String findID(Member member);
+
+
 }

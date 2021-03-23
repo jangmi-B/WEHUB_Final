@@ -112,4 +112,21 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.selectMember(userId);
 	}
 
+
+	@Override
+	public String findID(Member member) {
+		// TODO Auto-generated method stub
+		return memberDao.findID(member);
+	}
+
+
+
+
+
+
+
+
+
+
+
 }

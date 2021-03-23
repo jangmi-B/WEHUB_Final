@@ -27,4 +27,8 @@ public interface MemberService {
 
 	Member findMemberByUserId(String userId);
 
+	String findID(Member member);
+
+
+
 }

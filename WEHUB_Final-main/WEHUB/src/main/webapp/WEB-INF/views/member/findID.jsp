@@ -23,9 +23,9 @@
         </div>
         <div class="container">
             <form class="form" action="${path}/member/findID" method="post">
-                <input type="text" placeholder="User Name ">
-                <input type="email" placeholder="E-mail">
-                <input type="tel" placeholder="Phone">
+                <input type="text" name="user_name"  placeholder="User Name ">
+                <input type="email"name="email" placeholder="E-mail">
+                <input type="tel"name="phone" placeholder="Phone">
                 <button type="submit" id="login-button">Find</button>
             </form>
         </div>
@@ -39,9 +39,15 @@
 	    $('.wrapper').addClass('form-success');
 
         setTimeout(function() {
-        alert("입력하신 회원정보의 ID는 '나도 잘 모르겠다' 입니다.");
+        alert("입력하신 회원정보의 ID는 "+"'나도 잘 모르겠다' 입니다.");
         location.href="file:///C:/Users/User/Desktop/Coding/FinalProjectHTML/LogInForm.html";
     }, 3000);
     });
-</script>
+    </script>
+    
+   
+    
+
+		
+	
 </html>

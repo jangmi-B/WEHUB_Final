@@ -46,4 +46,13 @@
 	 	AND USER_ID = #{userId}
 	</select>
 	
+	<select id="findID" parameterType="Member" resultType="String" >
+		SELECT  USER_ID 	FROM MEMBER 
+		WHERE USER_STATUS ='Y' AND  
+				USER_NAME= #{user_name} AND
+		        
+	         	EMAIL= #{email} AND
+	    
+	         	PHONE =#{phone}
+	</select>
 </mapper>

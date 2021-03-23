@@ -139,6 +139,7 @@ package com.kh.wehub.member.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -211,8 +212,24 @@ public class MemberController {
 	@RequestMapping(value="member/findID")
 	public String findID() {
 	log.info("findID go!!");
+	
 	return "member/findID";
 	}
+	
+	@RequestMapping(value="member/findID", method={RequestMethod.POST})
+	public ModelAndView findID(ModelAndView model,@ModelAttribute Member member) {
+		
+
+		String findID =service.findID(member);
+		
+			model.addObject("userID" , findID);
+			log.info("찾은 아이디");
+			System.out.println("찾은 아이디는"+findID);
+			model.setViewName("redirect:/");
+		
+		return model;
+	}
+	
 	
 	@RequestMapping(value="member/findPwd")
 	public String findPWD() {
