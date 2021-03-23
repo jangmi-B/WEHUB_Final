@@ -6,27 +6,26 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <%@ page session="false" %>
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="js/jquery-3.5.1.js"></script>
+    <script src="js/jquery-3.5.1.min.js"></script>
     <title>LogInForm</title>
     <link rel="stylesheet" href="${path}/css/LogInForm.css">
 </head>
 <body>
     <div class="wrapper">
         <div class="container">
-            <img src="resources/images/wehub(white).png"/>
-            
-            <form action="${path}/login1" class="form"  method="POST">
-                <input type="text" name="user_id" placeholder="Username ">
-                <input type="password" name="user_pwd" placeholder="Password">
-                <button  type="submit" id="login-button">Log in</button>
+            <img src="resources/wehub(white).png"/>
+            <form class="form" action="login" method="POST">
+                <input type="text" name="userId" placeholder="Username ">
+                <input type="password" name="userPwd" placeholder="Password">
+                <button type="submit" id="login-button">Log in</button>
                 <p id="findPwdAndSignUp">
                     <a onclick="location.href='${path}/member/findIDorPwd'" id="fpas1">Forgot ID / Password?</a>
-                    <a onclick="location.href='${path}/member/signUpForm'" id="fpas2">Sign Up</a>
+                    <a href="" id="fpas2">Sign Up</a>
                 </p>
             </form>
         </div>
@@ -34,8 +33,6 @@
 </body>
 <script>
      $("#login-button").click(function(event){
-    	 
-    	//< if(#userId.value== )
 		event.preventDefault();
 	 
 	    $('form').fadeOut(500);
