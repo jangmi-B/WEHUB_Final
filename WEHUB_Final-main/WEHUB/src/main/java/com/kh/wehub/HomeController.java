@@ -24,15 +24,16 @@ public class HomeController {
 	// RM 어노테이션으로 인해 security-context에서 bean mapping 등록(url-처리할 컨트롤러)을 덜어줌
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-//		logger.info("Welcome home! The client locale is {}.", locale);
-//		
-//		Date date = new Date();
-//		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-//		
-//		String formattedDate = dateFormat.format(date);
-//		
-//		model.addAttribute("serverTime", formattedDate );
+		logger.info("Welcome home! The client locale is {}.", locale);
 		
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		
+		String formattedDate = dateFormat.format(date);
+		
+		model.addAttribute("serverTime", formattedDate );
+		
+		System.out.println("홈 콘트롤러 보내는척");
 		return "/member/login";
 	}
 	

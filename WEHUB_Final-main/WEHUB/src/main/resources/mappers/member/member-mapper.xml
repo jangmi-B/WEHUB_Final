@@ -41,9 +41,41 @@
 
 	<select id="selectMember" parameterType="string" resultMap="memberResultMap">
 		<include refid="selectMemberSql"></include>
-	 	AND USER_ID = #{id}
+	 	AND USER_ID = #{user_id}
 	</select>
 	<select id="selectCount" resultType="_int">
 		SELECT COUNT(*) FROM MEMBER
 	</select>
+	
+	<!-- 체크 필요 -->
+	<insert id="insertMember" >	
+		INSERT INTO MEMBER (
+			USER_NO,
+		 		USER_COMPANYNAME,
+		        USER_ID,
+		        USER_PWD,
+		        USER_NAME,
+		        RANK,
+	         	EMAIL,
+	         	COMCALL,
+	         	PHONE,
+	         	ADDRESS,
+		        USER_STATUS,
+		        DEPT_CODE
+		)
+		VALUES(
+			SEQ_USER_NO.NEXTVAL, 
+			#{user_companyname},
+		        #{user_id},
+		        #{user_pwd},
+		        #{user_name},
+		        #{rank},
+		        #{email},
+		        #{comcall},
+		        #{phone},
+		        #{address},
+				DEFAULT, 
+		        #{dept_code}
+		)
+	</insert>
 </mapper>

@@ -20,13 +20,13 @@
         <div class="container">
             <img src="resources/images/wehub(white).png"/>
             
-            <form class="form" action="login" method="POST">
-                <input type="text" name="userId" placeholder="Username ">
-                <input type="password" name="userPwd" placeholder="Password">
-                <button type="submit" id="login-button">Log in</button>
+            <form action="${path}/login1" class="form"  method="POST">
+                <input type="text" name="user_id" placeholder="Username ">
+                <input type="password" name="user_pwd" placeholder="Password">
+                <button  type="submit" id="login-button">Log in</button>
                 <p id="findPwdAndSignUp">
                     <a onclick="location.href='${path}/member/findIDorPwd'" id="fpas1">Forgot ID / Password?</a>
-                    <a href="" id="fpas2">Sign Up</a>
+                    <a onclick="location.href='${path}/member/signUpForm'" id="fpas2">Sign Up</a>
                 </p>
             </form>
         </div>

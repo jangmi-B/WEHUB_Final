@@ -2,9 +2,13 @@ package com.kh.wehub.member.controller;
 
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,17 +23,30 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
+
 @SessionAttributes("loginMember")
 public class MemberController {
-
 	@Autowired
 	private MemberService service;
-
-	@RequestMapping(value="/login", method={RequestMethod.POST})
-	public ModelAndView login(ModelAndView model, @RequestParam("userId") String userId, 
-												  @RequestParam("userPwd") String userPwd) {
-
 	
+//	@RequestMapping(value = "/login", method = {RequestMethod.GET})
+	@RequestMapping(value = "/login1", method = {RequestMethod.GET})
+	public String login(HttpServletRequest request) {
+		log.info("멤버컨트롤러 시작?");
+		System.out.println("멤버컨트롤러 보내는척");
+//		String userId = request.getParameter("user_id");
+//		String userPwd = request.getParameter("user_pwd");
+//		
+//		log.info("{}, {}" , userId, userPwd);
+		
+		return "member/login";
+	}
+	
+	@RequestMapping(value="/login1", method={RequestMethod.POST})
+	public ModelAndView login(ModelAndView model, @RequestParam("user_id") String userId, 
+												  @RequestParam("user_pwd") String userPwd) {
+		log.info("로그인 요청");
+	System.out.println("login 요청");
 			log.info("{}, {}" , userId, userPwd);
 		
 		Member loginMember = service.login(userId, userPwd);
@@ -37,7 +54,7 @@ public class MemberController {
 
 		if(loginMember != null) {
 			model.addObject("loginMember" , loginMember);
-			model.setViewName("redirect:/main");
+			model.setViewName("/main");
 		}else {
 			model.addObject("msg", "아이디 또는 비밀번호가 일치하지 않습니다.");
 			model.addObject("location", "/");
@@ -57,6 +74,40 @@ public class MemberController {
 		return "redirect:/";
 		
 	}
+	@RequestMapping(value="member/signUpForm")
+	public String signUpForm() {
+		log.info("회원가입 페이지 요청");
+		return "member/signUpForm";}
+	
+	///////////////////////
+	@RequestMapping(value="member/signUpForm",method= {RequestMethod.POST})
+	
+	public ModelAndView signUpForm(ModelAndView model , @ModelAttribute Member member) {
+
+		log.info(member.toString());
+		
+		int result = service.saveMember(member);
+
+		log.info(member.toString());
+		log.info("email : "+ member.getEmail());
+	
+		// 회원가입 정상 유뮤
+		if(result>0) {
+			
+			model.addObject("msg","회원 가입 정상적 완료.");
+			model.addObject("location","/");
+			
+		}else {
+			model.addObject("msg","회원 가입 Fail.");
+			model.addObject("location","/member/signUpForm");
+		}
+		
+		model.setViewName("common/msg");
+	
+	return model;
+}
+	////////////////////
+	
 	@RequestMapping(value="member/findIDorPwd")
 		public String findIdorPwd() {
 		log.info("wanna go findIDorPwd");

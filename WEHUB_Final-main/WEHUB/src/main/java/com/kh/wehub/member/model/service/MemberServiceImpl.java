@@ -3,6 +3,7 @@ package com.kh.wehub.member.model.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.wehub.member.model.dao.MemberDao;
 import com.kh.wehub.member.model.vo.Member;
@@ -16,8 +17,8 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private MemberDao memberDao;
 	
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
+//	@Autowired
+//	private BCryptPasswordEncoder passwordEncoder;
 
 	@Override
 	public Member login(String userId, String userPwd) {
@@ -32,9 +33,11 @@ public class MemberServiceImpl implements MemberService {
 //
 //			return null;
 //		}
-		System.out.println("passwordEncoder  :" +passwordEncoder.encode(userPwd));
-		return loginMember != null && 
-				passwordEncoder.matches(userPwd, loginMember.getUser_pwd())? loginMember : null;
+//		System.out.println("passwordEncoder  :" +passwordEncoder.encode(userPwd));
+//		return loginMember != null && 
+//				passwordEncoder.matches(userPwd, loginMember.getUser_pwd())? loginMember : null;
+		
+		return loginMember.getUser_pwd().equals(userPwd)?loginMember:null;
 	}
 
 
@@ -50,5 +53,28 @@ public class MemberServiceImpl implements MemberService {
 	public boolean validate(String userId) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+
+	@Override
+	@Transactional
+	public int saveMember(Member member) {
+	
+		
+		int result = 0;
+
+		if(member.getUser_no() != 0) {
+			result = memberDao.updateMember(member);
+		} else {
+			
+			member.setUser_pwd((member.getUser_pwd()));  // 비번 받아와서 암호화해서 set
+			result = memberDao.insertMember(member);			
+//			if(true) {
+//				throw new RuntimeException();
+//			}
+			
+		}
+
+		return result;
 	}
 }

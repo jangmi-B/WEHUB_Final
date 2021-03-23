@@ -23,9 +23,9 @@ public class Member {
 
 	private String email;
 
-	private int comcall;
+	private String comcall;
 
-	private int phone;
+	private String phone;
 
 	private String address;
 

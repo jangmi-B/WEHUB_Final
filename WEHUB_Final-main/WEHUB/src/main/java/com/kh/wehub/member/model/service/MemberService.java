@@ -10,6 +10,8 @@ public interface MemberService {
 
 	Member findMemberByUserId(String userId);
 
+	int saveMember(Member member);
+
 
 	
 	
