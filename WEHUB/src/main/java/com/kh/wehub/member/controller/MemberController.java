@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -39,9 +40,15 @@ public class MemberController {
 	
 	//메인 화면 띄우기
 	@RequestMapping(value="home")
-	public String mainPage() {
+	public ModelAndView mainPage(ModelAndView model,
+			@SessionAttribute("loginMember")Member loginMember) {
 		
-		return "/home";
+		model.addObject("loginMember", loginMember);
+		model.setViewName("/home");
+		
+		
+		
+		return model;
 	}
 	
 }

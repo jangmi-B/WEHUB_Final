@@ -29,7 +29,7 @@
       </div>
       <div class="header_userInfo">
         <ul id="header_user">
-          <li><a href="#">홍길동 사원</a>
+          <li><a href="#">${loginMember.user_name} ${loginMember.rank}</a>
             <ul>
               <li><a href="#">Logout</a></li>
               <li><a href="#">MyPage</a></li>

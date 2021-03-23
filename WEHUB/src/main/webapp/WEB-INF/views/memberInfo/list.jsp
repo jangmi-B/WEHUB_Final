@@ -29,15 +29,11 @@
 <form class="HM_Area" action="${path}/memberInfo/list" method="get">
 
   <div>
-    <!-- 관리자 일 때 -->
-    <button type="submit" class="HM_headerBtn">수정</button>
-    <button type="submit" class="HM_headerBtn"><i class="fas fa-trash-alt"></i></button>
-
     <!-- SearchBar -->
     <div class="HM_Department_Sel">
         <select name="searchList">
             <option value="all"<c:out value="${map.searchList == 'all'?'selected':''}"/> >전체</option>
-            <option value="dept_code"<c:out value="${map.searchList == 'dept_code'?'selected':''}"/>>부서</option>
+            <option value="dept_name"<c:out value="${map.searchList == 'dept_name'?'selected':''}"/>>부서</option>
             <option value="user_name"<c:out value="${map.searchList == 'user_name'?'selected':''}"/>>이름</option>
             <option value="rank"<c:out value="${map.searchList == 'rank'?'selected':''}"/>>직급</option>
         </select>&nbsp;
@@ -65,7 +61,7 @@
     </thead>
     <tbody>
     	<c:choose>
-    		<c:when test=" ${ SearchList == null }">
+    		<c:when test=" ${ SearchList == null || SearchList.size() == 0 }">
     			<tr><td colspan="8" align="center"> 존재하지 않습니다.</td></tr>
     		</c:when>
     		<c:when test="${ SearchList != null}">
@@ -75,7 +71,7 @@
 			            <td class="HM_tdTag HM_UserImgTd"><img class="HM_userProfileBox" src="${path}/image/프로필이미지.png"></td>
 			            <td class="HM_tdTag HM_NameTd">${list.user_name}</td>
 			            <td class="HM_tdTag HM_RankTd">${list.rank}</td>
-			            <td class="HM_tdTag HM_DepartmentTd">${list.dept_code}</td>
+			            <td class="HM_tdTag HM_DepartmentTd">${list.dept_name}</td>
 			            <td class="HM_tdTag HM_PhoneTd">${list.phone}</td>
 			            <td class="HM_tdTag HM_EmailTd">${list.email}</td>
 			            <td class="HM_tdTag HM_TelephoneTd">${list.comcall}</td>

@@ -35,9 +35,6 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		map.put("searchList", searchList);
 		map.put("searchText", searchText);
 		
-		System.out.println(searchList);
-		System.out.println(searchText);
-		
 		return memberInfoDao.SearchList(rowBounds, map);
 	}
 

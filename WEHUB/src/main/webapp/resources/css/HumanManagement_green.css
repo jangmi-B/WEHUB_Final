@@ -1,6 +1,6 @@
 /* 인명관리 전체 영역 */
 .HM_Area {
-  margin: 50px 0 0 350px;
+  margin: 50px 0 0 450px;
 }
 .HM_section{
  margin: 70px 0 0 70px;
@@ -44,7 +44,8 @@
 /* 상단 select 태그 */
 .HM_Department_Sel {
   display: inline-block;
-  margin-left: 500px;
+  margin-left: 580px;
+  margin-bottom: 30px;
 }
 select {
   width: 100px;
@@ -114,7 +115,7 @@ td {
 /* 하단 페이징 */
 .HM_paging {
   padding: 30px 0 0 10px;
-  margin-left: 220px;
+  margin-left: 650px;
 }
 .HM_pagingBtn {
   margin: 2px;

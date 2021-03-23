@@ -4,21 +4,23 @@
 
 <mapper namespace="com.kh.wehub.memberInfo.model.dao.MemberInfoDao">
 	
-	<sql id="selectMemberSql">
-		 SELECT USER_NO,
-		 		USER_COMPANYNAME,
-		        USER_ID,
-		        USER_PWD,
-		        USER_NAME,
-		        RANK,
-	         	EMAIL,
-	         	COMCALL,
-	         	PHONE,
-	         	ADDRESS,
-		        USER_STATUS,
-		        DEPT_CODE
-			FROM MEMBER
-			WHERE USER_STATUS ='Y'
+	<sql id="selectMemberInfoSql">
+		SELECT M.USER_NO,
+	      	M.USER_COMPANYNAME,
+	        M.USER_ID,
+	        M.USER_PWD,
+	        M.USER_NAME,
+	        M.RANK,
+	        M.EMAIL,
+	        M.COMCALL,
+	        M.PHONE,
+	        M.ADDRESS,
+	        M.USER_STATUS,
+	        M.DEPT_CODE,
+	        D.DEPT_NAME
+	    FROM MEMBER M 
+	    JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
+	    WHERE M.USER_STATUS ='Y'
 	</sql>
 	
 	<resultMap type="Member" id="memberResultMap">
@@ -47,17 +49,17 @@
 	</select>
 	
 	<select id="SearchList" parameterType="map" resultMap="memberResultMap">
-			<include refid="selectMemberSql"></include>
+			<include refid="selectMemberInfoSql"></include>
 		<choose>
 			<when test="searchList != 'all'">
-				AND dept_code LIKE '%'||#{searchText}||'%'
-				OR user_name LIKE '%'||#{searchText}||'%'
-				OR rank LIKE '%'||#{searchText}||'%'
+				AND d.dept_name LIKE '%'||#{searchText}||'%'
+				OR m.user_name LIKE '%'||#{searchText}||'%'
+				OR m.rank LIKE '%'||#{searchText}||'%'
 			</when>
 			<when test="searchList == 'all'">
-				AND dept_code LIKE '%'||#{searchText}||'%'
-				OR user_name LIKE '%'||#{searchText}||'%'
-				OR rank LIKE '%'||#{searchText}||'%'
+				AND d.dept_name LIKE '%'||#{searchText}||'%'
+				OR m.user_name LIKE '%'||#{searchText}||'%'
+				OR m.rank LIKE '%'||#{searchText}||'%'
 			</when>
 			<otherwise>
 				AND ${searchList} LIKE '%'||#{searchText}||'%'			
