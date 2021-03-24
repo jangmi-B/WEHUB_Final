@@ -1,0 +1,166 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
+        
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-weight: 300;
+}
+
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    font-weight: 300;
+}
+
+body ::-webkit-input-placeholder {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    font-weight: 300;
+}
+
+body :-moz-placeholder {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    opacity: 1;
+    font-weight: 300;
+}
+
+body ::-moz-placeholder {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    opacity: 1;
+    font-weight: 300;
+}
+
+body :-ms-input-placeholder {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    font-weight: 300;
+}
+
+.wrapper {
+    background: #5b18ff;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    height: 100%;
+    text-align: center;
+}
+
+.form {
+    padding: 20px;
+    z-index: 2;
+    position: relative;
+    top: 27% 
+}
+
+.form1 {
+    padding: 20px;
+    z-index: 2;
+    position: relative;
+    top: 33.3%;
+}
+
+form input {
+    appearance: none;
+    outline: 0;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.2);
+    width: 250px;
+    border-radius: 3px;
+    padding: 10px 15px;
+    margin: 3px 4px 10px 4px;
+    /* display: block; */
+    text-align: center;
+    font-size: 16px;
+    color: white;
+    -webkit-transition-duration: 0.25s;
+            transition-duration: 0.25s;
+    font-weight: 300;
+}
+
+form input:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+form input:focus {
+    background-color: white;
+    color: #5b18ff;
+}
+
+form button {
+    appearance: none;
+    margin-top: 43px;
+    outline: 0;
+    background-color: white;
+    border: 0;
+    padding: 10px 15px;
+    color: #5b18ff;
+    border-radius: 3px;
+    width: 250px;
+    cursor: pointer;
+    font-size: 18px;
+    transition-duration: 0.25s;
+}
+
+form button:hover {
+    background-color:lightgoldenrodyellow;
+}
+
+h1{
+    color: white;
+    text-align: center;
+    font-weight: 200;
+    position: relative;
+    z-index: 3;
+    font-size: 33px;
+}
+
+h2 {
+    color: white;
+    text-align: center;
+    font-weight: 200;
+    position: relative;
+    z-index: 3;
+    font-size: 25px;
+    padding: 20px 0 40px 0;
+}
+
+h2>a,h1>a {
+    text-decoration: none;
+    color: white;
+}
+
+#title {
+    margin-top:50px;
+}
+
+.wrapper.form-success .container #title {
+    transform: translateY(270px);
+}
+
+.container #title {
+    transition-duration: 2.3s;
+    transition-timing-function: ease-in-out;
+    position: relative;
+}
+
+#fpas {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 15px;
+    color: white;
+    text-decoration: none;
+}
+
+#findPwdAndSignUp {
+    margin-top:15px;
+}

@@ -1,5 +1,7 @@
 package com.kh.wehub.member.model.vo;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,8 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Member {
-
+public class MemberEnroll {
 	private int user_no;
 
 	private String user_companyname;
@@ -28,11 +29,13 @@ public class Member {
 	private String phone;
 
 	private String address;
+	
+	private Date create_date;
+	
+	private Date modify_date;
 
 	private String user_status;
 
 	private String dept_code;
-	
-	private String dept_name;
-  
+
 }
