@@ -52,5 +52,11 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.selectNoticeDetail(noticeNo);
 	}
 
+	@Override
+	public int deleteNotice(Notice notice) {
+		
+		return boardDao.deleteNotice(notice);
+	}
+
 
 }

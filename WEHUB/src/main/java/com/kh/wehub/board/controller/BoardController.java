@@ -123,6 +123,106 @@ public class BoardController {
 		return model;
 	}
 	
+	@RequestMapping(value = "notice/update", method = {RequestMethod.GET})
+	public ModelAndView updateView(@RequestParam("noticeNo") int noticeNo, ModelAndView model) {
+		Notice notice = service.findNoticeByNo(noticeNo);
+		
+		System.out.println(notice);
+		
+		model.addObject("notice", notice);
+		model.setViewName("board/board_notice_update");
+		
+		return model;
+	}
+	
+	@RequestMapping(value = "notice/update", method= {RequestMethod.POST})
+	public ModelAndView noticeUpdate(
+			@SessionAttribute(name = "loginMember", required = false)Member loginMember,
+			@RequestParam("reloadFile") MultipartFile reloadFile, HttpServletRequest request,
+			Notice notice, ModelAndView model){
+		
+		int result = 0;
+		
+		if(loginMember.getUser_id().equals(notice.getUserId())) {
+			if(reloadFile != null && !reloadFile.isEmpty()) {
+				if(notice.getNoticeRenamedFileName() != null) {
+					//기존에 저장된 파일 삭제
+					deleteFile(notice.getNoticeRenamedFileName(), request);
+				}
+				
+				String renameFileName = saveFile(reloadFile, request);
+				
+				if(renameFileName != null) {
+					notice.setNoticeOriginalFileName(reloadFile.getOriginalFilename());
+					notice.setNoticeRenamedFileName(renameFileName);
+				}
+			}
+			
+			result = service.saveBoard(notice);
+			
+			if(result > 0 ) {
+				model.addObject("msg", "공지사항 수정을 완료하였습니다.");
+				model.addObject("location", "/notice/view?noticeNo="+notice.getNoticeNo());
+			} else {
+				model.addObject("msg", "공지사항 수정에 실패하였습니다.");
+				model.addObject("location", "/notice/view?noticeNo="+notice.getNoticeNo());
+			}
+		} else {
+			model.addObject("msg", "잘못된 접근입니다.");
+			model.addObject("location", "/notice/list");
+		}
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	@RequestMapping(value ="notice/delete", method= {RequestMethod.GET})
+	public ModelAndView noticeDelete(
+			@SessionAttribute(name = "loginMember", required = false)Member loginMember,
+			@RequestParam("noticeNo") int noticeNo, ModelAndView model){
+		
+		Notice notice = service.findNoticeByNo(noticeNo);
+		
+		int result = 0;
+		
+		if(loginMember.getUser_id().equals(notice.getUserId())) {
+			
+			result = service.deleteNotice(notice);
+			
+			if(result > 0 ) {
+				model.addObject("msg", "공지사항 삭제를 완료하였습니다.");
+				model.addObject("location", "/notice/list");
+			} else {
+				model.addObject("msg", "공지사항 삭제에 실패하였습니다.");
+				model.addObject("location", "/notice/view?noticeNo="+ noticeNo);
+			}
+		} else {
+			model.addObject("msg", "잘못된 접근입니다.");
+			model.addObject("location", "/notice/list");
+		}
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	
+	private void deleteFile(String fileName, HttpServletRequest request) {
+		String rootPath = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = rootPath + "/upload/notice";
+		
+		log.info("Root Path : " + rootPath);
+		log.info("Save Path : " + savePath);
+		
+		File file = new File(savePath + "/" + fileName);
+		
+		if(file.exists()) {
+			file.delete();
+		}
+	}
+	
+	
 	private String saveFile(MultipartFile file, HttpServletRequest request) {
 		String renamePath = null; 
 		String originalFileName = null; 

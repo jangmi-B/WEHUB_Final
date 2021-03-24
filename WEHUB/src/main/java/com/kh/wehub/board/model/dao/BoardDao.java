@@ -20,4 +20,6 @@ public interface BoardDao {
 
 	Notice selectNoticeDetail(int noticeNo);
 
+	int deleteNotice(Notice notice);
+
 }

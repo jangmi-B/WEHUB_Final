@@ -15,6 +15,8 @@ public interface BoardService {
 
 	Notice findNoticeByNo(int noticeNo);
 
+	int deleteNotice(Notice notice);
+
 
 
 }

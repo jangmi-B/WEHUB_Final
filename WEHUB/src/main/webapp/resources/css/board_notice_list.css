@@ -102,7 +102,7 @@
 .notice_page_last:hover,
 .notice_arrow_left:hover,
 .notice_arrow_right:hover {
-  color: gray;
+  color: #5b18ff;
   /* text-shadow: 1px 1px 2px gray; */
 }
 
@@ -112,7 +112,7 @@
 
 .notice_pagination button:hover {
   cursor: pointer;
-  color: gray;
+  color: #5b18ff;
 }
 
 .modal .num {

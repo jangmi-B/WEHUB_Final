@@ -71,8 +71,12 @@
         </table>
       </div>
       <div id="notice_detail_btn">
-        <button type="button">수정하기</button>
-        <button id="d_btn" type="button" onclick="location.href='${path}/notice/list'">목록으로</button>
+      <c:if test="${ !empty loginMember && (loginMember.user_id == notice.userId)}">
+      
+        <button type="button" onclick="updateBoard()">수정하기</button>
+        <button class="d_btn" type="button"onclick="deleteBoard()">삭제하기</button>
+       </c:if>
+        <button class="d_btn" type="button" onclick="location.href='${path}/notice/list'">목록으로</button>
       </div>
       <div class="coment_container">
         <form id="commentForm" name="commentForm" method="post">
@@ -119,6 +123,16 @@
       </div>
     </div>
   </div>
-      
+   <script>
+	function updateBoard(){
+			location.href = "${path}/notice/update?noticeNo=${notice.noticeNo}";
+	}
+		
+	function deleteBoard(){		
+		if(confirm("정말로 게시글을 삭제 하시겠습니까?")){
+			location.replace('${path}/notice/delete?noticeNo=${notice.noticeNo}');
+		}
+	}
+</script>   
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

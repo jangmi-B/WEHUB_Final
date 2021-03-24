@@ -75,7 +75,6 @@
               <ul class="notice_pagination modal">
                 <li><button type="button" class="notice_page_first" onclick="location.href='${path}/notice/list?page=1'">처음페이지</button></li>
                 <li><button type="button" class="notice_arrow_left" onclick="location.href='${path}/notice/list?page=${pageInfo.prvePage}'">&lt;&lt;</button></li>
-                
                 <c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
 					<c:if test="${status.current == pageInfo.currentPage}">
 						<li><button disabled><c:out value="${status.current}"/></button></li>
@@ -84,7 +83,6 @@
 						<li><button onclick="location.href='${path}/notice/list?page=${status.current}'"><c:out value="${status.current}"/></button></li>
 	   				</c:if>
 				</c:forEach>
-				
                 <li><button type="button" class="notice_arrow_right" onclick="location.href='${path}/notice/list?page=${pageInfo.nextPage}'">&gt;&gt;</button></li>
                 <li><button type="button" class="notice_page_last" onclick="location.href='${path}/notice/list?page=${pageInfo.maxPage}'">마지막페이지</button></li>
               </ul>
@@ -92,6 +90,5 @@
           </form>
         </div>
       </div>
-
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
