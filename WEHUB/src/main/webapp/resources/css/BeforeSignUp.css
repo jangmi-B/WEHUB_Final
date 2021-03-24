@@ -1,0 +1,146 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
+        
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-weight: 300;
+}
+
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    font-weight: 300;
+}
+
+body ::-webkit-input-placeholder {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    font-weight: 300;
+}
+
+body :-moz-placeholder {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    opacity: 1;
+    font-weight: 300;
+}
+
+body ::-moz-placeholder {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    opacity: 1;
+    font-weight: 300;
+}
+
+body :-ms-input-placeholder {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    font-weight: 300;
+}
+
+.wrapper {
+    background: #5b18ff;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    height: 100%;
+    text-align: center;
+}
+
+#login-button {
+    /* appearance: none; */
+    /* margin-top: 43px; */
+    outline: 0;
+    background-color: white;
+    border: 0;
+    padding: 10px 15px;
+    color: #5b18ff;
+    border-radius: 3px;
+    width: 250px;
+    cursor: pointer;
+    font-size: 18px;
+    transition-duration: 0.25s;
+}
+
+.buttonDiv {
+    position: relative;
+    top: 4.7% 
+}
+
+#login-button:hover {
+    background-color:lightgoldenrodyellow;
+}
+
+h1{
+    color: white;
+    text-align: center;
+    font-weight: 200;
+    position: relative;
+    z-index: 3;
+    font-size: 33px;
+}
+
+#title {
+    margin-top:50px;
+}
+
+#fpas {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 15px;
+    color: white;
+    text-decoration: none;
+}
+
+#findPwdAndSignUp {
+    margin-top:15px;
+}
+
+.container2 {
+    position: relative;
+    /* bottom: 1%; */
+    width: 40rem;
+    margin-left: -23px;
+    margin-top: 80px;
+}
+
+h1>a {
+    text-decoration: none;
+    color: white;
+}
+
+.stitle {
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+.content {
+    font-size: 13px;
+    /* background-color: white; */
+    border:1px solid #ddd;
+    height:195px;
+    /* width: 30rem; */
+    overflow:auto;
+    padding:5px;
+}
+
+.agreebox {
+    margin-top: 10px;
+}
+
+.span {
+    font-size: 12px;
+}
+
+#login-button>a {
+    text-decoration: none;
+    color: #5b18ff;;
+}

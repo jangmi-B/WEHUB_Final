@@ -7,7 +7,7 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-
+ 
 <form style="margin-top: -90px; margin-left: -230px;">
 <div class="search">
     <table>
