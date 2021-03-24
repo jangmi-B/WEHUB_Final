@@ -12,4 +12,6 @@ public interface MemberDao {
 
 	int insertMember(MemberEnroll member);
 
+	public int updateMember(MemberEnroll member);
+
 }

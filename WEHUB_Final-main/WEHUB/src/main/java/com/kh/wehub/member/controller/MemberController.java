@@ -70,25 +70,24 @@ public class MemberController {
 	
 	@RequestMapping(value = "member/signUpForm", method = {RequestMethod.POST})
 	public ModelAndView signUpForm(ModelAndView model, @ModelAttribute MemberEnroll member) {
-		System.out.println("제발");
-		log.info("Why...?");
+
+		log.info(member.toString());
+		
+		int result = service.saveMember(member);
+		
 		log.info(member.toString());
 		
 		model.setViewName("member/signUpForm");
 		
-//		int result = service.saveMember(member);
+		if(result > 0) {
+			model.addObject("msg", "회원가입이 정상적으로 되었습니다.");
+			model.addObject("location", "/member/login"); // 로그인창으로 이동시키는 로케이션
+		} else {
+			model.addObject("msg", "회원가입을 실패하였습니다. 올바른 정보를 입력하여 주세요.");
+			model.addObject("location", "/member/enroll");
+		}
 		
-		log.info(member.toString());
-		
-//		if(result > 0) {
-//			model.addObject("msg", "회원가입이 정상적으로 되었습니다.");
-//			model.addObject("location", "/"); // 홈으로 이동시키는 로케이션
-//		} else { // 회원가입이 제대로 되지 않았을 때
-//			model.addObject("msg", "회원가입을 실패하였습니다. 올바른 정보를 입력하여 주세요.");
-//			model.addObject("location", "/member/enroll");
-//		}
-//		
-//		model.setViewName("common/msg");
+		model.setViewName("common/msg");
 		
 		return model;
 	}

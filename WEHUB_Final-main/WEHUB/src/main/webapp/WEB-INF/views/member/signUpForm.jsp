@@ -38,8 +38,8 @@
                 -->
                 <input type="text" name="user_companyname"  placeholder="회사명  CompanyName" style="font-size: 13px;">
                 <input type="text" name="user_id" placeholder="아이디  UserId" style="font-size: 13px;" required>
-                <input type="password" name="user_pwd"  placeholder="패스워드  Password" style="font-size: 13px;" required>
-                <input type="password" placeholder="패스워드 확인  PasswordCheck" style="font-size: 13px;">
+                <input type="password" name="user_pwd"  placeholder="패스워드  Password" style="font-size: 13px;" id="pass1" required>
+                <input type="password" placeholder="패스워드 확인  PasswordCheck" id="pass2"  style="font-size: 13px;">
                 <input type="text" name="user_name" placeholder="이름  UserName" style="font-size: 13px;" required>
                 <input type="text" name="dept_code" placeholder="부서이름  DepartmentName" style="font-size: 13px;">
                 <input type="text" name="rank" placeholder="직급  Rank" style="font-size: 13px;">
@@ -64,7 +64,20 @@
         </div>
     </div>
 </body>
+
 <script>
+<!-- 
+	$(document).ready(() => {
+		$("#pass2").blur((e) => {
+			let pass1 = $("#pass1").val();
+			let pass2 = $(e.target).val();
+			if(pass1.trim() != pass2.trim()){
+				alert("비밀번호가 일치하지 않습니다.");
+				$("#pass1").val("");
+				$(e.target).val("");
+				$("#pass1").focus();
+		}
+	});
     $("#login-button").click(function(event){
 		event.preventDefault();
 	
@@ -75,5 +88,7 @@
         location.href="${path}/member/signUpForm";
     }, 3000);
     });
+-->
 </script>
+
 </html>
