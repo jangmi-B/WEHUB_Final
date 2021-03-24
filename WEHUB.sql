@@ -9,7 +9,26 @@ CREATE TABLE MEMBER_IMAGE_FILE (
 
 CREATE SEQUENCE SEQ_MEM_IMG_NO;
 
-
+SELECT M.USER_NO,
+       M.USER_COMPANYNAME,
+        M.USER_ID,
+        M.USER_PWD,
+        M.USER_NAME,
+        M.RANK,
+        M.EMAIL,
+        M.COMCALL,
+        M.PHONE,
+        M.ADDRESS,
+        M.USER_STATUS,
+        M.DEPT_CODE,
+        D.DEPT_NAME
+    FROM MEMBER M 
+    JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
+    WHERE M.USER_STATUS ='Y'
+    AND d.dept_name LIKE '%'||'±‚»π'||'%'
+				OR m.user_name LIKE '%'||'±‚»π'||'%'
+				OR m.rank LIKE '%'||'±‚»π'||'%';
+    
 
 
 
