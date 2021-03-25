@@ -36,7 +36,7 @@
      $("#login-button").click(function(event){
 		event.preventDefault();
 	 
-	    $('form').fadeOut(500);
+	    $('form').fadeOut(5300);
 	    $('.wrapper').addClass('form-success');
         setTimeout(function() {
         location.href="${path}/main";

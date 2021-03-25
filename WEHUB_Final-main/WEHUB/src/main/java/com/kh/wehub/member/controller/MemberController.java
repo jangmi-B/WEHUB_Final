@@ -228,11 +228,14 @@ public class MemberController {
 
 		String findID =service.findID(member);
 		
+		if(findID!=null) {
 			model.addObject("userID" , findID);
 			log.info("찾은 아이디");
 			System.out.println("찾은 아이디는"+findID);
 			model.addObject("msg", "찾은 아이디는 "+findID);
-		
+		}else {
+			model.addObject("msg", "찾은 아이디는 존재하지 않습니다");
+		}
 			model.setViewName("common/msg");
 		//	model.setViewName("redirect:/");
 		
@@ -244,11 +247,14 @@ public class MemberController {
 	public ModelAndView findPWD(ModelAndView model,@ModelAttribute Member member) {
 		
 		String findPWD =service.findPWD(member);
-		
-		model.addObject("userPwd" , findPWD);
+		if(findPWD!=null) {
+		//model.addObject("userPwd" , findPWD);
 		log.info("찾은 pwd");
 		System.out.println("찾은 pwd는"+findPWD);
 		model.addObject("msg","찾은 pwd는"+ findPWD);
+		}else {
+			model.addObject("msg", "찾은 비밀번호는 존재하지 않습니다");
+		}
 		model.setViewName("common/msg");
 		//model.setViewName("redirect:/");
 	return model;
