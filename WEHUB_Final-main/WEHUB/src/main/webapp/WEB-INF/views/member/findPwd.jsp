@@ -22,10 +22,10 @@
         </div>
         <div class="container">
             <form class="form" action="${path}/member/findPwd" method="post">
-                <input type="text" placeholder="User Name ">
-                <input type="text" placeholder="User ID ">
-                <input type="email" placeholder="E-mail">
-                <input type="tel" placeholder="Phone">
+                <input type="text" name="user_name" placeholder="User Name ">
+                <input type="text" name="user_id"placeholder="User ID ">
+                <input type="email" name="email"placeholder="E-mail">
+                <input type="phone" name="phone"placeholder="Phone">
                 <button type="submit" id="login-button">Find</button>
             </form>
         </div>

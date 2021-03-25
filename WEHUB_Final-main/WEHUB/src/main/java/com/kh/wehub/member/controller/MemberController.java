@@ -215,6 +215,12 @@ public class MemberController {
 	
 	return "member/findID";
 	}
+	@RequestMapping(value="member/findPwd")
+	public String findPWD() {
+		log.info("findID go!!");
+		
+		return "member/findPwd";
+	}
 	
 	@RequestMapping(value="member/findID", method={RequestMethod.POST})
 	public ModelAndView findID(ModelAndView model,@ModelAttribute Member member) {
@@ -231,10 +237,16 @@ public class MemberController {
 	}
 	
 	
-	@RequestMapping(value="member/findPwd")
-	public String findPWD() {
-	log.info("findPWD go!!");
-	return "member/findPwd";
+	@RequestMapping(value="member/findPwd",method={RequestMethod.POST})
+	public ModelAndView findPWD(ModelAndView model,@ModelAttribute Member member) {
+		
+		String findPWD =service.findPWD(member);
+		
+		model.addObject("userPwd" , findPWD);
+		log.info("찾은 pwd");
+		System.out.println("찾은 pwd는"+findPWD);
+		model.setViewName("redirect:/");
+	return model;
 	}
 	
 }

@@ -28,5 +28,7 @@ public interface MemberDao {
 
 	public String findID(Member member);
 
+	public String findPWD(Member member);
+
 
 }

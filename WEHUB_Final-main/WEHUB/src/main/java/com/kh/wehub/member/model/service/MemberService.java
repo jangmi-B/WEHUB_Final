@@ -29,6 +29,8 @@ public interface MemberService {
 
 	String findID(Member member);
 
+	String findPWD(Member member);
+
 
 
 }

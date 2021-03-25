@@ -31,10 +31,11 @@
         </div>
     </div>
 </body>
+<!--  -->
 <script>
     $("#login-button").click(function(event){
 		event.preventDefault();
-	
+		alert("당신의 아이디는${sessionScope.userID}입니다.");
 	    $('.form').fadeOut(500);
 	    $('.wrapper').addClass('form-success');
 

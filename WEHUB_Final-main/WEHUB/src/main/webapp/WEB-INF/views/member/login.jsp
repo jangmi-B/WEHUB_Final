@@ -11,14 +11,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="js/jquery-3.5.1.js"></script>
     <title>LogInForm</title>
     <link rel="stylesheet" href="${path}/css/LogInForm.css">
 </head>
 <body>
     <div class="wrapper">
         <div class="container">
-            <img src="resources/wehub(white).png"/>
+            <img src="resources/images/wehub(white).png"/>
             <form class="form" action="login" method="POST">
                 <input type="text" name="userId" placeholder="Username ">
                 <input type="password" name="userPwd" placeholder="Password">
@@ -32,7 +32,7 @@
     </div>
 </body>
 <script>
-alert("당신의 아이디는${sessionScope.userID}입니다.");
+/
      $("#login-button").click(function(event){
 		event.preventDefault();
 	 
@@ -43,10 +43,49 @@ alert("당신의 아이디는${sessionScope.userID}입니다.");
         }, 2800);
      });
     
-</script>
+</script> 
+<!-- 
+ <c:if test="${not empty sessionScope.userID}">
+<script>
+//alert("당신의 아이디는${sessionScope.userID}입니다.");
+     $("#login-button").click(function(event){
+		event.preventDefault();
+		alert("당신의 아이디는${sessionScope.userID}입니다.");
+	    $('form').fadeOut(500);
+	   
+        setTimeout(function() {
+        location.href="${path}/main";
+        }, 2800);
+     });
+    
+</script>	</c:if>
+ <c:if test="${ empty sessionScope.userID}">
+<script>
+//alert("당신의 아이디는${sessionScope.userID}입니다.");
+     $("#login-button").click(function(event){
+		event.preventDefault();
+		alert("당신의 아이디는 없습니다.");
+	    $('form').fadeOut(500);
+	   
+        setTimeout(function() {
+        location.href="${path}/main";
+        }, 2800);
+     });
+    
+</script>	</c:if>
+ -->
+
+
+<!--  
+
  <c:if test="${not empty sessionScope.userID}">
     <script>
 	alert("당신의 아이디는${sessionScope.userID}입니다.");
 	</script>
 	</c:if>
+	<c:if test="${ empty sessionScope.userID}">
+    <script>
+	alert("당신의 아이디는 찾을 수 없습니다.");
+	</script>
+	</c:if>-->
 </html>

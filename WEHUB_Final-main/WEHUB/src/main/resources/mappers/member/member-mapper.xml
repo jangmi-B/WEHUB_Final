@@ -55,4 +55,14 @@
 	    
 	         	PHONE =#{phone}
 	</select>
+	<select id="findPWD" parameterType="Member" resultType="String" >
+		SELECT  USER_PWD 	FROM MEMBER 
+		WHERE USER_STATUS ='Y' AND  
+				USER_NAME= #{user_name} AND
+				USER_ID= #{user_id} AND
+		        
+	         	EMAIL= #{email} AND
+	    
+	         	PHONE =#{phone}
+	</select>
 </mapper>

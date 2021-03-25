@@ -120,6 +120,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 
+	@Override
+	public String findPWD(Member member) {
+		// TODO Auto-generated method stub
+		return memberDao.findPWD(member);
+	}
+
+
 
 
 
