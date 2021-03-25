@@ -41,6 +41,38 @@
 		<id property="dept_code" column="DEPT_CODE"/>
 	</resultMap>
 	
+	<insert id="insertMember" parameterType="Member"
+		useGeneratedKeys="true" keyProperty="user_no" keyColumn="USER_NO">	
+		INSERT INTO MEMBER (
+			USER_NO,
+			USER_COMPANYNAME,
+			USER_ID,
+			USER_PWD,
+			USER_NAME,
+			COMPANY_RANK,
+			EMAIL,
+			COMCALL,
+			PHONE,
+			ADDRESS,
+			USER_STATUS,
+			DEPT_CODE
+		)
+		VALUES(
+			SEQ_USER_NO.NEXTVAL, 
+			#{user_companyname}, 
+			#{user_id}, 
+			#{user_pwd}, 
+			#{user_name},
+			#{rank}, 
+			#{email}, 
+			#{comcall}, 
+			#{phone}, 
+			#{address}, 
+			DEFAULT, 
+			#{dept_code}
+		)
+	</insert>
+	
 	<select id="selectMember" parameterType="string" resultMap="memberResultMap">
 		<include refid="selectMemberSql"></include>
 	 	AND USER_ID = #{userId}

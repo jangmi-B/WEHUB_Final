@@ -1,3 +1,4 @@
+
 //package com.kh.wehub.member.model.service;
 //
 //import com.kh.wehub.member.model.vo.Member;
@@ -21,16 +22,24 @@ package com.kh.wehub.member.model.service;
 
 import com.kh.wehub.member.model.vo.Member;
 
+
+
+
+import com.kh.wehub.member.model.vo.MemberEnroll;
+
 public interface MemberService {
 
 	Member login(String userId, String userPwd);
 
 	Member findMemberByUserId(String userId);
 
+
 	String findID(Member member);
 
 	String findPWD(Member member);
 
-
+	
+	int saveMember(Member member);
 
 }
+
