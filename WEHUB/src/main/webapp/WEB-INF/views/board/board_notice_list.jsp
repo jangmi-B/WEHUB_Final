@@ -5,7 +5,8 @@
 
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 
-<div id="notice_bar">
+<form action="${path}/notice/list" id="notice_bar" method="get">
+	<div>
         <ul>
           <li><span>게시판</span>
             <div class="line"></div>
@@ -17,15 +18,15 @@
           <li>
             <table>
               <tr>
-                <td><input id="notice_search" type="search" placeholder="공지사항 검색"></td>
-                <td><button type="button">Go</button></td>
+                <td><input id="notice_search" type="search" name="notice_search" placeholder="공지사항 검색"></td>
+                <td><button type="submit">Go</button></td>
               </tr>
             </table>
         </ul>
       </div>
+    </form>  
       <div class="notice_list_wrap">
         <div class="notice_list">
-          <form action="">
             <p>공지사항</p>
             <button id="notice_list_btn" type="button" onclick="location.href ='${path}/notice/write'">글쓰기</button>
             <table id="notice_list_table">
@@ -64,7 +65,7 @@
             					<span> - </span>
             				</c:if>
 						</td>
-						<td><c:out value="댓글수"/></td>
+						<td><c:out value="${notice.noticCommentCount}"/></td>
 						<td><c:out value="${notice.noticeReadCount}"/></td>
 					</tr>		
 				  </c:forEach>
@@ -73,21 +74,36 @@
             </table>
             <div class="notice_list_page">
               <ul class="notice_pagination modal">
-                <li><button type="button" class="notice_page_first" onclick="location.href='${path}/notice/list?page=1'">처음페이지</button></li>
-                <li><button type="button" class="notice_arrow_left" onclick="location.href='${path}/notice/list?page=${pageInfo.prvePage}'">&lt;&lt;</button></li>
-                <c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
-					<c:if test="${status.current == pageInfo.currentPage}">
-						<li><button disabled><c:out value="${status.current}"/></button></li>
-	   				</c:if>
-					<c:if test="${status.current != pageInfo.currentPage}">
-						<li><button onclick="location.href='${path}/notice/list?page=${status.current}'"><c:out value="${status.current}"/></button></li>
-	   				</c:if>
-				</c:forEach>
-                <li><button type="button" class="notice_arrow_right" onclick="location.href='${path}/notice/list?page=${pageInfo.nextPage}'">&gt;&gt;</button></li>
-                <li><button type="button" class="notice_page_last" onclick="location.href='${path}/notice/list?page=${pageInfo.maxPage}'">마지막페이지</button></li>
-              </ul>
+              <c:if test="${notice_search == null}">
+	                <li><button type="button" class="notice_page_first" onclick="location.href='${path}/notice/list?page=1'">처음페이지</button></li>
+	                <li><button type="button" class="notice_arrow_left" onclick="location.href='${path}/notice/list?page=${pageInfo.prvePage}'">&lt;&lt;</button></li>
+	                <c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
+						<c:if test="${status.current == pageInfo.currentPage}">
+							<li><button disabled><c:out value="${status.current}"/></button></li>
+		   				</c:if>
+						<c:if test="${status.current != pageInfo.currentPage}">
+							<li><button onclick="location.href='${path}/notice/list?page=${status.current}'"><c:out value="${status.current}"/></button></li>
+		   				</c:if>
+					</c:forEach>
+	                <li><button type="button" class="notice_arrow_right" onclick="location.href='${path}/notice/list?page=${pageInfo.nextPage}'">&gt;&gt;</button></li>
+	                <li><button type="button" class="notice_page_last" onclick="location.href='${path}/notice/list?page=${pageInfo.maxPage}'">마지막페이지</button></li>
+              </c:if>
+              <c:if test="${notice_search != null}">
+	              	<li><button type="button" class="notice_page_first" onclick="location.href='${path}/notice/list?notice_search=${notice_search}&page=1'">처음페이지</button></li>
+		            <li><button type="button" class="notice_arrow_left" onclick="location.href='${path}/notice/list?notice_search=${notice_search}&page=${pageInfo.prvePage}'">&lt;&lt;</button></li>
+		                <c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
+							<c:if test="${status.current == pageInfo.currentPage}">
+							<li><button disabled><c:out value="${status.current}"/></button></li>
+		   				</c:if>
+						<c:if test="${status.current != pageInfo.currentPage}">
+							<li><button onclick="location.href='${path}/notice/list?notice_search=${notice_search}&page=${status.current}'"><c:out value="${status.current}"/></button></li>
+		   				</c:if>
+					</c:forEach>
+	                <li><button type="button" class="notice_arrow_right" onclick="location.href='${path}/notice/list?notice_search=${notice_search}&page=${pageInfo.nextPage}'">&gt;&gt;</button></li>
+	                <li><button type="button" class="notice_page_last" onclick="location.href='${path}/notice/list?notice_search=${notice_search}&page=${pageInfo.maxPage}'">마지막페이지</button></li>
+              </c:if>
+	          </ul>
             </div>
-          </form>
         </div>
       </div>
 

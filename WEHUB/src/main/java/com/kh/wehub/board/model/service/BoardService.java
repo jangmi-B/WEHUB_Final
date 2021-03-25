@@ -7,9 +7,9 @@ import com.kh.wehub.common.util.PageInfo;
 
 public interface BoardService {
 
-	int getBoardCount();
+	int getBoardCount(String searchText);
 
-	List<Notice> getNoticeList(PageInfo pageInfo);
+	List<Notice> getNoticeList(PageInfo pageInfo, String searchText);
 
 	int saveBoard(Notice notice);
 

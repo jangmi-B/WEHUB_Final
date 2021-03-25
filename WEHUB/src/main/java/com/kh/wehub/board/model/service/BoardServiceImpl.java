@@ -20,17 +20,17 @@ public class BoardServiceImpl implements BoardService {
 	private BoardDao boardDao;
 
 	@Override
-	public int getBoardCount() {
+	public int getBoardCount(String searchText) {
 		
-		return boardDao.noticeCount();
+		return boardDao.noticeCount(searchText);
 	}
 
 	@Override
-	public List<Notice> getNoticeList(PageInfo pageInfo) {
+	public List<Notice> getNoticeList(PageInfo pageInfo, String searchText) {
 		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
 		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
 		
-		return boardDao.selectNoticeList(rowBounds);
+		return boardDao.selectNoticeList(rowBounds,searchText);
 	}
 
 	@Override

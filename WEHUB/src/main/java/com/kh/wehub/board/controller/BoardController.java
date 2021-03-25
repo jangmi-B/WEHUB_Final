@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -49,20 +51,27 @@ public class BoardController {
 			ModelAndView model,
 			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(value = "listLimit", required = false, defaultValue = "10") int listLimit,
+			@RequestParam(value = "notice_search", required=false)String searchText,
 			@SessionAttribute(name = "loginMember", required = false) Member loginMember){
 		
 		List<Notice> list = null;
-		int noticeCount = service.getBoardCount();
+		
+		int noticeCount = service.getBoardCount(searchText);
+		
 		PageInfo pageInfo = new PageInfo(page, 10, noticeCount, listLimit);
 		
-//		System.out.println(noticeCount);
+		list = service.getNoticeList(pageInfo,searchText);
 		
-		list = service.getNoticeList(pageInfo);
+		System.out.println(searchText);
+		
+		if(searchText != null) {
+			model.addObject("notice_search",searchText);
+		}
 		
 		model.addObject("list", list);
 		model.addObject("pageInfo", pageInfo);
-		model.setViewName("/board/board_notice_list");
 		
+		model.setViewName("/board/board_notice_list");
 		
 		return model;
 		

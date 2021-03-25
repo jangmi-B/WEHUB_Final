@@ -47,6 +47,7 @@
 		<result property="noticeReadCount" column="NOTICE_READCOUNT"/>
 		<result property="status" column="STATUS"/>
 		<result property="noticeCreateDate" column="NOTICE_CREATE_DATE"/>
+		<result property="noticCommentCount" column="COMMENTCOUNT"/>
 		<collection property="comments" javaType="java.util.ArrayList" resultMap="noticeCommentResultMap"/>	
 	</resultMap>
 	
@@ -60,6 +61,7 @@
 	</resultMap>
 
 	<select id="selectNoticeList" parameterType="map" resultMap="noticeResultMap">
+	SELECT * FROM (
 		SELECT N.NOTICE_NO,
 		       N.NOTICE_WRITER_NO,
 		       M.USER_NAME, 
@@ -69,17 +71,38 @@
 		       N.NOTICE_READCOUNT,
 		       N.NOTICE_CREATE_DATE,
 		       N.NOTICE_MODIFY_DATE,
-		       N.STATUS
+		       N.STATUS,
+		       (SELECT COUNT(*)
+		       FROM COMMENTS
+		       WHERE COMMENT_NOTICE_NO = NOTICE_NO )AS COMMENTCOUNT
 		FROM NOTICE N
 		JOIN MEMBER M ON(N.NOTICE_WRITER_NO = M.USER_NO)
 		WHERE N.STATUS='Y'
-		ORDER BY N.NOTICE_NO DESC
+		<choose>
+			<when test="searchList != 'null'">
+				AND N.NOTICE_TITLE LIKE '%'|| #{searchText} ||'%'
+				OR N.NOTICE_CONTENT LIKE '%'|| #{searchText} ||'%'
+			</when>
+		</choose>	
+		ORDER BY N.NOTICE_NO DESC) A
+	</select>
+	
+	<select id="commentCount" resultType="_int">
+		SELECT COUNT(*) 
+		FROM COMMENTS
+		WHERE COMMENT_NOTICE_NO=#{NOTICE_NO}
 	</select>
 	
 	<select id="noticeCount" parameterType="map" resultType="_int">
 		SELECT COUNT(*)
-		FROM NOTICE
+		FROM NOTICE N
 		WHERE STATUS='Y'
+		<choose>
+			<when test="searchList != 'null'">
+				AND N.NOTICE_TITLE LIKE '%'|| #{searchText} ||'%'
+				OR N.NOTICE_CONTENT LIKE '%'|| #{searchText} ||'%'
+			</when>
+		</choose>
 	</select>
 	
 	<insert id="insertNotice" parameterType="map"

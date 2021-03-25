@@ -6,24 +6,26 @@
 
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 
-  <div id="notice_bar">
-    <ul>
-      <li><span>게시판</span>
-        <div class="line"></div>
+  <form action="${path}/notice/list" id="notice_bar" method="get">
+	<div>
         <ul>
-          <li>공지사항</li>
-          <li>자유게시판</li>
+          <li><span>게시판</span>
+            <div class="line"></div>
+            <ul>
+              <li>공지사항</li>
+              <li>자유게시판</li>
+            </ul>
+          </li>
+          <li>
+            <table>
+              <tr>
+                <td><input id="notice_search" type="search" name="notice_search" placeholder="공지사항 검색"></td>
+                <td><button type="submit">Go</button></td>
+              </tr>
+            </table>
         </ul>
-      </li>
-      <li>
-        <table>
-          <tr>
-            <td><input id="notice_search" type="search" placeholder="공지사항 검색"></li></td>
-            <td><button type="button">Go</button></td>
-          </tr>
-        </table>
-    </ul>
-  </div>
+      </div>
+    </form>
   <div class="notice_detail_wrap">
     <div id="notice_detail">
       <div id="notice_detail_top">

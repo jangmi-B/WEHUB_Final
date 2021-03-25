@@ -10,9 +10,9 @@ import com.kh.wehub.board.model.vo.Notice;
 @Mapper
 public interface BoardDao {
 
-	int noticeCount();
+	int noticeCount(String searchText);
 
-	List<Notice> selectNoticeList(RowBounds rowBounds);
+	List<Notice> selectNoticeList(RowBounds rowBounds, String searchText);
 
 	int updateNotice(Notice notice);
 
