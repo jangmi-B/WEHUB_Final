@@ -231,7 +231,10 @@ public class MemberController {
 			model.addObject("userID" , findID);
 			log.info("찾은 아이디");
 			System.out.println("찾은 아이디는"+findID);
-			model.setViewName("redirect:/");
+			model.addObject("msg", "찾은 아이디는 "+findID);
+		
+			model.setViewName("common/msg");
+		//	model.setViewName("redirect:/");
 		
 		return model;
 	}
@@ -245,7 +248,9 @@ public class MemberController {
 		model.addObject("userPwd" , findPWD);
 		log.info("찾은 pwd");
 		System.out.println("찾은 pwd는"+findPWD);
-		model.setViewName("redirect:/");
+		model.addObject("msg","찾은 pwd는"+ findPWD);
+		model.setViewName("common/msg");
+		//model.setViewName("redirect:/");
 	return model;
 	}
 	
