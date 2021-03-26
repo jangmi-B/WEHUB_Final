@@ -24,10 +24,7 @@
 	
 	
 	<resultMap type="Member" id="memberResultMap">
-		<!-- property : 자바의 인스턴스 변수 이름, column : DB에서 select 된 결과 컬럼명 -->
-		<!-- DB에서 기본키를 의미 -->
 		<id property="user_no" column="USER_NO"/>
-		<!-- DB에서 일반 컬럼들 -->
 		<id property="user_companyname" column="USER_COMPANYNAME"/>
 		<id property="user_id" column="USER_ID"/>
 		<id property="user_pwd" column="USER_PWD"/>

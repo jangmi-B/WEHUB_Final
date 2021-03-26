@@ -13,12 +13,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="js/jquery-3.5.1.min.js"></script>
     <title>LogInForm</title>
-    <link rel="stylesheet" href="${path}/css/LogInForm.css">
+    <link rel="stylesheet" href="${path}/css/LoginForm.css">
 </head>
 <body>
     <div class="wrapper">
         <div class="container">
-            <img src="resources/wehub(white).png"/>
+            <img src="resources/images/wehub(white).png"/>
             <form class="form" action="login" method="POST">
                 <input type="text" name="userId" placeholder="Username ">
                 <input type="password" name="userPwd" placeholder="Password">

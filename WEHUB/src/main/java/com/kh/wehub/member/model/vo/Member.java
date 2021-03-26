@@ -23,9 +23,9 @@ public class Member {
 	
 	private String email;
 	
-	private int comcall;
+	private String comcall;
 	
-	private int phone;
+	private String phone;
 	
 	private String address;
 	
@@ -35,7 +35,6 @@ public class Member {
 	
 	// 부서 이름 가져오기 위해서
 	private String dept_name;
-	
 	
 }
 

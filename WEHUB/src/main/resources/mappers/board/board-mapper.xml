@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kh.wehub.board.model.dao.BoardDao">
+	<sql id="noticeListSql">
+		SELECT N.NOTICE_NO,
+		       N.NOTICE_WRITER_NO,
+		       M.USER_NAME, 
+		       N.NOTICE_TITLE, 
+		       N.NOTICE_CONTENT, 
+		       N.NOTICE_ORIGINAL_FILENAME, 
+		       N.NOTICE_READCOUNT,
+		       N.NOTICE_CREATE_DATE,
+		       N.NOTICE_MODIFY_DATE,
+		       N.STATUS
+		FROM NOTICE N
+		JOIN MEMBER M ON(N.NOTICE_WRITER_NO = M.USER_NO)
+		WHERE N.STATUS='Y'	
+	</sql>
+
+	<resultMap type="Notice" id="noticeResultMap">
+		<id property="noticeNo" column="NOTICE_NO"/>
+		<result property="noticeTitle" column="NOTICE_TITLE"/>
+		<result property="noticeWriterNo" column="NOTICE_WRITER_NO"/>
+		<result property="noticeUserName" column="USER_NAME"/>
+		<result property="noticeContent" column="NOTICE_CONTENT"/>
+		<result property="noticeOriginalFileName" column="NOTICE_ORIGINAL_FILENAME"/>
+		<result property="noticeRenamedFileName" column="NOTICE_RENAMED_FILENAME"/>
+		<result property="noticeReadCount" column="NOTICE_READCOUNT"/>
+		<result property="status" column="STATUS"/>
+		<result property="noticeCreateDate" column="NOTICE_CREATE_DATE"/>	
+		<result property="noticeModifyDate" column="NOTICE_MODIFY_DATE"/>	
+	</resultMap>
+	
+	<resultMap type="Notice" id="noticeDetailResultMap">
+		<id property="noticeNo" column="NOTICE_NO"/>
+		<result property="noticeTitle" column="NOTICE_TITLE"/>
+		<result property="noticeWriterNo" column="NOTICE_WRITER_NO"/>
+		<result property="noticeUserName" column="USER_NAME"/>
+		<result property="noticeContent" column="NOTICE_CONTENT"/>
+		<result property="department" column="DEPT_NAME"/>
+		<result property="noticeOriginalFileName" column="NOTICE_ORIGINAL_FILENAME"/>
+		<result property="noticeRenamedFileName" column="NOTICE_RENAMED_FILENAME"/>
+		<result property="noticeReadCount" column="NOTICE_READCOUNT"/>
+		<result property="status" column="STATUS"/>
+		<result property="noticeCreateDate" column="NOTICE_CREATE_DATE"/>
+		<collection property="comments" javaType="java.util.ArrayList" resultMap="noticeCommentResultMap"/>	
+	</resultMap>
+	
+	<resultMap type="Comments" id="noticeCommentResultMap">
+		<id property="commentNo" column="COMMENT_NO"/>
+		<result property="commentNoticeNO" column="COMMENT_NOTICE_NO"/>
+		<result property="commentWriterNo" column="COMMENT_WRITER_NO"/>
+		<result property="commentContent" column="COMMENT_CONTENT"/>
+		<result property="status" column="R_STATUS"/>
+		<result property="commentCreateDate" column="COMMENT_CREATE_DATE"/>
+		<result property="commentModifyDate" column="COMMENT_MODIFY_DATE"/>
+	</resultMap>
+	
+	<resultMap type="Member" id="memberResultMap">
+		<id property="user_no" column="USER_NO"/>
+		<id property="user_companyname" column="USER_COMPANYNAME"/>
+		<id property="user_id" column="USER_ID"/>
+		<id property="user_pwd" column="USER_PWD"/>
+		<id property="user_name" column="USER_NAME"/>
+		<id property="rank" column="RANK"/>
+		<id property="email" column="EMAIL"/>
+		<id property="comcall" column="COMCALL"/>
+		<id property="phone" column="PHONE"/>
+		<id property="address" column="ADDRESS"/>
+		<id property="user_status" column="USER_STATUS"/>
+		<id property="dept_code" column="DEPT_CODE"/>
+	</resultMap>
+	
+	
+	<select id="selectNoticeList" parameterType="map" resultMap="noticeResultMap">
+		SELECT N.NOTICE_NO,
+		       N.NOTICE_WRITER_NO,
+		       M.USER_NAME, 
+		       N.NOTICE_TITLE, 
+		       N.NOTICE_CONTENT, 
+		       N.NOTICE_ORIGINAL_FILENAME, 
+		       N.NOTICE_READCOUNT,
+		       N.NOTICE_CREATE_DATE,
+		       N.NOTICE_MODIFY_DATE,
+		       N.STATUS
+		FROM NOTICE N
+		JOIN MEMBER M ON(N.NOTICE_WRITER_NO = M.USER_NO)
+		WHERE N.STATUS='Y'
+		ORDER BY N.NOTICE_NO DESC
+	</select>
+	
+	<select id="noticeCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM NOTICE
+		WHERE STATUS='Y'
+	</select>
+	
+	<insert id="insertNotice" parameterType="map"
+  		useGeneratedKeys="true" keyProperty="noticeNo" keyColumn="NOTICE_NO">
+  		
+  		INSERT INTO NOTICE 
+  		VALUES(
+  			SEQ_NOTICE_NO.NEXTVAL,
+  			#{noticeWriterNo},
+  			#{noticeTitle},
+  			#{noticeContent},
+  			#{noticeOriginalFileName},
+  			#{noticeRenamedFileName},
+  			DEFAULT,
+  			DEFAULT,
+  			DEFAULT,
+  			DEFAULT
+ 		)
+  	</insert>
+  	
+	<update id="updateNotice" parameterType="Notice">
+		UPDATE BOARD 
+		SET 
+			BOARD_TITLE=#{noticeTitle},
+			BOARD_CONTENT=#{noticeContent},
+			<if test="boardOriginalFileName != null">
+				NOTICE_ORIGINAL_FILENAME=#{noticeOriginalFileName},
+			</if>
+			<if test="boardRenamedFileName != null">
+				NOTICE_RENAMED_FILENAME=#{noticeRenamedFileName},
+			</if>
+			NOTICE_MODIFY_DATE=SYSDATE 
+		WHERE 
+			NOTICE_NO=#{noticeNo}
+	</update>
+	
+	<select id="selectNoticeDetail" parameterType="_int" resultMap="noticeDetailResultMap">
+		SELECT N.NOTICE_NO,
+		       N.NOTICE_WRITER_NO,
+		       M.USER_NAME, 
+		       N.NOTICE_TITLE, 
+		       N.NOTICE_CONTENT, 
+		       N.NOTICE_ORIGINAL_FILENAME,
+		       N.NOTICE_RENAMED_FILENAME,
+		       N.NOTICE_READCOUNT,
+		       N.NOTICE_CREATE_DATE,
+		       N.NOTICE_MODIFY_DATE,
+		       N.STATUS,
+		       M.DEPT_CODE,
+       		   D.DEPT_NAME,
+		       C.COMMENT_NO, 
+		       C.COMMENT_CONTENT, 
+		       C.COMMENT_WRITER_NO, 
+		       C.COMMENT_NOTICE_NO, 
+		       M.USER_ID,
+		       C.COMMENT_CREATE_DATE, 
+		       C.COMMENT_MODIFY_DATE
+		FROM NOTICE N
+		JOIN MEMBER M ON(N.NOTICE_WRITER_NO = M.USER_NO)
+		LEFT OUTER JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
+		LEFT OUTER JOIN COMMENTS C ON(C.COMMENT_NOTICE_NO = N.NOTICE_NO)
+		WHERE N.STATUS='Y' AND NOTICE_NO =#{noticeNo}
+		ORDER BY N.NOTICE_NO DESC
+	</select>	
+	
+	<!-- 댓글 등록 -->
+	 <insert id="insertComments" parameterType="map"
+  		useGeneratedKeys="true" keyProperty="commentNo" keyColumn="COMMENT_NO">
+			INSERT INTO COMMENTS 
+			VALUES(
+				SEQ_COMMENT_NO.NEXTVAL,
+				#{commentNoticeNo},
+				#{userName},
+				#{commentContent},
+				SYSDATE,
+				SYSDATE,
+				DEFAULT
+			)
+	</insert>
+	
+	<!-- 번호도 가지고와서 set해주기 -->
+	<select id="selectComments" parameterType="_int" resultMap="noticeCommentResultMap">
+		 SELECT M.USER_NAME, c.comment_content, c.comment_create_date, c.comment_notice_no, c.comment_writer_no, c.comment_no
+			 FROM MEMBER M
+			 JOIN COMMENTS C ON (C.COMMENT_WRITER_NO = M.USER_NO)
+			 JOIN NOTICE N ON (c.comment_notice_no = n.notice_no)
+			 WHERE N.NOTICE_NO = #{noticeNo}
+	</select>
+
+	<select id="selectCommentsCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) 
+		FROM COMMENTS C
+		JOIN NOTICE N ON(c.comment_notice_no = n.notice_no)
+		WHERE N.NOTICE_NO = #{noticeNo}
+	</select>
+	
+	<select id="findCommentsName" parameterType="_int" resultMap="memberResultMap">
+		SELECT M.USER_NAME
+		FROM MEMBER M
+		JOIN COMMENTS C ON(C.COMMENT_WRITER_NO = M.USER_NO)
+		WHERE C.COMMENT_NOTICE_NO = #{noticeNo} 
+	</select>
+	 		
+	 
+</mapper>

@@ -39,11 +39,11 @@ public class MemberController {
 	}
 	
 	//메인 화면 띄우기
-	@RequestMapping(value="home")
-	public ModelAndView mainPage(ModelAndView model,
+	@RequestMapping(value = "/home")
+	public ModelAndView home(ModelAndView model,
 			@SessionAttribute("loginMember")Member loginMember) {
 		
-		model.addObject("loginMember", loginMember);
+		model.addObject("loginMember",loginMember);
 		model.setViewName("/home");
 		
 		

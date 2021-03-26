@@ -15,4 +15,6 @@ public interface MemberInfoDao {
 	public Integer infoCount();
 
 	public List<Member> SearchList(RowBounds rowBounds, Map<String, Object> map);
+
+	public int SearchCount(Map<String, Object> map);
 }

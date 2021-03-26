@@ -11,4 +11,6 @@ public interface MemberInfoService {
 	int infoCount();
 
 	List<Member> SearchList(PageInfo info, String searchList, String searchText);
+
+	int infoSearchCount(String searchList, String searchText);
 }

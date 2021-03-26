@@ -16,12 +16,15 @@
   <link rel="stylesheet" href="${path}/css/style.css">
   <link rel="stylesheet" href="${path}/css/homeContent.css">
   <link rel="stylesheet" href="${path}/css/HumanManagement_green.css">
+  <link rel="stylesheet" href="${path}/css/board_notice.css">
+  <link rel="stylesheet" href="${path}/css/board_notice_list.css">
+  <link rel="stylesheet" href="${path}/css/board_notice_detail.css">
   <title>WEHUB</title>
 </head>
 <body>
 	  <nav id="navbar">
     <div class="header_logo">
-      <a href="header.html"><img src="${path}/images/logo.png"></a>
+      <a href="${path}/home"><img src="${path}/images/logo.png"></a>
     </div>
     <div class="header_user_wrap">
       <div class="header_profile">
@@ -29,7 +32,7 @@
       </div>
       <div class="header_userInfo">
         <ul id="header_user">
-          <li><a href="#">${loginMember.user_name} ${loginMember.rank}</a>
+          <li><a href="#">${ loginMember.user_name } ${ loginMember.rank }</a>
             <ul>
               <li><a href="#">Logout</a></li>
               <li><a href="#">MyPage</a></li>
@@ -42,8 +45,8 @@
   <section>
     <div class="common_section">
       <ul>
-        <li><a href="#"><i class="fas fa-home" ></i></a></li>
-        <li><a href="#"><i class="fas fa-bullhorn"></i></a></li>
+        <li><a href="${path}/home"><i class="fas fa-home" ></i></a></li>
+        <li><a href="${path}/notice/list"><i class="fas fa-bullhorn"></i></a></li>
         <li><a href="#"><i class="far fa-address-card" ></i></a></li>
         <li><a href="#"><i class="far fa-envelope"></i></a></li>
         <li><a href="${path}/memberInfo/list?page=1"><i class="fas fa-users"></i></a></li>

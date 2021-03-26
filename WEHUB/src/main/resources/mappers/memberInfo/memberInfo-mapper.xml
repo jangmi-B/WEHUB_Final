@@ -65,7 +65,41 @@
 				AND ${searchList} LIKE '%'||#{searchText}||'%'			
 			</otherwise>
 		</choose>
+	</select>
 	
+	<select id="SearchCount" resultType="_int" parameterType="map">
+		SELECT COUNT(*)
+			FROM (SELECT M.USER_NO,
+	      	M.USER_COMPANYNAME,
+	        M.USER_ID,
+	        M.USER_PWD,
+	        M.USER_NAME,
+	        M.RANK,
+	        M.EMAIL,
+	        M.COMCALL,
+	        M.PHONE,
+	        M.ADDRESS,
+	        M.USER_STATUS,
+	        M.DEPT_CODE,
+	        D.DEPT_NAME
+	    FROM MEMBER M 
+	    JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
+	    WHERE M.USER_STATUS ='Y'
+		<choose>
+			<when test="searchList != 'all'">
+				AND d.dept_name LIKE '%'||#{searchText}||'%'
+				OR m.user_name LIKE '%'||#{searchText}||'%'
+				OR m.rank LIKE '%'||#{searchText}||'%')
+			</when>
+			<when test="searchList == 'all'">
+				AND d.dept_name LIKE '%'||#{searchText}||'%'
+				OR m.user_name LIKE '%'||#{searchText}||'%'
+				OR m.rank LIKE '%'||#{searchText}||'%')
+			</when>
+			<otherwise>
+				AND ${searchList} LIKE '%'||#{searchText}||'%')			
+			</otherwise>
+		</choose>
 	</select>
 	
 </mapper>

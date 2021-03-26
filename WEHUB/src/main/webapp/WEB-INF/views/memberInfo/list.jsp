@@ -47,7 +47,6 @@
   <table class="HM_TableArea checkbox_group" cellpadding="0" cellspacing="0" border="0">
     <thead>
         <tr class="header_th">
-            <th class="HM_trTag HM_CheckBox"><input type="checkbox" id="check_all" name="HM_cb"></th>
             <th class="HM_trTag HM_NameTr" colspan="2">이름</th>
             <th class="HM_trTag HM_RankTr" width="125px">직급</th>
             <th class="HM_trTag HM_DepartmentTr">부서</th>
@@ -67,7 +66,6 @@
     		<c:when test="${ SearchList != null}">
    				<c:forEach var="list" items="${SearchList}">
 			        <tr>
-			            <td class="HM_tdTag HM_NameT" id=" check_order"><input type="checkbox" id="check_1" class="normal"></td>
 			            <td class="HM_tdTag HM_UserImgTd"><img class="HM_userProfileBox" src="${path}/image/프로필이미지.png"></td>
 			            <td class="HM_tdTag HM_NameTd">${list.user_name}</td>
 			            <td class="HM_tdTag HM_RankTd">${list.rank}</td>
@@ -85,43 +83,22 @@
 
   <!-- 하단 페이징 -->
   <div class="HM_paging">
-    <button class="HM_pagingBtn HMltlt" onclick="location.href='${path}/memberInfo/list?page=1'">처음페이지</button>&nbsp;&nbsp;
+    <button class="HM_pagingBtn HMltlt" onclick="location.href='${path}/memberInfo/list?page=1&searchText=${map.searchText}&searchList=${map.searchList}'">처음페이지</button>&nbsp;&nbsp;
     
-    <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="location.href='${path}/memberInfo/list?page=${info.getPrvePage()}'">&lt;&lt;</button>&nbsp;&nbsp;
+    <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="location.href='${path}/memberInfo/list?page=${info.getPrvePage()}&searchText=${map.searchText}&searchList=${map.searchList}'">&lt;&lt;</button>&nbsp;&nbsp;
     <c:forEach var="page" begin="${info.getStartPage()}" end="${info.getEndPage()}">
     	<c:choose>
     		<c:when test="${page} == ${info.getCurrentPage()}">
     			<button disabled="disabled" class="HM_pagingBtn" id="HM_pagingBtnId">${page}</button>
     		</c:when>
     		<c:otherwise>
-			    <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="location.href='${path}/memberInfo/list?page=${page}'">${page}</button>&nbsp;&nbsp;
+			    <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="location.href='${path}/memberInfo/list?page=${page}&searchText=${map.searchText}&searchList=${map.searchList}'">${page}</button>&nbsp;&nbsp;
     		</c:otherwise>
     	</c:choose>
     </c:forEach>
-    <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="location.href='${path}/memberInfo/list?page=${info.getNextPage()}'">&gt;&gt;</button>&nbsp;&nbsp;
-    <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="location.href='${path}/memberInfo/list?page=${info.getMaxPage()}'">마지막페이지</button>
+    <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="location.href='${path}/memberInfo/list?page=${info.getNextPage()}&searchText=${map.searchText}&searchList=${map.searchList}'">&gt;&gt;</button>&nbsp;&nbsp;
+    <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="location.href='${path}/memberInfo/list?page=${info.getMaxPage()}&searchText=${map.searchText}&searchList=${map.searchList}'">마지막페이지</button>
   </div>
-  
-  
-  
-  
-  <script>
-    // 체크박스 전체 선택
-    $(".checkbox_group").on("click", "#check_all", function () {
-        $(this).parents(".checkbox_group").find('input').prop("checked", $(this).is(":checked"));
-    });
-
-    // 체크박스 개별 선택
-    $(".checkbox_group").on("click", ".normal", function() {
-        var is_checked = true;
-
-        $(".checkbox_group .normal").each(function(){
-            is_checked = is_checked && $(this).is(":checked");
-        });
-
-        $("#check_all").prop("checked", is_checked);
-    });
-  </script>
 </section>
   <hr>
   

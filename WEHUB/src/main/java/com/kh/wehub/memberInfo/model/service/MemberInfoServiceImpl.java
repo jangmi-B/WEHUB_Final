@@ -38,6 +38,17 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		return memberInfoDao.SearchList(rowBounds, map);
 	}
 
+	@Override
+	public int infoSearchCount(String searchList, String searchText) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("searchList", searchList);
+		map.put("searchText", searchText);
+		
+		return memberInfoDao.SearchCount(map);
+	}
+
 
 	
 
