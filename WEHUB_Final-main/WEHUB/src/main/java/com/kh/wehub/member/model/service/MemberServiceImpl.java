@@ -91,7 +91,6 @@ import org.springframework.stereotype.Service;
 import com.kh.wehub.member.model.dao.MemberDao;
 import com.kh.wehub.member.model.vo.Member;
 
-import com.kh.wehub.member.model.vo.MemberEnroll;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -108,16 +107,15 @@ public class MemberServiceImpl implements MemberService {
 		
 		Member loginMember = this.findMemberByUserId(userId);
 
-		System.out.println(loginMember);
-
+		System.out.println("Impl에서 loginmember : "+loginMember);
+		System.out.println("passwordEncoder  :" +passwordEncoder.encode(userPwd));
 		
+		System.out.println(loginMember != null && 
+				passwordEncoder.matches(userPwd, loginMember.getUser_pwd())? loginMember : null);
+		
+		return loginMember != null && 
+				passwordEncoder.matches(userPwd, loginMember.getUser_pwd())? loginMember : null;
 
-		if(loginMember != null) {
-			
-			return loginMember;
-		}else {
-			return null;
-		}
 	}
 	
 	@Override

@@ -30,7 +30,7 @@
 	<context:component-scan base-package="com.kh.wehub" />
 
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
-	<!--  
+
 	 <interceptors>
 	 	<interceptor>
 	 	  <mapping path="/main"/>
@@ -43,5 +43,5 @@
 	 		
 	 	<beans:bean id="loginCheckInterceptor" class="com.kh.wehub.common.interceptor.LoginCheckInterceptor"/>
 	 	</interceptor>
-	 </interceptors> -->
+	 </interceptors>
 </beans:beans>

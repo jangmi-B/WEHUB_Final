@@ -14,18 +14,17 @@
 
     <script src="js/jquery-3.5.1.js"></script>
 
-
     <title>WEHUB</title>
 
     <link rel="stylesheet" href="${path}/css/LogInForm.css">
-</head>
-<body>
-    <div class="wrapper">
+	</head>
+	<body>
+    	<div class="wrapper">
         <div class="container">
 
             <img src="${path}/images/wehub(white).png"/>
 
-            <form class="form" action="login" method="POST">
+            <form class="form" action="loginn" method="POST">
                 <input type="text" name="userId" placeholder="Username ">
                 <input type="password" name="userPwd" placeholder="Password">
                 <button type="submit" id="login-button">Log in</button>
@@ -39,16 +38,19 @@
         </div>
     </div>
 </body>
+  
 <script>
 
      $("#login-button").click(function(event){
 		event.preventDefault();
 	 
-	    $('form').fadeOut(5300);
+	    $('form').fadeOut(300);
 	    $('.wrapper').addClass('form-success');
         setTimeout(function() {
         location.href="${path}/main";
         }, 2800);
+        
+       // return false;
      });
     
 </script> 

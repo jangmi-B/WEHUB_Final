@@ -49,7 +49,7 @@
 			USER_ID,
 			USER_PWD,
 			USER_NAME,
-			COMPANY_RANK,
+			RANK,
 			EMAIL,
 			COMCALL,
 			PHONE,
@@ -75,7 +75,7 @@
 	
 	<select id="selectMember" parameterType="string" resultMap="memberResultMap">
 		<include refid="selectMemberSql"></include>
-	 	AND USER_ID = #{userId}
+	 	AND USER_ID = #{user_id}
 	</select>
 	
 	<select id="findID" parameterType="Member" resultType="String" >
