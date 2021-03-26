@@ -349,7 +349,8 @@
             
                                         <div class="agreebox">
                                             <label>
-                                                <input type="checkbox" name="agreement1" required />
+                                                <!-- <input type="checkbox" name="agreement1" id="checkTest" value="" /> -->
+                                                <input type="checkbox" name="agree" id="chk1">
                                                 <span class="span">내용을 모두 숙지하였으며, 이용약관에 동의합니다.</span>
                                             </label>
                                         </div>
@@ -542,7 +543,8 @@
             
                                         <div class="agreebox">
                                             <label>
-                                                <input type="checkbox" name="agreement2" required />
+                                                <!-- <input type="checkbox" name="agreement2" /> -->
+                                                <input type="checkbox" name="agree" id="chk2" />
                                                 <span class="span">내용을 모두 숙지하였으며, 개인정보 수집 및 이용에 동의합니다.</span>
                                                 </label>
                                         </div>
@@ -558,9 +560,9 @@
 
             <!-- <form class="form" style="margin-top: -245px;">     -->
             <div class="buttonDiv">
-                <button type="submit" id="login-button" onclick="location.href='${path}/member/signUpForm'">Continue</button>
+                <button type="submit" id="login-button" onclick="javascript:agree();">Continue</button>
                 <p id="findPwdAndSignUp">
-                    <a href="file:///C:/Users/User/Desktop/Coding/FinalProjectHTML/LogInForm.html" id="fpas">Already have an account?</a>
+                    <a href="${path}/" id="fpas">Already have an account?</a>
                 </p>
             </div>
             <!-- </form> -->
@@ -568,12 +570,25 @@
     </div>
 </body>
 <script>
-        // $("#submitbtn").on("click", () => {
-        //     if($("input:checkbox[name=agreement]:checked").length == 0 || $("input:checkbox[name=agreement]:checked").length == 1) {
-        //           alert("약관 동의 후 이용해주세요.");
-              
-        //           return false;
-        //        }
-        //   });
-    </script>
+	function agree() { 
+	    var chkbox = document.getElementsByName('agree'); 
+	    var chk = false; 
+	    var pageLink = '${path}/member/signUpForm';
+	    
+	    for(var i=0 ; i<chkbox.length ; i++) { 
+	        if(chkbox[i].checked) { 
+	            chk = true; 
+	        } else { 
+	            chk = false; 
+	        } 
+	    } 
+	    
+	    if(chk) { 
+	    	
+	        return location.href=pageLink; 
+	    } else { 
+	        alert("모든 약관에 동의해 주세요.") 
+	    } 
+	}
+</script>
 </html>

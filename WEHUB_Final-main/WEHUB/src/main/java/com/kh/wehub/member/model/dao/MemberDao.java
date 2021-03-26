@@ -10,8 +10,8 @@ public interface MemberDao {
 	
 	public Member selectMember(String userId);
 
-	int insertMember(MemberEnroll member);
+	int insertMember(Member member);
 
-	public int updateMember(MemberEnroll member);
+	public int updateMember(Member member);
 
 }

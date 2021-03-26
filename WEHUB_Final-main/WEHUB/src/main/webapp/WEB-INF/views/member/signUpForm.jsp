@@ -36,25 +36,29 @@
                 <input type="tel" name="comcall" placeholder="ExtensionNumber">
                 <input type="tel"name="phone"  placeholder="Phone">
                 -->
-                <input type="text" name="user_companyname"  placeholder="회사명  CompanyName" style="font-size: 13px;">
-                <input type="text" name="user_id" placeholder="아이디  UserId" style="font-size: 13px;" required>
+                <input type="text" name="user_companyname"  placeholder="회사명  CompanyName" style="font-size: 13px;" required>
+                <input type="button" name="user_companyname_btn"  value="회사 확인" onclick="" style="font-size: 13px;" required>
+                <input type="text" name="user_id" placeholder="아이디  UserId" style="font-size: 13px;" id="user_id" required>
+                <input type="button" name="user_id_btn" value="아이디 중복 확인" style="font-size: 13px;" id="user_id" required>
                 <input type="password" name="user_pwd"  placeholder="패스워드  Password" style="font-size: 13px;" id="pass1" required>
                 <input type="password" placeholder="패스워드 확인  PasswordCheck" id="pass2"  style="font-size: 13px;">
                 <input type="text" name="user_name" placeholder="이름  UserName" style="font-size: 13px;" required>
                 <input type="text" name="dept_code" placeholder="부서이름  DepartmentName" style="font-size: 13px;">
                 <input type="text" name="rank" placeholder="직급  Rank" style="font-size: 13px;">
                 <input type="email" name="email" placeholder="이메일  E-Mail" style="font-size: 13px;">
-                <input type="text"name="address"  placeholder="주소  Address" style="font-size: 13px;">
-                <input type="text"name="address"  placeholder="상세주소 Street Address" style="font-size: 13px;">
+                <input type="button" name="address"  value="주소 찾기" style="font-size: 13px;">
+                <input type="text" name="address"  placeholder="우편번호 Zip/Postal Code" style="font-size: 13px;">
+                <input type="text" name="address"  placeholder="주소  State/Province/Region/City" style="font-size: 13px;">
+                <input type="text" name="address"  placeholder="상세주소 Street Address" style="font-size: 13px;">
                 <input type="tel" name="comcall" placeholder="내선번호 ExtensionNumber" style="font-size: 13px;">
                 <input type="tel"name="phone"  placeholder="휴대번호  Phone" style="font-size: 13px;">
                 
-                <!-- 실무에서는 우편번호와 주소지의 컬럼을 따로 받나...? -->
                 <button type="submit" id="login-button">가입하기</button> <!-- Create -->
+                <button type="submit" id="login-button" onclick="javascript:dataCheck();">기능확인</button>
                 <p id="findPwdAndSignUp">
                     <!-- <a href="file:///C:/Users/User/Desktop/Coding/FinalProjectHTML/LogInForm.html" id="fpas">Already have an account?</a>
                     -->
-                    <a href="${path}/member/login" id="fpas" style="font-size: 12px;">벌써 회원이신가요?</a>
+                    <a href="${path}/" id="fpas" style="font-size: 12px;">벌써 회원이신가요?</a>
                 </p>
             </form>
             <!--  
@@ -66,29 +70,31 @@
 </body>
 
 <script>
-<!-- 
-	$(document).ready(() => {
-		$("#pass2").blur((e) => {
-			let pass1 = $("#pass1").val();
-			let pass2 = $(e.target).val();
-			if(pass1.trim() != pass2.trim()){
-				alert("비밀번호가 일치하지 않습니다.");
-				$("#pass1").val("");
-				$(e.target).val("");
-				$("#pass1").focus();
+	function dataCheck() {
+		var pass1 = document.getElementById('pass1').value;
+		var pass2 = document.getElementById('pass2').value;
+		var user_id = document.getElementById('user_id').value;
+		
+		if(user_id.length < 4) {
+			alert("아이디를 4글자 이상 입력하세요.");
+			
+			return false;
 		}
-	});
-    $("#login-button").click(function(event){
-		event.preventDefault();
-	
-	    $('form').fadeOut(500);
-	    $('.wrapper').addClass('form-success');
-        setTimeout(function() {
-        // alert("회원가입이 정상적으로 완료되었습니다.");
-        location.href="${path}/member/signUpForm";
-    }, 3000);
-    });
--->
+		
+		if(pass1.length < 4) {
+			alert("비밀번호를 4글자 이상 입력하세요.");
+			
+			return false;
+		}
+		
+		if(pass1 != pass2) {
+			alert("비밀번호 확인을 정확하게 입력하세요.");
+			
+			return false;
+		}
+		
+		
+	}
 </script>
 
 </html>

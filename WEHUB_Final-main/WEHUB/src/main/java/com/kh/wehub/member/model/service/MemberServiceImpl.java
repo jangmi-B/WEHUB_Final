@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import com.kh.wehub.member.model.dao.MemberDao;
 import com.kh.wehub.member.model.vo.Member;
-import com.kh.wehub.member.model.vo.MemberEnroll;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -38,7 +37,7 @@ public class MemberServiceImpl implements MemberService {
 
 
 	@Override
-	public int saveMember(MemberEnroll member) {
+	public int saveMember(Member member) {
 		int result = 0;
 
 		if(member.getUser_no() != 0) {

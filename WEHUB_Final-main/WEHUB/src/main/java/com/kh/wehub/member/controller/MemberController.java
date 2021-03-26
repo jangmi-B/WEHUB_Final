@@ -69,7 +69,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "member/signUpForm", method = {RequestMethod.POST})
-	public ModelAndView signUpForm(ModelAndView model, @ModelAttribute MemberEnroll member) {
+	public ModelAndView signUpForm(ModelAndView model, @ModelAttribute Member member) {
 
 		log.info(member.toString());
 		
@@ -81,14 +81,22 @@ public class MemberController {
 		
 		if(result > 0) {
 			model.addObject("msg", "회원가입이 정상적으로 되었습니다.");
-			model.addObject("location", "/member/login"); // 로그인창으로 이동시키는 로케이션
+			model.addObject("location", "/"); // 로그인창으로 이동시키는 로케이션
 		} else {
 			model.addObject("msg", "회원가입을 실패하였습니다. 올바른 정보를 입력하여 주세요.");
-			model.addObject("location", "/member/enroll");
+			model.addObject("location", "/member/BeforeSignUp");
 		}
 		
 		model.setViewName("common/msg");
 		
 		return model;
+	}
+	
+	// 회원 수정
+	@RequestMapping("member/memModify")
+	public String memModify() {
+		log.info("회원 수정 페이지 요청");
+		
+		return "member/memModify";
 	}
 }

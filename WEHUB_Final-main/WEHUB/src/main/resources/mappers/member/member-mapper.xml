@@ -11,13 +11,11 @@
 		<id property="user_id" column="USER_ID"/>
 		<id property="user_pwd" column="USER_PWD"/>
 		<id property="user_name" column="USER_NAME"/>
-		<id property="rank" column="COMPANY_RANK"/>
+		<id property="rank" column="RANK"/>
 		<id property="email" column="EMAIL"/>
 		<id property="comcall" column="COMCALL"/>
 		<id property="phone" column="PHONE"/>
 		<id property="address" column="ADDRESS"/>
-		<id property="create_date" column="CREATE_DATE"/>
-		<id property="modify_date" column="MODIFY_DATE"/>
 		<id property="user_status" column="USER_STATUS"/>
 		<id property="dept_code" column="DEPT_CODE"/>
 	</resultMap>
@@ -30,13 +28,11 @@
 			USER_ID,
 			USER_PWD,
 			USER_NAME,
-			COMPANY_RANK,
+			RANK,
 			EMAIL,
 			COMCALL,
 			PHONE,
 			ADDRESS,
-			CREATE_DATE,
-			MODIFY_DATE,
 			USER_STATUS,
 			DEPT_CODE
 		)
@@ -50,9 +46,7 @@
 			#{email}, 
 			#{comcall}, 
 			#{phone}, 
-			#{address}, 
-			SYSDATE, 
-			SYSDATE,
+			#{address},
 			DEFAULT, 
 			#{dept_code}
 		)
