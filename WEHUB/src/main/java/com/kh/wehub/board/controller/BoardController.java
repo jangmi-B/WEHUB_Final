@@ -9,7 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -55,6 +57,7 @@ public class BoardController {
 			@SessionAttribute(name = "loginMember", required = false) Member loginMember){
 		
 		List<Notice> list = null;
+		List<Notice> staticList = null; //필독
 		
 		int noticeCount = service.getBoardCount(searchText);
 		
@@ -62,13 +65,16 @@ public class BoardController {
 		
 		list = service.getNoticeList(pageInfo,searchText);
 		
-		System.out.println(searchText);
+		staticList = service.getStaticList();
+		
+//		System.out.println(searchText);
 		
 		if(searchText != null) {
 			model.addObject("notice_search",searchText);
 		}
 		
 		model.addObject("list", list);
+		model.addObject("staticList", staticList);
 		model.addObject("pageInfo", pageInfo);
 		
 		model.setViewName("/board/board_notice_list");
@@ -86,19 +92,28 @@ public class BoardController {
 	
 	@RequestMapping(value = "notice/write", method = {RequestMethod.POST})
 	public ModelAndView noticeWrite(
-			@SessionAttribute(name="loginMember", required=false) Member loginMember,
+			@SessionAttribute(name="loginMember", required=false) Member loginMember, 
 			HttpServletRequest request, Notice notice, @RequestParam("upfile") MultipartFile upfile, ModelAndView model) {
 		
-		System.out.println(upfile.getOriginalFilename());
-		System.out.println(notice);
-		System.out.println(loginMember);
+//		System.out.println(upfile.getOriginalFilename());
+//		System.out.println(notice);
+//		System.out.println(loginMember);
+		
+//		System.out.println(notice.getNoticeType());
+//		System.out.println(notice);
+		
+		if(notice.getNoticeType() == null) {
+			notice.setNoticeType("N");
+		} else {
+			notice.setNoticeType("Y");
+		}
 		
 		int result = 0;
 		
 		if(loginMember.getUser_id().equals(notice.getUserId())) {
 			notice.setNoticeWriterNo(loginMember.getUser_no());
 			
-			System.out.println(loginMember.getUser_no());
+//			System.out.println(loginMember.getUser_no());
 			
 			if(upfile != null && !upfile.isEmpty()) {
 				// 파일을 저장하는 로직 작성
@@ -113,6 +128,8 @@ public class BoardController {
 			}
 			
 			result = service.saveBoard(notice);
+			
+//			System.out.println(result);
 			
 			if(result > 0) {
 				model.addObject("msg", "게시글이 정상적으로 등록되었습니다.");
@@ -149,6 +166,16 @@ public class BoardController {
 			@SessionAttribute(name = "loginMember", required = false)Member loginMember,
 			@RequestParam("reloadFile") MultipartFile reloadFile, HttpServletRequest request,
 			Notice notice, ModelAndView model){
+		
+		
+		System.out.println(notice.getNoticeType());
+		System.out.println(notice);
+		
+		if(notice.getNoticeType() == null) {
+			notice.setNoticeType("N");
+		} else {
+			notice.setNoticeType("Y");
+		}
 		
 		int result = 0;
 		
@@ -267,9 +294,61 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "notice/view", method = {RequestMethod.GET})
-	public ModelAndView view(@RequestParam("noticeNo") int noticeNo, ModelAndView model) {
+	public ModelAndView view(@RequestParam("noticeNo") int noticeNo, ModelAndView model,
+			HttpServletResponse response, HttpServletRequest request) {
+		
+		//조회수 로직
+		Cookie[] cookies = request.getCookies();
+		String boardHistory = "";
+		boolean hasRead = false;
+		
+		if(cookies != null) {
+			String name = null;
+			String value = null;
+			
+			for(Cookie cookie : cookies) {
+				name = cookie.getName();
+				value = cookie.getValue();
+				
+				//boardHistory인 쿠키값을 찾기
+				if("boardHistory".equals(name)) {
+					boardHistory = value;//현재저장된 값 대입
+					if(value.contains("|" + noticeNo + "|")) {
+						//읽은 게시글
+						hasRead = true;
+						 
+						break;
+					}
+				}
+			}
+		}
+		
+		if(!hasRead) {
+			Cookie cookie = new Cookie("boardHistory", boardHistory + "|" + noticeNo + "|");
+			
+			cookie.setMaxAge(-1);
+			response.addCookie(cookie);
+		}
 		
 		Notice notice = service.findNoticeByNo(noticeNo);
+//		System.out.println("전" + notice);
+		
+		if(!hasRead) {
+			// DB저장로직 작성하기
+			
+			int noticeReadCount = notice.getNoticeReadCount() + 1;
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			map.put("noticeNo", noticeNo);
+			map.put("noticeReadCount", noticeReadCount);
+			
+			notice.setNoticeReadCount(service.updateReadCount(map));
+			
+		}
+		
+		notice = service.findNoticeByNo(noticeNo);
+//		System.out.println("후" + notice);
 		
 		model.addObject("notice", notice);
 		model.setViewName("/board/board_notice_detail");

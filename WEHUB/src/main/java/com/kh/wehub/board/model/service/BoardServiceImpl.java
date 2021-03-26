@@ -1,10 +1,12 @@
 package com.kh.wehub.board.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.wehub.board.model.dao.BoardDao;
 import com.kh.wehub.board.model.vo.Notice;
@@ -32,8 +34,15 @@ public class BoardServiceImpl implements BoardService {
 		
 		return boardDao.selectNoticeList(rowBounds,searchText);
 	}
+	
+	@Override
+	public List<Notice> getStaticList() {
+		
+		return boardDao.selectStaticNotice();
+	}
 
 	@Override
+	@Transactional
 	public int saveBoard(Notice notice) {
 		int result = 0;
 		
@@ -53,10 +62,17 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	@Transactional
 	public int deleteNotice(Notice notice) {
 		
 		return boardDao.deleteNotice(notice);
 	}
 
+	@Override
+	public int updateReadCount(Map<String, Object> map) {
+		
+		
+		return boardDao.updateReadCount(map);
+	}
 
 }

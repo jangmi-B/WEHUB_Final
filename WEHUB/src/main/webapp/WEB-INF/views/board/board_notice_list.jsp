@@ -46,10 +46,34 @@
 					</td>
 				</tr>	
 			  </c:if>
+			  <c:if test="${staticList != null}">
+				<c:forEach var="notice" items="${staticList}">
+					<tr class="staticList">
+						<td><i class="fas fa-exclamation-triangle"></i></td>
+						<td>
+							<a href="${path}/notice/view?noticeNo=${notice.noticeNo}">
+								<c:out value="${notice.noticeTitle}"/>
+							</a>
+						</td>
+						<td>${ notice.noticeUserName }</td>
+						<td><fmt:formatDate type="both" value="${notice.noticeCreateDate}"/></td>
+						<td>
+	            			<c:if test="${notice.noticeOriginalFileName != null}">
+            					<i class="far fa-save"></i>
+            				</c:if>
+	            			<c:if test="${notice.noticeOriginalFileName == null}">
+            					<span> - </span>
+            				</c:if>
+						</td>
+						<td class="staticList"><c:out value="${notice.noticCommentCount}"/></td>
+						<td class="staticList"><c:out value="${notice.noticeReadCount}"/></td>
+					</tr>		
+				  </c:forEach>
+			  </c:if>
 			  <c:if test="${list != null}">
 				<c:forEach var="notice" items="${list}">
 					<tr>
-						<td><c:out value="${notice.noticeNo}"/></td>
+						<td><c:out value="${notice.rownum}"/></td>
 						<td>
 							<a href="${path}/notice/view?noticeNo=${notice.noticeNo}">
 								<c:out value="${notice.noticeTitle}"/>

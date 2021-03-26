@@ -29,7 +29,12 @@
       <div id="notice_list_contents">
         <form action="${path}/notice/write" method="post" enctype="multipart/form-data">
         	<input type="hidden" name="userId" value = "${loginMember.user_id}">
+        	
           <table>
+          	<tr>
+              <td><input class="notice_checkbox" type="checkbox" name="noticeType"></td>
+              <td>중요공지 <i class="fas fa-exclamation-triangle"></i></td>
+            </tr>
             <tr>
               <td>제목</td>
               <td><input class="notice_input" type="text" name="noticeTitle"></td>

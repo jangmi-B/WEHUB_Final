@@ -64,6 +64,16 @@
   color: gray;
 }
 
+.staticList td{
+  background-color:rgba(211, 211, 211, 0.507);
+}
+
+.staticList i{
+	color: #5b18ff;
+ /* 
+ color: red;  */
+}
+
 /* 페이징 */
 
 .notice_list_page {

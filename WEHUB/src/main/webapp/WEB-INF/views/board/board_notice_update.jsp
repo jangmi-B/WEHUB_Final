@@ -33,6 +33,15 @@
 			<input type="hidden" name="noticeOriginalFileName" value = "${notice.noticeOriginalFileName}">
 			<input type="hidden" name="noticeRenamedFileName" value = "${notice.noticeRenamedFileName}">
           <table>
+          	<tr>
+          	<c:if test="${ notice.noticeType == 'Y' }">
+              <td><input class="notice_checkbox" type="checkbox" name="noticeType" checked></td>
+            </c:if>
+            <c:if  test="${ notice.noticeType == 'N' }">
+              <td><input class="notice_checkbox" type="checkbox" name="noticeType" unchecked></td>
+            </c:if>
+              <td>중요공지 <i class="fas fa-exclamation-triangle"></i></td>
+            </tr>
             <tr>
               <td>제목</td>
               <td><input class="notice_input" type="text" name="noticeTitle" value="${ notice.noticeTitle }"></td>
