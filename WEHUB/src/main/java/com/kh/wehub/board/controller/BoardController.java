@@ -199,6 +199,8 @@ public class BoardController {
 		
 		result = service.saveComments(comment, member);
 		
+		System.out.println(comment);
+		
 		if(result > 0) {
 			model.addObject("msg","댓글등록완료!");
 			model.addObject("location", "/notice/view?noticeNo="+noticeNo);
@@ -210,6 +212,19 @@ public class BoardController {
 		
 		return model;
 	}
+	
+	
+	@RequestMapping(value="notice/comments/update", method = {RequestMethod.GET})
+	public ModelAndView updateComment(ModelAndView model) {
+		
+		
+		
+		
+		
+		return model;
+	}
+	
+	
 	
 	@RequestMapping(value="notice/fileDown", method = { RequestMethod.GET })
 	public ResponseEntity<Resource> fileDown(

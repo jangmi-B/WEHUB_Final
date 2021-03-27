@@ -107,19 +107,18 @@
 	            <tr>
 	            						<!--  이미지파일ㄱ  -->
 	              <td rowspan="2"><i class="far fa-user-circle"></i></td>
-	              <td><span class="comment_name">${comments.userName}</span></td>
+	              <td><span class="comment_name" id="c_name">${comments.userName}</span></td>
 	              <td colspan="3"><span class="comment_sub">${comments.commentCreateDate}</span></td>
-	              <c:if test="">
 	              <td colspan="2"> 
-	              		<a href="javascript:updateComments()"> 수정</a>
-	              		<a href="#"> 삭제</a>
+	              		<a href="javascript:updateComments(${comments.commentNo});" id="update"> 수정</a>
+	              		<a href="javascript:deleteComments()" id="delete(${comments.commentNo})"> 삭제</a>
 	              </td>
-	              </c:if>
 	            </tr>
 	            <tr>
 	              <td colspan="4">
-	              	<div class="comment_list_td" id="comment_list_div">
-	              		<span class="comment_details">${comments.commentContent}</span>
+	              	<input type="hidden" name="c_no" id="c_no" value="${comments.commentNo}">
+	              	<div class="comment_list_td" id="comment_list_div(${comments.commentNo})">
+	              		<span class="comment_details" id="comment_details(${comments.commentNo})">${comments.commentContent}</span>
 	              	</div>
 	              </td>
 	            </tr>
@@ -133,22 +132,32 @@
   
   <script>
   
-  	function updateComments(){
-  		var html = "";
-  		
-  		
-  		
-  	}
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+     	 function updateComments(c_no){
+     		 
+         var textArea = document.createElement('textarea');
+
+         textArea.rows = 3;
+         textArea.cols = 30;
+         textArea.id = 'comment_details('+ c_no +')';
+         textArea.style.resize = 'none';
+         textArea.style.borderRadius = '8px';
+         textArea.style.background = 'white';
+         textArea.style.fontSize = '16px';
+         
+         var content = document.getElementById('comment_list_div('+ c_no +')');
+         var content1 = document.getElementById('comment_details('+ c_no +')');
+		 var del = document.getElementById('delete('+ c_no +')');
+         var text = document.getElementById('updateCommentBox('+ c_no +')');
+		 
+         content1.remove();
+         
+	         if(content1 != null){
+	             content.append(textArea);
+	             console.log(textArea);
+	         }
+	             
+            
+         }
   </script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
