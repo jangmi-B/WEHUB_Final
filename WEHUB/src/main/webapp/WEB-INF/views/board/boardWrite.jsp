@@ -70,7 +70,7 @@
 						        });
 							</script>
 							
-							<input type="hidden" name="boardContent" value="${board.boardContent}">
+							<%-- <input type="hidden" name="boardContent" value="${board.boardContent}"> --%>
 
 		          			<span id="buttonkey">
 					            <input  class="sumbitbutton" type="submit" value="전송"> &nbsp;

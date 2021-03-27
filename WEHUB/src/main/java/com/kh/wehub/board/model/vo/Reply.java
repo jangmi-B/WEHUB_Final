@@ -10,11 +10,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Reply {
-	private int replyNO;
+	private int replyNo;
 	
-	private int boardNO;
+	private int boardNo;
 	
 	private String userId;
+	
+	private String userName;
 	
 	private String replyContent;	
 	
@@ -23,6 +25,8 @@ public class Reply {
 	private Date replyCreateDate;
 	
 	private Date replyModifyDate;
+	
+	private String memberImage;
 }
 
 

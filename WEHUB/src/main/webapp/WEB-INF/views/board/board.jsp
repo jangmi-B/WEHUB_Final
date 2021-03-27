@@ -35,6 +35,9 @@
 			<input type="hidden" name="userId" value="${loginMember.user_id}">
 			<input type="hidden" name="userId" value="${loginMember.user_no}">
 			<input type="hidden" name="boardId" value = "${board.userId}">
+			<input type="hidden" name="boardNo" value = "${board.boardNo}">
+			<input type="hidden" name="replyNo" value = "${reply.replyNo}">
+			
 			
 			<div class="search">
 		    	<table>
@@ -66,56 +69,51 @@
 					            <span class="indi_info"><img src="${path}/images/${board.memberImage}" width="40px" height="40px" style="border-radius: 20px;"></span>
 						        <span>${board.userName}</span>
 						        <span class="date"><fmt:formatDate value="${board.boardModifyDate}" pattern="yyyy/MM/dd"/></span>
+						        <%-- <c:if test="${board.boardModifyDate }">
+						        	<span>[수정됨]</span>						        
+						        </c:if> --%>
 						        
 						        <c:if test="${ !empty loginMember && (loginMember.user_id == board.userId) }">
 							        <span id="update"><b><a href="${path}/board/update?boardNo=${board.boardNo}">수정</a></b></span>
-							        <span id="delete"><b><a>삭제</a></b></span>
+							        <span id="delete"><b><a href="${path}/board/delete?boardNo=${board.boardNo}">삭제</a></b></span>
 						        </c:if>
 						        
 							</div>
-				  
+				  			
 					        <div class="freecontent" >${board.boardContent}</div>
 				        
 							<div class="contentline">
 							  <div id="cline"></div>
 							</div>
+
+							<div class="replyblank">
+								<div id="comments">comments</div>
+								<div id="enrollbox">
+							    	<textarea  cols="50" rows="4"></textarea>
+									<button type="button">등록</button>
+								</div>
+							</div>
+							
+							<c:if test="${list2 != null}">
+								<c:forEach var="reply" items="${list2}">
+									<div id="replytotal">
+										<div class="reply "id="reply">
+								            <span id="indi">  <img src="${path}/images/${reply.memberImage}" width="30px" height="30px"></span>
+								            <span id="indi">${reply.userName}</span>
+								            <span class="date "id="indi">${reply.replyModifyDate}</span>
+								            <span id="delete"><b><a>삭제</a></b></span>
+								            <div id="replycontent">${reply.replyContent}</div>
+							     		</div>
+									</div>
+								</c:forEach>
+							</c:if>
+							
 						</div>
 					</div>
+					
 				</c:forEach>
 			</c:if>
-			
-					<!-- <div class="replyblank">
-						<div id="comments">comments</div>
-						<div id="enrollbox">
-						    <textarea  cols="50" rows="4"></textarea>
-							<button type="button">등록</button>
-						</div>
-					</div>
-					<div id="replytotal">
-						<div class="reply "id="reply">
-				            <span id="indi">  <img src="../자유게시판/businessman.png" width="30px" height="30px"></span>
-				            <span id="indi">hj</span>
-				            <span class="date "id="indi"> 2021/03/08</span>
-				            <span id="delete"><b><u>삭제</u></b></span>
-				            <div id="replycontent"> 좋은 글이네요</div>
-		      			</div>
-				      	<div class="reply "id="reply">
-					        <span id="indi">  <img src="../자유게시판/businessman.png" width="30px" height="30px"></span>
-					        <span id="indi">hj</span>
-					        <span class="date "id="indi"> 2021/03/08</span>
-					        <span id="delete"><b><u>삭제</u></b></span>
-					        <div id="replycontent"> 좋은 글이네요</div>
-				  		</div>
-						<div class="reply "id="reply">
-							<span id="indi">  <img src="../자유게시판/businessman.png" width="30px" height="30px"></span>
-							<span id="indi">hj</span>
-							<span class="date "id="indi"> 2021/03/08</span>
-							<span id="delete"><b><u>삭제</u></b></span>
-							<div id="replycontent"> 좋은 글이네요</div>	
-						</div>
-					</div> --> 
-				</div>
-	    	</div> 
+
 		</form>     
 		
 <%@ include file="../common/footer.jsp" %>

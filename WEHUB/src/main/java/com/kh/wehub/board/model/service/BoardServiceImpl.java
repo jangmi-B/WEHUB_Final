@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.wehub.board.model.dao.BoardDao;
 import com.kh.wehub.board.model.vo.Board;
+import com.kh.wehub.board.model.vo.Reply;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -24,8 +25,11 @@ public class BoardServiceImpl implements BoardService {
 		int result = 0;
 		
 		if(board.getBoardNo() != 0) {
+			
+			System.out.println("이건 업데이트_Implements 메소드 board.getBoardNo() : " + board.getBoardNo());
 			result = boardDao.updateBoard(board);
 		} else {
+			System.out.println("이건 인서트_Implements 메소드 board.getBoardNo() : " + board.getBoardNo());
 			result = boardDao.insertBoard(board);
 		}
 		
@@ -37,6 +41,19 @@ public class BoardServiceImpl implements BoardService {
 	
 		return boardDao.selectBoardDetail(boardNo);
 	}
+
+	@Override
+	public int deleteBoard(int boardNo) {
+		
+		return boardDao.deleteBoard(boardNo);
+	}
+
+	@Override
+	public List<Reply> getBoardReplyList(Reply reply) {
+
+		return boardDao.selectBoardReplyList(reply);
+	}
+
 	
 	
 }

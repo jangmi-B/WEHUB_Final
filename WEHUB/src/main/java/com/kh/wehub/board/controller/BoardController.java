@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.wehub.board.model.service.BoardService;
 import com.kh.wehub.board.model.vo.Board;
+import com.kh.wehub.board.model.vo.Reply;
 import com.kh.wehub.member.model.vo.Member;
 
 @Controller
@@ -26,10 +27,18 @@ public class BoardController {
 	
 	@RequestMapping(value="/board", method={RequestMethod.GET})
 	public ModelAndView listView(@SessionAttribute(name="loginMember", required=false) Member loginMember, ModelAndView model) {
-		Board board = new Board();		
+		Board board = new Board();	
+		System.out.println("장미누나 보드체크 : " + board);
 		List<Board> list = null;
-		
+	
+		Reply reply = new Reply();
+		System.out.println("장미누나 리플체크 : " + reply);
+		List<Reply> list2 = null;
+	
 		list = service.getBoardList(board);
+		list2 = service.getBoardReplyList(reply);
+		
+		System.out.println("list2 : " + list2);
 		
 		System.out.println(list);
 		
@@ -37,6 +46,7 @@ public class BoardController {
 		System.out.println("loginMember.getUser_id() : " + loginMember.getUser_id());
 		
 		model.addObject("list", list);
+		model.addObject("list2", list2);
 		model.setViewName("board/board");
 		
 		return model;
@@ -105,6 +115,34 @@ public class BoardController {
 				model.addObject("location", "/board/board");
 			} else {
 				model.addObject("msg", "게시글 수정에 실패하였습니다.");
+				model.addObject("location", "/board/board");
+			}
+		} else {
+			model.addObject("msg", "잘못된 접근입니다.");
+			model.addObject("location", "/board/board");
+		}
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	@RequestMapping("/delete")
+	public ModelAndView deleteBoard(ModelAndView model, @SessionAttribute(name="loginMember", required=false) Member loginMember, @RequestParam("boardNo") int boardNo) {
+		Board board = service.findBoardByNo(boardNo);
+		int result = 0;
+		
+		System.out.println(loginMember.getUser_id());
+		System.out.println(board.getUserId());
+		
+		if(loginMember.getUser_id().equals(board.getUserId())) {
+			result = service.deleteBoard(boardNo);
+			
+			if(result > 0) {
+				model.addObject("msg", "정상적으로 게시글이 삭제되었습니다.");
+				model.addObject("location", "/board/board");
+			} else {
+				model.addObject("msg", "잠시 후 다시 시도해주세요.");
 				model.addObject("location", "/board/board");
 			}
 		} else {
