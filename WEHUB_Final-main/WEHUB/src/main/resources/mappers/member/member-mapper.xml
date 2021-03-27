@@ -51,4 +51,16 @@
 			#{dept_code}
 		)
 	</insert>
+	
+	<update id="updateMember" parameterType="Member">
+		UPDATE MEMBER 
+		SET
+		    USER_PWD={user_pwd},
+		    EMAIL=#{userName},
+		    COMCALL=#{comcall},
+		    PHONE=#{phone},
+		    ADDRESS=#{address}
+		WHERE 
+		    USER_NO=#{user_no}	
+	</update>
 </mapper>
