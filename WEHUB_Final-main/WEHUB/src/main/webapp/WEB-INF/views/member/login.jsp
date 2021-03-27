@@ -38,9 +38,8 @@
         </div>
     </div>
 </body>
-  
+<!-- 
 <script>
-
      $("#login-button").click(function(event){
 		event.preventDefault();
 	 
@@ -50,11 +49,10 @@
         location.href="${path}/main";
         }, 2800);
         
-       // return false;
+        return false;
      });
-    
 </script> 
-
+-->
 
 
 
