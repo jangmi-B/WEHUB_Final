@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 <!DOCTYPE html>
@@ -15,6 +14,12 @@
   <script src="https://kit.fontawesome.com/d854b17d02.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="${path}/css/style.css">
   <link rel="stylesheet" href="${path}/css/homeContent.css">
+  <link rel="stylesheet" href="${path}/css/board_style.css">
+<link rel="stylesheet" href="${path}/css/board_homeContent.css">
+<link rel="stylesheet" href="${path}/css/board_notice.css">
+<link rel="stylesheet" href="${path}/css/board_community.css">
+<!-- <script src="js/jquery-3.5.1.js"></script> -->
+<script src="${path}/js/jquery-3.5.1.js"></script>
   <title>WEHUB</title>
 </head>
 <body>

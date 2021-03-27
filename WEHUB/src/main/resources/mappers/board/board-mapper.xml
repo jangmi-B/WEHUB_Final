@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kh.wehub.board.model.dao.BoardDao">
+	<sql id="boardListSql">
+		SELECT B.BOARD_NO,
+			   M.USER_ID,
+			   B.BOARD_WRITER_NO,
+		       M.USER_NAME,
+		       B.BOARD_CONTENT,
+		       B.BOARD_CREATE_DATE,
+		       B.BOARD_MODIFY_DATE,
+		       B.STATUS,
+		       M.MEMBER_IMAGE,
+		       D.DEPT_NAME
+		FROM BOARD B
+		JOIN MEMBER M ON(B.BOARD_WRITER_NO = M.USER_NO)
+		JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)		
+		WHERE B.STATUS='Y'
+	</sql>
+
+	<resultMap type="Board" id="boardResultMap">
+		<id property="boardNo" column="BOARD_NO"/>
+		<result property="boardWriterNo" column="BOARD_WRITER_NO"/>
+		<result property="userName" column="USER_NAME"/>
+		<result property="boardContent" column="BOARD_CONTENT"/>
+		<result property="status" column="STATUS"/>
+		<result property="boardCreateDate" column="BOARD_CREATE_DATE"/>
+		<result property="boardModifyDate" column="BOARD_MODIFY_DATE"/>
+		<result property="memberImage" column="MEMBER_IMAGE"/>
+		<result property="dept_name" column="DEPT_NAME"/>
+	</resultMap>
+	
+	<resultMap type="Board" id="boardDetailResultMap">
+		<id property="boardNo" column="BOARD_NO"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="boardContent" column="BOARD_CONTENT"/>
+		<result property="status" column="B_STATUS"/>
+		<result property="boardCreateDate" column="BOARD_CREATE_DATE"/>
+	 	<collection property="replies" javaType="java.util.ArrayList" resultMap="boardReplyResultMap"/>	
+	</resultMap>
+	
+	<resultMap type="Reply" id="boardReplyResultMap">
+		<id property="replyNO" column="REPLY_NO"/>
+		<result property="boardNO" column="BOARD_NO"/>
+		<result property="userId" column="R_USER_ID"/>
+		<result property="replyContent" column="REPLY_CONTENT"/>
+		<result property="status" column="R_STATUS"/>
+		<result property="replyCreateDate" column="REPLY_CREATE_DATE"/>
+		<result property="replyModifyDate" column="REPLY_MODIFY_DATE"/>
+	</resultMap>
+
+	<select id="selectBoardList" parameterType="map" resultMap="boardResultMap">
+		<include refid="boardListSql"></include>	
+		ORDER BY B.BOARD_NO DESC
+	</select>
+	
+	<select id="selectCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOARD
+		WHERE STATUS='Y'
+	</select>	 	
+	 
+	<select id="selectBoardDetail" parameterType="_int" resultMap="boardDetailResultMap">
+		<!-- SELECT B.BOARD_NO,
+	       M.USER_ID AS B_USER_ID,
+	       B.BOARD_CONTENT,
+	       B.BOARD_CREATE_DATE,
+	       B.STATUS AS B_STATUS,
+	          R.REPLY_NO, 
+	          R.BOARD_NO, 
+	          M2.USER_ID AS R_USER_ID, 
+	          R.REPLY_CONTENT, 
+	          R.REPLY_CREATE_DATE, 
+	          R.REPLY_MODIFY_DATE, 
+	          R.STATUS AS R_STATUS
+	      FROM BOARD B
+	      JOIN MEMBER M ON(B.BOARD_WRITER_NO = M.USER_NO)
+	      LEFT OUTER JOIN REPLY R ON(B.BOARD_NO = R.BOARD_NO)
+	      LEFT OUTER JOIN MEMBER M2 ON(r.REPLY_WRITER_NO = M2.USER_NO)
+	      WHERE B.STATUS='Y' AND B.BOARD_NO=#{boardNo} -->
+	      SELECT B.BOARD_NO,
+	       		 M.USER_ID,
+	       		 B.BOARD_CONTENT,
+	       		 B.BOARD_CREATE_DATE,
+	       		 B.STATUS
+	          <!-- R.REPLY_NO, 
+	          R.BOARD_NO, 
+	          M2.USER_ID AS R_USER_ID, 
+	          R.REPLY_CONTENT, 
+	          R.REPLY_CREATE_DATE, 
+	          R.REPLY_MODIFY_DATE, 
+	          R.STATUS AS R_STATUS -->
+	      FROM BOARD B
+	      JOIN MEMBER M ON(B.BOARD_WRITER_NO = M.USER_NO)
+	      <!-- LEFT OUTER JOIN REPLY R ON(B.BOARD_NO = R.BOARD_NO)
+	      LEFT OUTER JOIN MEMBER M2 ON(r.REPLY_WRITER_NO = M2.USER_NO) -->
+	      WHERE B.STATUS='Y' AND B.BOARD_NO=#{boardNo}
+	</select>
+	
+	<insert id="insertBoard" parameterType="map"
+  		useGeneratedKeys="true" keyProperty="boardNo" keyColumn="BOARD_NO">
+  		
+  		INSERT INTO BOARD 
+  		VALUES(
+  			SEQ_BOARD_NO.NEXTVAL,
+  			#{boardWriterNo},
+  			#{boardContent},
+  			DEFAULT,
+  			SYSDATE,
+  			SYSDATE
+ 		)
+  	</insert>
+  	
+	<update id="updateBoard" parameterType="Board">
+		UPDATE BOARD 
+		SET 
+			BOARD_CONTENT=#{boardContent},
+			BOARD_MODIFY_DATE=SYSDATE 
+		WHERE 
+			BOARD_NO=#{boardNo}
+	</update>	
+</mapper>

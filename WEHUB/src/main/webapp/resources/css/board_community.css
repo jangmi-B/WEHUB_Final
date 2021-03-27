@@ -1,0 +1,202 @@
+
+   .search {
+    height: 15%;
+    width: 330px;
+    margin-top:125px;
+    margin-left: 1100px;
+    padding-left: 30px;
+    background: white;
+    padding-top: -3px;
+    padding-bottom: -3px;
+    border-radius: 15px;
+    color: lightgray;
+    border: 1px solid #5b18ff;
+    /* margin-bottom: -133px; */
+    margin-bottom: -50px;
+  }
+
+ 
+  section >.free_section {
+    margin-left: 170px;
+    margin-top: 50px;
+    border: 1px none black ;
+    border-radius: 30px;
+    box-shadow : 7px 7px 7px 5px lightgray;
+    width: 200px;
+    height: 300px;
+    position: fixed;
+  }
+  .free_section ul{
+    margin-top: 30px;
+    margin-left: 10px;;
+  }
+  .free_section ul > li  {
+
+    margin-top:10px;
+    margin-bottom: 10px;
+
+  }
+  .free_section ul > li > ul > li:hover {
+   
+    cursor: pointer;
+    font-weight: 800;
+  }
+ 
+  /* // 자유게시판 글쓰기 li id */
+  #subword{ font-size: 12px;}
+
+
+  #write_button{
+    height: 15%;
+    margin-left: 1653px;
+
+    
+    margin-top:105px;
+    background-color: #5b18ff;
+   
+    border-color: transparent;
+    border-radius: 5px;
+  }
+  #write_button>a{
+  
+    color: white;
+  }
+  #contentForm {
+      margin-top: 120px;
+      margin-bottom: 150px;
+      margin-left: 400px;
+
+  }
+
+
+  #box > div {
+    flex: 100;
+    margin: 0 20px 20px 0;
+    padding: 15px;
+
+    border: 1px none black;
+
+
+  }
+
+  #box{
+    border-radius: 20px;
+    width: 650px;
+    min-height: 300px;
+    margin-left: 570px;
+    margin-bottom: 150px;
+    padding: 30px 30px 30px 50px;
+  
+    box-shadow : 10px 10px 10px 7px lightgray;
+    border: 1px solid black; 
+   
+  }
+
+  .date{
+    color:gray;
+  }
+  
+  td{
+    width: 50px;
+    border: 1px solid black;
+  }
+
+  #box>.title{
+    height: 15%;
+
+  }
+
+  #box>.freecontent{
+    /* padding-top: 30px; */
+    padding-bottom: 30px;
+    min-height: 70px;
+    
+    text-indent: 3em;
+
+  }
+  #box>.freewrite{
+  	margin-top: -70px;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+    min-height: 500px;
+    text-indent: 2em;
+
+  }
+  #buttonkey{
+    width: 400px;
+    padding-left: 250px;
+
+  }
+  .sumbitbutton{
+  	margin-top: 20px;
+    border-radius: 5px;
+    height: 25px;
+  }
+  
+  #replytotal{
+  
+    background-color: lightgrey;
+    border-radius: 10px;
+  }
+  .reply{
+    height: 15%;
+
+    padding-left: 70px;
+    margin-bottom: 13px;
+
+ 
+  }
+  .replyblank{
+
+    height: 100px;
+    
+ 
+  }
+  .replyblank>div{
+    margin-left: 30px;
+  }
+  #comments{
+
+
+    height: 10%;
+    margin-top: -30px;
+    margin-bottom: 15px;
+   }
+   #enrollbox{
+    
+     display: flex;
+   }
+  
+   #enrollbox>button{
+     margin-left: 3px;
+   }
+
+span{
+
+  height: 100%;
+  padding-right: 10px;
+}
+
+
+ 
+ #cline{
+   margin-left: 5px;
+   border:1px solid lightgray;
+   /* width: 95%; */
+   width: 500px;
+
+ }
+ #counter{
+   padding-left: 280px;
+ }
+ <!--글 수정 및 삭제-->
+ #update{
+  margin-left: -5px;
+
+
+}
+ #delete{
+   margin-left: -5px;
+   color:#5b18ff;
+ }
