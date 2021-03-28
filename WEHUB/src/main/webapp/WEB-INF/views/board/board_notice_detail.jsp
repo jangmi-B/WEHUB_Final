@@ -12,7 +12,7 @@
           <li><span>게시판</span>
             <div class="line"></div>
             <ul>
-              <li>공지사항</li>
+              <li><a href="${path}/notice/list">공지사항</a></li>
               <li>자유게시판</li>
             </ul>
           </li>
@@ -125,7 +125,8 @@
       </div>
     </div>
   </div>
-   <script>
+  
+<script>
 	function updateBoard(){
 			location.href = "${path}/notice/update?noticeNo=${notice.noticeNo}";
 	}

@@ -2,6 +2,19 @@
     pageEncoding="UTF-8"%>
     
 </section>
+
+  <script>
+  const iconContainer = document.querySelector('.common_section');
+	iconContainer.addEventListener('click', (e) => {
+    const active = document.querySelector('.home_contents.active');
+    active.classList.remove('active');
+    const target =  e.target;
+
+    console.log(e.target);
+    target.classList.add('active');
+  });
+  </script>
+  
   <hr>
   <footer>
     <p>

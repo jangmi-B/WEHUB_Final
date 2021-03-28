@@ -169,12 +169,10 @@ footer > p {
   /* transition: all 200ms ease; */
   font-size: 30px;
 }
+
+.active,
 .common_section i:active {
   transform: scale(1.2);
-  /* padding: 5px;
-  border: 2px solid transparent;
-  border-radius: 50%;
-  background-color: #283b4db6; */
   cursor: pointer;
   color: #a484f3;
 }
