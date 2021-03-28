@@ -197,6 +197,13 @@
 		JOIN COMMENTS C ON(C.COMMENT_WRITER_NO = M.USER_NO)
 		WHERE C.COMMENT_NOTICE_NO = #{noticeNo} 
 	</select>
+	
+	<update id="updateComments" parameterType="map">
+		UPDATE COMMENTS
+		SET COMMENT_CONTENT = #{comments},
+		    COMMENT_MODIFY_DATE=SYSDATE
+		WHERE COMMENT_NO = #{commentsNo}
+	</update>
 	 		
 	 
 </mapper>

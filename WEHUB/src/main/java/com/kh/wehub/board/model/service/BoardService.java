@@ -23,9 +23,12 @@ public interface BoardService {
 	
 	int saveComments(Comments comment, Member member);
 
-	List<Comments> findComments(int noticeNo, Member member);
+	List<Comments> findComments(int noticeNo);
 
 	List<Member> findCommentName(int noticeNo);
+
+	// 댓글 수정
+	int updateComments(int commentsNo, String comments);
 
 
 

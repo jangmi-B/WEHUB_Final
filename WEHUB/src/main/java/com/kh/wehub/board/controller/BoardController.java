@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -169,19 +170,19 @@ public class BoardController {
 	// 게시글 조회화면
 	@RequestMapping(value = "notice/view", method = {RequestMethod.GET})
 	public ModelAndView view(@RequestParam(value="noticeNo") int noticeNo, ModelAndView model,
-			Member member) {
+			@SessionAttribute("loginMember") Member loginMember) {
 		
 		Notice notice = service.findNoticeByNo(noticeNo);
 		
 		//댓글 등록한 유저 이름 가져오기
-		List<Comments> comments = service.findComments(noticeNo, member);
+		List<Comments> comments = service.findComments(noticeNo);
 		
 		for(int i = 0; i < comments.size(); i++) {
 			List<Member> name = service.findCommentName(noticeNo);
 			
 			comments.get(i).setUserName(name.get(i).getUser_name());
 		}
-		
+		model.addObject("loginMember", loginMember);
 		model.addObject("comments", comments);
 		model.addObject("notice", notice);
 		model.setViewName("/board/board_notice_detail");
@@ -213,15 +214,27 @@ public class BoardController {
 		return model;
 	}
 	
-	
-	@RequestMapping(value="notice/comments/update", method = {RequestMethod.GET})
-	public ModelAndView updateComment(ModelAndView model) {
+	@ResponseBody
+	@RequestMapping(value="notice/comments/update", method = {RequestMethod.POST}, produces = "application/String; charset=utf-8")
+	public String updateComment(@RequestParam(value="name") String name,
+			@RequestParam(value="comments") String comments, @RequestParam(value="commentsNo") int commentsNo) {
 		
+		System.out.println("name : " + name);
+		System.out.println("comments : " + comments);
+		System.out.println("commentsNo : " + commentsNo);
 		
+		int result = 0;
 		
+		String str = comments;
+		result = service.updateComments(commentsNo, comments);
 		
+		if(result > 0) {
+			System.out.println("수정성공");
+		}else {
+			System.out.println("수정실패");
+		}
 		
-		return model;
+		return str;
 	}
 	
 	

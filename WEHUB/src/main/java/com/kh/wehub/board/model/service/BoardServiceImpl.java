@@ -73,7 +73,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<Comments> findComments(int noticeNo, Member member) {
+	public List<Comments> findComments(int noticeNo) {
 		
 		return boardDao.selectComments(noticeNo);
 	}
@@ -88,6 +88,24 @@ public class BoardServiceImpl implements BoardService {
 	public List<Member> findCommentName(int noticeNo) {
 		
 		return boardDao.findCommentsName(noticeNo);
+	}
+
+	@Override
+	public int updateComments(int commentsNo, String comments) {
+		
+		int result = 0;
+		
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		
+		map.put("comments", comments);
+		map.put("commentsNo", commentsNo);
+		System.out.println(comments);
+		System.out.println(commentsNo);
+		
+		
+		result = boardDao.updateComments(map);
+		
+		return result;
 	}
 
 

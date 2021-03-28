@@ -32,4 +32,6 @@ public interface BoardDao {
 
 	List<Member> findCommentsName(@Param("noticeNo") int noticeNo);
 
+	int updateComments(Map<Object, Object> map);
+
 }

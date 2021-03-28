@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="${path}/css/board_notice.css">
   <link rel="stylesheet" href="${path}/css/board_notice_list.css">
   <link rel="stylesheet" href="${path}/css/board_notice_detail.css">
+  <link rel="stylesheet" href="${path}/css/modal.css">
   <title>WEHUB</title>
 </head>
 <body>
