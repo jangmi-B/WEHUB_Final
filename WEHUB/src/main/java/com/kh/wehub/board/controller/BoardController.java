@@ -28,22 +28,15 @@ public class BoardController {
 	@RequestMapping(value="/board", method={RequestMethod.GET})
 	public ModelAndView listView(@SessionAttribute(name="loginMember", required=false) Member loginMember, ModelAndView model) {
 		Board board = new Board();	
-		System.out.println("장미누나 보드체크 : " + board);
 		List<Board> list = null;
 	
-		Reply reply = new Reply();
-		System.out.println("장미누나 리플체크 : " + reply);
-		List<Reply> list2 = null;
-	
 		list = service.getBoardList(board);
-		list2 = service.getBoardReplyList(reply);
+					
 		
-		System.out.println("list2 : " + list2);
+		Reply reply = new Reply();
+		List<Reply> list2 = null;		
 		
-		System.out.println(list);
-		
-		System.out.println("board.getUserId() : " + board.getUserId());
-		System.out.println("loginMember.getUser_id() : " + loginMember.getUser_id());
+		list2 = service.getBoardReplyList(reply);	
 		
 		model.addObject("list", list);
 		model.addObject("list2", list2);
@@ -67,9 +60,7 @@ public class BoardController {
 			board.setBoardWriterNo(loginMember.getUser_no());
 			
 			result = service.saveBoard(board);
-			
-			System.out.println(loginMember.getUser_no());
-			
+	
 			if(result > 0) {
 				model.addObject("msg", "게시글이 정상적으로 등록되었습니다.");
 				model.addObject("location", "/board/board");
@@ -79,8 +70,6 @@ public class BoardController {
 			}
 			
 		} else {	
-			System.out.println(loginMember.getUser_no());
-			
 			model.addObject("msg", "잘못된 접근입니다.");
 			model.addObject("location", "/");
 		}
@@ -103,10 +92,7 @@ public class BoardController {
 	@RequestMapping(value="/update", method={RequestMethod.POST})
 	public ModelAndView update(@SessionAttribute(name="loginMember", required=false) Member loginMember, Board board, ModelAndView model) {
 		int result = 0;
-		
-		System.out.println(loginMember.getUser_id());
-		System.out.println(board.getUserId());
-		
+
 		if(loginMember.getUser_id().equals(board.getUserId())) {
 			result = service.saveBoard(board);
 			
@@ -131,10 +117,7 @@ public class BoardController {
 	public ModelAndView deleteBoard(ModelAndView model, @SessionAttribute(name="loginMember", required=false) Member loginMember, @RequestParam("boardNo") int boardNo) {
 		Board board = service.findBoardByNo(boardNo);
 		int result = 0;
-		
-		System.out.println(loginMember.getUser_id());
-		System.out.println(board.getUserId());
-		
+
 		if(loginMember.getUser_id().equals(board.getUserId())) {
 			result = service.deleteBoard(boardNo);
 			
@@ -154,7 +137,6 @@ public class BoardController {
 		
 		return model;
 	}
-	
 }
 
 

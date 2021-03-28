@@ -94,19 +94,24 @@
 								</div>
 							</div>
 							
-							<c:if test="${list2 != null}">
-								<c:forEach var="reply" items="${list2}">
-									<div id="replytotal">
-										<div class="reply "id="reply">
-								            <span id="indi">  <img src="${path}/images/${reply.memberImage}" width="30px" height="30px"></span>
-								            <span id="indi">${reply.userName}</span>
-								            <span class="date "id="indi">${reply.replyModifyDate}</span>
-								            <span id="delete"><b><a>삭제</a></b></span>
-								            <div id="replycontent">${reply.replyContent}</div>
-							     		</div>
+							<div id="replytotal">
+								<div class="reply "id="reply">
+								<%-- <c:if test="${list2 == null}"> --%>
+									<div>
+										조회된 댓글이 없습니다.
 									</div>
-								</c:forEach>
-							</c:if>
+								<%-- </c:if> --%>
+								<c:if test="${list2 != null}">
+									<c:forEach var="reply" items="${list2}">
+							            <span id="indi">  <img src="${path}/images/${reply.memberImage}" width="30px" height="30px"></span>
+							            <span id="indi">${reply.userName}</span>
+							            <span class="date "id="indi">${reply.replyModifyDate}</span>
+							            <span id="delete"><b><a>삭제</a></b></span>
+							            <div id="replycontent">${reply.replyContent}</div>
+									</c:forEach>
+								</c:if>
+					     		</div>
+							</div>
 							
 						</div>
 					</div>

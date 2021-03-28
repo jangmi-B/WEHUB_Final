@@ -3,6 +3,7 @@ package com.kh.wehub.board.model.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kh.wehub.board.model.vo.Board;
 import com.kh.wehub.board.model.vo.Reply;

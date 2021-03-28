@@ -33,6 +33,17 @@
 		<result property="dept_name" column="DEPT_NAME"/>
 	</resultMap>
 	
+	<resultMap type="Reply" id="replyResultMap">
+		<id property="boardNo" column="BOARD_NO"/>
+		<result property="userName" column="M.USER_NAME"/>
+		<result property="replyContent" column="REPLY_CONTENT"/>
+		<result property="status" column="R.STATUS"/>
+		<result property="replyCreateDate" column="REPLY_CREATE_DATE"/>
+		<result property="replyModifyDate" column="REPLY_MODIFY_DATE"/>
+		<result property="memberImage" column="M.MEMBER_IMAGE"/>
+		<result property="dept_name" column="DEPT_NAME"/>
+	</resultMap>
+	
 	<resultMap type="Board" id="boardDetailResultMap">
 		<id property="boardNo" column="BOARD_NO"/>
 		<result property="userId" column="USER_ID"/>
@@ -53,8 +64,8 @@
 		<result property="memberImage" column="MEMBER_IMAGE"/>
 	</resultMap>
 	
-	<select id="selectBoardReplyList" parameterType="map" resultMap="boardReplyResultMap">
-		SELECT B.BOARD_NO,
+	<select id="selectBoardReplyList" parameterType="map" resultMap="replyResultMap">
+		<!-- SELECT B.BOARD_NO,
 			   M.USER_NAME,
 	       	   M.USER_ID,
 	           R.REPLY_NO, 
@@ -69,7 +80,12 @@
 	      JOIN MEMBER M ON(B.BOARD_WRITER_NO = M.USER_NO)
 	      JOIN REPLY R ON(B.BOARD_NO = R.BOARD_NO)
 	      JOIN MEMBER M2 ON(r.REPLY_WRITER_NO = M2.USER_NO)
-	      WHERE B.STATUS='Y' AND B.BOARD_NO=#{boardNo}
+	      WHERE B.STATUS='Y' AND B.BOARD_NO=#{boardNo} -->
+	      SELECT B.BOARD_NO, R.REPLY_NO, R.REPLY_WRITER_NO, R.REPLY_CONTENT, R.REPLY_CREATE_DATE, R.STATUS, M.USER_NAME AS REPLY_WRITER_NAME, M.MEMBER_IMAGE
+			FROM REPLY R
+			JOIN MEMBER M ON(R.REPLY_WRITER_NO = M.USER_NO)
+			JOIN BOARD B ON(R.BOARD_NO = B.BOARD_NO)
+			WHERE R.STATUS = 'Y' AND B.BOARD_NO=#{boardNo}
 	</select>
 
 	<select id="selectBoardList" parameterType="map" resultMap="boardResultMap">

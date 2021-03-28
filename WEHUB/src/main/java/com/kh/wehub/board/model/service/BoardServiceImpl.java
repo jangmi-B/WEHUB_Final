@@ -48,6 +48,7 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.deleteBoard(boardNo);
 	}
 
+
 	@Override
 	public List<Reply> getBoardReplyList(Reply reply) {
 

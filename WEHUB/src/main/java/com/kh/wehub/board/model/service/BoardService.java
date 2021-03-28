@@ -2,6 +2,8 @@ package com.kh.wehub.board.model.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.kh.wehub.board.model.vo.Board;
 import com.kh.wehub.board.model.vo.Reply;
 
