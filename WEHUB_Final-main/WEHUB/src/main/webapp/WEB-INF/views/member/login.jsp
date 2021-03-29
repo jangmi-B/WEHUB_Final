@@ -38,23 +38,26 @@
         </div>
     </div>
 </body>
-  
+<!-- 
 <script>
-
      $("#login-button").click(function(event){
 		event.preventDefault();
 	 
 	    $('form').fadeOut(300);
 	    $('.wrapper').addClass('form-success');
         setTimeout(function() {
-        location.href="${path}/main";
         }, 2800);
         
-       // return false;
+        return;
      });
-    
-</script> 
-
+     
+     $("#login-button").click(function(event){
+    	 alert("Request method 'GET' not supported/nreturn location.href=\"${path}/main\";이라고 쓰면 비밀번호를 입력하지 않아도 main화면으로 넘어감.");
+    	  
+        return submit();
+     });
+</script>
+ -->
 
 
 
