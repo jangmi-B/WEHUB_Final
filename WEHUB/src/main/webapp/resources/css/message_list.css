@@ -1,0 +1,118 @@
+.index_section {
+  margin-left: 70px;
+  border: 1px solid transparent;
+  width: 200px;
+  height: 880px;
+  position: fixed;
+}
+
+.index_section {
+  padding-left: 10px;
+  background-color: #d2ddd8;
+  line-height: 30px;
+}
+
+.index_section > ul > li {
+  padding-bottom: 20px;
+  padding-top: 10px;
+}
+
+.line {
+  border: 1px solid black;
+  width: 150px;
+}
+
+.index_section ul > li > ul > li:hover {
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.msg_write_btn {
+  margin-bottom: 10px;
+  background-color: #5b18ff;
+  width: 140px;
+  height: 30px;
+  color: white;
+  border-color: transparent;
+  border-radius: 5px;
+}
+
+/* 쪽지 리스트 구현 */
+
+.messageList {
+  /* border: 1px solid red; */
+  margin-left: 280px;
+  padding-top: 20px;
+  width: 80%;
+  height: 850px;
+}
+
+.megSearchBox {
+  margin-left: 10px;
+}
+
+.megSearchBox input {
+  width: 250px;
+  height: 28px;
+  border-radius: 5px;
+  border: 1px solid gray;
+}
+.megSearchBox select {
+  width: 100px;
+  height: 28px;
+  border-radius: 5px;
+  border: 1px solid gray;
+}
+
+.msgComponent {
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.msg_btn:active {
+  box-shadow: 1px 1px 1px grey;
+}
+.msg_btn_search:active,
+.msg_write_btn:active {
+  box-shadow: 1px 1px 1px black;
+}
+
+.msg_btn {
+  height: 30px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  width: 50px;
+}
+
+.msg_btn_search {
+  background-color: #5b18ff;
+  color: white;
+  height: 30px;
+  width: 50px;
+  border: none;
+  border-radius: 5px;
+}
+
+.message_table {
+  width: 100%;
+  text-align: center;
+  padding-top: 30px;
+  padding-bottom: 40px;
+  line-height: 32px;
+  border-collapse: collapse;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+}
+.message_table th,
+.message_table td {
+  border: 1px solid lightgray;
+}
+
+.message_table th {
+  background-color: lightgray;
+}
+
+.message_page {
+  text-align: center;
+  margin-top: 30px;
+}
