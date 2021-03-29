@@ -57,12 +57,29 @@
 	<resultMap type="Comments" id="noticeCommentResultMap">
 		<id property="commentNo" column="COMMENT_NO"/>
 		<result property="commentNoticeNO" column="COMMENT_NOTICE_NO"/>
+		<result property="commentWriterNo" column="COMMENT_WRITER_NO"/>
 		<result property="commentContent" column="COMMENT_CONTENT"/>
 		<result property="status" column="R_STATUS"/>
 		<result property="commentCreateDate" column="COMMENT_CREATE_DATE"/>
 		<result property="commentModifyDate" column="COMMENT_MODIFY_DATE"/>
 	</resultMap>
-
+	
+	<resultMap type="Member" id="memberResultMap">
+		<id property="user_no" column="USER_NO"/>
+		<id property="user_companyname" column="USER_COMPANYNAME"/>
+		<id property="user_id" column="USER_ID"/>
+		<id property="user_pwd" column="USER_PWD"/>
+		<id property="user_name" column="USER_NAME"/>
+		<id property="rank" column="RANK"/>
+		<id property="email" column="EMAIL"/>
+		<id property="comcall" column="COMCALL"/>
+		<id property="phone" column="PHONE"/>
+		<id property="address" column="ADDRESS"/>
+		<id property="user_status" column="USER_STATUS"/>
+		<id property="dept_code" column="DEPT_CODE"/>
+	</resultMap>
+	
+	
 	<select id="selectNoticeList" parameterType="map" resultMap="noticeResultMap">
 		SELECT ROWNUM, A.* FROM (
 		SELECT N.NOTICE_NO,
@@ -208,6 +225,60 @@
 		LEFT OUTER JOIN COMMENTS C ON(C.COMMENT_NOTICE_NO = N.NOTICE_NO)
 		WHERE N.STATUS='Y' AND NOTICE_NO =#{noticeNo}
 		ORDER BY N.NOTICE_NO DESC
-	</select>	 		
+	</select>	
+	
+	<!-- 댓글 등록 -->
+	 <insert id="insertComments" parameterType="map"
+  		useGeneratedKeys="true" keyProperty="commentNo" keyColumn="COMMENT_NO">
+			INSERT INTO COMMENTS 
+			VALUES(
+				SEQ_COMMENT_NO.NEXTVAL,
+				#{commentNoticeNo},
+				#{userName},
+				#{commentContent},
+				SYSDATE,
+				SYSDATE,
+				DEFAULT
+			)
+	</insert>
+	
+	<!-- 번호도 가지고와서 set해주기 -->
+	<select id="selectComments" parameterType="_int" resultMap="noticeCommentResultMap">
+		 SELECT M.USER_NAME, c.comment_content, c.comment_create_date, c.comment_notice_no, c.comment_writer_no, c.comment_no
+			 FROM MEMBER M
+			 JOIN COMMENTS C ON (C.COMMENT_WRITER_NO = M.USER_NO)
+			 JOIN NOTICE N ON (c.comment_notice_no = n.notice_no)
+			 WHERE N.NOTICE_NO = #{noticeNo} AND C.STATUS = 'Y'
+	</select>
+
+	<select id="selectCommentsCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) 
+		FROM COMMENTS C
+		JOIN NOTICE N ON(c.comment_notice_no = n.notice_no)
+		WHERE N.NOTICE_NO = #{noticeNo} AND C.STATUS = 'Y'
+	</select>
+	
+	<select id="findCommentsName" parameterType="_int" resultMap="memberResultMap">
+		SELECT M.USER_NAME
+		FROM MEMBER M
+		JOIN COMMENTS C ON(C.COMMENT_WRITER_NO = M.USER_NO)
+		WHERE C.COMMENT_NOTICE_NO = #{noticeNo} AND C.STATUS = 'Y'
+	</select>
+	
+	<update id="updateComments" parameterType="map">
+		UPDATE COMMENTS
+		SET COMMENT_CONTENT = #{comments},
+		    COMMENT_MODIFY_DATE=SYSDATE
+		WHERE COMMENT_NO = #{commentsNo} AND STATUS = 'Y'
+	</update>
+	
+	<update id="deleteComments" parameterType="_int">
+		UPDATE COMMENTS
+		SET STATUS = 'N',
+		<!-- 요기서는 삭제된 날짜 -->
+		    COMMENT_MODIFY_DATE=SYSDATE
+		WHERE COMMENT_NO = #{commentsNo}
+	</update>
+	 		
 	 
 </mapper>

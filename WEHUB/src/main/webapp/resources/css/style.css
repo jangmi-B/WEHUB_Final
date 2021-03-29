@@ -176,3 +176,49 @@ footer > p {
   cursor: pointer;
   color: #a484f3;
 }
+
+/* 추가 메뉴섹션 예시 */
+
+.index_section {
+  margin-left: 70px;
+  border: 1px solid transparent;
+  width: 200px;
+  height: 880px;
+  position: fixed;
+}
+
+.index_section {
+  padding-left: 10px;
+  /* background-color: lightgray; */
+  background-color: #d2ddd8;
+  /* background: linear-gradient(
+    to bottom,
+    lightgray,
+    rgb(226, 226, 226),
+    rgb(223, 222, 222),
+    rgb(250, 249, 249)
+  ); */
+  line-height: 30px;
+}
+
+.index_section > ul > li {
+  padding-bottom: 20px;
+  padding-top: 10px;
+}
+
+.line {
+  border: 1px solid black;
+  width: 150px;
+}
+
+.index_section ul > li > ul > li:hover {
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.test_button {
+  background-color: #5b18ff;
+  color: white;
+  border-color: transparent;
+  border-radius: 5px;
+}

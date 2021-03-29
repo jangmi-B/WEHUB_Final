@@ -31,7 +31,7 @@
       <div id="notice_detail_top">
         <table>
           <tr>
-            <td colspan="4"><span class="title_detail">${ notice.noticeTitle }</span></td>
+              <td colspan="4"><span class="title_detail">${ notice.noticeTitle }</span></td>
           </tr>
           <tr>
             <td>작성자 : ${ notice.noticeUserName }</td>
@@ -81,7 +81,7 @@
         <button class="d_btn" type="button" onclick="location.href='${path}/notice/list'">목록으로</button>
       </div>
       <div class="coment_container">
-        <form id="commentForm" name="commentForm" method="post">
+        <form id="commentForm" name="commentForm" method="get" action="${path}/notice/comments">
           <div>
               <span><strong>Comments</strong></span> <span id="cCnt">(2)</span>
               <div class="comment_line"></div>
@@ -90,37 +90,66 @@
               <table>                    
                 <tr>
                   <td>
-                    <textarea rows="3" cols="120" name="comment" placeholder="댓글을 입력하세요"></textarea>
+                    <textarea rows="3" cols="120" name="commentContent" placeholder="댓글을 입력하세요"></textarea>
                   </td>
                   <td>
-                    <button class="commnet_btn" type="button">등록</button>
+                    <button class="commnet_btn" type="submit" onclick="location.href='${path}/notice/comments'">등록</button>
                   </td>
                 </tr>
               </table>
           </div>
-          <input type="hidden" id="b_code" name="b_code" value="" />        
+          <input type="hidden" id="commentNoticeNO" name=commentNoticeNO value="${notice.noticeNo}" />        
         </form>
       </div>
       <div class="coment_container" id="notice_conment_list">
           <table>
-            <tr>
-              <td rowspan="2"><i class="far fa-user-circle"></i></td>
-              <td><span class="comment_name">김철수 사원</span></td>
-              <td colspan="3"><span class="comment_sub">2021-03-15 15:09:44</span></td>
-              <td colspan="2"> <a href="#"> 수정</a> <a href="#">삭제</a></td>
-            </tr>
-            <tr>
-              <td colspan="4"><div class="comment_list_td"><span class="comment_details">올해도 화이팅 합시다!</span></div></td>
-            </tr>
-            <tr>
-              <td rowspan="2"><i class="far fa-user-circle"></i></td>
-              <td><span class="comment_name">김영희 대리</span></td>
-              <td colspan="3"><span class="comment_sub">2021-03-01 15:09:44</span></td>
-              <td colspan="2"> <a href="#"> 수정</a> <a href="#">삭제</a></td>
-            </tr>
-            <tr>
-              <td colspan="4"><div class="comment_list_td"><span class="comment_details">화이팅 합시다!!!</span></div></td>
-            </tr>
+      <c:choose>
+      	<c:when test="${notice.comments.size() == 0}">
+      		<tr><td rowspan="2" colspan="5"></td></tr>
+      		<tr><td colspan="4">댓글이 존재하지 않습니다.</td></tr>
+      	</c:when>
+      	<c:when test="${notice.comments.size() != 0}">
+      		<c:forEach var="comments" items="${comments}">
+      		<tbody id="commentsArea(${comments.commentNo})">
+	            <tr>
+	            						<!--  이미지파일ㄱ  -->
+	              <td rowspan="2"><i class="far fa-user-circle"></i></td>
+	              <td><span class="comment_name" id="c_name(${comments.commentNo})">${comments.userName}</span></td>
+	              <td colspan="3"><span class="comment_sub">${comments.commentModifyDate}</span></td>
+	              <td colspan="2"> 
+	              <c:if test="${comments.commentWriterNo == loginMember.user_no}">
+	              		<a href="javascript:updateComments(${comments.commentNo});" id="update(${comments.commentNo})"> 수정</a>
+                        <button id="modifyBtn(${comments.commentNo})" type="submit" onclick="modifyComments(${comments.commentNo})" style=display:none>수정</button>
+	              		<a href="javascript:deleteComments(${comments.commentNo})" id="delete(${comments.commentNo})"> 삭제</a>
+	              </c:if>
+	              </td>
+	            </tr>
+	            <tr>
+	                <td colspan="4">
+	                    <div class="comment_list_td" id="comment_list_div(${comments.commentNo})">
+	                       <p class="comment_details" id="comment_details(${comments.commentNo})">${comments.commentContent}</p>
+	                       <textarea id="comment_textarea(${comments.commentNo})" rows="3" cols="30" style=display:none>${comments.commentContent}</textarea>
+	                    </div>
+                 	</td>
+	            </tr>
+	        </tbody>
+			    <div class="modal1 hidden modalNo${comments.commentNo}">
+			        <div class="bg"></div>
+			        <div class="modalBox">
+			        	<div style="color:red; font-size:24px; padding-left: 3px; margin: 20px 0px 0px 0px;">
+			        		※댓글을 삭제하시겠습니까?※ 
+			        	</div>
+			        	 <div style="margin: 30px 0px 0px 60px;">
+			                <span style="float: left; padding-right: 40px;" >
+			                    <button class="closeBtn-in" id="closeBtn-in(${comments.commentNo})" onclick="deleteBtn(${comments.commentNo})">확인</button>
+			                </span>
+			                <button class="closeBtn-out" id="closeBtn-out(${comments.commentNo})">취소</button>
+			            </div>
+			        </div>
+			    </div>
+            </c:forEach>
+        </c:when>
+      </c:choose>
           </table>
       </div>
     </div>
@@ -136,6 +165,120 @@
 			location.replace('${path}/notice/delete?noticeNo=${notice.noticeNo}');
 		}
 	}
-</script>   
+  			// 첫번째 수정버튼 클릭시
+     	 function updateComments(c_no){
+     		 
+          
+         var modifyBtn = document.getElementById('modifyBtn('+ c_no +')');
+         var firstModifyBtn = document.getElementById('update('+ c_no +')');
+         var commentP = document.getElementById('comment_details('+ c_no +')');
+         //기존 내용 - > 수정할 내용
+         var commentArea = document.getElementById('comment_textarea('+ c_no +')');
+         var commentName = document.getElementById('c_name('+ c_no +')');
+         
+          
+         firstModifyBtn.style.display = 'none';
+         
+         commentArea.style.display = 'block';
+       	 commentArea.style.resize = 'none';
+       	 
+         commentArea.style.borderRadius = '8px';
+         commentP.style.display = 'none';
+         
+         modifyBtn.style.display='inline';
+         modifyBtn.style.border = 'none';
+         modifyBtn.style.fontSize = '16px';
+         modifyBtn.style.color = 'blue';
+         modifyBtn.style.cursor = 'pointer';
+         modifyBtn.style.padding = '0';
+         
+         
+         console.log(commentArea.value);
+         console.log(commentName.innerText);
+            
+         }
+     	 
+     	 // 2번째 수정버튼 클릭시
+     	 function modifyComments(c_no){
+     		 
+             var commentArea = document.getElementById('comment_textarea('+ c_no +')');
+             var commentName = document.getElementById('c_name('+ c_no +')');
+             var firstModifyBtn = document.getElementById('update('+ c_no +')');
+             var commentP = document.getElementById('comment_details('+ c_no +')');
+             var modifyBtn = document.getElementById('modifyBtn('+ c_no +')');
+             
+             console.log(commentArea.value);
+             console.log(commentName.innerText);
+             
+             firstModifyBtn.style.display = 'inline';
+             commentP.style.display = 'block';
+             
+             commentArea.style.display = 'none';
+             modifyBtn.style.display = 'none'
+             
+             //ajax 처립 부분
+             var xhr = new XMLHttpRequest();
+             
+             xhr.onreadystatechange = function() {
+            	if(xhr.readyState == 4 && xhr.status == 200){
+            		var str = xhr.responseText;
+            		
+            		document.getElementById('comment_details('+ c_no +')').innerHTML = str;
+            		
+            	}else {
+            		
+            	}
+             }
+             
+             xhr.open("POST", "${path}/notice/comments/update", true);
+             
+             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded;")
+             
+             xhr.send("name="+commentName.innerText+"&comments="+commentArea.value+"&commentsNo="+c_no);
+     	 }
+     	 
+     	 
+     	 function deleteComments(c_no) {
+     		 
+     		 
+     		// modal 창 띄우기
+
+     	    const open = () => {
+     	    	document.querySelector('.modalNo'+c_no).classList.remove("hidden");
+     	    }
+
+     	    const close = () => {
+     	        document.querySelector('.modalNo'+c_no).classList.add("hidden");
+     	    }
+
+     	    document.getElementById('delete('+ c_no +')').addEventListener("click", open);
+     	    document.getElementById('closeBtn-out('+ c_no +')').addEventListener("click", close);
+     	    document.getElementById('closeBtn-in('+ c_no +')').addEventListener("click", close);
+     	    document.querySelector(".bg").addEventListener("click", close);
+     		
+     	 }
+     	 
+     	 
+     	 function deleteBtn(c_no) {
+     	    
+			 //ajax 처립 부분
+            var xhr = new XMLHttpRequest();
+            
+            xhr.onreadystatechange = function() {
+           	if(xhr.readyState == 4 && xhr.status == 200){
+				var deleteArea = document.getElementById('commentsArea('+ c_no +')');
+				deleteArea.remove();
+           	}else {
+           		
+           		}
+            }
+            
+            xhr.open("GET", "${path}/notice/comments/delete?commentsNo="+c_no, true);
+            
+            
+            xhr.send();
+     	 }
+     	 
+  </script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

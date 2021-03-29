@@ -37,13 +37,16 @@
 	 
 	    $('form').fadeOut(500);
 	    $('.wrapper').addClass('form-success');
+
         setTimeout(function() {
         location.href="${path}/home";
         }, 2800);
+
      });
+
     //  $("#fpas1").click(function() {
+
     //     alert();
     //  })
 </script>
-</html>
 </html>

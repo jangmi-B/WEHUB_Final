@@ -21,16 +21,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.wehub.board.model.service.BoardService;
+import com.kh.wehub.board.model.vo.Comments;
 import com.kh.wehub.board.model.vo.Notice;
 import com.kh.wehub.common.util.PageInfo;
 import com.kh.wehub.member.model.vo.Member;
@@ -67,10 +70,14 @@ public class BoardController {
 		
 		staticList = service.getStaticList();
 		
-//		System.out.println(searchText);
-		
 		if(searchText != null) {
 			model.addObject("notice_search",searchText);
+		}
+		
+		for(int i = 0; i < list.size(); i++) {
+			int count = service.getCommentsCount(list.get(i).getNoticeNo());
+			
+			list.get(i).setNoticCommentCount(count);
 		}
 		
 		model.addObject("list", list);
@@ -293,8 +300,10 @@ public class BoardController {
 		return renameFileName;
 	}
 	
+	// 게시글 조회화면
 	@RequestMapping(value = "notice/view", method = {RequestMethod.GET})
 	public ModelAndView view(@RequestParam("noticeNo") int noticeNo, ModelAndView model,
+			@SessionAttribute(name = "loginMember", required = false)Member loginMember,
 			HttpServletResponse response, HttpServletRequest request) {
 		
 		//조회수 로직
@@ -350,11 +359,81 @@ public class BoardController {
 		notice = service.findNoticeByNo(noticeNo);
 //		System.out.println("후" + notice);
 		
+		//댓글 등록한 유저 이름 가져오기
+		List<Comments> comments = service.findComments(noticeNo);
+		
+		for(int i = 0; i < comments.size(); i++) {
+			List<Member> name = service.findCommentName(noticeNo);
+			
+			comments.get(i).setUserName(name.get(i).getUser_name());
+		}
+		model.addObject("loginMember", loginMember);
+		model.addObject("comments", comments);
 		model.addObject("notice", notice);
 		model.setViewName("/board/board_notice_detail");
 		
 		return model;
 	}
+	
+	@RequestMapping(value="notice/comments", method = {RequestMethod.GET})
+	public ModelAndView saveComment(ModelAndView model, @SessionAttribute("loginMember") Member member,
+			Comments comment)
+			{
+		int result = 0;
+		
+		int noticeNo = comment.getCommentNoticeNO();
+		
+		result = service.saveComments(comment, member);
+		
+		System.out.println(comment);
+		
+		if(result > 0) {
+			model.addObject("msg","댓글등록완료!");
+			model.addObject("location", "/notice/view?noticeNo="+noticeNo);
+		}else {
+			model.addObject("msg","댓글등록실패!");
+			model.addObject("location", "/notice/view?noticeNo="+noticeNo);
+		}
+		model.setViewName("/common/msg");
+		
+		return model;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="notice/comments/update", method = {RequestMethod.POST}, produces = "application/String; charset=utf-8")
+	public String updateComment(@RequestParam(value="comments") String comments, @RequestParam(value="commentsNo") int commentsNo) {
+		
+		int result = 0;
+		
+		String str = comments;
+		result = service.updateComments(commentsNo, comments);
+		
+		if(result > 0) {
+			System.out.println("수정성공");
+		}else {
+			System.out.println("수정실패");
+		}
+		
+		return str;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/notice/comments/delete", method= {RequestMethod.GET})
+	public void deleteComment(@RequestParam(value="commentsNo") int commentsNo) {
+		
+		int result = 0;
+		System.out.println(commentsNo);
+		
+		result = service.deleteComments(commentsNo);
+		
+		if(result > 0) {
+			System.out.println("삭제성공");
+		}else {
+			System.out.println("삭제실패");
+		}
+	}
+	
+	
 	
 	@RequestMapping(value="notice/fileDown", method = { RequestMethod.GET })
 	public ResponseEntity<Resource> fileDown(

@@ -12,13 +12,16 @@
 <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="${path}/js/jquery-3.5.1.js"></script>
   <script src="https://kit.fontawesome.com/d854b17d02.js" crossorigin="anonymous"></script>
   <link rel="icon" type="image/png" href="${path}/images/logo.png">
   <link rel="stylesheet" href="${path}/css/style.css">
   <link rel="stylesheet" href="${path}/css/homeContent.css">
+  <link rel="stylesheet" href="${path}/css/HumanManagement_green.css">
   <link rel="stylesheet" href="${path}/css/board_notice.css">
   <link rel="stylesheet" href="${path}/css/board_notice_list.css">
   <link rel="stylesheet" href="${path}/css/board_notice_detail.css">
+  <link rel="stylesheet" href="${path}/css/modal.css">
   <title>WEHUB</title>
 </head>
 <body>

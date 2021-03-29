@@ -1,10 +1,7 @@
 package com.kh.wehub.member.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,13 +39,16 @@ public class MemberController {
 	}
 	
 	//메인 화면 띄우기
-	@RequestMapping(value = "home")
+	@RequestMapping(value = "/home")
 	public ModelAndView home(ModelAndView model,
 			@SessionAttribute("loginMember")Member loginMember) {
 		
-		model.addObject("loginMember", loginMember);
+		model.addObject("loginMember",loginMember);
 		model.setViewName("/home");
+		
+		
 		
 		return model;
 	}
+	
 }

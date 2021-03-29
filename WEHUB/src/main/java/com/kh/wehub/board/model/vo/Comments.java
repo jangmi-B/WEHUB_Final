@@ -2,6 +2,8 @@ package com.kh.wehub.board.model.vo;
 
 import java.util.Date;
 
+import com.kh.wehub.member.model.vo.Member;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

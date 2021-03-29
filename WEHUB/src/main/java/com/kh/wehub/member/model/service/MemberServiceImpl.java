@@ -30,5 +30,4 @@ public class MemberServiceImpl implements MemberService {
 	public Member findMemberByUserId(String userId) {
 		return memberDao.selectMember(userId);
 	}
-
 }

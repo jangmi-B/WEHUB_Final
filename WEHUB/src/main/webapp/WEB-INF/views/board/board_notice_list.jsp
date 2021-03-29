@@ -27,6 +27,7 @@
     </form>  
       <div class="notice_list_wrap">
         <div class="notice_list">
+          <form>
             <p>공지사항</p>
             <button id="notice_list_btn" type="button" onclick="location.href ='${path}/notice/write'">글쓰기</button>
             <table id="notice_list_table">
@@ -89,13 +90,13 @@
             					<span> - </span>
             				</c:if>
 						</td>
-						<td><c:out value="${notice.noticCommentCount}"/></td>
+						<td><c:out value="${notice.noticCommentCount} "/></td>
 						<td><c:out value="${notice.noticeReadCount}"/></td>
 					</tr>		
 				  </c:forEach>
 			  </c:if>
-              
             </table>
+          </form>
             <div class="notice_list_page">
               <ul class="notice_pagination modal">
               <c:if test="${notice_search == null}">
