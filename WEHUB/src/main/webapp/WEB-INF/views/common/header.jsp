@@ -14,6 +14,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="${path}/js/jquery-3.5.1.js"></script>
   <script src="https://kit.fontawesome.com/d854b17d02.js" crossorigin="anonymous"></script>
+  <link rel="icon" type="image/png" href="${path}/images/logo.png">
   <link rel="stylesheet" href="${path}/css/style.css">
   <link rel="stylesheet" href="${path}/css/homeContent.css">
   <link rel="stylesheet" href="${path}/css/HumanManagement_green.css">
@@ -47,11 +48,12 @@
   <section>
     <div class="common_section">
       <ul>
-        <li><a href="${path}/home"><i class="fas fa-home" ></i></a></li>
-        <li><a href="${path}/notice/list"><i class="fas fa-bullhorn"></i></a></li>
-        <li><a href="#"><i class="far fa-address-card" ></i></a></li>
-        <li><a href="#"><i class="far fa-envelope"></i></a></li>
-        <li><a href="${path}/memberInfo/list?page=1"><i class="fas fa-users"></i></a></li>
-        <li><a href="#"><i class="far fa-calendar-alt"></i></a></li>
+        <li><a href="${path}/home"><i class="fas fa-home home_contents active"></i></a></li>
+        <li><a href="${path}/notice/list"><i class="fas fa-bullhorn home_contents"></i></a></li>
+        <li><a href="#"><i class="far fa-address-card home_contents" ></i></a></li>
+        <li><a href="#"><i class="far fa-envelope home_contents"></i></a></li>
+        <li><a href="#"><i class="fas fa-users home_contents"></i></a></li>
+        <li><a href="#"><i class="far fa-calendar-alt home_contents"></i></a></li>
       </ul>
     </div>
+

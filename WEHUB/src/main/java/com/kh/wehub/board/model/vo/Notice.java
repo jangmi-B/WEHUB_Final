@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Notice {
 
+	private int rownum;
+	
 	private int noticeNo;
 	
 	private int noticeWriterNo;
@@ -36,6 +38,8 @@ public class Notice {
 	private int noticCommentCount;
 	
 	private String status;
+	
+	private String noticeType;
 	
 	private List<Comments> comments;
 	

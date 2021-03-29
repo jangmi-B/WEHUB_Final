@@ -14,15 +14,21 @@ import com.kh.wehub.member.model.vo.Member;
 @Mapper
 public interface BoardDao {
 
-	int noticeCount();
+	int noticeCount(String searchText);
 
-	List<Notice> selectNoticeList(RowBounds rowBounds);
+	List<Notice> selectNoticeList(RowBounds rowBounds, String searchText);
 
+	List<Notice> selectStaticNotice();
+	
 	int updateNotice(Notice notice);
 
 	int insertNotice(Notice notice);
 
 	Notice selectNoticeDetail(int noticeNo);
+
+	int deleteNotice(Notice notice);
+
+	int updateReadCount(Map<String, Object> map);
 
 	int insertComments(Map<Object, Object> map);
 

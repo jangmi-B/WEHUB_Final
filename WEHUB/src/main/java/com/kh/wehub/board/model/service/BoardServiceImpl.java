@@ -25,20 +25,27 @@ public class BoardServiceImpl implements BoardService {
 	private BoardDao boardDao;
 
 	@Override
-	public int getBoardCount() {
+	public int getBoardCount(String searchText) {
 		
-		return boardDao.noticeCount();
+		return boardDao.noticeCount(searchText);
 	}
 
 	@Override
-	public List<Notice> getNoticeList(PageInfo pageInfo) {
+	public List<Notice> getNoticeList(PageInfo pageInfo, String searchText) {
 		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
 		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
 		
-		return boardDao.selectNoticeList(rowBounds);
+		return boardDao.selectNoticeList(rowBounds,searchText);
+	}
+	
+	@Override
+	public List<Notice> getStaticList() {
+		
+		return boardDao.selectStaticNotice();
 	}
 
 	@Override
+	@Transactional
 	public int saveBoard(Notice notice) {
 		int result = 0;
 		
@@ -58,6 +65,19 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.selectNoticeDetail(noticeNo);
 	}
 
+	@Override
+	@Transactional
+	public int deleteNotice(Notice notice) {
+		
+		return boardDao.deleteNotice(notice);
+	}
+
+	@Override
+	public int updateReadCount(Map<String, Object> map) {
+		
+		
+		return boardDao.updateReadCount(map);
+	}
 
 	@Override
 	@Transactional

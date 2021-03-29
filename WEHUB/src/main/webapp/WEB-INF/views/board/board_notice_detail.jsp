@@ -6,24 +6,26 @@
 
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 
-  <div id="notice_bar">
-    <ul>
-      <li><span>게시판</span>
-        <div class="line"></div>
+  <form action="${path}/notice/list" id="notice_bar" method="get">
+	<div>
         <ul>
-          <li>공지사항</li>
-          <li>자유게시판</li>
+          <li><span>게시판</span>
+            <div class="line"></div>
+            <ul>
+              <li><a href="${path}/notice/list">공지사항</a></li>
+              <li>자유게시판</li>
+            </ul>
+          </li>
+          <li>
+            <table>
+              <tr>
+                <td><input id="notice_search" type="search" name="notice_search" placeholder="공지사항 검색"></td>
+                <td><button type="submit">Go</button></td>
+              </tr>
+            </table>
         </ul>
-      </li>
-      <li>
-        <table>
-          <tr>
-            <td><input id="notice_search" type="search" placeholder="공지사항 검색"></td>
-            <td><button type="button">Go</button></td>
-          </tr>
-        </table>
-    </ul>
-  </div>
+      </div>
+    </form>
   <div class="notice_detail_wrap">
     <div id="notice_detail">
       <div id="notice_detail_top">
@@ -71,8 +73,12 @@
         </table>
       </div>
       <div id="notice_detail_btn">
-        <button type="button">수정하기</button>
-        <button id="d_btn" type="button" onclick="location.href='${path}/notice/list'">목록으로</button>
+      <c:if test="${ !empty loginMember && (loginMember.user_id == notice.userId)}">
+      
+        <button type="button" onclick="updateBoard()">수정하기</button>
+        <button class="d_btn" type="button"onclick="deleteBoard()">삭제하기</button>
+       </c:if>
+        <button class="d_btn" type="button" onclick="location.href='${path}/notice/list'">목록으로</button>
       </div>
       <div class="coment_container">
         <form id="commentForm" name="commentForm" method="get" action="${path}/notice/comments">
@@ -149,7 +155,16 @@
     </div>
   </div>
   
-  <script>
+<script>
+	function updateBoard(){
+			location.href = "${path}/notice/update?noticeNo=${notice.noticeNo}";
+	}
+		
+	function deleteBoard(){		
+		if(confirm("정말로 게시글을 삭제 하시겠습니까?")){
+			location.replace('${path}/notice/delete?noticeNo=${notice.noticeNo}');
+		}
+	}
   			// 첫번째 수정버튼 클릭시
      	 function updateComments(c_no){
      		 
@@ -263,9 +278,6 @@
             
             xhr.send();
      	 }
-     	 
-     	 
-     	 
      	 
   </script>
 

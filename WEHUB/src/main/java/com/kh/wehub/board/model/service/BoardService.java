@@ -10,14 +10,19 @@ import com.kh.wehub.member.model.vo.Member;
 
 public interface BoardService {
 
-	int getBoardCount();
+	int getBoardCount(String searchText);
 
-	List<Notice> getNoticeList(PageInfo pageInfo);
+	List<Notice> getNoticeList(PageInfo pageInfo, String searchText);
+	
+	List<Notice> getStaticList();
 
 	int saveBoard(Notice notice);
 
 	Notice findNoticeByNo(int noticeNo);
 
+	int deleteNotice(Notice notice);
+
+	int updateReadCount(Map<String, Object> map);
 	//댓글 수
 	int getCommentsCount(int noticeNo);
 	
@@ -31,7 +36,5 @@ public interface BoardService {
 	int updateComments(int commentsNo, String comments);
 	// 댓글 삭제
 	int deleteComments(int commentsNo);
-
-
 
 }

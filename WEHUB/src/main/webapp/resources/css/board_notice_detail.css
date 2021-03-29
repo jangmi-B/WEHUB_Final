@@ -77,7 +77,7 @@
   box-shadow: 1px 1px 4px gray;
 }
 
-#notice_detail_btn #d_btn{
+#notice_detail_btn .d_btn{
   color: black;
   background-color: lightgray;
 }
@@ -160,3 +160,6 @@
 .notice_conment_list a{
   text-align: right;
 }
+
+/* modal */
+
