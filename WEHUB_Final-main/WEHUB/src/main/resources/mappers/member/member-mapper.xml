@@ -87,6 +87,7 @@
 	    
 	         	PHONE =#{phone}
 	</select>
+	
 	<select id="findPWD" parameterType="Member" resultType="String" >
 		SELECT  USER_PWD 	FROM MEMBER 
 		WHERE USER_STATUS ='Y' AND  
@@ -97,4 +98,31 @@
 	    
 	         	PHONE =#{phone}
 	</select>
+	
+	<update id="updateMember" parameterType="Member">
+		UPDATE MEMBER 
+		SET
+		    EMAIL=#{email},
+		    COMCALL=#{comcall},
+		    PHONE=#{phone},
+		    ADDRESS=#{address}
+		WHERE 
+		    USER_NO=#{user_no}	
+	</update>
+	
+	<update id="updatePassword" parameterType="Member">
+		UPDATE MEMBER 
+		SET
+		    USER_PWD=#{user_pwd}
+		WHERE 
+		    USER_ID=#{user_id}	
+	</update>
+	
+	<delete id="deleteMember" parameterType="string">
+		UPDATE MEMBER 
+		SET
+		    USER_STATUS='N'
+		WHERE 
+		    USER_ID=#{user_id}		
+	</delete>
 </mapper>

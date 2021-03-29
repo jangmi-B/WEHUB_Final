@@ -1,11 +1,15 @@
 package com.kh.wehub.member.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -165,6 +169,87 @@ public class MemberController {
 		} else {
 			model.addObject("msg", "회원가입을 실패하였습니다. 올바른 정보를 입력하여 주세요.");
 			model.addObject("location", "/member/signUpForm");
+		}
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	// 아이디 체크
+	@RequestMapping("member/idCheck")
+	@ResponseBody
+	public Object idCheck(@RequestParam("user_id")String user_id) {
+		
+		log.info("컨트롤러에 찍히나..User_id : {}", user_id);
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("validate", service.validate(user_id));
+		
+		return "member/signUpForm";
+	}
+	
+	// 회원 수정
+	@RequestMapping("member/memModify")
+	public String memModify() {
+		log.info("회원 수정 페이지 요청");
+		
+		return "member/memModify";
+	}
+	
+	@RequestMapping("/member/update")
+	public ModelAndView update(@ModelAttribute Member member,
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember,
+			ModelAndView model) {
+		
+		int result = 0;
+		
+		if(loginMember.getUser_id().equals(member.getUser_id())) {
+			member.setUser_no(loginMember.getUser_no());
+			
+			result = service.saveMember(member);
+//			log.info("result 값 받아오나욘? " + result);
+			
+			if(result > 0) {
+				model.addObject("loginMember", service.findMemberByUserId(loginMember.getUser_id()));
+				model.addObject("msg", "회원정보 수정을 완료했습니다.");
+				model.addObject("location", "/member/memModify");				
+			} else {
+				model.addObject("msg", "회원정보 수정에 실패 했습니다.");
+				model.addObject("location", "/member/memModify");
+			}
+		} else {
+			model.addObject("msg", "잘못된 접근입니다.");
+			model.addObject("location", "/");
+		}
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	// 회원 삭제
+	@RequestMapping("/member/delete")
+	public ModelAndView delete(ModelAndView model,
+			@SessionAttribute(name="loginMember", required = false) Member loginMember,
+			@RequestParam("user_id")String userId) {
+		
+		int result = 0;
+		
+		if(loginMember.getUser_id().equals(userId)) {
+			result = service.deleteMember(userId);
+			
+			if(result > 0) {
+				model.addObject("msg", "정상적으로 탈퇴되었습니다.");
+				model.addObject("location", "/logout");				
+			} else {
+				model.addObject("msg", "회원 탈퇴를 실패하였습니다.");
+				model.addObject("location", "/member/memModify");
+			}
+		} else {
+			model.addObject("msg", "잘못된 접근입니다.");
+			model.addObject("location", "/");
 		}
 		
 		model.setViewName("common/msg");
