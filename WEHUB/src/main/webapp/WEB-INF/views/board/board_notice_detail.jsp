@@ -120,7 +120,6 @@
 	            </tr>
 	            <tr>
 	                <td colspan="4">
-	                    <input type="hidden" name="c_no" id="c_no" value="${comments.commentNo}">
 	                    <div class="comment_list_td" id="comment_list_div(${comments.commentNo})">
 	                       <p class="comment_details" id="comment_details(${comments.commentNo})">${comments.commentContent}</p>
 	                       <textarea id="comment_textarea(${comments.commentNo})" rows="3" cols="30" style=display:none>${comments.commentContent}</textarea>
