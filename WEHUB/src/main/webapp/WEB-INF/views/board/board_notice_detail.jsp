@@ -134,7 +134,7 @@
       </div>
     </div>
   </div>
-   <div class="modal hidden">
+   <div class="modal1 hidden">
         <div class="bg"></div>
         <div class="modalBox">
         	<div style="color:red; font-size:24px; padding-left: 3px; margin: 20px 0px 0px 0px;">
@@ -142,7 +142,7 @@
         	</div>
         	 <div style="margin: 30px 0px 0px 60px;">
                 <span style="float: left; padding-right: 40px;" >
-                    <button class="closeBtn-in">확인</button>
+                    <button class="closeBtn-in" id="closeBtn-in">확인</button>
                 </span>
                 <button class="closeBtn-out">취소</button>
             </div>
@@ -229,19 +229,20 @@
      		// modal 창 띄우기
 
      	    const open = () => {
-     	    document.querySelector(".modal").classList.remove("hidden");
+     	    document.querySelector(".modal1").classList.remove("hidden");
      	    }
 
      	    const close = () => {
-     	        document.querySelector(".modal").classList.add("hidden");
+     	        document.querySelector(".modal1").classList.add("hidden");
      	    }
 
      	    document.getElementById('delete('+ c_no +')').addEventListener("click", open);
      	    document.querySelector(".closeBtn-out").addEventListener("click", close);
      	    document.querySelector(".bg").addEventListener("click", close);
      		
+     	    var i = document.getElementById('closeBtn-in');
      	    
-     	    
+     	    console.log(i);
      	 }
      	 
      	 
