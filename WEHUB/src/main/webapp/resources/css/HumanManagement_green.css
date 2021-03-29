@@ -44,7 +44,7 @@
 /* 상단 select 태그 */
 .HM_Department_Sel {
   display: inline-block;
-  margin-left: 580px;
+  margin-left: 510px;
   margin-bottom: 30px;
 }
 select {

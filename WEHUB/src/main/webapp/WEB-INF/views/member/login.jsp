@@ -19,7 +19,7 @@
     <div class="wrapper">
         <div class="container">
             <img src="resources/images/wehub(white).png"/>
-            <form class="form" action="login" method="POST">
+            <form class="form" action="login" method="POST" onsubmit="setTimeout()">
                 <input type="text" name="userId" placeholder="Username ">
                 <input type="password" name="userPwd" placeholder="Password">
                 <button type="submit" id="login-button">Log in</button>
@@ -33,20 +33,14 @@
 </body>
 <script>
      $("#login-button").click(function(event){
-		event.preventDefault();
 	 
 	    $('form').fadeOut(500);
 	    $('.wrapper').addClass('form-success');
 
         setTimeout(function() {
-        location.href="${path}/home";
         }, 2800);
 
      });
 
-    //  $("#fpas1").click(function() {
-
-    //     alert();
-    //  })
 </script>
 </html>
