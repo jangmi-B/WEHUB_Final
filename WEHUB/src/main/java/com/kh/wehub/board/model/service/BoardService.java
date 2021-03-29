@@ -29,6 +29,8 @@ public interface BoardService {
 
 	// 댓글 수정
 	int updateComments(int commentsNo, String comments);
+	// 댓글 삭제
+	int deleteComments(int commentsNo);
 
 
 

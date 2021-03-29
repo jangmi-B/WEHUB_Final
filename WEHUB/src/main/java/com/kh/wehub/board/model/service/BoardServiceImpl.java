@@ -108,6 +108,16 @@ public class BoardServiceImpl implements BoardService {
 		return result;
 	}
 
+	@Override
+	public int deleteComments(int commentsNo) {
+		
+		int result = 0;
+		
+		result = boardDao.deleteComments(commentsNo);
+		
+		return result;
+	}
+
 
 
 

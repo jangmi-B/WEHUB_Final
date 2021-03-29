@@ -34,4 +34,6 @@ public interface BoardDao {
 
 	int updateComments(Map<Object, Object> map);
 
+	int deleteComments(int commentsNo);
+
 }

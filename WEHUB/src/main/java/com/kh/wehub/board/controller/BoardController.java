@@ -216,12 +216,7 @@ public class BoardController {
 	
 	@ResponseBody
 	@RequestMapping(value="notice/comments/update", method = {RequestMethod.POST}, produces = "application/String; charset=utf-8")
-	public String updateComment(@RequestParam(value="name") String name,
-			@RequestParam(value="comments") String comments, @RequestParam(value="commentsNo") int commentsNo) {
-		
-		System.out.println("name : " + name);
-		System.out.println("comments : " + comments);
-		System.out.println("commentsNo : " + commentsNo);
+	public String updateComment(@RequestParam(value="comments") String comments, @RequestParam(value="commentsNo") int commentsNo) {
 		
 		int result = 0;
 		
@@ -235,6 +230,22 @@ public class BoardController {
 		}
 		
 		return str;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/notice/comments/delete", method= {RequestMethod.GET})
+	public void deleteComment(@RequestParam(value="commentsNo") int commentsNo) {
+		
+		int result = 0;
+		System.out.println(commentsNo);
+		
+		result = service.deleteComments(commentsNo);
+		
+		if(result > 0) {
+			System.out.println("삭제성공");
+		}else {
+			System.out.println("삭제실패");
+		}
 	}
 	
 	

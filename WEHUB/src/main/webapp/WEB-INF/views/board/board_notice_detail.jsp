@@ -18,7 +18,7 @@
       <li>
         <table>
           <tr>
-            <td><input id="notice_search" type="search" placeholder="공지사항 검색"></li></td>
+            <td><input id="notice_search" type="search" placeholder="공지사항 검색"></td>
             <td><button type="button">Go</button></td>
           </tr>
         </table>
@@ -104,29 +104,44 @@
       	</c:when>
       	<c:when test="${notice.comments.size() != 0}">
       		<c:forEach var="comments" items="${comments}">
+      		<tbody id="commentsArea(${comments.commentNo})">
 	            <tr>
 	            						<!--  이미지파일ㄱ  -->
 	              <td rowspan="2"><i class="far fa-user-circle"></i></td>
 	              <td><span class="comment_name" id="c_name(${comments.commentNo})">${comments.userName}</span></td>
-	              <td colspan="3"><span class="comment_sub">${comments.commentCreateDate}</span></td>
+	              <td colspan="3"><span class="comment_sub">${comments.commentModifyDate}</span></td>
 	              <td colspan="2"> 
 	              <c:if test="${comments.commentWriterNo == loginMember.user_no}">
 	              		<a href="javascript:updateComments(${comments.commentNo});" id="update(${comments.commentNo})"> 수정</a>
                         <button id="modifyBtn(${comments.commentNo})" type="submit" onclick="modifyComments(${comments.commentNo})" style=display:none>수정</button>
-	              		<a href="javascript:deleteComments(${comments.commentNo})" id="delete(${comments.commentNo})" class="delete(${comments.commentNo})"> 삭제</a>
+	              		<a href="javascript:deleteComments(${comments.commentNo})" id="delete(${comments.commentNo})"> 삭제</a>
 	              </c:if>
 	              </td>
 	            </tr>
 	            <tr>
-	               <td colspan="4">
-                    <input type="hidden" name="c_no" id="c_no" value="${comments.commentNo}">
-                    <div class="comment_list_td" id="comment_list_div(${comments.commentNo})">
-                       <p class="comment_details" id="comment_details(${comments.commentNo})">${comments.commentContent}</p>
-                       <textarea id="comment_textarea(${comments.commentNo})" rows="2" cols="30" style=display:none>${comments.commentContent}</textarea>
-                    </div>
-                 </td>
-	              
+	                <td colspan="4">
+	                    <input type="hidden" name="c_no" id="c_no" value="${comments.commentNo}">
+	                    <div class="comment_list_td" id="comment_list_div(${comments.commentNo})">
+	                       <p class="comment_details" id="comment_details(${comments.commentNo})">${comments.commentContent}</p>
+	                       <textarea id="comment_textarea(${comments.commentNo})" rows="3" cols="30" style=display:none>${comments.commentContent}</textarea>
+	                    </div>
+                 	</td>
 	            </tr>
+	        </tbody>
+			    <div class="modal1 hidden modalNo${comments.commentNo}">
+			        <div class="bg"></div>
+			        <div class="modalBox">
+			        	<div style="color:red; font-size:24px; padding-left: 3px; margin: 20px 0px 0px 0px;">
+			        		※댓글을 삭제하시겠습니까?※ 
+			        	</div>
+			        	 <div style="margin: 30px 0px 0px 60px;">
+			                <span style="float: left; padding-right: 40px;" >
+			                    <button class="closeBtn-in" id="closeBtn-in(${comments.commentNo})" onclick="deleteBtn(${comments.commentNo})">확인</button>
+			                </span>
+			                <button class="closeBtn-out" id="closeBtn-out(${comments.commentNo})">취소</button>
+			            </div>
+			        </div>
+			    </div>
             </c:forEach>
         </c:when>
       </c:choose>
@@ -134,20 +149,6 @@
       </div>
     </div>
   </div>
-   <div class="modal1 hidden">
-        <div class="bg"></div>
-        <div class="modalBox">
-        	<div style="color:red; font-size:24px; padding-left: 3px; margin: 20px 0px 0px 0px;">
-        		※댓글을 삭제하시겠습니까?※ 
-        	</div>
-        	 <div style="margin: 30px 0px 0px 60px;">
-                <span style="float: left; padding-right: 40px;" >
-                    <button class="closeBtn-in" id="closeBtn-in">확인</button>
-                </span>
-                <button class="closeBtn-out">취소</button>
-            </div>
-        </div>
-    </div>
   
   <script>
   			// 첫번째 수정버튼 클릭시
@@ -229,21 +230,41 @@
      		// modal 창 띄우기
 
      	    const open = () => {
-     	    document.querySelector(".modal1").classList.remove("hidden");
+     	    	document.querySelector('.modalNo'+c_no).classList.remove("hidden");
      	    }
 
      	    const close = () => {
-     	        document.querySelector(".modal1").classList.add("hidden");
+     	        document.querySelector('.modalNo'+c_no).classList.add("hidden");
      	    }
 
      	    document.getElementById('delete('+ c_no +')').addEventListener("click", open);
-     	    document.querySelector(".closeBtn-out").addEventListener("click", close);
+     	    document.getElementById('closeBtn-out('+ c_no +')').addEventListener("click", close);
+     	    document.getElementById('closeBtn-in('+ c_no +')').addEventListener("click", close);
      	    document.querySelector(".bg").addEventListener("click", close);
      		
-     	    var i = document.getElementById('closeBtn-in');
-     	    
-     	    console.log(i);
      	 }
+     	 
+     	 
+     	 function deleteBtn(c_no) {
+     	    
+			 //ajax 처립 부분
+            var xhr = new XMLHttpRequest();
+            
+            xhr.onreadystatechange = function() {
+           	if(xhr.readyState == 4 && xhr.status == 200){
+				var deleteArea = document.getElementById('commentsArea('+ c_no +')');
+				deleteArea.remove();
+           	}else {
+           		
+           		}
+            }
+            
+            xhr.open("GET", "${path}/notice/comments/delete?commentsNo="+c_no, true);
+            
+            
+            xhr.send();
+     	 }
+     	 
      	 
      	 
      	 
