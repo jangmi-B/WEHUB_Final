@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kh.wehub.message.model.dao.MessageDao">
+	
+	<resultMap type="ReceiveMessage" id="receiveResultMap">
+		<id property="reciveNo" column="REC_NO"/>
+		<id property="senderNo" column="SENDER_NO"/>
+		<id property="receiverNo" column="RECEIVER_NO"/>
+		<id property="receiveContent" column="REC_CONTENT"/>
+		<id property="receiveDate" column="REC_DATE"/>
+		<id property="deleteDate" column="DELETE_DATE"/>
+		<id property="userName" column="USER_NAME"/>
+		<id property="rank" column="RANK"/>
+		<id property="status" column="STATUS"/>
+	</resultMap>
+
+	<resultMap type="SendMessage" id="sendResultMap">
+		<id property="sendNo" column="SEND_NO"/>
+		<id property="senderNo" column="SENDER_NO"/>
+		<id property="receiverNo" column="RECEIVER_NO"/>
+		<id property="sendContent" column="SEND_CONTENT"/>
+		<id property="sendDate" column="SEND_DATE"/>
+		<id property="deleteDate" column="DELETE_DATE"/>
+		<id property="status" column="STATUS"/>
+	</resultMap>
+
+	<select id="getMessageCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM RECEIVE_MSG
+		WHERE STATUS ='Y'
+		AND RECEIVER_NO = #{receiverNo}
+	</select>
+
+	<select id="selectMessageList" parameterType="_int" resultMap="receiveResultMap">
+		SELECT R.REC_NO,
+               R.SENDER_NO,
+		       R.REC_CONTENT,
+		       R.REC_DATE, 
+		       R.DELETE_DATE,
+               R.STATUS,
+               M.USER_NAME,
+               M.RANK
+		FROM RECEIVE_MSG R
+		JOIN MEMBER M ON(R.SENDER_NO = M.USER_NO)
+        WHERE R.STATUS='Y' AND RECEIVER_NO = #{receiverNo}
+		ORDER BY R.REC_NO DESC
+	</select>
+
+
+
+
+</mapper>
