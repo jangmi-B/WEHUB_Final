@@ -1,8 +1,14 @@
 package com.kh.wehub.member.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,8 +21,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import org.springframework.web.bind.support.SessionStatus;
-
-
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.wehub.member.model.service.MemberService;
@@ -153,16 +158,38 @@ public class MemberController {
 		return "member/signUpForm";
 	}
 	
-	@RequestMapping(value = "member/signUpForm", method = {RequestMethod.POST})
-	public ModelAndView signUpForm(ModelAndView model, @ModelAttribute Member member) {
+	@RequestMapping(value = "/member/signUpForm", method = {RequestMethod.GET})
+	public void enrollViewUpfile() {
+		log.info("회원가입 작성 페이지 요청");
+		
+//		return "member/signUpForm";
+	}
+	
+	@RequestMapping(value = "/member/signUpForm", method = {RequestMethod.POST})
+	public ModelAndView signUpForm(
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember, 
+			HttpServletRequest request,@ModelAttribute Member member, ModelAndView model,
+			@RequestParam("user_imgOri") MultipartFile user_imgOri) {
 
 		log.info(member.toString());
+		System.out.println(user_imgOri.getOriginalFilename());
 		
 		int result = service.saveMember(member);
 		
 		log.info(member.toString());
 		
 		model.setViewName("member/signUpForm");
+		
+		if(user_imgOri != null && !user_imgOri.isEmpty()) {
+			String renameFileName = saveFile(user_imgOri, request);
+			
+			System.out.println(renameFileName);
+			
+			if(renameFileName != null) {
+				member.setUser_imgOri(user_imgOri.getOriginalFilename());
+				member.setUser_imgRe(renameFileName);
+			}
+		}
 		
 		if(result > 0) {
 			model.addObject("msg", "회원가입이 정상적으로 되었습니다.");
@@ -194,14 +221,14 @@ public class MemberController {
 	}
 	
 	// 회원 수정
-	@RequestMapping("member/memModify")
+	@RequestMapping(value="member/memModify", method = {RequestMethod.POST})
 	public String memModify() {
 		log.info("회원 수정 페이지 요청");
 		
 		return "member/memModify";
 	}
 	
-	@RequestMapping("/member/update")
+	@RequestMapping(value="/member/update", method = {RequestMethod.POST})
 	public ModelAndView update(@ModelAttribute Member member,
 			@SessionAttribute(name = "loginMember", required = false) Member loginMember,
 			ModelAndView model) {
@@ -287,4 +314,36 @@ public class MemberController {
 //		
 //		return model;
 //	}
+	
+	private String saveFile(MultipartFile file, HttpServletRequest request) {
+		String renamePath = null; 
+		String originalFileName = null;
+		String renameFileName = null;
+		String rootPath = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = rootPath + "/upload/userProfileImg";				
+		
+		log.info("Root Path : " + rootPath);
+		log.info("Save Path : " + savePath);
+		
+		File folder = new File(savePath); // Save Path가 실제로 존재하지 않으면 폴더를 생성하는 로직
+		
+		if(!folder.exists()) {
+			folder.mkdirs();
+		}
+		
+		originalFileName = file.getOriginalFilename();
+		renameFileName = 
+				LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmssSSS")) + 
+				originalFileName.substring(originalFileName.lastIndexOf("."));
+		renamePath = savePath + "/" + renameFileName;
+		
+		try {
+			file.transferTo(new File(renamePath)); // 업로드 한 파일 데이터를 지정한 파일에 저장한다.
+		}catch (IOException e) {
+			System.out.println("파일 전송 에러 : " + e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return renameFileName;
+	}
 }

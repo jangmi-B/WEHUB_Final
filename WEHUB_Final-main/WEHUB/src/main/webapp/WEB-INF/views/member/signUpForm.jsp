@@ -23,7 +23,7 @@
 		        <h2><a href="file:///C:/Users/User/Desktop/Coding/FinalProjectHTML/LogInForm.html">Welcome</a></h2>
             </div>
             
-            <form class="form" action="${path}/member/signUpForm" method="post" style="margin-top: -187px;">
+            <form class="form" action="${path}/member/signUpForm" method="post" enctype="multipart/form-data" style="margin-top: -187px;">
 				<!--  
                 <input type="text" name="user_id" placeholder="UserId">
                 <input type="password" name="user_pwd"  placeholder="Password">
@@ -37,27 +37,33 @@
                 <input type="tel" name="comcall" placeholder="ExtensionNumber">
                 <input type="tel"name="phone"  placeholder="Phone">
                 -->
-                 <input type="text" name="user_companyname"  placeholder="회사명  CompanyName" style="font-size: 13px;" required>
+                <input type="file" name="user_imgOri" id="user_imgOri" style="padding: 6px 35px; font-size: 13px;" accept=".gif, .jpg, .png">
+                
+                <!-- <input type="text" name="user_companyname"  placeholder="킆릭하여 프로필 이미지 선택하기" style="font-size: 13px;" readonly="readonly"> -->
+                <input type="text" name="user_companyname"  placeholder="회사명  CompanyName" style="font-size: 13px;" required>
                 <input type="button" name="user_companyname_btn"  value="회사 확인" onclick="" style="font-size: 13px;" required>
+                <input type="text" name="rank" placeholder="직급  Rank" style="font-size: 13px;">
+                <input type="email" name="email" placeholder="이메일  E-Mail" style="font-size: 13px;">
+                <input type="text" name="employeeNum" placeholder="사번  employee Number" style="font-size: 13px;">
+                <br><br>
                 <input type="text" name="user_id" placeholder="아이디  UserId" style="font-size: 13px;" id="user_id" required>
                 <input type="button" name="user_id_btn" value="아이디 중복 확인" style="font-size: 13px;" id="id_Check_Btn" required>
                 <input type="password" name="user_pwd"  placeholder="패스워드  Password" style="font-size: 13px;" id="pass1" required>
                 <input type="password" placeholder="패스워드 확인  PasswordCheck" id="pass2"  style="font-size: 13px;">
                 <input type="text" name="user_name" placeholder="이름  UserName" style="font-size: 13px;" required>
                 <input type="text" name="dept_code" placeholder="부서이름  DepartmentName" style="font-size: 13px;">
-                <input type="text" name="rank" placeholder="직급  Rank" style="font-size: 13px;">
-                <input type="email" name="email" placeholder="이메일  E-Mail" style="font-size: 13px;">
+                <br><br>
                 <input type="button" name="address"  value="주소 찾기" onclick="javascript:sample6_execDaumPostcode();" style="font-size: 13px;">
                 <input type="text" name="address"  placeholder="우편번호 Zip/Postal Code" id="kakao_postcode" style="font-size: 13px;" readonly="readonly">
                 <input type="text" name="address"  placeholder="주소  State/Province/Region/City" id="kakao_address" style="font-size: 13px;"  readonly="readonly">
                 <input type="text" name="address"  placeholder="상세주소 Street Address" id="kakao_detailAddress" style="font-size: 13px;">
                 <input type="hidden" name="address" placeholder="참고항목" id="kakao_extraAddress" style="font-size: 13px;">
+                <br><br>
                 <input type="tel" name="comcall" placeholder="내선번호 ExtensionNumber" id="comcall" style="font-size: 13px;">
                 <input type="tel" name="phone"  placeholder="휴대번호  Phone" id="phone" style="font-size: 13px;">
                 
-                <!-- 실무에서는 우편번호와 주소지의 컬럼을 따로 받나...? -->
                 <button type="submit" id="login-button">가입하기</button> <!-- Create -->
-                <button type="submit" id="login-button" onclick="javascript:dataCheck();">기능확인</button>
+                <button type="button" id="login-button" onclick="javascript:dataCheck();">기능확인</button>
                 <p id="findPwdAndSignUp">
                     <!-- <a href="file:///C:/Users/User/Desktop/Coding/FinalProjectHTML/LogInForm.html" id="fpas">Already have an account?</a>
                     -->
@@ -84,7 +90,7 @@
 		}
 		
 		if(pass1 != pass2) {
-			alert("비밀번호 확인을 정확하게 입력하세요.");
+			alert("비밀번호와 비밀번호 확인이 일치하지 않습니다. \n비밀번호 확인을 정확하게 입력하세요.");
 			
 			return false;
 		}
@@ -179,6 +185,32 @@
 	        }
 	    }).open();
 	}
+	
+	$("input[id=user_imgOri]").change(function(){
+		 
+	    if($(this).val() != ""){
+	      // 확장자 체크
+	          var ext = $(this).val().split(".").pop().toLowerCase();
+	          if($.inArray(ext, ["gif","jpg","jpeg","png"]) == -1){
+	              alert("gif, jpg, jpeg, png 파일만 업로드 해주세요.");
+	              $(this).val("");
+	              return;
+	          }
+	          
+	          // 용량 체크
+	          for (var i=0; i<this.files.length; i++) {
+	            var fileSize = this.files[i].size;
+	            var fSMB = (fileSize / (1024 * 1024)).toFixed(2);
+	            var maxSize = 1024 * 1024 * 5;
+	            var mSMB = (maxSize / (1024 * 1024));
+	            if(fileSize > maxSize){
+	              alert(this.files[i].name + "(이)가 용량 5MB을 초과했습니다.\n\n<font color='red'>" + fSMB + "MB</font> / " + mSMB + "MB");
+	              $(this).val("");    
+	            }
+	          }
+	    }
+	});
+
 	
 </script>
 

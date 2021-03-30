@@ -12,7 +12,7 @@
 		
 	<div class="member__modify">
       <div id="member__modify__form">
-        <form action="${path}/member/update" method="post">
+        <form action="${path}/member/update" method="post" enctype="multipart/form-data">
           <span id="modify_name">회원정보수정</span>
           <table>
           	<tr>

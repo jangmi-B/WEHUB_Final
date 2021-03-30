@@ -34,9 +34,9 @@
 	 <interceptors>
 	 	<interceptor>
 	 	  <mapping path="/main"/>
+	 	  <mapping path="/member/memModify"/>
 	 
 	 	<mapping path="/board/**"/>
-	 	
 	 	
 	 		<exclude-mapping path="/member/findIDorPwd"/>
 	 		<exclude-mapping path="/member/signUpForm"/>

@@ -16,7 +16,9 @@
 	         	PHONE,
 	         	ADDRESS,
 		        USER_STATUS,
-		        DEPT_CODE
+		        DEPT_CODE,
+		        USER_IMG_ORIFILENAME,
+		        USER_IMG_REFILENAME
 			FROM MEMBER
 			WHERE USER_STATUS ='Y'
 	</sql>
@@ -39,6 +41,8 @@
 		<id property="address" column="ADDRESS"/>
 		<id property="user_status" column="USER_STATUS"/>
 		<id property="dept_code" column="DEPT_CODE"/>
+		<id property="user_imgOri" column="USER_IMG_ORIFILENAME"/>
+		<id property="user_imgRe" column="USER_IMG_REFILENAME"/>
 	</resultMap>
 	
 	<insert id="insertMember" parameterType="Member"
@@ -55,7 +59,9 @@
 			PHONE,
 			ADDRESS,
 			USER_STATUS,
-			DEPT_CODE
+			DEPT_CODE,
+			USER_IMG_ORIFILENAME,
+			USER_IMG_REFILENAME
 		)
 		VALUES(
 			SEQ_USER_NO.NEXTVAL, 
@@ -69,7 +75,9 @@
 			#{phone}, 
 			#{address}, 
 			DEFAULT, 
-			#{dept_code}
+			#{dept_code},
+			#{user_imgOri},
+			#{user_imgRe}
 		)
 	</insert>
 	
@@ -105,6 +113,12 @@
 		    EMAIL=#{email},
 		    COMCALL=#{comcall},
 		    PHONE=#{phone},
+		    <if test="user_imgOri != null">
+		    USER_IMG_ORIFILENAME=#{user_imgOri},
+		    </if>
+		    <if test="user_imgRe != null">
+		    USER_IMG_REFILENAME=#{user_imgRe},
+		    </if>
 		    ADDRESS=#{address}
 		WHERE 
 		    USER_NO=#{user_no}	
@@ -117,6 +131,15 @@
 		WHERE 
 		    USER_ID=#{user_id}	
 	</update>
+		
+<!-- 	<update id="updateUserImg" parameterType="Member">
+		UPDATE MEMBER 
+		SET
+		    USER_IMG_ORIFILENAME=#{user_imgOri},
+		    USER_IMG_REFILENAME=#{user_imgRe}
+		WHERE
+		    USER_NO=#{user_no}
+	</update> -->
 	
 	<delete id="deleteMember" parameterType="string">
 		UPDATE MEMBER 
