@@ -32,5 +32,9 @@ public class Member {
 	private String user_status;
 
 	private String dept_code;
+
+	
+	
+
   
 }

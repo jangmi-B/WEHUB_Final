@@ -15,7 +15,7 @@
   border: 1px solid transparent;
   border-radius: 6px;
   min-width: 700px;
-  height: 640px;
+  height: 740px;
   display: flex;
   justify-content: center;
   padding-top: 30px;
@@ -39,7 +39,9 @@
   border: 1px solid rgb(192, 191, 191);
   height: 25px;
   border-radius: 5px;
-  margin-left: 10px;
+  /* margin-left: 10px; */
+  padding-left: 8px;
+  margin: 5px 5px 0 10px;
 }
 #member__modify__form .modify_input:focus {
   border: 2px solid #5b18ff;

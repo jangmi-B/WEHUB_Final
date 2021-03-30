@@ -349,7 +349,6 @@
             
                                         <div class="agreebox">
                                             <label>
-                                                <!-- <input type="checkbox" name="agreement1" id="checkTest" value="" /> -->
                                                 <input type="checkbox" name="agree" id="chk1">
                                                 <span class="span">내용을 모두 숙지하였으며, 이용약관에 동의합니다.</span>
                                             </label>
@@ -543,7 +542,6 @@
             
                                         <div class="agreebox">
                                             <label>
-                                                <!-- <input type="checkbox" name="agreement2" /> -->
                                                 <input type="checkbox" name="agree" id="chk2" />
                                                 <span class="span">내용을 모두 숙지하였으며, 개인정보 수집 및 이용에 동의합니다.</span>
                                                 </label>
@@ -560,9 +558,10 @@
 
             <!-- <form class="form" style="margin-top: -245px;">     -->
             <div class="buttonDiv">
-                <button type="submit" id="login-button" onclick="javascript:agree();">Continue</button>
+                <button type="submit" id="login-button" onclick="agree();">Continue</button>
                 <p id="findPwdAndSignUp">
-                    <a href="${path}/" id="fpas">Already have an account?</a>
+                    <!-- <a href="${path}/" id="fpas">Already have an account?</a> -->
+                    <a href="${path}/" id="fpas" style="font-size: 12px;">로그인 페이지로 돌아가기</a>
                 </p>
             </div>
             <!-- </form> -->

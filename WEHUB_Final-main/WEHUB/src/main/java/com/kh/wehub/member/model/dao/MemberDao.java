@@ -1,17 +1,25 @@
 package com.kh.wehub.member.model.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.kh.wehub.member.model.vo.Member;
-import com.kh.wehub.member.model.vo.MemberEnroll;
 
 @Mapper
 public interface MemberDao {
-	
-	public Member selectMember(String userId);
+
+	//String selectMember(String userId);
+	Member selectMember(@Param("user_id") String user_id) ;
+
+	String findID(Member member);
+
+	String findPWD(Member member);
 
 	int insertMember(Member member);
 
-	public int updateMember(Member member);
+	int updateMember(Member member);
+
+	int deleteMember(@Param("user_id")String userId);
 
 }
+

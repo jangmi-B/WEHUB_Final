@@ -4,9 +4,30 @@
 
 <mapper namespace="com.kh.wehub.member.model.dao.MemberDao">
 
+	<sql id="selectMemberSql">
+		 SELECT USER_NO,
+		 		USER_COMPANYNAME,
+		        USER_ID,
+		        USER_PWD,
+		        USER_NAME,
+		        RANK,
+	         	EMAIL,
+	         	COMCALL,
+	         	PHONE,
+	         	ADDRESS,
+		        USER_STATUS,
+		        DEPT_CODE
+			FROM MEMBER
+			WHERE USER_STATUS ='Y'
+	</sql>
+	
+	
+	
 	<resultMap type="Member" id="memberResultMap">
+		<!-- property : 자바의 인스턴스 변수 이름, column : DB에서 select 된 결과 컬럼명 -->
+		<!-- DB에서 기본키를 의미 -->
 		<id property="user_no" column="USER_NO"/>
-		
+		<!-- DB에서 일반 컬럼들 -->
 		<id property="user_companyname" column="USER_COMPANYNAME"/>
 		<id property="user_id" column="USER_ID"/>
 		<id property="user_pwd" column="USER_PWD"/>
@@ -46,21 +67,62 @@
 			#{email}, 
 			#{comcall}, 
 			#{phone}, 
-			#{address},
+			#{address}, 
 			DEFAULT, 
 			#{dept_code}
 		)
 	</insert>
 	
+	<select id="selectMember" parameterType="string" resultMap="memberResultMap">
+		<include refid="selectMemberSql"></include>
+	 	AND USER_ID = #{user_id}
+	</select>
+	
+	<select id="findID" parameterType="Member" resultType="String" >
+		SELECT  USER_ID 	FROM MEMBER 
+		WHERE USER_STATUS ='Y' AND  
+				USER_NAME= #{user_name} AND
+		        
+	         	EMAIL= #{email} AND
+	    
+	         	PHONE =#{phone}
+	</select>
+	
+	<select id="findPWD" parameterType="Member" resultType="String" >
+		SELECT  USER_PWD 	FROM MEMBER 
+		WHERE USER_STATUS ='Y' AND  
+				USER_NAME= #{user_name} AND
+				USER_ID= #{user_id} AND
+		        
+	         	EMAIL= #{email} AND
+	    
+	         	PHONE =#{phone}
+	</select>
+	
 	<update id="updateMember" parameterType="Member">
 		UPDATE MEMBER 
 		SET
-		    USER_PWD={user_pwd},
-		    EMAIL=#{userName},
+		    EMAIL=#{email},
 		    COMCALL=#{comcall},
 		    PHONE=#{phone},
 		    ADDRESS=#{address}
 		WHERE 
 		    USER_NO=#{user_no}	
 	</update>
+	
+	<update id="updatePassword" parameterType="Member">
+		UPDATE MEMBER 
+		SET
+		    USER_PWD=#{user_pwd}
+		WHERE 
+		    USER_ID=#{user_id}	
+	</update>
+	
+	<delete id="deleteMember" parameterType="string">
+		UPDATE MEMBER 
+		SET
+		    USER_STATUS='N'
+		WHERE 
+		    USER_ID=#{user_id}		
+	</delete>
 </mapper>
