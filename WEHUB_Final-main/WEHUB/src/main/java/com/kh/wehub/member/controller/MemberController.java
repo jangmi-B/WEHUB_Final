@@ -1,6 +1,7 @@
 package com.kh.wehub.member.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -187,7 +188,9 @@ public class MemberController {
 		
 		map.put("validate", service.validate(user_id));
 		
-		return "member/signUpForm";
+		System.out.println(map);
+		
+		return map;
 	}
 	
 	// 회원 수정
@@ -211,7 +214,17 @@ public class MemberController {
 			result = service.saveMember(member);
 //			log.info("result 값 받아오나욘? " + result);
 			
+//			String memAdress = loginMember.getAddress();
+//			
+//			System.out.println(memAdress);
+//			
+//			String[] adressArr = memAdress.split(",");
+//			
+//			System.out.println(adressArr[0]);
+//			System.out.println(adressArr[1]);
+			
 			if(result > 0) {
+				System.out.println(loginMember.getUser_id().equals(member.getUser_id()) + ",  result : " + result);
 				model.addObject("loginMember", service.findMemberByUserId(loginMember.getUser_id()));
 				model.addObject("msg", "회원정보 수정을 완료했습니다.");
 				model.addObject("location", "/member/memModify");				
@@ -256,4 +269,22 @@ public class MemberController {
 		
 		return model;
 	}
+	
+	// 회원 주소 배열 테스트
+	@RequestMapping("member/memAdress")
+	public String memAdress() {
+		log.info("회원 주소 배열 테스트 페이지 요청");
+		
+		return "member/memAdress";
+	}
+	
+//	@RequestMapping("/member/memAdress")
+//	public ModelAndView memAdress(ModelAndView model,
+//			@SessionAttribute(name="loginMember", required = false) Member loginMember,
+//			@RequestParam("address")String address) {
+//		
+//		loginMember.getAddress();
+//		
+//		return model;
+//	}
 }

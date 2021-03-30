@@ -24,7 +24,7 @@
 
             <img src="${path}/images/wehub(white).png"/>
 
-            <form class="form" action="loginn" method="POST">
+            <form class="form" action="loginn" method="POST" id="loginForm" onsubmit="loginForm();">
                 <input type="text" name="userId" placeholder="Username ">
                 <input type="password" name="userPwd" placeholder="Password">
                 <button type="submit" id="login-button">Log in</button>
@@ -32,32 +32,37 @@
                     <a onclick="location.href='${path}/member/findIDorPwd'" id="fpas1">Forgot ID / Password?</a>
 
                     <a href="${path}/member/BeforeSignUp" id="fpas2">Sign Up</a>
-
                 </p>
             </form>
         </div>
     </div>
 </body>
-<!-- 
+
 <script>
-     $("#login-button").click(function(event){
-		event.preventDefault();
-	 
-	    $('form').fadeOut(300);
-	    $('.wrapper').addClass('form-success');
-        setTimeout(function() {
-        }, 2800);
-        
-        return;
-     });
+	$("#login-button").click(function(event){
+		/* event.preventDefault(); */
+	
+		$('form').fadeOut(300);
+		$('.wrapper').addClass('form-success');
+/*  	setTimeout(function() {
+		}, 2800); */
+	      
+		return;
+		
+		$('#loginForm').submit();
+	});
+	
+	function loginForm() {
+		
+	}
      
-     $("#login-button").click(function(event){
+     /* $("#login-button").click(function(event){ 2800
     	 alert("Request method 'GET' not supported/nreturn location.href=\"${path}/main\";이라고 쓰면 비밀번호를 입력하지 않아도 main화면으로 넘어감.");
     	  
         return submit();
-     });
+     }); */
 </script>
- -->
+
 
 
 

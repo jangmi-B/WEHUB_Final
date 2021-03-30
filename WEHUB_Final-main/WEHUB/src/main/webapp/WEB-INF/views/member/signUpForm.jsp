@@ -52,8 +52,8 @@
                 <input type="text" name="address"  placeholder="주소  State/Province/Region/City" id="kakao_address" style="font-size: 13px;"  readonly="readonly">
                 <input type="text" name="address"  placeholder="상세주소 Street Address" id="kakao_detailAddress" style="font-size: 13px;">
                 <input type="hidden" name="address" placeholder="참고항목" id="kakao_extraAddress" style="font-size: 13px;">
-                <input type="tel" name="comcall" placeholder="내선번호 ExtensionNumber" style="font-size: 13px;">
-                <input type="tel"name="phone"  placeholder="휴대번호  Phone" style="font-size: 13px;">
+                <input type="tel" name="comcall" placeholder="내선번호 ExtensionNumber" id="comcall" style="font-size: 13px;">
+                <input type="tel" name="phone"  placeholder="휴대번호  Phone" id="phone" style="font-size: 13px;">
                 
                 <!-- 실무에서는 우편번호와 주소지의 컬럼을 따로 받나...? -->
                 <button type="submit" id="login-button">가입하기</button> <!-- Create -->
@@ -73,6 +73,64 @@
 </body>
 
 <script>
+	function dataCheck() {
+		var pass1 = document.getElementById('pass1').value;
+		var pass2 = document.getElementById('pass2').value;
+		
+		if(pass1.length < 4) {
+			alert("비밀번호를 4글자 이상 입력하세요.");
+			
+			return false;
+		}
+		
+		if(pass1 != pass2) {
+			alert("비밀번호 확인을 정확하게 입력하세요.");
+			
+			return false;
+		}
+	}
+	
+	$(document).on("keyup", "#comcall, #phone", function() { 
+		$(this).val( $(this).val()
+				.replace(/[^0-9]/g, "")
+				.replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3")
+				.replace("--", "-") ); 
+	});
+	
+	$(document).ready(() => {
+		$("#id_Check_Btn").on("click", () => {
+			let user_id = $("#user_id").val().trim();
+			var idReg = /^[a-z][a-z0-9]{3,10}$/g;
+			
+			if(!idReg.test(user_id)) {
+				alert("아이디는 영문 소문자와 숫자를 4~12자리로 입력하세요.");
+				
+				return;
+			}
+			
+			$.ajax({
+				type: "post",
+				url: "${path}/member/idCheck",
+				dataType: "json",
+				data: {
+					user_id: user_id // 파라미터_키값: value값
+				},
+				success: function(data) {
+					console.log(data);
+					
+					if(data.validate !== true) {
+						alert("사용 가능한 아이디 입니다.");
+					} else {
+						alert("이미 사용중인 아이디 입니다. 다시 입력하여 주십시오.");						
+					}
+				},
+				error: function(e) {
+					console.log(e);
+				}				
+			});
+		});
+	});
+	
 	// kakao 주소찾기 api
 	function sample6_execDaumPostcode() {
 	    new daum.Postcode({
@@ -122,58 +180,6 @@
 	    }).open();
 	}
 	
-	function dataCheck() {
-		var pass1 = document.getElementById('pass1').value;
-		var pass2 = document.getElementById('pass2').value;
-		
-		if(pass1.length < 4) {
-			alert("비밀번호를 4글자 이상 입력하세요.");
-			
-			return false;
-		}
-		
-		if(pass1 != pass2) {
-			alert("비밀번호 확인을 정확하게 입력하세요.");
-			
-			return false;
-		}
-	}
-	
-	$(document).ready(() => {
-		$("#id_Check_Btn").on("click", () => {
-			let user_id = $("#user_id").val().trim();
-			var idReg = /^[a-z][a-z0-9]{3,10}$/g;
-			
-			if(!idReg.test(user_id)) {
-				alert("아이디는 영문 소문자와 숫자를 4~12자리로 입력하세요.");
-				
-				return;
-			}
-			
-			$.ajax({
-				type: "post",
-				url: "${path}/member/idCheck",
-				dataType: "json",
-				data: {
-					user_id: user_id // 파라미터_키값: value값
-				},
-				success: function(data) {
-					console.log(data);
-					
-					if(data.validate !== true) {
-						alert("사용 가능한 아이디 입니다.");
-					} else {
-						alert("이미 사용중인 아이디 입니다.");						
-					}
-				},
-				error: function(e) {
-					console.log(e);
-				}				
-			});
-			
-			/* alert("제이쿼리 작동 확인"); */
-		});
-	});
 </script>
 
 </html>
