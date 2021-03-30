@@ -72,7 +72,7 @@
 				  </c:forEach>
 			  </c:if>
 			  <c:if test="${list != null}">
-				<c:forEach var="notice" items="${list}">
+				<c:forEach var="notice" items="${list}" varStatus="i" >
 					<tr>
 						<td><c:out value="${notice.rownum}"/></td>
 						<td>

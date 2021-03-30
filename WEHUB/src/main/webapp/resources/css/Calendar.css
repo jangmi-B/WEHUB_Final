@@ -1,0 +1,199 @@
+@charset "UTF-8";
+
+		body {
+		scrollbar-face-color: #F6F6F6;
+		scrollbar-highlight-color: #bbbbbb;
+		scrollbar-3dlight-color: #FFFFFF;
+		scrollbar-shadow-color: #bbbbbb;
+		scrollbar-darkshadow-color: #FFFFFF;
+		scrollbar-track-color: #FFFFFF;
+		scrollbar-arrow-color: #bbbbbb;
+		margin-left:"0px"; margin-right:"0px"; margin-top:"0px"; margin-bottom:"0px";
+		}
+
+		/*  td {font-family: "돋움"; font-size: 9pt; color:#595959;}
+		th {font-family: "돋움"; font-size: 9pt; color:#000000;}
+		select {font-family: "돋움"; font-size: 9pt; color:#595959;} */ 
+
+
+		.divDotText {
+		overflow:hidden;
+		text-overflow:ellipsis;
+		}
+
+	    A:link { font-size:20pt; color:#000000; text-decoration:none; }
+		A:visited { font-size:20pt; color:#000000; text-decoration:none; }
+		A:active { font-size:20pt; color:red; text-decoration:none; }
+		A:hover { font-size:20pt; color:red;text-decoration:none;}
+		.day{
+			width:100px; 
+			height:30px;
+			font-weight: bold;
+			font-size:15px;
+			font-weight:bold;
+			text-align: center;
+		}
+		.sat{
+			color:#529dbc;
+		}
+		.sun{
+			color:red;
+		}
+		.today_button_div{
+			float: right;
+		}
+		.today_button{
+			width: 100px; 
+			height:30px;
+		}
+		.calendar{
+			width:80%;
+			margin-left: 17%;
+		}
+		.navigation{
+			margin-top:20px;
+			margin-bottom:30px;
+			text-align: center;
+			font-size: 55px;
+			vertical-align: middle;
+		}
+		.calendar_body{
+			width:100%;
+			background-color: #FFFFFF;
+			border:1px solid white;
+			margin-bottom: 50px;
+			border-collapse: collapse;
+			cursor:pointer;
+		}
+		.calendar_body .today{
+			border:1px solid white;
+			height:120px;
+			background-color:antiquewhite;
+			text-align: left;
+			vertical-align: top;
+		}
+		.calendar_body .date{
+			font-weight: bold;
+			font-size: 15px;
+			padding-left: 3px;
+			padding-top: 3px;
+		}
+		.calendar_body .sat_day{
+			border:1px solid white;
+			height:120px;
+			background-color:#EFEFEF;
+			text-align:left;
+			vertical-align: top;
+		}
+		.calendar_body .sat_day .sat{
+			color: #529dbc; 
+			font-weight: bold;
+			font-size: 15px;
+			padding-left: 3px;
+			padding-top: 3px;
+		}
+		.calendar_body .sun_day{
+			border:1px solid white;
+			height:120px;
+			background-color:#EFEFEF;
+			text-align: left;
+			vertical-align: top;
+		}
+		.calendar_body .sun_day .sun{
+			color: red; 
+			font-weight: bold;
+			font-size: 15px;
+			padding-left: 3px;
+			padding-top: 3px;
+		}
+		.calendar_body .normal_day{
+			border:1px solid white;
+			height:120px;
+			background-color:#EFEFEF;
+			vertical-align: top;
+			text-align: left;
+		}
+		
+		.before_after_month{
+			margin: 10px;
+			font-weight: bold;
+		}
+		.before_after_year{
+			font-weight: bold;
+		}
+		.this_month{
+			margin: 10px;
+		}
+		
+		
+section > #notice_bar {
+  position: fixed;
+  margin-left: 100px;
+  margin-top: 30px;
+  padding-left: 10px;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  width: 200px;
+  line-height: 30px;
+  box-shadow: 3px 3px 3px lightgray;
+  margin-right: 30px;
+  background-color: white;
+}
+
+#notice_bar > ul {
+  margin-top: 0;
+}
+
+#notice_bar > ul > li {
+  padding-bottom: 25px;
+  padding-top: 10px;
+ 
+}
+
+#notice_bar li a{
+  color:black;
+}
+
+
+#notice_bar > ul > li span {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.line {
+  border: 1px solid black;
+  width: 150px;
+  background-color: black;
+  margin: 10px 0;
+}
+
+#notice_bar ul > li > ul > li:hover {
+  cursor: pointer;
+  font-weight: 800;
+  color: #5b18ff;
+}
+
+#notice_bar input {
+  width: 130px;
+  height: 25px;
+  border-radius: 5px;
+  border: 1px solid rgb(139, 138, 138);
+}
+
+#notice_bar input:focus {
+  border: 2px solid rgb(139, 138, 138);
+}
+
+#notice_bar button {
+  border-radius: 5px;
+  border: 1px solid transparent;
+  color: white;
+  background-color: #5b18ff;
+  width: 40px;
+  height: 25px;
+  /* box-shadow: 1px 1px 1px gray; */
+}
+
+#notice_bar button:active {
+  box-shadow: 1px 1px 3px gray;
+}

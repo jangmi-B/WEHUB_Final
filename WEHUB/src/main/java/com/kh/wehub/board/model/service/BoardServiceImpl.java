@@ -119,8 +119,6 @@ public class BoardServiceImpl implements BoardService {
 		
 		map.put("comments", comments);
 		map.put("commentsNo", commentsNo);
-		System.out.println(comments);
-		System.out.println(commentsNo);
 		
 		
 		result = boardDao.updateComments(map);

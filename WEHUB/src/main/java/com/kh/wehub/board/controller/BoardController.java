@@ -20,6 +20,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -356,6 +357,8 @@ public class BoardController {
 			
 		}
 		
+		
+		
 		notice = service.findNoticeByNo(noticeNo);
 //		System.out.println("후" + notice);
 		
@@ -367,6 +370,8 @@ public class BoardController {
 			
 			comments.get(i).setUserName(name.get(i).getUser_name());
 		}
+		
+		
 		model.addObject("loginMember", loginMember);
 		model.addObject("comments", comments);
 		model.addObject("notice", notice);

@@ -83,10 +83,10 @@ th {
 }
 
 /* td 태그 */
-tbody {
+.HM_TableArea tbody {
   padding: 10px 10px 10px 10px;
 }
-td {
+.HM_TableArea td {
   border-bottom: 1px solid rgb(211, 211, 211);
 }
 .HM_Name {
