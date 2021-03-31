@@ -9,84 +9,93 @@
 
 	<c:set var="adressArr" value="${ loginMember.address }"></c:set>
 	<c:set var="arr" value="${fn:split(adressArr,',')}"/>
-		
+	
+	<style>
+	.UserModifyImg {
+		  display: inline-flex;
+		  width: 40px;
+		  height: 40px;
+		  border-radius: 50%;
+		  overflow: hidden;
+		  object-fit: cover;
+		}
+	</style>
 	<div class="member__modify">
       <div id="member__modify__form">
         <form action="${path}/member/update" method="post" enctype="multipart/form-data">
-          <span id="modify_name">회원정보수정</span>
-          <table>
-          	<tr>
-              <td><label for="modify_img">프로필 사진</label></td>
-              <td><input id="modify_img" type="text" name="user_img" value="" readonly="readonly"></td>
-              <td><button class="btn" id="modify_img" type="button" name="user_imgOri" value="">이미지 선택</button></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><label for="modify_id">아이디</label></td>
-              <td><input id="modify_id" type="text" name="user_id" value="${ loginMember.user_id }" readonly></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><label for="modify_password">비밀번호</label></td>
-              <td><input class="modify_input" id="modify_password" type="password" name="user_pwd" placeholder="변경할 비밀번호를 입력해 주세요." ></td>
-              <td><button class="btn" id="modify_btn_pw" type="button" id="pw_modify" onclick="location.href='${path}/member/updatePassword'">비밀번호변경</button></td>
-            </tr>
-            <tr>
-              <td><label for="modify_company">회사명</label></td>
-              <td><input id="modify_company" name="user_companyname" type="text" value="${ loginMember.user_companyname }" readonly></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><label for="modify_userNo">사번</label></td>
-              <td><input id="modify_userNo" name="userNo" type="text" value="A12345" readonly></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><label for="modify_userName">사원명</label></td>
-              <td><input id="modify_userName" name="user_name" type="text" value="${ loginMember.user_name }" readonly></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><label for="modify_Grade">직급</label></td>
-              <td><input id="modify_Grade" name="rank" type="text" value="${ loginMember.rank }" readonly></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><label for="modify_email">이메일</label></td>
-              <td><input class="modify_input" name="email" id="modify_email" type="email" value="${ loginMember.email }"></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><label for="modify_phone">내선전화</label></td>
-              <td><input class="modify_input" name="comcall" id="modify_phone" type="tel" value="${ loginMember.comcall }"></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><label for="modify_cellPhone">휴대전화</label></td>
-              <td><input class="modify_input" name="phone" id="modify_cellPhone" type="tel" value="${ loginMember.phone }"></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><label for="modify_address">주소</label></td>
-              <td><input class="modify_input" name="address" id="kakao_postcode" type="text" value="${arr[0]}" readonly="readonly"></td>
-              <td><button class="btn" id="modify_btn_addr" type="button" onclick="sample6_execDaumPostcode();">주소찾기</button></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td><input class="modify_input" name="address" id="kakao_address" type="text" value="${arr[1]}" readonly="readonly"></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td><input class="modify_input" name="address" id="kakao_detailAddress" type="text" value="${arr[2]}"></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td><input class="modify_input" name="address" id="kakao_extraAddress" type="text" value="${arr[3]}" readonly="readonly"></td>
-              <td></td>
-            </tr>
-          </table>
+		<span id="modify_name">회원정보수정</span>
+			<table>
+				<tr>
+				    <td><label for="modify_img">프로필 사진</label></td>
+				    <td><input type="file" id="modify_img" type="text" name="user_img" value="" readonly="readonly"></td>
+				    <td></td>
+				</tr>
+				<tr>
+				    <td><label for="modify_id">아이디</label></td>
+				    <td><input id="modify_id" type="text" name="user_id" value="${ loginMember.user_id }" readonly></td>
+				    <td></td>
+				</tr>
+				<%-- <tr>
+				    <td><label for="modify_password">비밀번호</label></td>
+				    <td><input class="modify_input" id="modify_password" type="password" name="user_pwd" placeholder="변경할 비밀번호를 입력해 주세요." ></td>
+				    <td><button class="btn" id="modify_btn_pw" type="button" id="pw_modify" onclick="location.href='${path}/member/updatePassword'">비밀번호변경</button></td>
+				</tr> --%>
+				<tr>
+				    <td><label for="modify_company">회사명</label></td>
+				    <td><input id="modify_company" name="user_companyname" type="text" value="${ loginMember.user_companyname }" readonly></td>
+				    <td></td>
+				</tr>
+				<tr>
+				    <td><label for="modify_userNo">사번</label></td>
+				    <td><input id="modify_userNo" name="userNo" type="text" value="A12345" readonly></td>
+				    <td></td>
+				</tr>
+				<tr>
+				    <td><label for="modify_userName">사원명</label></td>
+				    <td><input id="modify_userName" name="user_name" type="text" value="${ loginMember.user_name }" readonly></td>
+				    <td></td>
+				</tr>
+				<tr>
+				    <td><label for="modify_Grade">직급</label></td>
+				    <td><input id="modify_Grade" name="rank" type="text" value="${ loginMember.rank }" readonly></td>
+				    <td></td>
+				</tr>
+				<tr>
+				    <td><label for="modify_email">이메일</label></td>
+				    <td><input class="modify_input" name="email" id="modify_email" type="email" value="${ loginMember.email }"></td>
+				    <td></td>
+				</tr>
+				<tr>
+				    <td><label for="modify_phone">내선전화</label></td>
+				    <td><input class="modify_input" name="comcall" id="modify_phone" type="tel" value="${ loginMember.comcall }"></td>
+				    <td></td>
+				</tr>
+				<tr>
+				    <td><label for="modify_cellPhone">휴대전화</label></td>
+				    <td><input class="modify_input" name="phone" id="modify_cellPhone" type="tel" value="${ loginMember.phone }"></td>
+				    <td></td>
+				</tr>
+				<tr>
+				    <td><label for="modify_address">주소</label></td>
+				    <td><input class="modify_input" name="address" id="kakao_postcode" type="text" value="${arr[0]}" readonly="readonly"></td>
+				    <td><button class="btn" id="modify_btn_addr" type="button" onclick="sample6_execDaumPostcode();">주소찾기</button></td>
+				</tr>
+				<tr>
+				    <td></td>
+				    <td><input class="modify_input" name="address" id="kakao_address" type="text" value="${arr[1]}" readonly="readonly"></td>
+				    <td></td>
+				</tr>
+				<tr>
+				    <td></td>
+				    <td><input class="modify_input" name="address" id="kakao_detailAddress" type="text" value="${arr[2]}"></td>
+				    <td></td>
+				</tr>
+				<tr>
+				    <td></td>
+				    <td><input class="modify_input" name="address" id="kakao_extraAddress" type="text" value="${arr[3]}" readonly="readonly"></td>
+				    <td></td>
+				</tr>
+			</table>
           <div id="modify_button">
             <button class="btn" id="modify_btn" type="submit" onclick="location.href='${path}/member/update'">회원정보수정</button>
             <button class="btn" id="modify_btn_b" type="button" onclick="javascript:deleteMember();">회원탈퇴</button>

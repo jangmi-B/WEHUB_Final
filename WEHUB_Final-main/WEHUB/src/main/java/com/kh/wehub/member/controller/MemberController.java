@@ -225,12 +225,19 @@ public class MemberController {
 	}
 	
 	// 회원 수정
-	@RequestMapping(value="member/memModify", method = {RequestMethod.POST})
+	@RequestMapping(value="member/memModify", method = {RequestMethod.GET})
 	public String memModify() {
 		log.info("회원 수정 페이지 요청");
 		
 		return "member/memModify";
 	}
+	
+//	@RequestMapping(value="member/memModify", method = {RequestMethod.POST})
+//	public String memModify() {
+//		log.info("회원 수정 페이지 요청");
+//		
+//		return "member/memModify";
+//	}
 	
 	@RequestMapping(value="/member/update", method = {RequestMethod.POST})
 	public ModelAndView update(@ModelAttribute Member member,

@@ -39,18 +39,18 @@
 </body>
 
 <script>
-	$("#login-button").click(function(event){
+/* 	$("#login-button").click(function(event){
 		/* event.preventDefault(); */
 	
 		$('form').fadeOut(300);
 		$('.wrapper').addClass('form-success');
-/*  	setTimeout(function() {
-		}, 2800); */
+  	setTimeout(function() {
+		}, 2800);
 	      
 		return;
 		
 		$('#loginForm').submit();
-	});
+	}); */
 	
 	function loginForm() {
 		
