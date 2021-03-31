@@ -35,10 +35,10 @@
 				    <td>
 			    		<%-- <c:set var="userImgChk" value="${ loginMember.user_imgOriname }">
 							<c:choose>
-								<c:when test="${ !empty userImgChk }">
+								<c:when test="${ empty userImgChk }">
 									<img class="UserModifyImg" src="${path}/images/userImage.png">
 								</c:when>
-								<c:when test="${ empty userImgChk }">
+								<c:when test="${ !empty userImgChk }">
 									<img class="UserModifyImg" src="${ loginMember.user_imgOriname }">
 								</c:when>		
 							</c:choose>
