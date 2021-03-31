@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -40,7 +42,7 @@ public class CalendarController {
 		}
 		//검색 날짜 end
 
-		Map<String, Integer> today_info =  dateData.today_info(dateData);
+		Map<String, Integer> today_info = dateData.today_info(dateData);
 		List<DateData> dateList = new ArrayList<DateData>();
 		
 		//실질적인 달력 데이터 리스트에 데이터 삽입 시작.
@@ -74,20 +76,13 @@ public class CalendarController {
 		//여기서부터 건드림
 		List<DateData> list = service.selectCalendar(loginMember);
 		
-//		System.out.println(today_info.get("today"));
-//		System.out.println(today_info.get("search_year"));
-//		System.out.println(today_info.get("search_month"));
-//		System.out.println(today_info.get("start")); // 1일이 시작되는 첫번째 칸 번호
-//		System.out.println(today_info.get("startDay")); // 1
-//		System.out.println(today_info.get("endDay")); // 그 달의 마지막 일
-//		
-		
 		for(int i = 0; i < dateList.size(); i++) {
 			for(int j = 0; j < list.size(); j++) {
 				if(dateList.get(i).getYear().equals(list.get(j).getYear())) {
 					if(Integer.parseInt(dateList.get(i).getMonth()) == Integer.parseInt(list.get(j).getMonth())-1) {
 						if(dateList.get(i).getDate().equals(list.get(j).getDate())) {
 							dateList.get(i).setSchedule_content(list.get(j).getSchedule_content());
+							dateList.get(i).setCal_no(list.get(j).getCal_no());
 						}
 					}
 				}
@@ -100,4 +95,33 @@ public class CalendarController {
 		
 		return "/schedule/calendar";
 	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "calendar/update", method = {RequestMethod.POST}, produces = "application/String; charset=utf-8")
+	public String updateCal(@RequestParam("text") String text, @RequestParam("dayNo") int dayNo, @RequestParam("calNo") int calNo,
+			  @SessionAttribute("loginMember") Member member, @RequestParam("month") String month, @RequestParam("year") String year) {
+		
+		
+		int result = 0;
+		
+		System.out.println(month);
+		System.out.println(Integer.parseInt(year)+1);
+		
+		result = service.updateCalendar(text, dayNo, Integer.parseInt(year) , month, calNo, member);
+		
+		if(result > 0) {
+			System.out.println("성공");
+		}
+		
+		String str = text;
+		
+		return str;
+	}
+	
+	
+	
+	
+	
+	
 }

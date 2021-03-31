@@ -22,7 +22,6 @@
   <link rel="stylesheet" href="${path}/css/board_notice_list.css">
   <link rel="stylesheet" href="${path}/css/board_notice_detail.css">
   <link rel="stylesheet" href="${path}/css/modal.css">
-  <link rel="stylesheet" href="${path}/css/Calendar.css">
   <title>WEHUB</title>
 </head>
 <body>

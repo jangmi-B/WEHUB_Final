@@ -16,12 +16,33 @@
 	</resultMap>
 
 	<select id="selectCalendar" parameterType="map" resultMap="ScheduleResultMap">
-		SELECT M.USER_NO, C.CAL_CONTENT, C.CAL_DATE, C.CAL_YEAR, C.CAL_MONTH, C.CAL_DAY
+		SELECT M.USER_NO, C.CAL_NO, C.CAL_CONTENT, C.CAL_DATE, C.CAL_YEAR, C.CAL_MONTH, C.CAL_DAY
 		FROM CALENDAR C
 		JOIN MEMBER M ON(M.USER_NO = C.USER_NO)
 		WHERE M.USER_NO = #{userNo}
 	</select>
+	
+	<insert id="insertCalendar" parameterType="map"
+			useGeneratedKeys="true" keyProperty="cal_no" keyColumn="CAL_NO">
+		INSERT INTO CALENDAR VALUES(
+		SEQ_CAL_NO.NEXTVAL,
+		#{userNo},
+		#{year},
+		#{month},
+		#{dayNo},
+		#{text},
+		SYSDATE
+		)
+	</insert>
 
+	<update id="updateCalendar" parameterType="map">
+		UPDATE CALENDAR
+		SET
+			CAL_CONTENT = #{text},
+			CAL_DATE = SYSDATE
+		WHERE
+			CAL_NO = #{calNo}
+	</update>
 
 
 </mapper>

@@ -12,4 +12,9 @@ public interface ScheduleDao {
 
 	List<DateData> selectCalendar(Map<Object, Object> map);
 
+	int insertCalendar(Map<Object, Object> map);
+	
+	int updateCalendar(Map<Object, Object> map);
+
+
 }
