@@ -5,7 +5,7 @@
 <mapper namespace="com.kh.wehub.message.model.dao.MessageDao">
 	
 	<resultMap type="ReceiveMessage" id="receiveResultMap">
-		<id property="reciveNo" column="REC_NO"/>
+		<id property="receiveNo" column="REC_NO"/>
 		<id property="senderNo" column="SENDER_NO"/>
 		<id property="receiverNo" column="RECEIVER_NO"/>
 		<id property="receiveContent" column="REC_CONTENT"/>
@@ -72,5 +72,13 @@
 		</if>
 		ORDER BY R.REC_NO DESC
 	</select>
+	
+	<update id="deleteMessage" parameterType="_int">
+		UPDATE RECEIVE_MSG 
+		SET 
+		    STATUS='N'
+		WHERE 
+		    REC_NO= #{receiveNo}
+	</update>
 
 </mapper>

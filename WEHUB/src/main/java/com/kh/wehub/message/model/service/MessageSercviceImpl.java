@@ -35,4 +35,10 @@ public class MessageSercviceImpl implements MessageService {
 		return MessageDao.selectMessageList(rowBounds, map);
 	}
 
+	@Override
+	public int deleteMsg(int receiveNo) {
+		
+		return MessageDao.deleteMessage(receiveNo);
+	}
+
 }

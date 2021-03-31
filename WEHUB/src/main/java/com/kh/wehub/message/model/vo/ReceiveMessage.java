@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ReceiveMessage {
 	
-	private int reciveNo;
+	private int receiveNo;
 	
 	private int senderNo;
 	

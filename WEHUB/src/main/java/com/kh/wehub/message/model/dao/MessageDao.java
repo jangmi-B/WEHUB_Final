@@ -15,4 +15,6 @@ public interface MessageDao {
 
 	List<ReceiveMessage> selectMessageList(RowBounds rowBounds, Map<String, Object> map);
 
+	int deleteMessage(int receiveNo);
+
 }

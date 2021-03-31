@@ -9,11 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.wehub.board.model.service.BoardService;
 import com.kh.wehub.common.util.PageInfo;
 import com.kh.wehub.member.model.vo.Member;
 import com.kh.wehub.message.model.service.MessageService;
@@ -63,6 +63,20 @@ public class MessageController {
 		model.setViewName("message/message_list");
 		
 		return model;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/message/delete", method= {RequestMethod.GET})
+	public void deleteComment(@RequestParam(value="receiveNo") int receiveNo) {
+		
+		int result = 0;
+		result = service.deleteMsg(receiveNo);
+		
+		if(result > 0) {
+//			System.out.println("삭제성공");
+		}else {
+			System.out.println("삭제실패");
+		}
 	}
 	
 }

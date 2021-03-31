@@ -98,7 +98,7 @@
             </table>
           </form>
             <div class="notice_list_page">
-              <ul class="notice_pagination modal">
+              <ul class="notice_pagination">
               <c:if test="${notice_search == null}">
 	                <li><button type="button" class="notice_page_first" onclick="location.href='${path}/notice/list?page=1'">처음페이지</button></li>
 	                <li><button type="button" class="notice_arrow_left" onclick="location.href='${path}/notice/list?page=${pageInfo.prvePage}'">&lt;&lt;</button></li>

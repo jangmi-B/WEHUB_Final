@@ -12,5 +12,7 @@ public interface MessageService {
 
 	List<ReceiveMessage> getSendList(PageInfo pageInfo, Map<String, Object> map);
 
+	int deleteMsg(int receiveNo);
+
 	
 }
