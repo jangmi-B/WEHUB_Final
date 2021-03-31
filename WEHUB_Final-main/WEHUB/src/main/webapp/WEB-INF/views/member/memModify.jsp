@@ -20,6 +20,7 @@
 		  object-fit: cover;
 		}
 	</style>
+	
 	<div class="member__modify">
       <div id="member__modify__form">
         <form action="${path}/member/update" method="post" enctype="multipart/form-data">
@@ -27,8 +28,22 @@
 			<table>
 				<tr>
 				    <td><label for="modify_img">프로필 사진</label></td>
-				    <td><input type="file" id="modify_img" type="text" name="user_img" value="" readonly="readonly"></td>
-				    <td></td>
+				    <td id="imgTd">
+					    <img class="UserModifyImg" src="${path}/images/logo.png">
+					    <input type="file" id="modify_img" type="text" name="user_img" value="" style="">
+					</td>
+				    <td>
+			    		<%-- <c:set var="userImgChk" value="${ loginMember.user_imgOriname }">
+							<c:choose>
+								<c:when test="${ !empty userImgChk }">
+									<img class="UserModifyImg" src="${path}/images/userImage.png">
+								</c:when>
+								<c:when test="${ empty userImgChk }">
+									<img class="UserModifyImg" src="${ loginMember.user_imgOriname }">
+								</c:when>		
+							</c:choose>
+						</c:set> --%>
+				    </td>
 				</tr>
 				<tr>
 				    <td><label for="modify_id">아이디</label></td>

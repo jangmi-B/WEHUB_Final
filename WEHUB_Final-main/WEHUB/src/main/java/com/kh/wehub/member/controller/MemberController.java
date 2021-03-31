@@ -240,9 +240,9 @@ public class MemberController {
 //	}
 	
 	@RequestMapping(value="/member/update", method = {RequestMethod.POST})
-	public ModelAndView update(@ModelAttribute Member member,
+	public ModelAndView update(@ModelAttribute Member member, ModelAndView model,
 			@SessionAttribute(name = "loginMember", required = false) Member loginMember,
-			ModelAndView model) {
+			@RequestParam("user_img") MultipartFile reloadImgFile, HttpServletRequest request) {
 		
 		System.out.println();
 		
@@ -251,15 +251,25 @@ public class MemberController {
 		if(loginMember.getUser_id().equals(member.getUser_id())) {
 			member.setUser_no(loginMember.getUser_no());
 			
+			if(reloadImgFile != null && !reloadImgFile.isEmpty()) {
+				if(member.getUser_imgRename() != null) {
+					deleteImgFile(member.getUser_imgRename(), request);
+				}
+				
+				String renameFileName = saveFile(reloadImgFile, request);
+				
+				if(renameFileName != null) {
+					member.setUser_imgOriname(reloadImgFile.getOriginalFilename());
+					member.setUser_imgRename(renameFileName);
+				}
+			}
+			
 			result = service.saveMember(member);
 //			log.info("result 값 받아오나욘? " + result);
 			
 //			String memAdress = loginMember.getAddress();
-//			
 //			System.out.println(memAdress);
-//			
 //			String[] adressArr = memAdress.split(",");
-//			
 //			System.out.println(adressArr[0]);
 //			System.out.println(adressArr[1]);
 			
@@ -311,12 +321,12 @@ public class MemberController {
 	}
 	
 	// 회원 주소 배열 테스트
-	@RequestMapping("member/memAdress")
-	public String memAdress() {
-		log.info("회원 주소 배열 테스트 페이지 요청");
-		
-		return "member/memAdress";
-	}
+//	@RequestMapping("member/memAdress")
+//	public String memAdress() {
+//		log.info("회원 주소 배열 테스트 페이지 요청");
+//		
+//		return "member/memAdress";
+//	}
 	
 //	@RequestMapping("/member/memAdress")
 //	public ModelAndView memAdress(ModelAndView model,
@@ -358,5 +368,19 @@ public class MemberController {
 		}
 		
 		return renameFileName;
+	}
+	
+	private void deleteImgFile(String fileName, HttpServletRequest request) {
+		String rootPath = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = rootPath + "/upload/userProfileImg";				
+		
+		log.info("Root Path : " + rootPath);
+		log.info("Save Path : " + savePath);
+		
+		File file =  new File(savePath + "/" + fileName);
+		
+		if(file.exists()) {
+			file.delete();
+		}	
 	}
 }
