@@ -23,7 +23,7 @@ public class ReceiveMessage {
 	
 	private Date deleteDate;
 	
-	private String userName;
+	private String senderName;
 	
 	private String rank;
 	

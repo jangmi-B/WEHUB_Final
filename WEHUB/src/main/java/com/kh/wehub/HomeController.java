@@ -14,8 +14,6 @@ public class HomeController {
 	public String home(Locale locale, Model model) {
 		
 		return "/member/login";
-//		return "message/message_send";
-//		return "message/message_list";
 	}
 	
 }

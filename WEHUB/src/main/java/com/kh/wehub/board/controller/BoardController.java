@@ -67,7 +67,6 @@ public class BoardController {
 		PageInfo pageInfo = new PageInfo(page, 10, noticeCount, listLimit);
 		
 		list = service.getNoticeList(pageInfo,searchText);
-		
 		staticList = service.getStaticList();
 		
 		if(searchText != null) {

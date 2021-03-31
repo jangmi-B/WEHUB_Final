@@ -76,8 +76,7 @@ section > .common_section {
 footer {
   display: flex;
   align-items: flex-end;
-  /* padding-left: 70px; */
-  margin-left: 70px;
+  margin-left: 190px;
   justify-content: center;
 }
 

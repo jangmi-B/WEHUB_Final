@@ -4,7 +4,8 @@
 <%@ page session="false" %>
 
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-
+	
+	<div>
 	<div class="index_section">
       <ul>
         <li><h1>쪽지 <i class="far fa-comment-dots"></i></h1>
@@ -18,25 +19,26 @@
             <li>임시보관함</li>
           </ul>
         </li>
-        <div class="line"></div>
+       </ul>
+      <div class="line"></div>
       </div>
       <div class="messageList">
       <h2 class="msg_title" style="margin:0; text-align:left;" >받은쪽지함</h2>
         <div class="megSearchBox" style="float:right">
-          <form action="">
-            <select class="msgSearchList" name="msgSearchBox">
+          <form action="${path}/message/list" method="get">
+            <!-- <select class="msgSearchList" name="msgSearchBox">
               <option value="all">전체</option>
               <option value="inbox">받은편지함</option>
               <option value="send">보낸편지함</option>
               <option value="archive">쪽지보관함</option>
-            </select>
+            </select> -->
             <select class="msgSearchList" name="msgSearchList">
-              <option value="all">전체</option>
-              <option value="name">이름</option>
-              <option value="content">내용</option>
+              <option value="all" <c:out value="${map.msgSearchList == 'all'?'selected':''}"/>>전체</option>
+              <option value="name" <c:out value="${map.msgSearchList == 'name'?'selected':''}"/>>이름</option>
+              <option value="content"<c:out value="${map.msgSearchList == 'content'?'selected':''}"/>>내용</option>
             </select>
             <input type="search" placeholder="원하는 검색어를 입력하세요" name="msgsSearchText">
-            <button type="button" class="msg_btn_search">검색</button>
+            <button type="submit" class="msg_btn_search">검색</button>
           </form>
         </div>
         <div class="msgComponent">
@@ -57,7 +59,7 @@
               <th colspan="">내용</th>
               <th>날짜</th>
             </tr>
-            <c:if test="${receiveList == null}">
+            <c:if test="${receiveList == null || receiveList.size() == 0 }">
             	<tr>
             		<td colspan="4">
             			받은 쪽지함이 비어있습니다.
@@ -68,7 +70,7 @@
             	<c:forEach var="receiveList" items="${receiveList}">
             		<tr>
 		              <td style="width:50px"><input type="checkbox" name="chk"></td>
-		              <td><c:out value="${receiveList.userName}"/> <c:out value="${receiveList.rank}"/></td>
+		              <td><c:out value="${receiveList.senderName}"/> <c:out value="${receiveList.rank}"/></td>
 		              <td  colspan="1" style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">
 		              	<a href="${path}/message/list?reciveNo=${receiveList.reciveNo}">
 							<c:out value="${receiveList.receiveContent}"/>
@@ -96,7 +98,7 @@
 	          </ul>
           </div>
         </div>
-
+	</div>
 <script>
 	function chkAll() {
 	    if ($("#checkAll").is(':checked')) {

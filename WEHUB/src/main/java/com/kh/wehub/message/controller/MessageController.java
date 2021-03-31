@@ -1,6 +1,8 @@
 package com.kh.wehub.message.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,22 +31,35 @@ public class MessageController {
 	
 	@RequestMapping(value = "/message/list", method = {RequestMethod.GET})
 	public ModelAndView msgList(ModelAndView model,
+			@RequestParam(value = "msgSearchList", required=false)String msgSearchList,
+			@RequestParam(value = "msgsSearchText", required=false)String msgSearchText,
 			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(value = "listLimit", required = false, defaultValue = "15") int listLimit,
 			@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
 		
+		int msgCount = 0;
+		PageInfo pageInfo = null;
 		List<ReceiveMessage> receiveList = null;
 		
-		int msgCount = service.getSendMsgCount(loginMember.getUser_no());
-		System.out.println(msgCount);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("msgSearchList", msgSearchList);
+		map.put("msgSearchText", msgSearchText);
+		map.put("receiverNo", loginMember.getUser_no());
 		
-		PageInfo pageInfo = new PageInfo(page, 10, msgCount, listLimit);
+		msgCount = service.getSendMsgCount(map);
 		
-		receiveList = service.getSendList(pageInfo, loginMember.getUser_no());
-		System.out.println(receiveList);
+		pageInfo = new PageInfo(page, 10, msgCount, listLimit);
+		receiveList = service.getSendList(pageInfo, map);
 		
-		model.addObject("receiveList", receiveList);
-		model.addObject("pageInfo",pageInfo);
+		if(msgSearchList == null && msgSearchText == null) {
+			model.addObject("pageInfo",pageInfo);
+			model.addObject("receiveList", receiveList);
+		}else {
+			model.addObject("map", map);
+			model.addObject("pageInfo", pageInfo);
+			model.addObject("receiveList",receiveList);
+		}
+		
 		model.setViewName("message/message_list");
 		
 		return model;

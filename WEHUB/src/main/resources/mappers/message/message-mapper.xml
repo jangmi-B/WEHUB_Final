@@ -11,7 +11,7 @@
 		<id property="receiveContent" column="REC_CONTENT"/>
 		<id property="receiveDate" column="REC_DATE"/>
 		<id property="deleteDate" column="DELETE_DATE"/>
-		<id property="userName" column="USER_NAME"/>
+		<id property="senderName" column="USER_NAME"/>
 		<id property="rank" column="RANK"/>
 		<id property="status" column="STATUS"/>
 	</resultMap>
@@ -26,14 +26,27 @@
 		<id property="status" column="STATUS"/>
 	</resultMap>
 
-	<select id="getMessageCount" parameterType="_int" resultType="_int">
+	<select id="getMessageCount" parameterType="map" resultType="_int">
 		SELECT COUNT(*)
-		FROM RECEIVE_MSG
+		FROM RECEIVE_MSG R
+		JOIN MEMBER M ON(R.SENDER_NO = M.USER_NO)
 		WHERE STATUS ='Y'
 		AND RECEIVER_NO = #{receiverNo}
+		<if test="msgSearchList == 'all'">
+			AND (R.REC_CONTENT LIKE '%'||#{msgSearchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'name'">
+			AND (M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'content'">
+			AND (R.REC_CONTENT LIKE '%'||#{msgSearchText}||'%')
+		</if>
 	</select>
 
-	<select id="selectMessageList" parameterType="_int" resultMap="receiveResultMap">
+	<select id="selectMessageList" parameterType="map" resultMap="receiveResultMap">
 		SELECT R.REC_NO,
                R.SENDER_NO,
 		       R.REC_CONTENT,
@@ -45,10 +58,19 @@
 		FROM RECEIVE_MSG R
 		JOIN MEMBER M ON(R.SENDER_NO = M.USER_NO)
         WHERE R.STATUS='Y' AND RECEIVER_NO = #{receiverNo}
+       	<if test="msgSearchList == 'all'">
+			AND (R.REC_CONTENT LIKE '%'||#{msgSearchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'name'">
+			AND (M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'content'">
+			AND (R.REC_CONTENT LIKE '%'||#{msgSearchText}||'%')
+		</if>
 		ORDER BY R.REC_NO DESC
 	</select>
-
-
-
 
 </mapper>
