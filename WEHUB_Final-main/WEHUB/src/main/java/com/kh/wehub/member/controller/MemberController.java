@@ -169,10 +169,24 @@ public class MemberController {
 	public ModelAndView signUpForm(
 			@SessionAttribute(name = "loginMember", required = false) Member loginMember, 
 			HttpServletRequest request,@ModelAttribute Member member, ModelAndView model,
-			@RequestParam("user_imgOri") MultipartFile user_imgOri) {
+			@RequestParam("user_img") MultipartFile upfile) {
 
 		log.info(member.toString());
-		System.out.println(user_imgOri.getOriginalFilename());
+		
+		System.out.println(upfile.getOriginalFilename());
+		
+		if(upfile != null && !upfile.isEmpty()) {
+			String renameFileName = saveFile(upfile, request);
+			
+			System.out.println(renameFileName);
+			
+			if(renameFileName != null) {
+				member.setUser_imgOriname(upfile.getOriginalFilename());
+				member.setUser_imgRename(renameFileName);
+				
+				System.out.println(", imgOriname : " + member.getUser_imgOriname() + " / imgRename : " + member.getUser_imgRename());
+			}
+		}
 		
 		int result = service.saveMember(member);
 		
@@ -180,16 +194,6 @@ public class MemberController {
 		
 		model.setViewName("member/signUpForm");
 		
-		if(user_imgOri != null && !user_imgOri.isEmpty()) {
-			String renameFileName = saveFile(user_imgOri, request);
-			
-			System.out.println(renameFileName);
-			
-			if(renameFileName != null) {
-				member.setUser_imgOri(user_imgOri.getOriginalFilename());
-				member.setUser_imgRe(renameFileName);
-			}
-		}
 		
 		if(result > 0) {
 			model.addObject("msg", "회원가입이 정상적으로 되었습니다.");
@@ -232,6 +236,8 @@ public class MemberController {
 	public ModelAndView update(@ModelAttribute Member member,
 			@SessionAttribute(name = "loginMember", required = false) Member loginMember,
 			ModelAndView model) {
+		
+		System.out.println();
 		
 		int result = 0;
 		

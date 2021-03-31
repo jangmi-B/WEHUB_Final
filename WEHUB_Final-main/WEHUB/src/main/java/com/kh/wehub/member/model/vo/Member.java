@@ -33,10 +33,9 @@ public class Member {
 
 	private String dept_code;
 	
-	private String user_imgOri;
+	private String user_imgOriname;
 	
-	private String user_imgRe;
-
+	private String user_imgRename;
 	
 	
 

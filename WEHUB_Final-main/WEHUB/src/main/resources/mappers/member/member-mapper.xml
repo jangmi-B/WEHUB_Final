@@ -41,8 +41,8 @@
 		<id property="address" column="ADDRESS"/>
 		<id property="user_status" column="USER_STATUS"/>
 		<id property="dept_code" column="DEPT_CODE"/>
-		<id property="user_imgOri" column="USER_IMG_ORIFILENAME"/>
-		<id property="user_imgRe" column="USER_IMG_REFILENAME"/>
+		<id property="user_imgOriname" column="USER_IMG_ORIFILENAME"/>
+		<id property="user_imgRename" column="USER_IMG_REFILENAME"/>
 	</resultMap>
 	
 	<insert id="insertMember" parameterType="Member"
@@ -76,8 +76,8 @@
 			#{address}, 
 			DEFAULT, 
 			#{dept_code},
-			#{user_imgOri},
-			#{user_imgRe}
+			#{user_imgOriname},
+			#{user_imgRename}
 		)
 	</insert>
 	
@@ -113,11 +113,11 @@
 		    EMAIL=#{email},
 		    COMCALL=#{comcall},
 		    PHONE=#{phone},
-		    <if test="user_imgOri != null">
-		    USER_IMG_ORIFILENAME=#{user_imgOri},
+		    <if test="user_imgOriname != null">
+		    USER_IMG_ORIFILENAME=#{user_imgOriname},
 		    </if>
-		    <if test="user_imgRe != null">
-		    USER_IMG_REFILENAME=#{user_imgRe},
+		    <if test="user_imgRename != null">
+		    USER_IMG_REFILENAME=#{user_imgRename},
 		    </if>
 		    ADDRESS=#{address}
 		WHERE 
@@ -135,8 +135,8 @@
 <!-- 	<update id="updateUserImg" parameterType="Member">
 		UPDATE MEMBER 
 		SET
-		    USER_IMG_ORIFILENAME=#{user_imgOri},
-		    USER_IMG_REFILENAME=#{user_imgRe}
+		    USER_IMG_ORIFILENAME=#{user_imgOriname},
+		    USER_IMG_REFILENAME=#{user_imgRename}
 		WHERE
 		    USER_NO=#{user_no}
 	</update> -->

@@ -18,7 +18,7 @@
           	<tr>
               <td><label for="modify_img">프로필 사진</label></td>
               <td><input id="modify_img" type="text" name="user_img" value="" readonly="readonly"></td>
-              <td><button class="btn" id="modify_img" type="button" name="user_img" value="">이미지 선택</button></td>
+              <td><button class="btn" id="modify_img" type="button" name="user_imgOri" value="">이미지 선택</button></td>
               <td></td>
             </tr>
             <tr>

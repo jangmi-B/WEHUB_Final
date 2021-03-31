@@ -37,23 +37,23 @@
                 <input type="tel" name="comcall" placeholder="ExtensionNumber">
                 <input type="tel"name="phone"  placeholder="Phone">
                 -->
-                <input type="file" name="user_imgOri" id="user_imgOri" style="padding: 6px 35px; font-size: 13px;" accept=".gif, .jpg, .png">
+                <input type="file" name="user_img" id="user_imgOri" style="padding: 6px 35px; font-size: 13px;" accept=".gif, .jpg, .png">
                 
                 <!-- <input type="text" name="user_companyname"  placeholder="킆릭하여 프로필 이미지 선택하기" style="font-size: 13px;" readonly="readonly"> -->
                 <input type="text" name="user_companyname"  placeholder="회사명  CompanyName" style="font-size: 13px;" required>
-                <input type="button" name="user_companyname_btn"  value="회사 확인" onclick="" style="font-size: 13px;" required>
+                <input type="button" name="user_companyname_btn"  value="회사 확인" onclick="" style="font-size: 13px;">
                 <input type="text" name="rank" placeholder="직급  Rank" style="font-size: 13px;">
                 <input type="email" name="email" placeholder="이메일  E-Mail" style="font-size: 13px;">
                 <input type="text" name="employeeNum" placeholder="사번  employee Number" style="font-size: 13px;">
                 <br><br>
                 <input type="text" name="user_id" placeholder="아이디  UserId" style="font-size: 13px;" id="user_id" required>
-                <input type="button" name="user_id_btn" value="아이디 중복 확인" style="font-size: 13px;" id="id_Check_Btn" required>
+                <input type="button" name="user_id_btn" value="아이디 중복 확인" style="font-size: 13px;" id="id_Check_Btn">
                 <input type="password" name="user_pwd"  placeholder="패스워드  Password" style="font-size: 13px;" id="pass1" required>
                 <input type="password" placeholder="패스워드 확인  PasswordCheck" id="pass2"  style="font-size: 13px;">
                 <input type="text" name="user_name" placeholder="이름  UserName" style="font-size: 13px;" required>
                 <input type="text" name="dept_code" placeholder="부서이름  DepartmentName" style="font-size: 13px;">
                 <br><br>
-                <input type="button" name="address"  value="주소 찾기" onclick="javascript:sample6_execDaumPostcode();" style="font-size: 13px;">
+                <input type="button" name="addressBtn"  value="주소 찾기" onclick="javascript:sample6_execDaumPostcode();" style="font-size: 13px;">
                 <input type="text" name="address"  placeholder="우편번호 Zip/Postal Code" id="kakao_postcode" style="font-size: 13px;" readonly="readonly">
                 <input type="text" name="address"  placeholder="주소  State/Province/Region/City" id="kakao_address" style="font-size: 13px;"  readonly="readonly">
                 <input type="text" name="address"  placeholder="상세주소 Street Address" id="kakao_detailAddress" style="font-size: 13px;">
