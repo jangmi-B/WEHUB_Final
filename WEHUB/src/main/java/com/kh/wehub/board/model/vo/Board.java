@@ -23,7 +23,7 @@ public class Board {
 
 	private String status;
 
-	private List<Reply> replies;
+	private List<Reply> replies; 
 	
 	private Date boardCreateDate;
 	

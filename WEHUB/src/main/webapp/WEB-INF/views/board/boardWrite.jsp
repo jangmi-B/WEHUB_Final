@@ -22,7 +22,7 @@
 			    <li>
 					<table>
 						<tr>
-							<td style="border:0px white;"><input id="notice_search" type="search" placeholder="공지사항 검색"></li></td>
+							<td style="border:0px white;"><input id="notice_search" type="search" placeholder="공지사항 검색"></td>
 							<td style="border:0px white;"><button type="button">Go</button></td>
 						</tr>
 					</table>
@@ -41,6 +41,7 @@
 		        			<span class="indi_info"><img src="${path}/images/${loginMember.member_image}" width="40px" height="40px" style="border-radius: 20px; margin-top: 40px; margin-left: 15px"></span>
 		      				<span>${ loginMember.user_name }</span>
 		      				<span class="date">${ loginMember.dept_name }</span>      
+		      				<span class="date">${ serverTime }</span>
 		        		</div>
 		        		
 		        		<div class="freewrite">
@@ -71,11 +72,12 @@
 							</script>
 							
 							<%-- <input type="hidden" name="boardContent" value="${board.boardContent}"> --%>
-
-		          			<span id="buttonkey">
-					            <input  class="sumbitbutton" type="submit" value="전송"> &nbsp;
-					            <input  class="sumbitbutton" type="reset" value="다시입력">
-		         			</span>
+							
+			          			<span id="buttonkey">
+						            <input  class="sumbitbutton" type="submit" value="전송"> &nbsp;
+						            <input  class="sumbitbutton" type="reset" value="다시입력">
+			         			</span>
+							
 		        		</div>
 	    			</div>
 				</div> 

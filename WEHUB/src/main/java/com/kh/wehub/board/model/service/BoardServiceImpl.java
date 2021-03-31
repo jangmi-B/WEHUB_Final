@@ -1,6 +1,8 @@
 package com.kh.wehub.board.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,9 +17,9 @@ public class BoardServiceImpl implements BoardService {
 	private BoardDao boardDao;
 
 	@Override
-	public List<Board> getBoardList(Board board) {
+	public List<Board> selectBoardDetail() {
 		
-		return boardDao.selectBoardList(board);
+		return boardDao.selectBoardDetail();
 	}
 
 	@Override
@@ -25,11 +27,8 @@ public class BoardServiceImpl implements BoardService {
 		int result = 0;
 		
 		if(board.getBoardNo() != 0) {
-			
-			System.out.println("이건 업데이트_Implements 메소드 board.getBoardNo() : " + board.getBoardNo());
 			result = boardDao.updateBoard(board);
 		} else {
-			System.out.println("이건 인서트_Implements 메소드 board.getBoardNo() : " + board.getBoardNo());
 			result = boardDao.insertBoard(board);
 		}
 		
@@ -39,7 +38,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public Board findBoardByNo(int boardNo) {
 	
-		return boardDao.selectBoardDetail(boardNo);
+		return boardDao.selectBoardList(boardNo);
 	}
 
 	@Override
@@ -53,6 +52,41 @@ public class BoardServiceImpl implements BoardService {
 	public List<Reply> getBoardReplyList(Reply reply) {
 
 		return boardDao.selectBoardReplyList(reply);
+	}
+
+	@Override
+	public int saveReply(int boardNo, String replyContent, int user_no) {
+		int result = 0;
+		
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		
+		map.put("replyContent", replyContent);
+		map.put("boardNo", boardNo);
+		map.put("user_no", user_no);
+		
+		result = boardDao.insertReply(map);
+
+		
+		return result;
+	}
+
+	@Override
+	public Reply findReplyByNo(int replyNo) {
+		
+		return boardDao.selectReplyList(replyNo);
+	}
+
+	@Override
+	public int updateReply(Reply reply) {
+		
+		
+		return boardDao.updateReply(reply);
+	}
+
+	@Override
+	public int deleteReply(int replyNo) {
+		
+		return boardDao.deleteReply(replyNo);
 	}
 
 	

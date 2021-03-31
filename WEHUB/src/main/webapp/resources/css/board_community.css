@@ -111,7 +111,7 @@
     padding-bottom: 30px;
     min-height: 70px;
     
-    text-indent: 3em;
+    /* text-indent: 3em; */
 
   }
   #box>.freewrite{
@@ -200,3 +200,4 @@ span{
    margin-left: -5px;
    color:#5b18ff;
  }
+ 
