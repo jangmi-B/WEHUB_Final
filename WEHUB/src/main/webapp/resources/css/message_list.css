@@ -195,28 +195,34 @@
   padding: 15px;
 }
 
-.view_form {
+.write_form {
   text-align: center;
+}
+
+
+.text_Count{
+	float:right;
 }
 
 .fade {
   display: none;
 }
 
-.toMem {
-  width: 150px;
+input#memSearchInput {
+  width: 370px;
   height: 30px;
   margin-bottom: 10px;
   border: transparent;
-  border-bottom: 2px solid grey;
+  border-bottom:1px solid lightgrey;
 }
 
-.modalContainer textarea {
+.modalContainer #contentsDiv {
   width: 430px;
   height: 250px;
   border: 1px solid lightgray;
   border-radius: 5px;
   resize: none;
+  padding:7px;
 }
 
 /* view modal */
@@ -264,20 +270,12 @@
   padding: 15px;
 }
 
-.write_form {
+.view_form {
   text-align: center;
 }
 
 .fade {
   display: none;
-}
-
-.toMem {
-  width: 150px;
-  height: 30px;
-  margin-bottom: 10px;
-  border: transparent;
-  border-bottom: 2px solid grey;
 }
 
 .modalContainer textarea {

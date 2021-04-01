@@ -27,6 +27,8 @@ public class SendMessage {
 	
 	private String rank;
 	
+	private String deptName;
+
 	private String status;
 	
 }

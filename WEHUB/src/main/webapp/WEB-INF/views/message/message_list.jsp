@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
+<% pageContext.setAttribute("replaceChar", "\n"); %>
 
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 	
@@ -68,6 +69,7 @@
             </c:if>
             <c:if test="${receiveList != null}">
             	<c:forEach var="receiveList" items="${receiveList}">
+            		<input type="hidden" name="receiveNo" value="<c:out value="${receiveList.receiveNo}"/>">
             		<tr id="msgListTable(${receiveList.receiveNo})">
 		              <td style="width:50px"><input type="checkbox" name="chk"></td>
 		              <td><span class="senderName" id="s_name(${receiveList.receiveNo})"><c:out value="${receiveList.senderName}"/> <c:out value="${receiveList.rank}"/></span></td>
@@ -81,13 +83,15 @@
 		            <div class="modal_view fade modalNo${receiveList.receiveNo}">
 					    <div class="bg"></div>
 					    <div class="modalContainer">
-					      <h2 style="margin-left: 33px;">받은쪽지</h2>
-					        <div class="write_form info">
-					          <label>From : </label> <c:out value="${receiveList.senderName}"/> <c:out value="${receiveList.rank}"/><br>
+					      <h2 style="margin-left: 18px;">받은쪽지</h2>
+					        <div class="view_form info">
+					          <label>From : </label> <c:out value="${receiveList.senderName}"/> <c:out value="${receiveList.rank}"/> (<c:out value="${receiveList.s_deptName}"/>)<br>
 					          <label>Date : </label> <fmt:formatDate type="both" value="${receiveList.receiveDate}"/>
 					        </div>
-					        <div class ="write_form">
-					          <textarea class = "form-control" rows="3" name ="messageContent"><c:out value="${receiveList.receiveContent}"/></textarea>
+					        <div class ="view_form">
+					        <div class = "form-control" id="contentsDiv" rows="3" name ="messageContent">
+					       		<p style="text-align:left; margin:5px;">${ fn:replace(receiveList.receiveContent, replaceChar, "<br/>" )}</p> 
+					        </div>
 					        </div>
 					        <div class="msg_btns">
 				        	 <button type="button" class ="delegeBtn(${receiveList.receiveNo})" onclick="deleteMsg(${receiveList.receiveNo});">삭제</button>
@@ -121,19 +125,22 @@
   <div class="modal fade">
     <div class="bg"></div>
     <div class="modalContainer">
-      <h2 style="margin-left: 33px;">쪽지쓰기 <i class="far fa-paper-plane"></i></h2>
-      <form action="/message/write" method="get" class="view_form">
-        <div class="write_form">
-          <label>To : </label> <input name='title' type="text" class="toMem" name="sender">
-          <input type="button" class="memSearch" value="검색">
+      <h2 style="margin-left:18px;">쪽지쓰기 </h2>
+        <div class="info">
+      	  <input type="hidden" id="senderNo" name="senderNo" value="<c:out value="${loginMember.user_no}"/>">
+          <label>To : </label> <input type="text" id="memSearchInput" name="userName">
+        </div>
+        <div style="float:right; padding-right:25px; font-size:12px; margin-top:15px;">
+          <span class="info">30</span>/1000
         </div>
         <div class ="write_form">
-          <textarea class = "form-control" rows="3" name ="messageContent"></textarea>
+          <textarea class = "form-control" rows="3" id="sendContent" name ="sendContent"></textarea>
         </div>
-        <button type="submit" class ="sendBtn">보내기</button>
-        <button type="button" class ="saveBtn">임시저장</button>
-        <button type="button" class ="closeBtn">닫기</button>
-      </form>
+        <div class ="write_form">
+	        <button type="button" id="sendBtn" class ="sendBtn">보내기</button>
+	        <button type="button" class ="saveBtn">임시저장</button>
+	        <button type="button" class ="closeBtn">닫기</button>
+        </div>
     </div>
   </div>
  
@@ -157,7 +164,6 @@
 	  
 	    document.querySelector(".openBtn").addEventListener("click", open);
 	    document.querySelector(".closeBtn").addEventListener("click", close);
-	   /* document.querySelector(".bg").addEventListener("click", close);*/
 	}
 
 	function detailMsg(msgNo){
@@ -195,12 +201,67 @@
             
             xhr.open("GET", "${path}/message/delete?receiveNo="+ msgNo, true);
             
-            
             xhr.send();
-			
 		}
 	}
-	   
+	$(function(){
+		$("#sendBtn").on("click",function(){
+			var senderNo = $("#senderNo").val();
+			var userName = $("#memSearchInput").val();
+			var sendContent = $("#sendContent").val();
+			
+			console.log(senderNo);
+			console.log(userName);
+			console.log(sendContent);
+			
+			$.ajax({
+				type: "post",
+				url:"${path}/message/send",
+				data:{
+					senderNo:senderNo,
+					userName:userName,
+					sendContent:sendContent
+				},
+				success:function(data){
+					document.querySelector(".modal").classList.add("fade");
+				},
+				
+				error: function(e){
+					alert("실패");
+					console.log(e);
+				}
+			});
+		});
+	});
+	
+	$(document).ready(() => { 
+		 $("#memSearchInput").autocomplete({
+			source:function(request, response){
+				$.ajax({
+					url : "${path}/search/json",
+					type : "get",
+					dataType : 'json',
+					data : {
+						userName:$("#memSearchInput").val()
+					},
+					success : function(data){
+						var result = data;
+						response(result);
+					},
+					error : function(e){
+						alert("ajax에러발생..!")
+					}
+				});
+			},
+            focus : function(event, ui) {    //포커스 가면
+                return false;//한글 에러 잡기용도로 사용됨
+            },
+            minLength: 1,// 최소 글자수
+            autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
+            delay: 500,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
+		 });
+	 });
+	
 </script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

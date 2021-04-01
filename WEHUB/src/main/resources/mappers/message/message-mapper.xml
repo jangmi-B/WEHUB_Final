@@ -4,26 +4,43 @@
 
 <mapper namespace="com.kh.wehub.message.model.dao.MessageDao">
 	
+	<resultMap type="Member" id="memberResultMap">
+		<id property="user_no" column="USER_NO"/>
+		<result property="user_companyname" column="USER_COMPANYNAME"/>
+		<result property="user_id" column="USER_ID"/>
+		<result property="user_pwd" column="USER_PWD"/>
+		<result property="user_name" column="USER_NAME"/>
+		<result property="rank" column="RANK"/>
+		<result property="email" column="EMAIL"/>
+		<result property="comcall" column="COMCALL"/>
+		<result property="phone" column="PHONE"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="user_status" column="USER_STATUS"/>
+		<result property="dept_code" column="DEPT_CODE"/>
+	</resultMap>
+	
 	<resultMap type="ReceiveMessage" id="receiveResultMap">
 		<id property="receiveNo" column="REC_NO"/>
-		<id property="senderNo" column="SENDER_NO"/>
-		<id property="receiverNo" column="RECEIVER_NO"/>
-		<id property="receiveContent" column="REC_CONTENT"/>
-		<id property="receiveDate" column="REC_DATE"/>
-		<id property="deleteDate" column="DELETE_DATE"/>
-		<id property="senderName" column="USER_NAME"/>
-		<id property="rank" column="RANK"/>
-		<id property="status" column="STATUS"/>
+		<result property="senderNo" column="SENDER_NO"/>
+		<result property="receiverNo" column="RECEIVER_NO"/>
+		<result property="receiveContent" column="REC_CONTENT"/>
+		<result property="receiveDate" column="REC_DATE"/>
+		<result property="deleteDate" column="DELETE_DATE"/>
+		<result property="senderName" column="USER_NAME"/>
+		<result property="rank" column="RANK"/>
+		<result property="s_deptName" column="DEPT_NAME"/>
+		<result property="status" column="STATUS"/>
 	</resultMap>
 
 	<resultMap type="SendMessage" id="sendResultMap">
 		<id property="sendNo" column="SEND_NO"/>
-		<id property="senderNo" column="SENDER_NO"/>
-		<id property="receiverNo" column="RECEIVER_NO"/>
-		<id property="sendContent" column="SEND_CONTENT"/>
-		<id property="sendDate" column="SEND_DATE"/>
-		<id property="deleteDate" column="DELETE_DATE"/>
-		<id property="status" column="STATUS"/>
+		<result property="senderNo" column="SENDER_NO"/>
+		<result property="receiverNo" column="RECEIVER_NO"/>
+		<result property="sendContent" column="SEND_CONTENT"/>
+		<result property="deptName" column="SEND_CONTENT"/>
+		<result property="sendDate" column="DEPT_NAME"/>
+		<result property="deleteDate" column="DELETE_DATE"/>
+		<result property="status" column="STATUS"/>
 	</resultMap>
 
 	<select id="getMessageCount" parameterType="map" resultType="_int">
@@ -54,9 +71,11 @@
 		       R.DELETE_DATE,
                R.STATUS,
                M.USER_NAME,
-               M.RANK
+               M.RANK,
+               D.DEPT_NAME
 		FROM RECEIVE_MSG R
 		JOIN MEMBER M ON(R.SENDER_NO = M.USER_NO)
+        JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
         WHERE R.STATUS='Y' AND RECEIVER_NO = #{receiverNo}
        	<if test="msgSearchList == 'all'">
 			AND (R.REC_CONTENT LIKE '%'||#{msgSearchText}||'%'
@@ -81,4 +100,60 @@
 		    REC_NO= #{receiveNo}
 	</update>
 
+	<!-- <select id="getSearchMember" parameterType="Member" resultMap="memberResultMap">
+		SELECT USER_NAME, DEPT_NAME
+		FROM MEMBER M
+		LEFT OUTER JOIN DEPARTMENT D ON (M.DEPT_CODE = D.DEPT_CODE)
+	</select> -->
+
+	<select id="getSearchMember" parameterType="string" resultMap="memberResultMap">
+		SELECT M.USER_NAME, D.DEPT_NAME, M.rank
+		FROM MEMBER M
+		LEFT OUTER JOIN DEPARTMENT D ON (M.DEPT_CODE = D.DEPT_CODE)
+		WHERE USER_NAME LIKE '%'|| #{user_name} ||'%'
+	</select>
+
+	<select id="getSender" parameterType="map"  resultMap="memberResultMap">
+		SELECT M.USER_NO,
+		        M.USER_ID,
+		        M.USER_PWD,
+		        M.USER_NAME,
+		        M.RANK,
+		        D.DEPT_NAME
+		FROM MEMBER M
+		JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
+		WHERE USER_STATUS ='Y' AND (USER_NAME = '${user_name}' AND DEPT_NAME= '${dept_name}')
+	</select>
+
+	<insert id="sendMsg" parameterType="map"
+  		useGeneratedKeys="true" keyProperty="sendNo" keyColumn="SEND_NO">
+  		
+		INSERT INTO SEND_MSG 
+  		VALUES(
+  			SEQ_SEND_NO.NEXTVAL,
+  			#{senderNo},
+  			#{receiverNo},
+  			#{sendContent},
+  			SYSDATE,
+  			SYSDATE,
+  			DEFAULT
+ 		)
+	</insert>
+	
+	<insert id="recMsg" parameterType="ReceiveMessage"
+  		useGeneratedKeys="true" keyProperty="receiveNo" keyColumn="REC_NO">
+  		
+		INSERT INTO RECEIVE_MSG 
+  		VALUES(
+  			SEQ_REC_NO.NEXTVAL,
+  			#{senderNo},
+  			#{receiverNo},
+  			#{receiveContent},
+  			SYSDATE,
+  			SYSDATE,
+  			DEFAULT
+ 		)
+	</insert>
+	
+	
 </mapper>

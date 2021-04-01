@@ -6,11 +6,14 @@ import java.util.Map;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.wehub.board.model.dao.BoardDao;
 import com.kh.wehub.common.util.PageInfo;
+import com.kh.wehub.member.model.vo.Member;
 import com.kh.wehub.message.model.dao.MessageDao;
 import com.kh.wehub.message.model.vo.ReceiveMessage;
+import com.kh.wehub.message.model.vo.SendMessage;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,9 +39,43 @@ public class MessageSercviceImpl implements MessageService {
 	}
 
 	@Override
+	@Transactional
 	public int deleteMsg(int receiveNo) {
 		
 		return MessageDao.deleteMessage(receiveNo);
+	}
+
+	@Override
+	public List<Member> getSearchMember(String user_name) {
+		
+		return MessageDao.getSearchMember(user_name);
+	}
+
+	@Override
+	@Transactional
+	public int sendMsg(SendMessage sendMessage) {
+		
+		int result = 0;
+		
+		result = MessageDao.sendMsg(sendMessage);
+		
+		return result;
+	}
+
+	@Override
+	public Member getSender(Map<String, Object> map) {
+		
+		return MessageDao.getSender(map);
+	}
+
+	@Override
+	@Transactional
+	public int recMsg(ReceiveMessage recMsg) {
+		int result = 0;
+		
+		result = MessageDao.recMsg(recMsg);
+		
+		return result;
 	}
 
 }

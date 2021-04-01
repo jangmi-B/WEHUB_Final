@@ -27,6 +27,8 @@ public class ReceiveMessage {
 	
 	private String rank;
 	
+	private String s_deptName;
+	
 	private String status;
 
 }
