@@ -18,10 +18,10 @@ public interface MemberDao {
 	int insertMember(Member member);
 
 	int updateMember(Member member);
+	
+	int updateMemberPass(Member member);
 
 	int deleteMember(@Param("user_id")String userId);
-
-	int updateMemberPass(Member member);
 
 }
 

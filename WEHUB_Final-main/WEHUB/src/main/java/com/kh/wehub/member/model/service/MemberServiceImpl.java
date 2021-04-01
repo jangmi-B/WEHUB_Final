@@ -166,15 +166,16 @@ public class MemberServiceImpl implements MemberService {
 		
 		return member != null;
 	}
-
-	// 비밀번호 변경
+	
 	@Override
 	@Transactional
-	public int saveMemberPass(Member member) {
+	public int updateUserPassword(Member member) {
 		int result = 0;
-		
+
+		System.out.println("member.getUser_pwd() : " + member.getUser_pwd());
 		member.setUser_pwd(passwordEncoder.encode(member.getUser_pwd()));
-			
+		System.out.println("Impl에서 member.getPass : " + member.getUser_pwd());
+		
 		result = memberDao.updateMemberPass(member);
 		
 		return result;

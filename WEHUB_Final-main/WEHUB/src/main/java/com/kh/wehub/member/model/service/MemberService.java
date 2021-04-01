@@ -38,11 +38,10 @@ public interface MemberService {
 	
 	int saveMember(Member member);
 	
+	int updateUserPassword(Member member);
+	
 	int deleteMember(String userId);
 	
 	boolean validate(String userId);
-
-	int saveMemberPass(Member member);
-
 }
 

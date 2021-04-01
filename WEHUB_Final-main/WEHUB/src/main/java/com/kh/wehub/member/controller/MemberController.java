@@ -325,42 +325,44 @@ public class MemberController {
 	public String memAdress() {
 		log.info("회원 비밀번호 변경 페이지 요청");
 		
-		return "member/updatePassword";
+		return "/member/updatePassword";
 	}
 	
 	@RequestMapping("/member/updatePass")
-	public ModelAndView updateUserPass(@ModelAttribute Member member,
-			@SessionAttribute(name = "loginMember", required = false) Member loginMember,
-			ModelAndView model) {
+	public ModelAndView updateUserPass(@ModelAttribute Member member, ModelAndView model,
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
 		
-		log.info("회원 비밀번호 변경 구현 실행 시작");
+		log.info("회원 비밀번호 변경 컨트롤러 요청");
 		
 		int result = 0;
 		
+		System.out.println(result);
+		
+		System.out.println("loginMember.getUser_id().equals(member.getUser_id()) : " + 
+				loginMember.getUser_id().equals(member.getUser_id()));
+		
+		System.out.println("loginMember.getUser_id() : " +  loginMember.getUser_id() + ",  member.getUser_id() : " +  member.getUser_id());
+		
 		member.setUser_no(loginMember.getUser_no());
+		System.out.println("member.getUser_no() : " + member.getUser_no());
 		
-		System.out.println("updateUserPass 342번줄 member.getUser_no() : " + member.getUser_no());
+		result = service.updateUserPassword(member);
 		
-		result = service.saveMemberPass(member);
-		
-		System.out.println("updateUserPass 346번줄 result : " + result);
-		
-		if(loginMember.getUser_id().equals(member.getUser_id())) {
-			System.out.println("loginMember.getUser_id().equals(member.getUser_id()) 349번줄 : " + loginMember.getUser_id().equals(member.getUser_id()));
-			if(result > 0) {
-				model.addObject("loginMember", service.findMemberByUserId(loginMember.getUser_id()));
-				model.addObject("msg", "비밀번호 변경을 완료했습니다.");
-				model.addObject("location", "/member/updatePass");				
-			} else {
-				model.addObject("msg", "비밀번호 변경에 실패 했습니다.");
-				model.addObject("location", "/member/updatePass");
-			}
-		} else {
-			model.addObject("msg", "잘못된 접근입니다.");
-			model.addObject("location", "/");
-		}
-		
-		model.setViewName("common/msg");
+//		if(loginMember.getUser_id().equals(member.getUser_id())) {
+//			member.setUser_no(loginMember.getUser_no());
+//			if(result > 0) {
+//				System.out.println(loginMember.getUser_id().equals(member.getUser_id()) + ",  result : " + result);
+//				model.addObject("loginMember", service.findMemberByUserId(loginMember.getUser_id()));
+//				model.addObject("msg", "회원정보 수정을 완료했습니다.");
+//				model.addObject("location", "/member/memModify");				
+//			} else {
+//				model.addObject("msg", "회원정보 수정에 실패 했습니다.");
+//				model.addObject("location", "/member/memModify");
+//			}
+//		} else {
+//			model.addObject("msg", "잘못된 접근입니다.");
+//			model.addObject("location", "/");
+//		}
 		
 		return model;
 	}
