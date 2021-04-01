@@ -9,8 +9,14 @@
 	</style>
 	
 	<div class="testMethod">
+		<h1>비밀번호 변경</h1>
+		
+		
+		<script>
+			function
+		</script>
 
-		<h1>회원 주소 배열 테스트</h1>
+		<%-- <h1>회원 주소 배열 테스트</h1>
 		
 		<c:set var="adress">
 			${ loginMember.address }
@@ -65,11 +71,9 @@
               <td><label for="modify_address">주소</label></td>
               <td><input class="modify_input" name="address" id="kakao_postcode" type="text" value="${ loginMember.address }" readonly="readonly"></td>
             </tr>
-		</table>
+		</table> --%>
 	
-		<script>
-			function
-		</script>
+		
 	
 	</div>
 	<%-- ${ loginMember.address } --%>

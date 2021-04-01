@@ -124,7 +124,7 @@
 		    USER_NO=#{user_no}	
 	</update>
 	
-	<update id="updatePassword" parameterType="Member">
+	<update id="updateMemberPass" parameterType="Member">
 		UPDATE MEMBER 
 		SET
 		    USER_PWD=#{user_pwd}

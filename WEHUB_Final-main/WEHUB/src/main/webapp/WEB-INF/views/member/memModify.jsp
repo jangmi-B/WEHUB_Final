@@ -29,17 +29,17 @@
 				<tr>
 				    <td><label for="modify_img">프로필 사진</label></td>
 				    <td id="imgTd">
-					    <img class="UserModifyImg" src="${path}/images/logo.png">
+					    <img class="UserModifyImg" src="${path}/upload/userProfileImg/${loginMember.user_imgRename}">
 					    <input type="file" id="modify_img" type="text" name="user_img" value="" style="">
 					</td>
 				    <td>
-			    		<%-- <c:set var="userImgChk" value="${ loginMember.user_imgOriname }">
+			    		<%-- <c:set var="userImgChk" value="${path}/upload/userProfileImg/${loginMember.user_imgRename}">
 							<c:choose>
-								<c:when test="${ !empty userImgChk }">
+								<c:when test="${ empty userImgChk }">
 									<img class="UserModifyImg" src="${path}/images/userImage.png">
 								</c:when>
-								<c:when test="${ empty userImgChk }">
-									<img class="UserModifyImg" src="${ loginMember.user_imgOriname }">
+								<c:when test="${ !empty userImgChk }">
+									<img class="UserModifyImg" src="userImgChk">
 								</c:when>		
 							</c:choose>
 						</c:set> --%>
@@ -115,6 +115,7 @@
             <button class="btn" id="modify_btn" type="submit" onclick="location.href='${path}/member/update'">회원정보수정</button>
             <button class="btn" id="modify_btn_b" type="button" onclick="javascript:deleteMember();">회원탈퇴</button>
         </div> 
+        <button class="btn" id="pass_btn" type="button" onclick="location.href='${path}/member/updatePassword'">비밀번호수정</button>
         </form>
       </div>  
     </div>

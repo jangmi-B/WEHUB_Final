@@ -21,5 +21,7 @@ public interface MemberDao {
 
 	int deleteMember(@Param("user_id")String userId);
 
+	int updateMemberPass(Member member);
+
 }
 

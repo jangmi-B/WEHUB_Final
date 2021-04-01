@@ -40,6 +40,38 @@ CREATE SEQUENCE SEQ_USER_NO;
 INSERT INTO MEMBER VALUES(
     SEQ_USER_NO.NEXTVAL,'WEHUB','admin','1234','관리자','부장','admin@wehub.com','0211112222','01011112222','서울시 강남구 역삼동',DEFAULT,NULL
 );
+INSERT INTO MEMBER (
+			USER_NO,
+			USER_COMPANYNAME,
+			USER_ID,
+			USER_PWD,
+			USER_NAME,
+			RANK,
+			EMAIL,
+			COMCALL,
+			PHONE,
+			ADDRESS,
+			USER_STATUS,
+			DEPT_CODE,
+			USER_IMG_ORIFILENAME,
+			USER_IMG_REFILENAME
+		)
+		VALUES(
+			SEQ_USER_NO.NEXTVAL, 
+			'TEst', 
+			'test', 
+			1234, 
+			'테스트',
+			'사원', 
+			'123@b.b', 
+			02123, 
+			0101234, 
+			'null', 
+			DEFAULT, 
+			'null',
+			'null',
+			'null'
+		);
 
 -- 멤버 추가
 -- INSERT INTO MEMBER VALUES(SEQ_USER_NO.NEXTVAL,#{},#{},#{},#{},#{},#{},#{},#{},#{},'Y',NULL)

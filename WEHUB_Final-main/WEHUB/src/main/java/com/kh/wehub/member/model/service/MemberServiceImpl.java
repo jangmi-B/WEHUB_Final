@@ -140,6 +140,8 @@ public class MemberServiceImpl implements MemberService {
 	@Transactional
 	public int saveMember(Member member) {
 		int result = 0;
+		
+		System.out.println();
 
 		if(member.getUser_no() != 0) {
 			result = memberDao.updateMember(member);
@@ -163,6 +165,19 @@ public class MemberServiceImpl implements MemberService {
 		Member member = this.findMemberByUserId(userId);
 		
 		return member != null;
+	}
+
+	// 비밀번호 변경
+	@Override
+	@Transactional
+	public int saveMemberPass(Member member) {
+		int result = 0;
+		
+		member.setUser_pwd(passwordEncoder.encode(member.getUser_pwd()));
+			
+		result = memberDao.updateMemberPass(member);
+		
+		return result;
 	}
 
 }

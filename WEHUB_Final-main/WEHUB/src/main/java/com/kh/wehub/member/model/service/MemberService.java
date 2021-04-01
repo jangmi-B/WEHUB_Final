@@ -42,5 +42,7 @@ public interface MemberService {
 	
 	boolean validate(String userId);
 
+	int saveMemberPass(Member member);
+
 }
 
