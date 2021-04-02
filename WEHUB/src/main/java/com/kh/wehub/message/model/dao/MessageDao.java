@@ -15,16 +15,22 @@ public interface MessageDao {
 
 	int getMessageCount(Map<String, Object> map);
 
-	List<ReceiveMessage> selectMessageList(RowBounds rowBounds, Map<String, Object> map);
-
 	int deleteMessage(int receiveNo);
+	
+	int sendMsg(SendMessage sendMessage);
+	
+	int recMsg(ReceiveMessage recMsg);
+	
+	int getSendMessageCount(Map<String, Object> map);
+	
+	int deleteSendMessage(int sendNo);
+	
+	Member getSender(Map<String, Object> map);
+	
+	List<ReceiveMessage> selectMessageList(RowBounds rowBounds, Map<String, Object> map);
 
 	List<Member> getSearchMember(String user_name);
 
-	Member getSender(Map<String, Object> map);
-
-	int sendMsg(SendMessage sendMessage);
-
-	int recMsg(ReceiveMessage recMsg);
+	List<SendMessage> selectSendMsgList(RowBounds rowBounds, Map<String, Object> map);
 
 }

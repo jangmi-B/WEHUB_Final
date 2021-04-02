@@ -37,8 +37,9 @@
 		<result property="senderNo" column="SENDER_NO"/>
 		<result property="receiverNo" column="RECEIVER_NO"/>
 		<result property="sendContent" column="SEND_CONTENT"/>
-		<result property="deptName" column="SEND_CONTENT"/>
-		<result property="sendDate" column="DEPT_NAME"/>
+		<result property="deptName" column="DEPT_NAME"/>
+		<result property="userName" column="USER_NAME"/>
+		<result property="sendDate" column="SEND_DATE"/>
 		<result property="deleteDate" column="DELETE_DATE"/>
 		<result property="status" column="STATUS"/>
 	</resultMap>
@@ -155,5 +156,60 @@
  		)
 	</insert>
 	
+	<select id="getSendMessageCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM SEND_MSG S
+		JOIN MEMBER M ON(S.RECEIVER_NO = M.USER_NO)
+		WHERE STATUS ='Y'
+		AND SENDER_NO = #{senderNo}
+		<if test="msgSearchList == 'all'">
+			AND (S.SEND_CONTENT LIKE '%'||#{msgSearchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'name'">
+			AND (M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'content'">
+			AND (S.SEND_CONTENT LIKE '%'||#{msgSearchText}||'%')
+		</if>
+	</select>
 	
+	<select id="selectSendMsgList" parameterType="map" resultMap="sendResultMap">
+		SELECT S.SEND_NO,
+		       S.SENDER_NO,
+		       S.SEND_CONTENT,
+		       S.SEND_DATE, 
+		       S.DELETE_DATE,
+		       S.STATUS,
+		       M.USER_NAME,
+		       M.RANK,
+		       D.DEPT_NAME
+		FROM SEND_MSG S
+		JOIN MEMBER M ON(S.RECEIVER_NO = M.USER_NO)
+		JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
+		WHERE S.STATUS='Y' AND SENDER_NO = #{senderNo}
+       	<if test="msgSearchList == 'all'">
+			AND (S.SEND_CONTENT LIKE '%'||#{msgSearchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'name'">
+			AND (M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'content'">
+			AND (S.SEND_CONTENT LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		ORDER BY S.SEND_NO DESC
+	</select>
+	
+	<update id="deleteSendMessage" parameterType="_int">
+		UPDATE SEND_MSG 
+		SET 
+		    STATUS='N'
+		WHERE 
+		    SEND_NO= #{sendNo}
+	</update>
 </mapper>

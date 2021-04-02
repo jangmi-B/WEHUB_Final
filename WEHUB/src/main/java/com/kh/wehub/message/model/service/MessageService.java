@@ -10,19 +10,24 @@ import com.kh.wehub.message.model.vo.SendMessage;
 
 public interface MessageService {
 
-	int getSendMsgCount(Map<String, Object> map);
-
-	List<ReceiveMessage> getSendList(PageInfo pageInfo, Map<String, Object> map);
+	int getMsgCount(Map<String, Object> map);
 
 	int deleteMsg(int receiveNo);
+	
+	int sendMsg(SendMessage sendMessage);
+	
+	int recMsg(ReceiveMessage recMsg);
+	
+	int getSendMsgCount(Map<String, Object> map);
+	
+	int deleteSendMsg(int sendNo);
+	
+	Member getSender(Map<String, Object> map);
+	
+	List<ReceiveMessage> getReceiveList(PageInfo pageInfo, Map<String, Object> map);
 
 	List<Member> getSearchMember(String user_name);
 
-	int sendMsg(SendMessage sendMessage);
+	List<SendMessage> getSendList(PageInfo pageInfo, Map<String, Object> map);
 
-	Member getSender(Map<String, Object> map);
-
-	int recMsg(ReceiveMessage recMsg);
-
-	
 }

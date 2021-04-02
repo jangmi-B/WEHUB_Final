@@ -14,7 +14,7 @@
           <ul>
             <li><button type="button" onclick="writeMsg();" class="msg_write_btn openBtn"> 쪽지쓰기 </button></li>
             <li><a href="${path}/message/list">받은쪽지함</a></li>
-            <li>보낸쪽지함</li>
+            <li><a href="${path}/message/sendList">보낸쪽지함</a></li>
             <li>휴지통</li>
             <li>쪽지보관함</li>
             <li>임시보관함</li>
@@ -24,28 +24,21 @@
       <div class="line"></div>
       </div>
       <div class="messageList">
-      <h2 class="msg_title" style="margin:0; text-align:left;" >받은쪽지함</h2>
+      <h2 class="msg_title" style="margin:0; text-align:left;" >보낸쪽지함</h2>
         <div class="megSearchBox" style="float:right">
-          <form action="${path}/message/sendlist" method="get">
-            <!-- <select class="msgSearchList" name="msgSearchBox">
-              <option value="all">전체</option>
-              <option value="inbox">받은편지함</option>
-              <option value="send">보낸편지함</option>
-              <option value="archive">쪽지보관함</option>
-            </select> -->
+          <form action="${path}/message/sendList" method="get">
             <select class="msgSearchList" name="msgSearchList">
-              <option value="all" <c:out value="${map.msgSearchList == 'all'?'selected':''}"/>>전체</option>
-              <option value="name" <c:out value="${map.msgSearchList == 'name'?'selected':''}"/>>이름</option>
-              <option value="content"<c:out value="${map.msgSearchList == 'content'?'selected':''}"/>>내용</option>
+              <option value="all" <c:out value="${msgSearchList == 'all'?'selected':''}"/>>전체</option>
+              <option value="name" <c:out value="${msgSearchList == 'name'?'selected':''}"/>>이름</option>
+              <option value="content"<c:out value="${msgSearchList == 'content'?'selected':''}"/>>내용</option>
             </select>
-            <input type="search" placeholder="원하는 검색어를 입력하세요" name="msgsSearchText">
+            <input type="search" placeholder="원하는 검색어를 입력하세요" name="msgSearchText">
             <button type="submit" class="msg_btn_search">검색</button>
           </form>
         </div>
         <div class="msgComponent">
           <button type="button" class="msg_btn">삭제</button>
           <button type="button" class="msg_btn">보관</button>
-          <button type="button" class="msg_btn">답장</button>
         </div>
           <table class="message_table" style="table-layout: fixed">
           <colgroup>
@@ -63,39 +56,39 @@
             <c:if test="${sendList == null || sendList.size() == 0 }">
             	<tr>
             		<td colspan="4">
-            			받은 쪽지함이 비어있습니다.
+            			보낸 쪽지함이 비어있습니다.
             		</td>
             	</tr>
             </c:if>
             <c:if test="${sendList != null}">
-            	<c:forEach var="receiveList" items="${sendList}">
-            		<input type="hidden" name="receiveNo" value="<c:out value="${receiveList.receiveNo}"/>">
-            		<tr id="msgListTable(${receiveList.receiveNo})">
+            	<c:forEach var="sendList" items="${sendList}">
+            		<input type="hidden" name="sendNo" value="<c:out value="${sendList.sendNo}"/>">
+            		<tr id="msgListTable(${sendList.sendNo})">
 		              <td style="width:50px"><input type="checkbox" name="chk"></td>
-		              <td><span class="senderName" id="s_name(${receiveList.receiveNo})"><c:out value="${receiveList.senderName}"/> <c:out value="${receiveList.rank}"/></span></td>
+		              <td><span class="receiverNo" id="s_name(${sendList.sendNo})"><c:out value="${sendList.userName}"/> <c:out value="${sendList.rank}"/></span></td>
 		              <td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">
-		              	<a href="javascript:detailMsg(${receiveList.receiveNo})" id="detail(${receiveList.receiveNo})">
-							<c:out value="${receiveList.receiveContent}"/>
+		              	<a href="javascript:detailMsg(${sendList.sendNo})" id="detail(${sendList.sendNo})">
+							<c:out value="${sendList.sendContent}"/>
 						</a>
 					  </td>
-		              <td style="width:20%"><fmt:formatDate type="both" value="${receiveList.receiveDate}"/></td>
+		              <td style="width:20%"><fmt:formatDate type="both" value="${sendList.sendDate}"/></td>
 		            </tr>
-		            <div class="modal_view fade modalNo${receiveList.receiveNo}">
+		            <div class="modal_view fade modalNo${sendList.sendNo}">
 					    <div class="bg"></div>
 					    <div class="modalContainer">
 					      <h2 style="margin-left: 18px;">보낸쪽지</h2>
 					        <div class="view_form info">
-					          <label>From : </label> <c:out value="${receiveList.senderName}"/> <c:out value="${receiveList.rank}"/> (<c:out value="${receiveList.s_deptName}"/>)<br>
-					          <label>Date : </label> <fmt:formatDate type="both" value="${receiveList.receiveDate}"/>
+					          <label>To : </label> <c:out value="${sendList.userName}"/> <c:out value="${sendList.rank}"/> (<c:out value="${sendList.deptName}"/>)<br>
+					          <label>Date : </label> <fmt:formatDate type="both" value="${sendList.sendDate}"/>
 					        </div>
 					        <div class ="view_form">
 					        <div class = "form-control" id="contentsDiv" rows="3" name ="messageContent">
-					       		<p style="text-align:left; margin:5px;">${ fn:replace(receiveList.receiveContent, replaceChar, "<br/>" )}</p> 
+					       		<p style="text-align:left; margin:5px;">${ fn:replace(sendList.sendContent, replaceChar, "<br/>" )}</p> 
 					        </div>
 					        </div>
 					        <div class="msg_btns">
-				        	 <button type="button" class ="delegeBtn(${receiveList.receiveNo})" onclick="deleteMsg(${receiveList.receiveNo});">삭제</button>
-				       		 <button type="button" id ="exitBtn(${receiveList.receiveNo})">닫기</button>
+				        	 <button type="button" class ="delegeBtn(${sendList.sendNo})" onclick="deleteMsg(${sendList.sendNo});">삭제</button>
+				       		 <button type="button" id ="exitBtn(${sendList.sendNo})">닫기</button>
 					        </div>
 					       
 					    </div>
@@ -105,18 +98,18 @@
           </table>
           <div class="message_page">
               <ul class="notice_pagination">
-                <li><button type="button"  onclick="location.href='${path}/message/list?page=1'">처음페이지</button></li>
-                <li><button type="button"  onclick="location.href='${path}/message/list?page=${pageInfo.prvePage}'">&lt;&lt;</button></li>
+                <li><button type="button"  onclick="location.href='${path}/message/sendList?page=1'">처음페이지</button></li>
+                <li><button type="button"  onclick="location.href='${path}/message/sendList?page=${pageInfo.prvePage}'">&lt;&lt;</button></li>
                 <c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
 					<c:if test="${status.current == pageInfo.currentPage}">
 						<li><button disabled><c:out value="${status.current}"/></button></li>
 	   				</c:if>
 					<c:if test="${status.current != pageInfo.currentPage}">
-						<li><button onclick="location.href='${path}/message/list?page=${status.current}'"><c:out value="${status.current}"/></button></li>
+						<li><button onclick="location.href='${path}/message/sendList?page=${status.current}'"><c:out value="${status.current}"/></button></li>
 	   				</c:if>
 				</c:forEach>
-                <li><button type="button" onclick="location.href='${path}/message/list?page=${pageInfo.nextPage}'">&gt;&gt;</button></li>
-                <li><button type="button" onclick="location.href='${path}/message/list?page=${pageInfo.maxPage}'">마지막페이지</button></li>
+                <li><button type="button" onclick="location.href='${path}/message/sendList?page=${pageInfo.nextPage}'">&gt;&gt;</button></li>
+                <li><button type="button" onclick="location.href='${path}/message/sendList?page=${pageInfo.maxPage}'">마지막페이지</button></li>
 	          </ul>
           </div>
         </div>
@@ -195,11 +188,10 @@
 				deleteMsg.remove();
 				document.querySelector(".modalNo" + msgNo).classList.add("fade");
            	}else {
-           		
            		}
             }
             
-            xhr.open("GET", "${path}/message/delete?receiveNo="+ msgNo, true);
+            xhr.open("GET", "${path}/sendMessage/delete?sendNo="+ msgNo, true);
             
             xhr.send();
 		}

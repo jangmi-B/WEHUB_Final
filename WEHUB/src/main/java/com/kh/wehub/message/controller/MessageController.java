@@ -36,10 +36,12 @@ public class MessageController {
 	@Autowired
 	private MessageService service;
 	
+	/////////////////받은쪽지///////////////////
+	
 	@RequestMapping(value = "/message/list", method = {RequestMethod.GET})
 	public ModelAndView msgList(ModelAndView model,
 			@RequestParam(value = "msgSearchList", required=false)String msgSearchList,
-			@RequestParam(value = "msgsSearchText", required=false)String msgSearchText,
+			@RequestParam(value = "msgSearchText", required=false)String msgSearchText,
 			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(value = "listLimit", required = false, defaultValue = "15") int listLimit,
 			@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
@@ -53,10 +55,10 @@ public class MessageController {
 		map.put("msgSearchText", msgSearchText);
 		map.put("receiverNo", loginMember.getUser_no());
 		
-		msgCount = service.getSendMsgCount(map);
+		msgCount = service.getMsgCount(map);
 		
 		pageInfo = new PageInfo(page, 10, msgCount, listLimit);
-		receiveList = service.getSendList(pageInfo, map);
+		receiveList = service.getReceiveList(pageInfo, map);
 		
 		if(msgSearchList == null && msgSearchText == null) {
 			model.addObject("pageInfo",pageInfo);
@@ -74,7 +76,7 @@ public class MessageController {
 	
 	@ResponseBody
 	@RequestMapping(value="/message/delete", method= {RequestMethod.GET})
-	public void deleteComment(@RequestParam(value="receiveNo") int receiveNo) {
+	public void deleteMsg(@RequestParam(value="receiveNo") int receiveNo) {
 		
 		int result = 0;
 		result = service.deleteMsg(receiveNo);
@@ -86,6 +88,10 @@ public class MessageController {
 		}
 	}
 	
+	
+	//////////////// 쪽지쓰기 /////////////////
+	
+	//자동완성
 	@ResponseBody
 	@RequestMapping(value="/search/json", method = {RequestMethod.GET})
 	public String searchJson(@RequestParam(value="userName") String userName) {
@@ -102,6 +108,7 @@ public class MessageController {
 		return gson.toJson(array);	
 	}
 	
+	// 쪽지보내기
 	@ResponseBody
 	@RequestMapping(value="/message/send", method = {RequestMethod.POST})
 	public void noticeWrite(
@@ -137,6 +144,85 @@ public class MessageController {
 			System.out.println("전송완료");
 		} else {
 			System.out.println("전송실패");
+		}
+	}
+	
+	
+///////////////////	보낸메세지함///////////////////////
+	
+	@RequestMapping(value = "/message/sendList", method = {RequestMethod.GET})
+	public ModelAndView sendMsgList(ModelAndView model,
+			@RequestParam(value = "msgSearchList", required=false)String msgSearchList,
+			@RequestParam(value = "msgSearchText", required=false)String msgSearchText,
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+			@RequestParam(value = "listLimit", required = false, defaultValue = "15") int listLimit,
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+		
+		int msgCount = 0;
+		PageInfo pageInfo = null;
+		List<SendMessage> sendList = null;
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("msgSearchList", msgSearchList);
+		map.put("msgSearchText", msgSearchText);
+		map.put("senderNo", loginMember.getUser_no());
+		
+		System.out.println(map.toString());
+
+		msgCount = service.getSendMsgCount(map);
+		
+		System.out.println(msgCount);
+		
+		pageInfo = new PageInfo(page, 10, msgCount, listLimit);
+		sendList = service.getSendList(pageInfo, map);
+		
+		System.out.println(sendList.toString());
+		
+		if(msgSearchList == null && msgSearchText == null) {
+			model.addObject("pageInfo",pageInfo);
+			model.addObject("sendList", sendList);
+		}else {
+			model.addObject("map", map);
+			model.addObject("pageInfo", pageInfo);
+			model.addObject("sendList", sendList);
+		}
+		
+		model.setViewName("message/message_send");
+		
+		return model;
+	}
+	
+	// 보낸메세지 삭제
+	@ResponseBody
+	@RequestMapping(value="/sendMessage/delete", method= {RequestMethod.GET})
+	public void deleteSendMsg(@RequestParam(value="sendNo") int sendNo) {
+		
+		int result = 0;
+		result = service.deleteSendMsg(sendNo);
+		
+		if(result > 0) {
+			System.out.println("삭제성공");
+		}else {
+			System.out.println("삭제실패");
+		}
+	}
+	
+	
+////////////// 체크된 항목들 삭제 ////////////////////
+	
+	@ResponseBody
+	@RequestMapping(value="/message/deleteSelected", method= {RequestMethod.POST})
+	public void deleteSelected(@RequestParam(value = "arr[]") List<Integer> arr) {
+		System.out.println(arr);
+		System.out.println(arr.size());
+		
+		int result = 0;
+//		result = service.deleteCheckSendMsg(arr);
+		
+		if(result > 0) {
+//			System.out.println("삭제성공");
+		}else {
+			System.out.println("삭제실패");
 		}
 	}
 	

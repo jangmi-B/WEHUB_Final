@@ -14,7 +14,7 @@
           <ul>
             <li><button type="button" onclick="writeMsg();" class="msg_write_btn openBtn"> 쪽지쓰기 </button></li>
             <li><a href="${path}/message/list">받은쪽지함</a></li>
-            <li>보낸쪽지함</li>
+            <li><a href="${path}/message/sendList">보낸쪽지함</a></li>
             <li>휴지통</li>
             <li>쪽지보관함</li>
             <li>임시보관함</li>
@@ -34,16 +34,16 @@
               <option value="archive">쪽지보관함</option>
             </select> -->
             <select class="msgSearchList" name="msgSearchList">
-              <option value="all" <c:out value="${map.msgSearchList == 'all'?'selected':''}"/>>전체</option>
-              <option value="name" <c:out value="${map.msgSearchList == 'name'?'selected':''}"/>>이름</option>
-              <option value="content"<c:out value="${map.msgSearchList == 'content'?'selected':''}"/>>내용</option>
+              <option value="all" <c:out value="${msgSearchList == 'all'?'selected':''}"/>>전체</option>
+              <option value="name" <c:out value="${msgSearchList == 'name'?'selected':''}"/>>이름</option>
+              <option value="content"<c:out value="${msgSearchList == 'content'?'selected':''}"/>>내용</option>
             </select>
-            <input type="search" placeholder="원하는 검색어를 입력하세요" name="msgsSearchText">
+            <input type="search" placeholder="원하는 검색어를 입력하세요" name="msgSearchText">
             <button type="submit" class="msg_btn_search">검색</button>
           </form>
         </div>
         <div class="msgComponent">
-          <button type="button" class="msg_btn">삭제</button>
+          <button type="button" class="msg_btn" onclick="deleteSelected();">삭제</button>
           <button type="button" class="msg_btn">보관</button>
           <button type="button" class="msg_btn">답장</button>
         </div>
@@ -71,7 +71,7 @@
             	<c:forEach var="receiveList" items="${receiveList}">
             		<input type="hidden" name="receiveNo" value="<c:out value="${receiveList.receiveNo}"/>">
             		<tr id="msgListTable(${receiveList.receiveNo})">
-		              <td style="width:50px"><input type="checkbox" name="chk"></td>
+		              <td style="width:50px"><input type="checkbox" name="chk" value="${receiveList.receiveNo}"></td>
 		              <td><span class="senderName" id="s_name(${receiveList.receiveNo})"><c:out value="${receiveList.senderName}"/> <c:out value="${receiveList.rank}"/></span></td>
 		              <td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">
 		              	<a href="javascript:detailMsg(${receiveList.receiveNo})" id="detail(${receiveList.receiveNo})">
@@ -152,6 +152,45 @@
 	        $("input[type=checkbox]").prop("checked", false);
 	    }
 	}
+	
+	function deleteSelected() {
+        var cnt = $("input[name='chk']:checked").length;
+        var arr = new Array();
+        
+         $("input[name='chk']:checked").each(function() {
+            arr.push($(this).attr('value'));
+        });
+         
+        console.log(cnt);
+        console.log(arr);
+        
+        if(cnt == 0){
+            alert("선택된 글이 없습니다.");
+        }
+        
+        else{
+        	$.ajax({
+                type: "POST",
+                url: "${path}/message/deleteSelected",
+                data: {
+					arr:arr,
+					cnt:cnt
+				},
+                dataType:"json",
+                success: function(data){
+                    if(data != 1) {
+                        alert("삭제 오류");
+                    }
+                    else{
+                        alert("삭제 성공");
+                        var deleteMsg = document.getElementById('msgListTable('+ msgNo +')');
+        				deleteMsg.remove();
+                    }
+                },
+                error: function(){alert("서버통신 오류");}
+        	});
+        }
+    } 
 	
 	function writeMsg(){
 		const open = () => {
@@ -253,14 +292,16 @@
 					}
 				});
 			},
-            focus : function(event, ui) {    //포커스 가면
-                return false;//한글 에러 잡기용도로 사용됨
+            focus : function(event, ui) {    
+                return false;
             },
             minLength: 1,// 최소 글자수
-            autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
-            delay: 500,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
+            autoFocus: true, 
+            delay: 300,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
 		 });
 	 });
+	
+	
 	
 </script>
 

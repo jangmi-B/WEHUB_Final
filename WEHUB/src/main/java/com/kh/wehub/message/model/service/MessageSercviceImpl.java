@@ -25,13 +25,13 @@ public class MessageSercviceImpl implements MessageService {
 	private MessageDao MessageDao;
 
 	@Override
-	public int getSendMsgCount(Map<String, Object> map) {
+	public int getMsgCount(Map<String, Object> map) {
 		
 		return MessageDao.getMessageCount(map);
 	}
 
 	@Override
-	public List<ReceiveMessage> getSendList(PageInfo pageInfo, Map<String, Object> map) {
+	public List<ReceiveMessage> getReceiveList(PageInfo pageInfo, Map<String, Object> map) {
 		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
 		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
 		
@@ -76,6 +76,26 @@ public class MessageSercviceImpl implements MessageService {
 		result = MessageDao.recMsg(recMsg);
 		
 		return result;
+	}
+
+	@Override
+	public int getSendMsgCount(Map<String, Object> map) {
+		
+		return MessageDao.getSendMessageCount(map);
+	}
+
+	@Override
+	public List<SendMessage> getSendList(PageInfo pageInfo, Map<String, Object> map) {
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
+		
+		return MessageDao.selectSendMsgList(rowBounds, map);
+	}
+
+	@Override
+	public int deleteSendMsg(int sendNo) {
+		
+		return MessageDao.deleteSendMessage(sendNo);
 	}
 
 }
