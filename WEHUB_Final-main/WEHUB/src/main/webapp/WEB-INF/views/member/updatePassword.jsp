@@ -26,7 +26,7 @@
 			<table>
 				<tr>
 				    <td><label for="modify_password">현재 비밀번호</label></td>
-				    <td><input class="modify_input" id="updatePassword" type="password" name="oldUserPwd" placeholder="변경할 비밀번호를 입력해 주세요." ></td>
+				    <td><input class="modify_input" id="updatePassword" type="password" name="oldUserPwd" placeholder="현재 쓰시는 비밀번호를 입력해 주세요." ></td>
 				    <td><%-- <button class="btn" id="modify_btn_pw" type="button" id="pw_modify" onclick="location.href='${path}/member/updatePassword'">비밀번호변경</button> --%></td>
 				</tr>
 				<tr>
@@ -36,7 +36,7 @@
 				</tr>
 				<tr>
 					<td><label for="modify_password">새 비밀번호 확인</label></td>
-				    <td><input class="modify_input" id="updateChkPassword" type="password" name="chkUserPwd" placeholder="비밀번호가 맞지 않습니다." ></td>
+				    <td><input class="modify_input" id="updateChkPassword" type="password" name="chkUserPwd" placeholder="비밀번호를 다시 입력하세요." ></td>
 				</tr>
 				<tr>
 					<td></td>
@@ -48,10 +48,10 @@
 				</tr>
 			</table>
           <div id="modify_button">
-            <button class="btn" id="updatePass_btn" type="submit" onclick="location.href='${path}/member/updatePass'">비밀번호 수정</button>
+            <button class="btn" id="updatePass_btn" type="submit" onclick="location.href='${path}/member/updatePassword'">비밀번호 수정</button>
             <button class="btn" id="resetPass_btn" type="reset">비밀번호를 잊으셨나요?</button>
         </div> 
-        
+        <%-- location.href='${path}/member/updatePass' --%>
         
         
         </form>

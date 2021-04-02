@@ -71,8 +71,8 @@
 			#{user_name},
 			#{rank}, 
 			#{email}, 
-			#{comcall}, 
-			#{phone}, 
+			#{comcall},
+			#{phone},
 			#{address}, 
 			DEFAULT, 
 			#{dept_code},
@@ -131,6 +131,12 @@
 		WHERE 
 		    USER_ID=#{user_id}	
 	</update>
+	
+	<select id="updateFindPWD" parameterType="Member" resultType="String" >
+		SELECT USER_PWD FROM MEMBER
+		WHERE
+			USER_ID= #{user_id}
+	</select>
 		
 <!-- 	<update id="updateUserImg" parameterType="Member">
 		UPDATE MEMBER 

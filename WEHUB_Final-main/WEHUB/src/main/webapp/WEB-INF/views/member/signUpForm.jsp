@@ -41,29 +41,28 @@
                 
                 <!-- <input type="text" name="user_companyname"  placeholder="킆릭하여 프로필 이미지 선택하기" style="font-size: 13px;" readonly="readonly"> -->
                 <input type="text" name="user_companyname"  placeholder="회사명  CompanyName" style="font-size: 13px;" required>
-                <input type="button" name="user_companyname_btn"  value="회사 확인" onclick="" style="font-size: 13px;">
+                <!-- <input type="button" name="user_companyname_btn"  value="회사 확인" onclick="" style="font-size: 13px;"> -->
                 <input type="text" name="rank" placeholder="직급  Rank" style="font-size: 13px;">
                 <input type="email" name="email" placeholder="이메일  E-Mail" style="font-size: 13px;">
-                <input type="text" name="employeeNum" placeholder="사번  employee Number" style="font-size: 13px;">
+                <!-- <input type="text" name="employeeNum" placeholder="사번  employee Number" style="font-size: 13px;"> -->
+                <input type="text" name="user_name" placeholder="이름  UserName" style="font-size: 13px;" required>
+                <input type="text" name="dept_code" placeholder="부서이름  DepartmentName" style="font-size: 13px;">
                 <br><br>
                 <input type="text" name="user_id" placeholder="아이디  UserId" style="font-size: 13px;" id="user_id" required>
                 <input type="button" name="user_id_btn" value="아이디 중복 확인" style="font-size: 13px;" id="id_Check_Btn">
                 <input type="password" name="user_pwd"  placeholder="패스워드  Password" style="font-size: 13px;" id="pass1" required>
                 <input type="password" placeholder="패스워드 확인  PasswordCheck" id="pass2"  style="font-size: 13px;">
-                <input type="text" name="user_name" placeholder="이름  UserName" style="font-size: 13px;" required>
-                <input type="text" name="dept_code" placeholder="부서이름  DepartmentName" style="font-size: 13px;">
                 <br><br>
                 <input type="button" name="addressBtn"  value="주소 찾기" onclick="javascript:sample6_execDaumPostcode();" style="font-size: 13px;">
                 <input type="text" name="address"  placeholder="우편번호 Zip/Postal Code" id="kakao_postcode" style="font-size: 13px;" readonly="readonly">
                 <input type="text" name="address"  placeholder="주소  State/Province/Region/City" id="kakao_address" style="font-size: 13px;"  readonly="readonly">
                 <input type="text" name="address"  placeholder="상세주소 Street Address" id="kakao_detailAddress" style="font-size: 13px;">
                 <input type="hidden" name="address" placeholder="참고항목" id="kakao_extraAddress" style="font-size: 13px;">
-                <br><br>
                 <input type="tel" name="comcall" placeholder="내선번호 ExtensionNumber" id="comcall" style="font-size: 13px;">
                 <input type="tel" name="phone"  placeholder="휴대번호  Phone" id="phone" style="font-size: 13px;">
                 
-                <button type="submit" id="login-button">가입하기</button> <!-- Create -->
-                <button type="button" id="login-button" onclick="javascript:dataCheck();">기능확인</button>
+                <button type="submit" id="login-button" onclick="javascript:dataCheck();">가입하기</button> <!-- Create -->
+                <!-- <button type="button" id="login-button" onclick="javascript:dataCheck();">기능확인</button> -->
                 <p id="findPwdAndSignUp">
                     <!-- <a href="file:///C:/Users/User/Desktop/Coding/FinalProjectHTML/LogInForm.html" id="fpas">Already have an account?</a>
                     -->

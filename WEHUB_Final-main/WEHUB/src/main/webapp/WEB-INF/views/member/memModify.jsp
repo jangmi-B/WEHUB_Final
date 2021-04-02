@@ -121,6 +121,13 @@
     </div>
     
 <script>
+	$(document).on("keyup", "#modify_cellPhone, #modify_phone", function() { 
+		$(this).val( $(this).val()
+				.replace(/[^0-9]/g, "")
+				.replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3")
+				.replace("--", "-") ); 
+	});
+	
 	function deleteMember() {
 		if(confirm("정말로 탈퇴하시겠습니까?")) {
 			location.replace("${path}/member/delete?user_id=${ loginMember.user_id }")

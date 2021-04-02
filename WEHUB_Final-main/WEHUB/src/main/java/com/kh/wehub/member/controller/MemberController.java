@@ -337,32 +337,38 @@ public class MemberController {
 		int result = 0;
 		
 		System.out.println(result);
-		
-		System.out.println("loginMember.getUser_id().equals(member.getUser_id()) : " + 
-				loginMember.getUser_id().equals(member.getUser_id()));
-		
+		System.out.println("loginMember.getUser_id().equals(member.getUser_id()) : " + loginMember.getUser_id().equals(member.getUser_id()));
 		System.out.println("loginMember.getUser_id() : " +  loginMember.getUser_id() + ",  member.getUser_id() : " +  member.getUser_id());
+		System.out.println("loginMember.getUser_no() : " +  loginMember.getUser_no() + ",  member.getUser_no() : " +  member.getUser_no());
 		
+		/* 세팅 */
 		member.setUser_no(loginMember.getUser_no());
+		member.setUser_id(loginMember.getUser_id());
+		
 		System.out.println("member.getUser_no() : " + member.getUser_no());
+		System.out.println("member.getUser_ID() : " + member.getUser_id());
 		
 		result = service.updateUserPassword(member);
 		
-//		if(loginMember.getUser_id().equals(member.getUser_id())) {
-//			member.setUser_no(loginMember.getUser_no());
-//			if(result > 0) {
-//				System.out.println(loginMember.getUser_id().equals(member.getUser_id()) + ",  result : " + result);
-//				model.addObject("loginMember", service.findMemberByUserId(loginMember.getUser_id()));
-//				model.addObject("msg", "회원정보 수정을 완료했습니다.");
-//				model.addObject("location", "/member/memModify");				
-//			} else {
-//				model.addObject("msg", "회원정보 수정에 실패 했습니다.");
-//				model.addObject("location", "/member/memModify");
-//			}
-//		} else {
-//			model.addObject("msg", "잘못된 접근입니다.");
-//			model.addObject("location", "/");
-//		}
+		System.out.println(result);
+		
+		if(loginMember.getUser_id().equals(member.getUser_id())) {
+			member.setUser_no(loginMember.getUser_no());
+			if(result > 0) {
+				System.out.println(loginMember.getUser_id().equals(member.getUser_id()) + ",  result : " + result);
+				model.addObject("loginMember", service.findMemberByUserId(loginMember.getUser_id()));
+				model.addObject("msg", "회원정보 수정을 완료했습니다.");
+				model.addObject("location", "/member/updatePassword");				
+			} else {
+				model.addObject("msg", "회원정보 수정에 실패 했습니다.");
+				model.addObject("location", "/member/updatePassword");
+			}
+		} else {
+			model.addObject("msg", "잘못된 접근입니다.");
+			model.addObject("location", "/");
+		}
+		
+		model.setViewName("common/msg");
 		
 		return model;
 	}

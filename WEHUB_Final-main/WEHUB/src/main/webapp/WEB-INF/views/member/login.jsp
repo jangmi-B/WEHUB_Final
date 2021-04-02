@@ -39,8 +39,7 @@
 </body>
 
 <script>
-/* 	$("#login-button").click(function(event){
-		/* event.preventDefault(); */
+/*  	$("#login-button").click(function(event){
 	
 		$('form').fadeOut(300);
 		$('.wrapper').addClass('form-success');
