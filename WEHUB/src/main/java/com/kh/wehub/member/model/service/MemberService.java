@@ -1,4 +1,3 @@
-
 //package com.kh.wehub.member.model.service;
 //
 //import com.kh.wehub.member.model.vo.Member;
@@ -13,17 +12,11 @@
 //
 //	int saveMember(Member member);
 //
-//
-//	
-//	
 //}
 
 package com.kh.wehub.member.model.service;
 
-
 import com.kh.wehub.member.model.vo.Member;
-
-
 
 public interface MemberService {
 
@@ -34,7 +27,6 @@ public interface MemberService {
 	String findID(Member member);
 
 	//String findPWD(Member member);
-
 	
 	int saveMember(Member member);
 	
