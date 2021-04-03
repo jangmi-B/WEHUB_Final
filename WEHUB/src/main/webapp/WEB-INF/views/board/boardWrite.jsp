@@ -14,9 +14,9 @@
 			    <li><span>게시판</span>
 					<div class="line"></div>
 					<ul>
-						<li>공지사항</li>
-						<li><a href="${path}/board/board">자유게시판</a></li>
-						<li id="subword"><a href="${path}/board/boardWrite">&nbsp;&nbsp;+ 글쓰기</a></li> 
+						<li style="color:black;">공지사항</li>
+				        <li><a href="${path}/board/board" style="color:black;">자유게시판</a></li>
+				        <li id="subword"><a style="color:black;" href="${path}/board/boardWrite">&nbsp;&nbsp;+ 글쓰기</a></li> 
 					</ul>
 			    </li>
 			    <li>

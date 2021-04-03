@@ -64,7 +64,8 @@
 		<result property="replyCreateDate" column="REPLY_CREATE_DATE"/>
 		<result property="replyModifyDate" column="REPLY_MODIFY_DATE"/>
 		<result property="replyMemberImage" column="R_MEMBER_IMAGE"/> -->
-	 	<collection property="replies" javaType="java.util.ArrayList" resultMap="boardReplyResultMap"/>	
+	 	<!-- <collection property="replies" javaType="java.util.ArrayList" resultMap="boardReplyResultMap"/> -->
+	 	<collection property="replies" javaType="java.util.ArrayList" select="selectBoardReply" column="BOARD_NO"/>
 	</resultMap>
 	
 	<resultMap type="Reply" id="boardReplyResultMap">
@@ -79,29 +80,21 @@
 		<result property="memberImage" column="R_MEMBER_IMAGE"/>
 	</resultMap>
 	
-<!-- 	<select id="selectBoardReplyList" parameterType="map" resultMap="replyResultMap">
-		SELECT B.BOARD_NO,
-			   M.USER_NAME,
-	       	   M.USER_ID,
-	           R.REPLY_NO, 
-	           R.BOARD_NO, 
-	           M2.USER_ID AS R_USER_ID, 
-	           R.REPLY_CONTENT, 
-	           R.REPLY_CREATE_DATE, 
-	           R.REPLY_MODIFY_DATE, 
-	           M.MEMBER_IMAGE,
-	           R.STATUS AS R_STATUS
-	      FROM BOARD B
-	      JOIN MEMBER M ON(B.BOARD_WRITER_NO = M.USER_NO)
-	      JOIN REPLY R ON(B.BOARD_NO = R.BOARD_NO)
-	      JOIN MEMBER M2 ON(r.REPLY_WRITER_NO = M2.USER_NO)
-	      WHERE B.STATUS='Y' AND B.BOARD_NO=#{boardNo}
-	      SELECT B.BOARD_NO, R.REPLY_NO, R.REPLY_WRITER_NO, R.REPLY_CONTENT, R.REPLY_CREATE_DATE, R.STATUS, M.USER_NAME AS REPLY_WRITER_NAME, M.MEMBER_IMAGE
-			FROM REPLY R
-			JOIN MEMBER M ON(R.REPLY_WRITER_NO = M.USER_NO)
-			JOIN BOARD B ON(R.BOARD_NO = B.BOARD_NO)
-			WHERE R.STATUS = 'Y' AND B.BOARD_NO=#{boardNo}
-	</select> -->
+	<select id="selectBoardReply" parameterType="_int" resultMap="replyResultMap">
+	    SELECT B.BOARD_NO, 
+	    	   R.REPLY_NO, 
+	    	   M.USER_ID,
+	    	   M.USER_NAME,
+	    	   R.REPLY_WRITER_NO, 
+	    	   R.REPLY_CONTENT, 
+	    	   R.REPLY_CREATE_DATE, 
+	    	   R.STATUS, 
+	    	   M.MEMBER_IMAGE
+		FROM REPLY R
+		JOIN MEMBER M ON(R.REPLY_WRITER_NO = M.USER_NO)
+		JOIN BOARD B ON(R.BOARD_NO = B.BOARD_NO)
+		WHERE R.STATUS = 'Y' AND B.BOARD_NO=#{boardNo}
+	</select>
 
 	<select id="selectBoardList" parameterType="map" resultMap="boardResultMap">
 		<include refid="boardListSql"></include>	
@@ -125,31 +118,24 @@
 		WHERE R.STATUS='Y' AND R.REPLY_NO=#{replyNo}
 	</select>
 
-	<select id="selectBoardDetail" parameterType="_int" resultMap="boardDetailResultMap">
+	<select id="selectBoardDetail" parameterType="string" resultMap="boardDetailResultMap">
 		SELECT B.BOARD_NO,
 		       M.USER_ID AS B_USER_ID,
 		       M.USER_NAME AS B_USER_NAME,
 		       B.BOARD_WRITER_NO,
 		       B.BOARD_CONTENT,
 		       B.BOARD_CREATE_DATE,
+		       B.BOARD_MODIFY_DATE,
 		       B.STATUS AS B_STATUS,
 		       M.MEMBER_IMAGE AS B_MEMBER_IMAGE,
-               R.REPLY_NO,
-               M2.USER_NAME AS R_USER_NAME, 
-               R.BOARD_NO, 
-               M2.USER_ID AS R_USER_ID, 
-               R.REPLY_CONTENT, 
-               R.REPLY_CREATE_DATE, 
-               R.REPLY_MODIFY_DATE, 
-               R.STATUS AS R_STATUS,
-               M2.MEMBER_IMAGE AS R_MEMBER_IMAGE,
                D.DEPT_NAME
         FROM BOARD B
         JOIN MEMBER M ON(B.BOARD_WRITER_NO = M.USER_NO)
         JOIN DEPARTMENT D ON (M.DEPT_CODE = D.DEPT_CODE)
-        LEFT OUTER JOIN REPLY R ON(B.BOARD_NO = R.BOARD_NO)
-        LEFT OUTER JOIN MEMBER M2 ON(r.REPLY_WRITER_NO = M2.USER_NO)
-        WHERE B.STATUS='Y' AND R.STATUS='Y'
+        WHERE B.STATUS='Y'
+         <if test="keyword != null">
+         AND (M.USER_NAME LIKE '%'||#{keyword}||'%' OR B.BOARD_CONTENT LIKE '%'||#{keyword}||'%')
+         </if>
         ORDER BY B.BOARD_CREATE_DATE DESC
 	</select>
 	
@@ -195,16 +181,20 @@
        )
      </insert>
      
-     <update id="updateReply" parameterType="Reply">
+     <update id="updateReply" parameterType="map">
       UPDATE REPLY
       SET 
          REPLY_CONTENT=#{replyContent},
          REPLY_MODIFY_DATE=SYSDATE 
       WHERE 
          REPLY_NO=#{replyNo}
-   </update>
+	</update>
    
-   <update id="deleteReply" parameterType="Reply">
+	<update id="deleteReply" parameterType="Reply">
 		UPDATE REPLY SET STATUS='N' WHERE REPLY_NO=#{replyNo}	
 	</update>
+	
+	<select id=""></select>
+	
+	
 </mapper>

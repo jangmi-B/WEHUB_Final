@@ -36,17 +36,34 @@ public class BoardController {
 
 	@RequestMapping(value = "/board", method = { RequestMethod.GET })
 	public ModelAndView listView(@SessionAttribute(name = "loginMember", required = false) Member loginMember,
-			ModelAndView model) {
+			ModelAndView model, @RequestParam(value="keyword", required=false) String keyword) {
+		
 		List<Board> list = null;
+		
+		
+		if(keyword != null) { 
+			list = service.selectBoardDetail(keyword);
+			
+			if(list.isEmpty()) {
+				model.addObject("msg", "조회된 게시물이 없습니다.");
+				model.addObject("location", "/board/board");
+				model.setViewName("common/msg");
 
-		list = service.selectBoardDetail();
-
-//		System.out.println("list : " + list);
+				return model;
+			}
+			
+		} else {
+			list = service.selectBoardDetail();
+		}
+		
+		System.out.println("@RequestParam(\"keyword\") String keyword" + keyword);
+			
+		System.out.println("list : " + list);
 
 		model.addObject("list", list);
-		/* model.addObject("list2", list.); */
 		model.setViewName("board/board");
-
+		
+		
 		return model;
 	}
 
@@ -160,6 +177,8 @@ public class BoardController {
 		member = service2.findMemberByUserId(loginMember.getUser_id());
 
 		int result = 0;
+		
+		System.out.println(replyContent);
 			
 //		System.out.println("@RequestParam : " + boardNo);
 //		System.out.println("@RequestParam replyContent : " + replyContent);
@@ -191,34 +210,20 @@ public class BoardController {
 		return model; 
 	}
 	
-	/*
-	 * @RequestMapping(value = "/updateReply", method = { RequestMethod.GET })
-	 * public ModelAndView updateReply(@RequestParam("replyNo") int replyNo,
-	 * ModelAndView model) { Reply reply = service.findReplyByNo(replyNo);
-	 * 
-	 * model.addObject("reply", reply); model.setViewName("board/updateReply");
-	 * 
-	 * System.out.println(reply);
-	 * 
-	 * return model; }
-	 */
-	
-	@RequestMapping(value = "/updateReply", method = { RequestMethod.POST })
+	@RequestMapping(value = "/updateReply", method = { RequestMethod.GET })
 	public ModelAndView updateReply(@SessionAttribute(name = "loginMember", required = false) Member loginMember,
-			Reply reply, ModelAndView model, Member member, @RequestParam("newReplyContent") String replyContent) {
+			Reply reply, ModelAndView model, Member member, @RequestParam("newReplyContent") String replyContent,
+			@RequestParam("replyNo") int replyNo) {
 		
 		member = service2.findMemberByUserId(loginMember.getUser_id());
 		
 		int result = 0;
 		
-		reply.setReplyContent(replyContent);
-		
-		System.out.println("@RequestParam(\"newReplyContent\") : " + replyContent);
-		
-		System.out.println("reply.setReplyContent(replyContent) : " + reply.getReplyContent());
+		System.out.println("@RequestParam(\"replyContent\") : " + replyContent);
+		System.out.println("@RequestParam(\"replyNo\") : " + replyNo);
 
 		if (loginMember.getUser_id().equals(member.getUser_id())) {
-			result = service.updateReply(reply);
+			result = service.updateReply(replyContent, replyNo);
 
 			if (result > 0) {
 				model.addObject("msg", "댓글이 정상적으로 수정되었습니다.");

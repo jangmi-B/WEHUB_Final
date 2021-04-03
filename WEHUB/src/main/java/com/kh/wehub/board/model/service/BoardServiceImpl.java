@@ -17,9 +17,9 @@ public class BoardServiceImpl implements BoardService {
 	private BoardDao boardDao;
 
 	@Override
-	public List<Board> selectBoardDetail() {
+	public List<Board> selectBoardDetail(String keyword) {
 		
-		return boardDao.selectBoardDetail();
+		return boardDao.selectBoardDetail(keyword);
 	}
 
 	@Override
@@ -77,16 +77,21 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int updateReply(Reply reply) {
+	public int updateReply(String replyContent, int replyNo) {
 		
 		
-		return boardDao.updateReply(reply);
+		return boardDao.updateReply(replyContent, replyNo);
 	}
 
 	@Override
 	public int deleteReply(int replyNo) {
 		
 		return boardDao.deleteReply(replyNo);
+	}
+
+	@Override
+	public List<Board> selectBoardDetail() {
+		return boardDao.selectBoardDetail();
 	}
 
 	
