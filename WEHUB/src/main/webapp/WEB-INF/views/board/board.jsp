@@ -6,50 +6,62 @@
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <%@ include file="../common/header.jsp" %>
-	<section>
-		<div id="notice_bar">
-			<ul>
-			    <li><span>게시판</span>
-			    	<div class="line"></div>
-				    <ul>
-				    	<li style="color:black;">공지사항</li>
-				        <li><a href="${path}/board/board" style="color:black;">자유게시판</a></li>
-				        <li id="subword"><a style="color:black;" href="${path}/board/boardWrite?boardWriterNo=${loginMember.user_no}">&nbsp;&nbsp;+ 글쓰기</a></li> 
-				    </ul>
-			    </li>
-			</ul>
+
+<link rel="stylesheet" href="${path}/css/board_style.css">
+<link rel="stylesheet" href="${path}/css/board_homeContent.css">
+<link rel="stylesheet" href="${path}/css/board_notice.css">
+<link rel="stylesheet" href="${path}/css/board_community.css">
+
+<script src="${path}/js/jquery-3.5.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+	<div id="notice_bar">
+		<ul>
+		    <li><span>게시판</span>
+		    	<div class="line"></div>
+			    <ul>
+			    	<li style="color:black;">공지사항</li>
+			        <li><a href="${path}/board/board" style="color:black;">자유게시판</a></li>
+			        <li id="subword"><a style="color:black;" href="${path}/board/boardWrite?boardWriterNo=${loginMember.user_no}">&nbsp;&nbsp;+ 글쓰기</a></li> 
+			    </ul>
+		    </li>
+		</ul>
+	</div>
+    	
+	<form action="${path}/board/board" name="formBoard" style="margin-top: -90px; margin-left: -230px; margin-bottom:200px">
+		
+		<input type="hidden" name="userId" value="${loginMember.user_id}">
+		<input type="hidden" name="boardId" value = "${board.userId}">
+		<input type="hidden" name="replyWriterNo" value="${loginMember.user_no}">
+		
+		<div class="search">
+	    	<table>
+	        	<tr>
+	            	<td style="border:0px white;">
+	                	<i class="fa fa-search" aria-hidden="true"></i>
+	            	</td>
+	            	<td style="border:0px white;">
+	                	<input type='text' name="keyword" id="keyword" value="${keyword}" class='src' size="200"placeholder='검색어를 입력하세요.'/>
+	                </td>
+                	<td style="border:0px white;"><button type="button" onclick="search();">검색</button></td>
+                	
+	            </tr>
+			</table>
+              	<script>
+				function search() {
+					var keywordValue = document.getElementById('keyword').value;
+					
+					console.log(keywordValue);
+					
+					location.href="${path}/board/board?keyword="+keywordValue;
+				}
+			</script>
 		</div>
-     	
-		<form action="${path}/board/board" name="formBoard" style="margin-top: -90px; margin-left: -230px; margin-bottom:200px">
-			
-			<input type="hidden" name="userId" value="${loginMember.user_id}">
-			<input type="hidden" name="boardId" value = "${board.userId}">
-			<input type="hidden" name="replyWriterNo" value="${loginMember.user_no}">
-			
-			<div class="search">
-		    	<table>
-		        	<tr>
-		            	<td style="border:0px white;">
-		                	<i class="fa fa-search" aria-hidden="true"></i>
-		            	</td>
-		            	<td style="border:0px white;">
-		                	<input type='text' name="keyword" id="keyword" value="${keyword}" class='src' size="200"placeholder='검색어를 입력하세요.'/>
-		                </td>
-	                	<td style="border:0px white;"><button type="button" onclick="search();">검색</button></td>
-	                	
-		            </tr>
-				</table>
-               	<script>
-					function search() {
-						var keywordValue = document.getElementById('keyword').value;
-						
-						console.log(keywordValue);
-						
-						location.href="${path}/board/board?keyword="+keywordValue;
-					}
-				</script>
-			</div>
-		</form>	
+	</form>	
+	
    	<div style="margin-top: -90px; margin-left: -260px;">
    		<c:if test="${list == null}">
    			<div id="contentForm">
@@ -158,15 +170,15 @@
 			</c:forEach>
 		</c:if>
 	</div>		
-		
-		<script>
-			function replyUpdate(rno) {
-				var textAreaValue = document.getElementById('newReplyContent('+rno+')').value;
-				
-				console.log(textAreaValue);
-				console.log(rno);
-				location.href="${path}/board/updateReply?replyNo="+rno+"&newReplyContent=" + textAreaValue;
-			}			
-		</script>
+	
+	<script>
+		function replyUpdate(rno) {
+			var textAreaValue = document.getElementById('newReplyContent('+rno+')').value;
+			
+			console.log(textAreaValue);
+			console.log(rno);
+			location.href="${path}/board/updateReply?replyNo="+rno+"&newReplyContent=" + textAreaValue;
+		}			
+	</script>
 			
 <%@ include file="../common/footer.jsp" %>

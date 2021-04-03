@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://kit.fontawesome.com/d854b17d02.js" crossorigin="anonymous"></script>
+<script src="../05.jQuery/js/jquery-3.5.1.js"></script>
+<link rel="stylesheet" href="../resources/CSS/style.css">
+<link rel="stylesheet" href="../resources/CSS/homeContent.css">
+<title>WEHUB</title>
+</head>
+<body>
+<nav id="navbar">
+<div class="header_logo">
+    <a href="header.html"><img src="./resources/image/logo.png"></a>
+</div>
+<div class="header_user_wrap">
+    <div class="header_profile">
+        <i class="far fa-user-circle"></i>
+    </div>
+    <div class="header_userInfo">
+        <ul id="header_user">
+            <li><a href="#">홍길동 사원</a>
+                <ul>
+                    <li><a href="#">Logout</a></li>
+                    <li><a href="#">MyPage</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+</nav>
+<section>
+    <div class="common_section">
+        <ul>
+            <li><a href="#"><i class="fas fa-home" ></i></a></li>
+            <li><a href="#"><i class="fas fa-bullhorn"></i></a></li>
+            <li><a href="#"><i class="far fa-address-card" ></i></a></li>
+            <li><a href="#"><i class="far fa-envelope"></i></a></li>
+            <li><a href="#"><i class="fas fa-users"></i></a></li>
+            <li><a href="#"><i class="far fa-calendar-alt"></i></a></li>
+        </ul>
+    </div>
+    <div class="EPay-index_section">
+        <h2>전자결재</h2>
+        <li class="EPay-form">양식작성
+            <div>
+                <ul>
+                    <li><a href="">-품의서</a></li>
+                    <li><a href="">-지출결의서</a></li>
+                    <li><a href="">-휴가신청서</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="EPay-list">
+            결재리스트
+            <div>
+            <ul>
+                <li><a href="">-개인별</a></li>
+                <li><a href="">-부서별</a></li>
+                <li><a href="">-전체</a></li>
+            </ul>
+            </div>
+        </li>
+        <li>보관함
+            <ul>
+                <li><a href="">품의서</a></li>
+                <li><a href="">지출결의서</a></li>
+                <li><a href="">휴가신청서</a></li>
+            </ul>
+        </li>
+    </div>
+    <div class="index_section2">
+        <form action="">
+            <h2>내결재</h2>
+            <div id="e-pay-status">
+                <span>
+                    미결
+                    <div>00건</div>
+                </span>
+                <span>
+                    미정
+                    <div>00</div>
+                </span>
+                <span>
+                    미정
+                    <div>00</div>
+                </span>
+            </div>
+        </form>
+
+        <form action="">
+            <h2 style="margin-bottom: 0;">결재리스트</h2>
+            <table id="e-pay-list">
+                <tr>
+                    <th>번호</th>
+                    <th>종류</th>
+                    <th>제목</th>
+                    <th>기안자</th>
+                    <th>기안일</th>
+                    <th>상태</th>
+                </tr>
+                <tr>
+                    <td>001</td>
+                    <td>휴가신청서</td>
+                    <td><a href="">000 휴가신청</a></td>
+                    <td>김정현</td>
+                    <td>2021.03.11</td>
+                    <td>결재대기</td>
+                </tr>
+                <tr>
+                    <td>002</td>
+                    <td>지출결의서</td>
+                    <td><a href="">000 휴가신청</a></td>
+                    <td>김정현</td>
+                    <td>2021.03.11</td>
+                    <td>결재중</td>
+                </tr>
+                <tr>
+                    <td>003</td>
+                    <td>품의서</td>
+                    <td><a href="">000 휴가신청</a></td>
+                    <td>김정현</td>
+                    <td>2021.03.11</td>
+                    <td>결재완료</td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</section>
+<hr>
+<footer>
+    <p>
+        이용약관 | 개인정보 보호정책 | TEL 1588-0000, 080-000-0000 | FAX 02-000-0000 <br>
+        본사 : 서울특별시 강남구 테헤란로 14길 6 남도빌딩 2F, 3F, 4F, 5F, 6F <br>
+        Copyright©WEHUB All right reservered
+    </p>
+</footer>
+</body>
+
+<script>
+    $(document).ready(function () {
+        $('.EPay-form').on('click', function() {
+            $('.EPay-form > div').slideToggle();
+        });
+    });
+
+    $(document).ready(function () {
+        $('.EPay-list').on('click', function() {
+            $('.EPay-list > div').slideToggle();
+        });
+    });
+
+
+</script>
+</html>

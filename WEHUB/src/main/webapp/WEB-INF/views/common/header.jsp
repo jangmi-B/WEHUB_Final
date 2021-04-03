@@ -9,21 +9,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://kit.fontawesome.com/d854b17d02.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="${path}/css/style.css">
-  <link rel="stylesheet" href="${path}/css/homeContent.css">
-  <link rel="stylesheet" href="${path}/css/board_style.css">
-<link rel="stylesheet" href="${path}/css/board_homeContent.css">
-<link rel="stylesheet" href="${path}/css/board_notice.css">
-<link rel="stylesheet" href="${path}/css/board_community.css">
-<script src="${path}/js/jquery-3.5.1.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
-<!-- <script src="js/jquery-3.5.1.js"></script> -->
-  <title>WEHUB</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://kit.fontawesome.com/d854b17d02.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="${path}/css/style.css">
+<link rel="stylesheet" href="${path}/css/homeContent.css">
+
+<title>WEHUB</title>
 </head>
 <body>
 	  <nav id="navbar">
