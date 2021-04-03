@@ -36,7 +36,7 @@ public class MessageController {
 	@Autowired
 	private MessageService service;
 	
-	/////////////////받은쪽지///////////////////
+///////////////////	받은 메세지함 ///////////////////////
 	
 	@RequestMapping(value = "/message/list", method = {RequestMethod.GET})
 	public ModelAndView msgList(ModelAndView model,
@@ -89,7 +89,7 @@ public class MessageController {
 	}
 	
 	
-	//////////////// 쪽지쓰기 /////////////////
+///////////////////	쪽지쓰기 ///////////////////////
 	
 	//자동완성
 	@ResponseBody
@@ -148,7 +148,7 @@ public class MessageController {
 	}
 	
 	
-///////////////////	보낸메세지함///////////////////////
+///////////////////	보낸메세지함 ///////////////////////
 	
 	@RequestMapping(value = "/message/sendList", method = {RequestMethod.GET})
 	public ModelAndView sendMsgList(ModelAndView model,
@@ -208,19 +208,107 @@ public class MessageController {
 	}
 	
 	
-////////////// 체크된 항목들 삭제 ////////////////////
+///////////////////	체크항목 삭제 ///////////////////////
 	
+	//받은메세지 삭제
 	@ResponseBody
 	@RequestMapping(value="/message/deleteSelected", method= {RequestMethod.POST})
-	public void deleteSelected(@RequestParam(value = "arr[]") List<Integer> arr) {
-		System.out.println(arr);
-		System.out.println(arr.size());
+	public void deleteSelected(@RequestParam(value = "arr[]") List<Integer> checkList) {
+		System.out.println(checkList);
+		System.out.println(checkList.size());
 		
 		int result = 0;
-//		result = service.deleteCheckSendMsg(arr);
+		result = service.deleteCheckMsg(checkList);
 		
 		if(result > 0) {
-//			System.out.println("삭제성공");
+			System.out.println("삭제성공");
+		}else {
+			System.out.println("삭제실패");
+		}
+	}
+	
+	//보낸메세지 삭제
+	@ResponseBody
+	@RequestMapping(value="/message/deleteSendSelected", method= {RequestMethod.POST})
+	public void deleteSendSelected(@RequestParam(value = "arr[]") List<Integer> checkList) {
+//		System.out.println(checkList);
+//		System.out.println(checkList.size());
+		
+		int result = 0;
+		result = service.deleteCheckSendMsg(checkList);
+		
+		if(result > 0) {
+			System.out.println("삭제성공");
+		}else {
+			System.out.println("삭제실패");
+		}
+	}
+	
+	//휴지통 삭제
+	@ResponseBody
+	@RequestMapping(value="/deletedmessage/deleteSelected", method= {RequestMethod.POST})
+	public void deletedMsgSelected(@RequestParam(value = "arr[]") List<Integer> checkList) {
+		System.out.println(checkList);
+		System.out.println(checkList.size());
+		
+		int result = 0;
+		result = service.deleteCheckDeletedMsg(checkList);
+		
+		if(result > 0) {
+			System.out.println("삭제성공");
+		}else {
+			System.out.println("삭제실패");
+		}
+	}
+	
+///////////////////	휴지통 ///////////////////////
+	
+	@RequestMapping(value = "/message/deletedList", method = {RequestMethod.GET})
+	public ModelAndView deletedMsgList(ModelAndView model,
+			@RequestParam(value = "msgSearchList", required=false)String msgSearchList,
+			@RequestParam(value = "msgSearchText", required=false)String msgSearchText,
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+			@RequestParam(value = "listLimit", required = false, defaultValue = "15") int listLimit,
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+		
+		int msgCount = 0;
+		PageInfo pageInfo = null;
+		List<ReceiveMessage> deletedList = null;
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("msgSearchList", msgSearchList);
+		map.put("msgSearchText", msgSearchText);
+		map.put("receiverNo", loginMember.getUser_no());
+		
+		msgCount = service.getDeletedMsgCount(map);
+		
+		pageInfo = new PageInfo(page, 10, msgCount, listLimit);
+		deletedList = service.getDeletedList(pageInfo, map);
+		
+		if(msgSearchList == null && msgSearchText == null) {
+			model.addObject("pageInfo",pageInfo);
+			model.addObject("deletedList", deletedList);
+		}else {
+			model.addObject("map", map);
+			model.addObject("pageInfo", pageInfo);
+			model.addObject("deletedList",deletedList);
+		}
+		
+		model.setViewName("message/deletedMessage");
+		
+		return model;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/deletedmessage/delete", method= {RequestMethod.GET})
+	public void deletedMsgDelete(@RequestParam(value="receiveNo") int receiveNo) {
+		
+		System.out.println(receiveNo);
+		int result = 0;
+		result = service.deletedMsgDelete(receiveNo);
+		
+		if(result > 0) {
+			System.out.println("삭제성공");
 		}else {
 			System.out.println("삭제실패");
 		}

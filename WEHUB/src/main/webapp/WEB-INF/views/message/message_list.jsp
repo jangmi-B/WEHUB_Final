@@ -11,13 +11,17 @@
       <ul>
         <li><h1>쪽지 <i class="far fa-comment-dots"></i></h1>
           <div class="line"></div>
-          <ul>
+          <ul class="msgComponent">
             <li><button type="button" onclick="writeMsg();" class="msg_write_btn openBtn"> 쪽지쓰기 </button></li>
             <li><a href="${path}/message/list">받은쪽지함</a></li>
             <li><a href="${path}/message/sendList">보낸쪽지함</a></li>
-            <li>휴지통</li>
-            <li>쪽지보관함</li>
-            <li>임시보관함</li>
+            <li><a href="${path}/message/deletedList">휴지통</a></li>
+            <li>쪽지보관함
+            	<ul class="subBar">
+            		<li><a href="#">- 받은쪽지 보관함</a></li>
+            		<li><a href="#">- 보낸쪽지 보관함</a></li>
+            	</ul>
+            </li>
           </ul>
         </li>
        </ul>
@@ -27,12 +31,6 @@
       <h2 class="msg_title" style="margin:0; text-align:left;" >받은쪽지함</h2>
         <div class="megSearchBox" style="float:right">
           <form action="${path}/message/list" method="get">
-            <!-- <select class="msgSearchList" name="msgSearchBox">
-              <option value="all">전체</option>
-              <option value="inbox">받은편지함</option>
-              <option value="send">보낸편지함</option>
-              <option value="archive">쪽지보관함</option>
-            </select> -->
             <select class="msgSearchList" name="msgSearchList">
               <option value="all" <c:out value="${msgSearchList == 'all'?'selected':''}"/>>전체</option>
               <option value="name" <c:out value="${msgSearchList == 'name'?'selected':''}"/>>이름</option>
@@ -138,7 +136,6 @@
         </div>
         <div class ="write_form">
 	        <button type="button" id="sendBtn" class ="sendBtn">보내기</button>
-	        <button type="button" class ="saveBtn">임시저장</button>
 	        <button type="button" class ="closeBtn">닫기</button>
         </div>
     </div>
@@ -154,42 +151,41 @@
 	}
 	
 	function deleteSelected() {
-        var cnt = $("input[name='chk']:checked").length;
-        var arr = new Array();
-        
-         $("input[name='chk']:checked").each(function() {
-            arr.push($(this).attr('value'));
-        });
-         
-        console.log(cnt);
-        console.log(arr);
-        
-        if(cnt == 0){
-            alert("선택된 글이 없습니다.");
-        }
-        
-        else{
-        	$.ajax({
-                type: "POST",
-                url: "${path}/message/deleteSelected",
-                data: {
-					arr:arr,
-					cnt:cnt
-				},
-                dataType:"json",
-                success: function(data){
-                    if(data != 1) {
-                        alert("삭제 오류");
-                    }
-                    else{
-                        alert("삭제 성공");
-                        var deleteMsg = document.getElementById('msgListTable('+ msgNo +')');
-        				deleteMsg.remove();
-                    }
-                },
-                error: function(){alert("서버통신 오류");}
-        	});
-        }
+		if(confirm("정말로 삭제하시겠습니까?")){
+	        var cnt = $("input[name='chk']:checked").length;
+	        var arr = new Array();
+	        
+	         $("input[name='chk']:checked").each(function() {
+	            arr.push($(this).attr('value'));
+	        });
+	         
+	        console.log(cnt);
+	        console.log(arr);
+	        
+	        if(cnt == 0){
+	            alert("선택된 글이 없습니다.");
+	        }
+	        
+	        else{
+	        	$.ajax({
+	                type: "POST",
+	                url: "${path}/message/deleteSelected",
+	                data: {
+						arr:arr,
+						cnt:cnt
+					},
+	                success: function(data){
+	                    alert("삭제 성공");
+	                    
+	                    for(var i = 0; i <arr.length; i++){
+		                    var deleteMsg = document.getElementById('msgListTable('+ arr[i] +')');
+		       				deleteMsg.remove();
+	                    }
+	                },
+	                error: function(){alert("서버통신 오류");}
+	        	});
+	        }
+		}
     } 
 	
 	function writeMsg(){

@@ -30,4 +30,16 @@ public interface MessageService {
 
 	List<SendMessage> getSendList(PageInfo pageInfo, Map<String, Object> map);
 
+	int deleteCheckMsg(List<Integer> checkList);
+
+	int deleteCheckSendMsg(List<Integer> checkList);
+
+	int getDeletedMsgCount(Map<String, Object> map);
+
+	List<ReceiveMessage> getDeletedList(PageInfo pageInfo, Map<String, Object> map);
+
+	int deletedMsgDelete(int receiveNo);
+
+	int deleteCheckDeletedMsg(List<Integer> checkList);
+
 }

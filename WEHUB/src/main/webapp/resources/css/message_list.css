@@ -31,6 +31,27 @@
   font-weight: 800;
 }
 
+.msgComponent > li  ul{
+	font-size: 13px;
+	line-height:25px;
+	/* display:none; */
+}
+
+.msgComponent > li a:active,
+.msgComponent > li a:hover{
+	color: #5b18ff;
+}
+
+.msgComponent > li > a:active + ul,
+.msgComponent > li > a:hover + ul{
+	display: block;
+}
+
+.msgComponent > li > ul:active,
+.msgComponent > li > ul:hover{
+	display: block;
+}
+
 .msg_write_btn {
   margin-bottom: 10px;
   background-color: #5b18ff;

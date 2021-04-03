@@ -93,9 +93,51 @@ public class MessageSercviceImpl implements MessageService {
 	}
 
 	@Override
+	@Transactional
 	public int deleteSendMsg(int sendNo) {
 		
 		return MessageDao.deleteSendMessage(sendNo);
+	}
+
+	@Override
+	@Transactional
+	public int deleteCheckMsg(List<Integer> checkList) {
+		
+		return MessageDao.deleteCheckMsg(checkList);
+	}
+
+	@Override
+	@Transactional
+	public int deleteCheckSendMsg(List<Integer> checkList) {
+		
+		return  MessageDao.deleteCheckSendMsg(checkList);
+	}
+
+	@Override
+	public int getDeletedMsgCount(Map<String, Object> map) {
+		
+		return MessageDao.getDeletedMessageCount(map);
+	}
+
+	@Override
+	public List<ReceiveMessage> getDeletedList(PageInfo pageInfo, Map<String, Object> map) {
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
+		
+		return MessageDao.selectDeletedMsgList(rowBounds, map);
+	}
+
+	@Override
+	@Transactional
+	public int deletedMsgDelete(int receiveNo) {
+		
+		return MessageDao.deletedMsgDelete(receiveNo);
+	}
+
+	@Override
+	public int deleteCheckDeletedMsg(List<Integer> checkList) {
+		
+		return MessageDao.deleteCheckDeletedMsg(checkList);
 	}
 
 }

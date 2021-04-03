@@ -33,4 +33,16 @@ public interface MessageDao {
 
 	List<SendMessage> selectSendMsgList(RowBounds rowBounds, Map<String, Object> map);
 
+	int deleteCheckMsg(List<Integer> checkList);
+
+	int deleteCheckSendMsg(List<Integer> checkList);
+
+	int getDeletedMessageCount(Map<String, Object> map);
+
+	List<ReceiveMessage> selectDeletedMsgList(RowBounds rowBounds, Map<String, Object> map);
+
+	int deletedMsgDelete(int receiveNo);
+
+	int deleteCheckDeletedMsg(List<Integer> checkList);
+
 }

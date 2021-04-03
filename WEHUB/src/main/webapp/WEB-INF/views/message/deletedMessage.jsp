@@ -28,9 +28,9 @@
       <div class="line"></div>
       </div>
       <div class="messageList">
-      <h2 class="msg_title" style="margin:0; text-align:left;" >보낸쪽지함</h2>
+      <h2 class="msg_title" style="margin:0; text-align:left;" >휴지통</h2>
         <div class="megSearchBox" style="float:right">
-          <form action="${path}/message/sendList" method="get">
+          <form action="${path}/message/deletedList" method="get">
             <select class="msgSearchList" name="msgSearchList">
               <option value="all" <c:out value="${msgSearchList == 'all'?'selected':''}"/>>전체</option>
               <option value="name" <c:out value="${msgSearchList == 'name'?'selected':''}"/>>이름</option>
@@ -42,57 +42,59 @@
         </div>
         <div class="msgComponent">
           <button type="button" class="msg_btn" onclick="deleteSelected();">삭제</button>
-          <button type="button" class="msg_btn">보관</button>
         </div>
           <table class="message_table" style="table-layout: fixed">
           <colgroup>
 		  	<col style="width:5%"/>
-		  	<col style="width:12%"/>
-		  	<col style="width:65%"/>
-		  	<col style="width:18%"/>
+		  	<col style="width:10%"/>
+		  	<col style="width:51%"/>
+		  	<col style="width:17%"/>
+		  	<col style="width:17%"/>
 		  </colgroup>
             <tr>
               <th><input type="checkbox" id="checkAll" onclick="chkAll();"></th>
-              <th>받는사람</th>
-              <th colspan="">내용</th>
-              <th>날짜</th>
+              <th>보낸사람</th>
+              <th>내용</th>
+              <th>받은날짜</th>
+              <th>삭제날짜</th>
             </tr>
-            <c:if test="${sendList == null || sendList.size() == 0 }">
+            <c:if test="${deletedList == null || deletedList.size() == 0 }">
             	<tr>
-            		<td colspan="4">
-            			보낸 쪽지함이 비어있습니다.
+            		<td colspan="5">
+            			휴지통이 비어있습니다.
             		</td>
             	</tr>
             </c:if>
-            <c:if test="${sendList != null}">
-            	<c:forEach var="sendList" items="${sendList}">
-            		<input type="hidden" name="sendNo" value="<c:out value="${sendList.sendNo}"/>">
-            		<tr id="msgListTable(${sendList.sendNo})">
-		              <td style="width:50px"><input type="checkbox" name="chk" value="${sendList.sendNo}"></td>
-		              <td><span class="receiverNo" id="s_name(${sendList.sendNo})"><c:out value="${sendList.userName}"/> <c:out value="${sendList.rank}"/></span></td>
+            <c:if test="${deletedList != null}">
+            	<c:forEach var="deletedList" items="${deletedList}">
+            		<input type="hidden" name="receiveNo" value="<c:out value="${deletedList.receiveNo}"/>">
+            		<tr id="msgListTable(${deletedList.receiveNo})">
+		              <td style="width:50px"><input type="checkbox" name="chk" value="${deletedList.receiveNo}"></td>
+		              <td><span class="senderName" id="s_name(${deletedList.receiveNo})"><c:out value="${deletedList.senderName}"/> <c:out value="${deletedList.rank}"/></span></td>
 		              <td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">
-		              	<a href="javascript:detailMsg(${sendList.sendNo})" id="detail(${sendList.sendNo})">
-							<c:out value="${sendList.sendContent}"/>
+		              	<a href="javascript:detailMsg(${deletedList.receiveNo})" id="detail(${deletedList.receiveNo})">
+							<c:out value="${deletedList.receiveContent}"/>
 						</a>
 					  </td>
-		              <td style="width:20%"><fmt:formatDate type="both" value="${sendList.sendDate}"/></td>
+		              <td style="width:20%"><fmt:formatDate type="both" value="${deletedList.receiveDate}"/></td>
+		              <td style="width:20%"><fmt:formatDate type="both" value="${deletedList.deleteDate}"/></td>
 		            </tr>
-		            <div class="modal_view fade modalNo${sendList.sendNo}">
+		            <div class="modal_view fade modalNo${deletedList.receiveNo}">
 					    <div class="bg"></div>
 					    <div class="modalContainer">
-					      <h2 style="margin-left: 18px;">보낸쪽지</h2>
+					      <h2 style="margin-left: 18px;">받은쪽지</h2>
 					        <div class="view_form info">
-					          <label>To : </label> <c:out value="${sendList.userName}"/> <c:out value="${sendList.rank}"/> (<c:out value="${sendList.deptName}"/>)<br>
-					          <label>Date : </label> <fmt:formatDate type="both" value="${sendList.sendDate}"/>
+					          <label>From : </label> <c:out value="${deletedList.senderName}"/> <c:out value="${deletedList.rank}"/> (<c:out value="${deletedList.s_deptName}"/>)<br>
+					          <label>Date : </label> <fmt:formatDate type="both" value="${receiveList.receiveDate}"/>
 					        </div>
 					        <div class ="view_form">
 					        <div class = "form-control" id="contentsDiv" rows="3" name ="messageContent">
-					       		<p style="text-align:left; margin:5px;">${ fn:replace(sendList.sendContent, replaceChar, "<br/>" )}</p> 
+					       		<p style="text-align:left; margin:5px;">${ fn:replace(deletedList.receiveContent, replaceChar, "<br/>" )}</p> 
 					        </div>
 					        </div>
 					        <div class="msg_btns">
-				        	 <button type="button" class ="delegeBtn(${sendList.sendNo})" onclick="deleteMsg(${sendList.sendNo});">삭제</button>
-				       		 <button type="button" id ="exitBtn(${sendList.sendNo})">닫기</button>
+				        	 <button type="button" class ="delegeBtn(${deletedList.receiveNo})" onclick="deleteMsg(${deletedList.receiveNo});">삭제</button>
+				       		 <button type="button" id ="exitBtn(${deletedList.receiveNo})">닫기</button>
 					        </div>
 					       
 					    </div>
@@ -102,18 +104,18 @@
           </table>
           <div class="message_page">
               <ul class="notice_pagination">
-                <li><button type="button"  onclick="location.href='${path}/message/sendList?page=1'">처음페이지</button></li>
-                <li><button type="button"  onclick="location.href='${path}/message/sendList?page=${pageInfo.prvePage}'">&lt;&lt;</button></li>
+                <li><button type="button"  onclick="location.href='${path}/message/deletedList?page=1'">처음페이지</button></li>
+                <li><button type="button"  onclick="location.href='${path}/message/deletedList?page=${pageInfo.prvePage}'">&lt;&lt;</button></li>
                 <c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
 					<c:if test="${status.current == pageInfo.currentPage}">
 						<li><button disabled><c:out value="${status.current}"/></button></li>
 	   				</c:if>
 					<c:if test="${status.current != pageInfo.currentPage}">
-						<li><button onclick="location.href='${path}/message/sendList?page=${status.current}'"><c:out value="${status.current}"/></button></li>
+						<li><button onclick="location.href='${path}/message/deletedList?page=${status.current}'"><c:out value="${status.current}"/></button></li>
 	   				</c:if>
 				</c:forEach>
-                <li><button type="button" onclick="location.href='${path}/message/sendList?page=${pageInfo.nextPage}'">&gt;&gt;</button></li>
-                <li><button type="button" onclick="location.href='${path}/message/sendList?page=${pageInfo.maxPage}'">마지막페이지</button></li>
+                <li><button type="button" onclick="location.href='${path}/message/deletedList?page=${pageInfo.nextPage}'">&gt;&gt;</button></li>
+                <li><button type="button" onclick="location.href='${path}/message/deletedList?page=${pageInfo.maxPage}'">마지막페이지</button></li>
 	          </ul>
           </div>
         </div>
@@ -135,7 +137,6 @@
         </div>
         <div class ="write_form">
 	        <button type="button" id="sendBtn" class ="sendBtn">보내기</button>
-	        <button type="button" class ="saveBtn">임시저장</button>
 	        <button type="button" class ="closeBtn">닫기</button>
         </div>
     </div>
@@ -151,7 +152,7 @@
 	}
 	
 	function deleteSelected() {
-		if(confirm("보낸쪽지는 삭제 후 복구가 불가능합니다. 정말로 삭제하시겠습니까?")){
+		if(confirm("쪽지를 완전히 삭제하시겠습니까?")){
 	        var cnt = $("input[name='chk']:checked").length;
 	        var arr = new Array();
 	        
@@ -169,7 +170,7 @@
 	        else{
 	        	$.ajax({
 	                type: "POST",
-	                url: "${path}/message/deleteSendSelected",
+	                url: "${path}/deletedmessage/deleteSelected",
 	                data: {
 						arr:arr,
 						cnt:cnt
@@ -220,7 +221,7 @@
 	}
 	
 	function deleteMsg(msgNo){
-		if(confirm("보낸쪽지는 삭제 후 복구가 불가능합니다. 쪽지를 삭제하시겠습니까?")){
+		if(confirm("쪽지를 완전히 삭제하시겠습니까?")){
 			
 			var xhr = new XMLHttpRequest();
 	            
@@ -230,10 +231,11 @@
 				deleteMsg.remove();
 				document.querySelector(".modalNo" + msgNo).classList.add("fade");
            	}else {
+           		
            		}
             }
             
-            xhr.open("GET", "${path}/sendMessage/delete?sendNo="+ msgNo, true);
+            xhr.open("GET", "${path}/deletedmessage/delete?receiveNo="+ msgNo, true);
             
             xhr.send();
 		}
@@ -287,14 +289,16 @@
 					}
 				});
 			},
-            focus : function(event, ui) {    //포커스 가면
-                return false;//한글 에러 잡기용도로 사용됨
+            focus : function(event, ui) {    
+                return false;
             },
             minLength: 1,// 최소 글자수
-            autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
-            delay: 500,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
+            autoFocus: true, 
+            delay: 300,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
 		 });
 	 });
+	
+	
 	
 </script>
 
