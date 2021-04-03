@@ -1,0 +1,120 @@
+@charset "UTF-8";
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    font-weight: 300;
+}
+
+body ::-webkit-input-placeholder {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    font-weight: 300;
+}
+
+body :-moz-placeholder {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    opacity: 1;
+    font-weight: 300;
+}
+
+body ::-moz-placeholder {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    opacity: 1;
+    font-weight: 300;
+}
+
+body :-ms-input-placeholder {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    font-weight: 300;
+}
+.wrapper {
+    background: #5b18ff;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+
+h1{
+    color: white;
+    text-align: center;
+    font-weight: 200;
+    font-size: 33px;
+    margin-top: 13%;
+}
+
+h1>a {
+    text-decoration: none;
+    color: white;
+}
+
+form {
+    padding: 20px;
+    /* position: relative; */
+    z-index: 2;
+    position: relative;
+    top: 28% 
+}
+
+form input {
+    appearance: none;
+    outline: 0;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.2);
+    width: 218px;
+    border-radius: 3px;
+    padding: 10px 15px;
+    margin: 0 auto 10px auto;
+    display: block;
+    text-align: center;
+    font-size: 18px;
+    color: white;
+    -webkit-transition-duration: 0.25s;
+            transition-duration: 0.25s;
+    font-weight: 300;
+}
+
+form input:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+form input:focus {
+    background-color: white;
+    width: 268px;
+    color: #5b18ff;
+}
+
+form button {
+    appearance: none;
+    outline: 0;
+    background-color: white;
+    border: 0;
+    padding: 10px 15px;
+    color: #5b18ff;
+    border-radius: 3px;
+    width: 250px;
+    cursor: pointer;
+    font-size: 18px;
+    transition-duration: 0.25s;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    height: 13%;
+    text-align: center;
+}
+
+.wrapper.form-success #title {
+    transform: translateY(130px);
+}
+
+#title {
+    transition-duration: 2.3s;
+    transition-timing-function: ease-in-out;
+    position: relative;
+}

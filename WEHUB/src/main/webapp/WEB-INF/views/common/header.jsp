@@ -30,7 +30,8 @@
         <ul id="header_user">
           <li><a href="#">홍길동 사원</a>
             <ul>
-              <li><a href="#">Logout</a></li>
+            <!--   <li><a href="#">Logout</a></li> -->
+            <li><a onclick="location.replace('${path}/logout')">로그아웃</a></li>
               <li><a href="#">MyPage</a></li>
             </ul>
           </li>
@@ -45,7 +46,7 @@
         <li><a href="#"><i class="fas fa-bullhorn"></i></a></li>
         <li><a href="#"><i class="far fa-address-card" ></i></a></li>
         <li><a href="#"><i class="far fa-envelope"></i></a></li>
-        <li><a href="#"><i class="fas fa-users"></i></a></li>
+        <li><a href="${path}/member/memModify"><i class="fas fa-users"></i></a></li>
         <li><a href="#"><i class="far fa-calendar-alt"></i></a></li>
       </ul>
     </div>

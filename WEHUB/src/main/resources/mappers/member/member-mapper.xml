@@ -2,8 +2,183 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="member">
-	<select id="selectCount" resultType="_int">
-		SELECT COUNT(*) FROM MEMBER
+<mapper namespace="com.kh.wehub.member.model.dao.MemberDao">
+
+	<sql id="selectMemberSql">
+		 SELECT USER_NO,
+		 		USER_COMPANYNAME,
+		        USER_ID,
+		        USER_PWD,
+		        USER_NAME,
+		        RANK,
+	         	EMAIL,
+	         	COMCALL,
+	         	PHONE,
+	         	ADDRESS,
+		        USER_STATUS,
+		        DEPT_CODE,
+		        USER_IMG_ORIFILENAME,
+		        USER_IMG_REFILENAME
+
+			FROM MEMBER
+			WHERE USER_STATUS ='Y'
+	</sql>
+	
+	<resultMap type="Member" id="memberResultMap">
+		<!-- property : 자바의 인스턴스 변수 이름, column : DB에서 select 된 결과 컬럼명 -->
+		<!-- DB에서 기본키를 의미 -->
+		<id property="user_no" column="USER_NO"/>
+		<!-- DB에서 일반 컬럼들 -->
+		<id property="user_companyname" column="USER_COMPANYNAME"/>
+		<id property="user_id" column="USER_ID"/>
+		<id property="user_pwd" column="USER_PWD"/>
+		<id property="user_name" column="USER_NAME"/>
+		<id property="rank" column="RANK"/>
+		<id property="email" column="EMAIL"/>
+		<id property="comcall" column="COMCALL"/>
+		<id property="phone" column="PHONE"/>
+		<id property="address" column="ADDRESS"/>
+		<id property="user_status" column="USER_STATUS"/>
+		<id property="dept_code" column="DEPT_CODE"/>
+
+		<id property="user_imgOriname" column="USER_IMG_ORIFILENAME"/>
+		<id property="user_imgRename" column="USER_IMG_REFILENAME"/>
+
+	</resultMap>
+	
+	<insert id="insertMember" parameterType="Member"
+		useGeneratedKeys="true" keyProperty="user_no" keyColumn="USER_NO">	
+		INSERT INTO MEMBER (
+			USER_NO,
+			USER_COMPANYNAME,
+			USER_ID,
+			USER_PWD,
+			USER_NAME,
+			RANK,
+			EMAIL,
+			COMCALL,
+			PHONE,
+			ADDRESS,
+			USER_STATUS,
+			DEPT_CODE,
+			USER_IMG_ORIFILENAME,
+			USER_IMG_REFILENAME
+
+		)
+		VALUES(
+			SEQ_USER_NO.NEXTVAL, 
+			#{user_companyname}, 
+			#{user_id}, 
+			#{user_pwd}, 
+			#{user_name},
+			#{rank}, 
+			#{email}, 
+			#{comcall},
+			#{phone},
+			#{address}, 
+			DEFAULT, 
+			#{dept_code},
+			#{user_imgOriname},
+			#{user_imgRename}
+
+		)
+	</insert>
+	<!-- 회원 인증키(난수) 생성 -->
+	<insert id="GetKey" parameterType="Map">
+		update member set user_key = #{param2} where user_id = #{param1}
+
+	</insert>
+<!-- [출처] 스프링(Spring) MVC 패턴을 이용한 회원가입 (mybatis 연동)|작성자 순남2 -->
+
+	<select id="selectMember" parameterType="string" resultMap="memberResultMap">
+		<include refid="selectMemberSql"></include>
+	 	AND USER_ID = #{user_id}
 	</select>
+	
+	<select id="findID" parameterType="Member" resultType="String" >
+		SELECT  USER_ID 	FROM MEMBER 
+		WHERE USER_STATUS ='Y' AND  
+				USER_NAME= #{user_name} AND
+		        
+	         	EMAIL= #{email} AND
+	    
+	         	PHONE =#{phone}
+	</select>
+	
+	<select id="findPWD" parameterType="Member" resultType="String" >
+		SELECT  USER_PWD 	FROM MEMBER 
+		WHERE USER_STATUS ='Y' AND  
+				USER_NAME= #{user_name} AND
+				USER_ID= #{user_id} AND
+		        
+	         	EMAIL= #{email} AND
+	    
+	         	PHONE =#{phone}
+	</select>
+	
+	<update id="updateMember" parameterType="Member">
+		UPDATE MEMBER 
+		SET
+		    EMAIL=#{email},
+		    COMCALL=#{comcall},
+		    PHONE=#{phone},
+		    <if test="user_imgOriname != null">
+		    USER_IMG_ORIFILENAME=#{user_imgOriname},
+		    </if>
+		    <if test="user_imgRename != null">
+		    USER_IMG_REFILENAME=#{user_imgRename},
+		    </if>
+		    ADDRESS=#{address}
+		WHERE 
+		    USER_NO=#{user_no}	
+	</update>
+	
+	<update id="updateMemberPass" parameterType="Member">
+		UPDATE MEMBER 
+		SET
+		    USER_PWD=#{user_pwd}
+		WHERE 
+		    USER_ID=#{user_id}	
+	</update>
+	
+
+	<update id="searchPassword" parameterType="Map" >
+	 	UPDATE MEMBER 
+	 	SET
+		    USER_PWD=#{key}
+		WHERE 
+		    USER_ID=#{user_id}
+		AND
+			EMAIL=#{email}
+
+	</update>
+
+	<select id="updateFindPWD" parameterType="Member" resultType="String" >
+		SELECT USER_PWD FROM MEMBER
+		WHERE
+			USER_ID= #{user_id}
+	</select>
+		
+<!-- 	<update id="updateUserImg" parameterType="Member">
+		UPDATE MEMBER 
+		SET
+		    USER_IMG_ORIFILENAME=#{user_imgOriname},
+		    USER_IMG_REFILENAME=#{user_imgRename}
+		WHERE
+		    USER_NO=#{user_no}
+	</update> -->
+
+	
+	<delete id="deleteMember" parameterType="string">
+		UPDATE MEMBER 
+		SET
+		    USER_STATUS='N'
+		WHERE 
+		    USER_ID=#{user_id}		
+	</delete>
+	
+	<!-- 비밀번호 변경 -->
+		<update id="updatePw" >
+			update member set PASSWORD = #{user_pwd} where id = #{user_id}
+		</update>
 </mapper>

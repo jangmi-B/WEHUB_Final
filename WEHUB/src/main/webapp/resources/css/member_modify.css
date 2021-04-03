@@ -1,0 +1,98 @@
+.member__modify {
+  margin-top: 5%;
+  /* border: 1px solid gray; */
+  display: flex;
+  justify-content: center;
+}
+
+#modify_name {
+  font-size: 25px;
+  font-weight: 500;
+  /* text-shadow: 1px 1px 1px gray; */
+}
+
+#member__modify__form {
+  border: 1px solid transparent;
+  border-radius: 6px;
+  min-width: 700px;
+  height: 740px;
+  display: flex;
+  justify-content: center;
+  padding-top: 30px;
+  margin-bottom: 50px;
+  background-color: white;
+  box-shadow: 4px 4px 8px gray;
+}
+
+#member__modify__form table {
+  margin: 30px;
+}
+#member__modify__form table tr {
+  height: 35px;
+}
+#member__modify__form table label {
+  font-weight: 500;
+}
+
+#member__modify__form input {
+  width: 220px;
+  border: 1px solid rgb(192, 191, 191);
+  height: 25px;
+  border-radius: 5px;
+  /* margin-left: 10px; */
+  padding-left: 8px;
+  margin: 5px 5px 0 10px;
+}
+#member__modify__form .modify_input:focus {
+  border: 2px solid #5b18ff;
+}
+
+#modify_button {
+  margin-left: 25%;
+}
+
+#modify_btn {
+  width: 100px;
+  height: 30px;
+  color: white;
+  background-color: #5b18ff;
+  border: none;
+  border-radius: 8px;
+}
+
+#modify_btn_b {
+  background-color: lightgray;
+  border: none;
+  width: 100px;
+  height: 30px;
+  border-radius: 8px;
+}
+#modify_btn_pw {
+  background-color: lightgray;
+  border: none;
+  height: 25px;
+  border-radius: 5px;
+}
+
+#modify_btn_addr {
+  background-color: lightgray;
+  border: none;
+  width: 70px;
+  height: 25px;
+  border-radius: 8px;
+}
+
+.btn:focus {
+  border: 0;
+  outline: 0;
+  box-shadow: 3px 3px 3px gray;
+}
+
+.btn {
+  box-shadow: 1px 1px 3px gray;
+}
+
+input:read-only {
+  background-color: #f1ebff;
+  box-shadow: 1px 1px 1px lightgrey;
+}
