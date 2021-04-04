@@ -43,7 +43,6 @@
         <div class="msgComponent">
           <button type="button" class="msg_btn" onclick="deleteSelected();">삭제</button>
           <button type="button" class="msg_btn">보관</button>
-          <button type="button" class="msg_btn">답장</button>
         </div>
           <table class="message_table" style="table-layout: fixed">
           <colgroup>
@@ -83,16 +82,20 @@
 					    <div class="modalContainer">
 					      <h2 style="margin-left: 18px;">받은쪽지</h2>
 					        <div class="view_form info">
-					          <label>From : </label> <c:out value="${receiveList.senderName}"/> <c:out value="${receiveList.rank}"/> (<c:out value="${receiveList.s_deptName}"/>)<br>
+					          <input type="hidden" id="sName${receiveList.receiveNo}" value="<c:out value="${receiveList.senderName}"/>">
+					          <input type="hidden" id="sRank${receiveList.receiveNo}" value="<c:out value="${receiveList.rank}"/>">
+					          <input type="hidden" id="sDept${receiveList.receiveNo}" value="<c:out value="${receiveList.s_deptName}"/>">
+					          <label>From : <c:out value="${receiveList.senderName}"/> <c:out value="${receiveList.rank}"/> (<c:out value="${receiveList.s_deptName}"/>)</label> <br>
 					          <label>Date : </label> <fmt:formatDate type="both" value="${receiveList.receiveDate}"/>
 					        </div>
 					        <div class ="view_form">
-					        <div class = "form-control" id="contentsDiv" rows="3" name ="messageContent">
+					        <div class = "form-control" id="contentsDiv" rows="3" name ="messageContent"  style="overflow: scroll; margin-left:20px; margin-top:10px;">
 					       		<p style="text-align:left; margin:5px;">${ fn:replace(receiveList.receiveContent, replaceChar, "<br/>" )}</p> 
 					        </div>
 					        </div>
 					        <div class="msg_btns">
-				        	 <button type="button" class ="delegeBtn(${receiveList.receiveNo})" onclick="deleteMsg(${receiveList.receiveNo});">삭제</button>
+				        	 <button type="button" class ="deleteBtn(${receiveList.receiveNo})" onclick="deleteMsg(${receiveList.receiveNo});">삭제</button>
+				       		 <button type="button" id ="responseBtn(${receiveList.receiveNo})" onclick="reMsg(${receiveList.receiveNo});">답장</button>
 				       		 <button type="button" id ="exitBtn(${receiveList.receiveNo})">닫기</button>
 					        </div>
 					       
@@ -129,10 +132,10 @@
           <label>To : </label> <input type="text" id="memSearchInput" name="userName">
         </div>
         <div style="float:right; padding-right:25px; font-size:12px; margin-top:15px;">
-          <span class="info">30</span>/1000
+          <span id="writeCnt">0</span>/<span id="writeMax">300</span>
         </div>
         <div class ="write_form">
-          <textarea class = "form-control" rows="3" id="sendContent" name ="sendContent"></textarea>
+          <textarea class = "form-control" rows="3" id="sendContent" name ="sendContent" style="overflow: scroll;"></textarea>
         </div>
         <div class ="write_form">
 	        <button type="button" id="sendBtn" class ="sendBtn">보내기</button>
@@ -199,7 +202,46 @@
 	  
 	    document.querySelector(".openBtn").addEventListener("click", open);
 	    document.querySelector(".closeBtn").addEventListener("click", close);
+	    
+	    $("#sendContent").on("keyup",function(){
+	        let inputLength = $(this).val().length;
+
+	        console.log(inputLength);
+
+	        $("#writeCnt").text(inputLength);
+
+	        let remain = $("#writeMax").text() - inputLength;
+
+	        if(remain < 0){
+	          $("#writeCnt").css("color","red");
+	        } else {
+	          $("#writeCnt").css("color","black");
+	        }
+	      });
 	}
+	
+	
+	function reMsg(msgNo){
+		var sName = $("#sName"+ msgNo).val();
+		var sRank = $("#sRank"+ msgNo).val();
+		var sDept = $("#sDept"+ msgNo).val();
+		
+		console.log(sName);
+		console.log(sRank);
+		console.log(sDept);
+		
+	    const close = () => {
+	      document.querySelector(".modal").classList.add("fade");
+	    }
+	    
+		document.querySelector(".modalNo" + msgNo).classList.add("fade");
+		document.querySelector(".modal").classList.remove("fade");
+		
+		document.getElementById("memSearchInput").value= sName + "_" + sRank + "_" + sDept;
+	  
+	    document.querySelector(".closeBtn").addEventListener("click", close);
+	}
+	
 
 	function detailMsg(msgNo){
 		/* console.log(msgNo);
@@ -244,28 +286,39 @@
 			var senderNo = $("#senderNo").val();
 			var userName = $("#memSearchInput").val();
 			var sendContent = $("#sendContent").val();
+			var writeCnt = $("#writeCnt").text();
+			var writeMax = $("#writeMax").text();
 			
-			console.log(senderNo);
-			console.log(userName);
-			console.log(sendContent);
-			
-			$.ajax({
-				type: "post",
-				url:"${path}/message/send",
-				data:{
-					senderNo:senderNo,
-					userName:userName,
-					sendContent:sendContent
-				},
-				success:function(data){
-					document.querySelector(".modal").classList.add("fade");
-				},
+			if(userName == ""){
+				alert("받는사람이 비어있습니다.");
+				document.getElementById('memSearchInput').focus();
 				
-				error: function(e){
-					alert("실패");
-					console.log(e);
-				}
-			});
+			} else if(sendContent == ""){
+				alert("내용을 작성하지 않으셨습니다.");
+				document.getElementById('sendContent').focus();
+				
+			} else if(writeCnt > writeMax){
+				alert(writeMax + "자를 초과입력할 수 없습니다.");
+				document.getElementById('sendContent').focus();
+				
+			} else{
+				$.ajax({
+					type: "post",
+					url:"${path}/message/send",
+					data:{
+						senderNo:senderNo,
+						userName:userName,
+						sendContent:sendContent
+					},
+					success:function(data){
+						document.querySelector(".modal").classList.add("fade");
+					},
+					error: function(e){
+						alert("실패");
+						console.log(e);
+					}
+				});
+			}
 		});
 	});
 	

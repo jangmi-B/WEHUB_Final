@@ -86,7 +86,7 @@
 					          <label>Date : </label> <fmt:formatDate type="both" value="${sendList.sendDate}"/>
 					        </div>
 					        <div class ="view_form">
-					        <div class = "form-control" id="contentsDiv" rows="3" name ="messageContent">
+					        <div class = "form-control" id="contentsDiv" rows="3" name ="messageContent"  style="overflow: scroll; margin-left:20px; margin-top:10px;">
 					       		<p style="text-align:left; margin:5px;">${ fn:replace(sendList.sendContent, replaceChar, "<br/>" )}</p> 
 					        </div>
 					        </div>
@@ -238,33 +238,45 @@
             xhr.send();
 		}
 	}
+	
 	$(function(){
 		$("#sendBtn").on("click",function(){
 			var senderNo = $("#senderNo").val();
 			var userName = $("#memSearchInput").val();
 			var sendContent = $("#sendContent").val();
+			var writeCnt = $("#writeCnt").text();
+			var writeMax = $("#writeMax").text();
 			
-			console.log(senderNo);
-			console.log(userName);
-			console.log(sendContent);
-			
-			$.ajax({
-				type: "post",
-				url:"${path}/message/send",
-				data:{
-					senderNo:senderNo,
-					userName:userName,
-					sendContent:sendContent
-				},
-				success:function(data){
-					document.querySelector(".modal").classList.add("fade");
-				},
+			if(userName == ""){
+				alert("받는사람이 비어있습니다.");
+				document.getElementById('memSearchInput').focus();
 				
-				error: function(e){
-					alert("실패");
-					console.log(e);
-				}
-			});
+			} else if(sendContent == ""){
+				alert("내용을 작성하지 않으셨습니다.");
+				document.getElementById('sendContent').focus();
+				
+			} else if(writeCnt > writeMax){
+				alert(writeMax + "자를 초과입력할 수 없습니다.");
+				document.getElementById('sendContent').focus();
+				
+			} else{
+				$.ajax({
+					type: "post",
+					url:"${path}/message/send",
+					data:{
+						senderNo:senderNo,
+						userName:userName,
+						sendContent:sendContent
+					},
+					success:function(data){
+						document.querySelector(".modal").classList.add("fade");
+					},
+					error: function(e){
+						alert("실패");
+						console.log(e);
+					}
+				});
+			}
 		});
 	});
 	

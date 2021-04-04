@@ -167,11 +167,11 @@ public class MessageController {
 		map.put("msgSearchText", msgSearchText);
 		map.put("senderNo", loginMember.getUser_no());
 		
-		System.out.println(map.toString());
+//		System.out.println(map.toString());
 
 		msgCount = service.getSendMsgCount(map);
 		
-		System.out.println(msgCount);
+//		System.out.println(msgCount);
 		
 		pageInfo = new PageInfo(page, 10, msgCount, listLimit);
 		sendList = service.getSendList(pageInfo, map);
@@ -214,8 +214,8 @@ public class MessageController {
 	@ResponseBody
 	@RequestMapping(value="/message/deleteSelected", method= {RequestMethod.POST})
 	public void deleteSelected(@RequestParam(value = "arr[]") List<Integer> checkList) {
-		System.out.println(checkList);
-		System.out.println(checkList.size());
+//		System.out.println(checkList);
+//		System.out.println(checkList.size());
 		
 		int result = 0;
 		result = service.deleteCheckMsg(checkList);
@@ -248,8 +248,8 @@ public class MessageController {
 	@ResponseBody
 	@RequestMapping(value="/deletedmessage/deleteSelected", method= {RequestMethod.POST})
 	public void deletedMsgSelected(@RequestParam(value = "arr[]") List<Integer> checkList) {
-		System.out.println(checkList);
-		System.out.println(checkList.size());
+//		System.out.println(checkList);
+//		System.out.println(checkList.size());
 		
 		int result = 0;
 		result = service.deleteCheckDeletedMsg(checkList);
@@ -303,7 +303,7 @@ public class MessageController {
 	@RequestMapping(value="/deletedmessage/delete", method= {RequestMethod.GET})
 	public void deletedMsgDelete(@RequestParam(value="receiveNo") int receiveNo) {
 		
-		System.out.println(receiveNo);
+//		System.out.println(receiveNo);
 		int result = 0;
 		result = service.deletedMsgDelete(receiveNo);
 		

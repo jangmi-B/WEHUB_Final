@@ -82,13 +82,13 @@
 		            <div class="modal_view fade modalNo${deletedList.receiveNo}">
 					    <div class="bg"></div>
 					    <div class="modalContainer">
-					      <h2 style="margin-left: 18px;">받은쪽지</h2>
+					      <h2 style="margin-left: 18px;">휴지통(받은쪽지)</h2>
 					        <div class="view_form info">
 					          <label>From : </label> <c:out value="${deletedList.senderName}"/> <c:out value="${deletedList.rank}"/> (<c:out value="${deletedList.s_deptName}"/>)<br>
-					          <label>Date : </label> <fmt:formatDate type="both" value="${receiveList.receiveDate}"/>
+					          <label>Date : </label> <fmt:formatDate type="both" value="${deletedList.receiveDate}"/>
 					        </div>
 					        <div class ="view_form">
-					        <div class = "form-control" id="contentsDiv" rows="3" name ="messageContent">
+					        <div class = "form-control" id="contentsDiv" rows="3" name ="messageContent"  style="overflow: scroll; margin-left:20px; margin-top:10px;">
 					       		<p style="text-align:left; margin:5px;">${ fn:replace(deletedList.receiveContent, replaceChar, "<br/>" )}</p> 
 					        </div>
 					        </div>
@@ -240,33 +240,45 @@
             xhr.send();
 		}
 	}
+	
 	$(function(){
 		$("#sendBtn").on("click",function(){
 			var senderNo = $("#senderNo").val();
 			var userName = $("#memSearchInput").val();
 			var sendContent = $("#sendContent").val();
+			var writeCnt = $("#writeCnt").text();
+			var writeMax = $("#writeMax").text();
 			
-			console.log(senderNo);
-			console.log(userName);
-			console.log(sendContent);
-			
-			$.ajax({
-				type: "post",
-				url:"${path}/message/send",
-				data:{
-					senderNo:senderNo,
-					userName:userName,
-					sendContent:sendContent
-				},
-				success:function(data){
-					document.querySelector(".modal").classList.add("fade");
-				},
+			if(userName == ""){
+				alert("받는사람이 비어있습니다.");
+				document.getElementById('memSearchInput').focus();
 				
-				error: function(e){
-					alert("실패");
-					console.log(e);
-				}
-			});
+			} else if(sendContent == ""){
+				alert("내용을 작성하지 않으셨습니다.");
+				document.getElementById('sendContent').focus();
+				
+			} else if(writeCnt > writeMax){
+				alert(writeMax + "자를 초과입력할 수 없습니다.");
+				document.getElementById('sendContent').focus();
+				
+			} else{
+				$.ajax({
+					type: "post",
+					url:"${path}/message/send",
+					data:{
+						senderNo:senderNo,
+						userName:userName,
+						sendContent:sendContent
+					},
+					success:function(data){
+						document.querySelector(".modal").classList.add("fade");
+					},
+					error: function(e){
+						alert("실패");
+						console.log(e);
+					}
+				});
+			}
 		});
 	});
 	
@@ -297,7 +309,6 @@
             delay: 300,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
 		 });
 	 });
-	
 	
 	
 </script>
