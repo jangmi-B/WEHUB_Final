@@ -21,6 +21,10 @@
 		}
 	</style>
 	
+	<c:out value="${memAdress[0]}"></c:out>
+	<c:out value="${memAdress[1]}"></c:out>
+	<c:out value="${memAdress[2]}"></c:out>
+	
 	<div class="member__modify">
       <div id="member__modify__form">
         <form action="${path}/member/update" method="post" enctype="multipart/form-data">

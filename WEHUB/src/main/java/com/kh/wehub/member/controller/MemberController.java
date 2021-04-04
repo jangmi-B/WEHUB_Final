@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -226,8 +227,16 @@ public class MemberController {
 	
 	// 회원 수정
 	@RequestMapping(value="member/memModify", method = {RequestMethod.GET})
-	public String memModify() {
+	public String memModify(@SessionAttribute(name = "loginMember", required = false) Member loginMember, Model model) {
 		log.info("회원 수정 페이지 요청");
+		
+		String memAdress = loginMember.getAddress();
+		System.out.println(memAdress);
+		String[] adressArr = memAdress.split(",");
+		System.out.println(adressArr[0]);
+		System.out.println(adressArr[1]);
+		
+		model.addAttribute("memAdress", adressArr);
 		
 		return "member/memModify";
 	}
@@ -272,6 +281,8 @@ public class MemberController {
 //			String[] adressArr = memAdress.split(",");
 //			System.out.println(adressArr[0]);
 //			System.out.println(adressArr[1]);
+			
+			
 			
 			if(result > 0) {
 				System.out.println(loginMember.getUser_id().equals(member.getUser_id()) + ",  result : " + result);
