@@ -13,7 +13,7 @@
 	<script>
 		alert('${msg}');
 		
-		location.replace('${pageContext.request.contextPath}${location}'); //contextpath는 mvc까지만 나오니까 ${location}처럼 그 이후 경로 작성하면 된다.
+		location.replace('${pageContext.request.contextPath}${location}');
 	</script>
 </body>
 </html>
