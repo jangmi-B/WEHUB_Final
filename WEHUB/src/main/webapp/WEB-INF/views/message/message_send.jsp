@@ -128,14 +128,13 @@
           <label>To : </label> <input type="text" id="memSearchInput" name="userName">
         </div>
         <div style="float:right; padding-right:25px; font-size:12px; margin-top:15px;">
-          <span class="info">30</span>/1000
+          <span id="writeCnt">0</span>/<span id="writeMax">300</span>
         </div>
         <div class ="write_form">
           <textarea class = "form-control" rows="3" id="sendContent" name ="sendContent"></textarea>
         </div>
         <div class ="write_form">
 	        <button type="button" id="sendBtn" class ="sendBtn">보내기</button>
-	        <button type="button" class ="saveBtn">임시저장</button>
 	        <button type="button" class ="closeBtn">닫기</button>
         </div>
     </div>
@@ -194,11 +193,27 @@
 	    }
 	  
 	    const close = () => {
+    	  document.getElementById("memSearchInput").value= "";
+	      document.getElementById("sendContent").value= "";	
 	      document.querySelector(".modal").classList.add("fade");
 	    }
 	  
 	    document.querySelector(".openBtn").addEventListener("click", open);
 	    document.querySelector(".closeBtn").addEventListener("click", close);
+	    
+	    $("#sendContent").on("keyup",function(){
+	        let inputLength = $(this).val().length;
+
+	        $("#writeCnt").text(inputLength);
+
+	        let remain = $("#writeMax").text() - inputLength;
+
+	        if(remain < 0){
+	          $("#writeCnt").css("color","red");
+	        } else {
+	          $("#writeCnt").css("color","black");
+	        }
+	      });
 	}
 
 	function detailMsg(msgNo){

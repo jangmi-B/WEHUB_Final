@@ -176,7 +176,7 @@ public class MessageController {
 		pageInfo = new PageInfo(page, 10, msgCount, listLimit);
 		sendList = service.getSendList(pageInfo, map);
 		
-		System.out.println(sendList.toString());
+//		System.out.println(sendList.toString());
 		
 		if(msgSearchList == null && msgSearchText == null) {
 			model.addObject("pageInfo",pageInfo);

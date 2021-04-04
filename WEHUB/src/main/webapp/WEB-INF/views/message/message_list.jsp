@@ -197,16 +197,17 @@
 	    }
 	  
 	    const close = () => {
+	      document.getElementById("memSearchInput").value= "";
+	      document.getElementById("sendContent").value= "";
 	      document.querySelector(".modal").classList.add("fade");
 	    }
 	  
 	    document.querySelector(".openBtn").addEventListener("click", open);
 	    document.querySelector(".closeBtn").addEventListener("click", close);
 	    
+	    
 	    $("#sendContent").on("keyup",function(){
 	        let inputLength = $(this).val().length;
-
-	        console.log(inputLength);
 
 	        $("#writeCnt").text(inputLength);
 
@@ -220,7 +221,6 @@
 	      });
 	}
 	
-	
 	function reMsg(msgNo){
 		var sName = $("#sName"+ msgNo).val();
 		var sRank = $("#sRank"+ msgNo).val();
@@ -231,6 +231,8 @@
 		console.log(sDept);
 		
 	    const close = () => {
+    	  document.getElementById("memSearchInput").value= "";
+	      document.getElementById("sendContent").value= "";
 	      document.querySelector(".modal").classList.add("fade");
 	    }
 	    
@@ -281,6 +283,7 @@
             xhr.send();
 		}
 	}
+	
 	$(function(){
 		$("#sendBtn").on("click",function(){
 			var senderNo = $("#senderNo").val();
@@ -288,6 +291,9 @@
 			var sendContent = $("#sendContent").val();
 			var writeCnt = $("#writeCnt").text();
 			var writeMax = $("#writeMax").text();
+			
+			console.log(writeCnt);
+			console.log(writeMax);
 			
 			if(userName == ""){
 				alert("받는사람이 비어있습니다.");
@@ -298,6 +304,8 @@
 				document.getElementById('sendContent').focus();
 				
 			} else if(writeCnt > writeMax){
+				console.log(writeCnt);
+				console.log(writeMax);
 				alert(writeMax + "자를 초과입력할 수 없습니다.");
 				document.getElementById('sendContent').focus();
 				
@@ -349,8 +357,6 @@
             delay: 300,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
 		 });
 	 });
-	
-	
 	
 </script>
 

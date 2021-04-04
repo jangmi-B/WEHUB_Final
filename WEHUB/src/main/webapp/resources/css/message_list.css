@@ -317,3 +317,20 @@ input#memSearchInput {
 .msg_btns{
 	text-align:center;
 }
+
+
+/* jQuery autoComplete*/
+#ui-id-1{
+	background :white;
+	width:200px;
+	border:1px solid lightgrey;
+}
+
+#ui-id-1 li{
+	font-size: 15px;
+	line-height:23px;
+}
+#ui-id-1 li:hover{
+	color: #5b18ff;
+	cursor:pointer;
+}

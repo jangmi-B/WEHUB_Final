@@ -54,9 +54,9 @@
       <ul>
         <li><a href="${path}/home"><i class="fas fa-home home_contents active"></i></a></li>
         <li><a href="${path}/notice/list"><i class="fas fa-bullhorn home_contents"></i></a></li>
-        <li><a href="${path}/memberInfo/list"><i class="far fa-address-card home_contents" ></i></a></li>
+        <li><a href="#"><i class="far fa-address-card home_contents" ></i></a></li>
         <li><a href="${path}/message/list"><i class="far fa-envelope home_contents"></i></a></li>
-        <li><a href="#"><i class="fas fa-users home_contents"></i></a></li>
+        <li><a href="${path}/memberInfo/list"><i class="fas fa-users home_contents"></i></a></li>
         <li><a href="#"><i class="far fa-calendar-alt home_contents"></i></a></li>
       </ul>
     </div>
