@@ -1,4 +1,3 @@
-
 //package com.kh.wehub.member.model.service;
 //
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -129,7 +128,6 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.findID(member);
 	}
 
-
 	@Override
 	public String findPWD(Member member) {
 		// TODO Auto-generated method stub
@@ -180,5 +178,5 @@ public class MemberServiceImpl implements MemberService {
 		
 		return result;
 	}
-
+	
 }

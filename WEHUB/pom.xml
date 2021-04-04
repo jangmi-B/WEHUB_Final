@@ -242,6 +242,28 @@
 		  <version>3.11.1</version>
 		  <scope>test</scope>
 		</dependency>        
+		
+						<!-- mail -->
+		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
+<dependency>
+    <groupId>javax.mail</groupId>
+    <artifactId>javax.mail-api</artifactId>
+    <version>1.6.2</version>
+</dependency>
+
+<!-- JavaMailSender 등의 class 사용을 위해 필요 -->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context-support</artifactId>
+		<version>${org.springframework-version}</version>
+	</dependency> 
+
+<!-- 메일 api -->
+<dependency>
+	<groupId>org.apache.commons</groupId>
+	<artifactId>commons-email</artifactId>
+	<version>1.2</version>
+</dependency>
 	</dependencies>
     <build>
         <plugins>

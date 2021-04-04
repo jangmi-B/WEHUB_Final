@@ -1,118 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<c:set var="path" value="${pageContext.request.contextPath}" />
 
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="https://kit.fontawesome.com/d854b17d02.js" crossorigin="anonymous"></script>
-<script src="./05.jQuery/js/jquery-3.5.1.js"></script>
-<link rel="stylesheet" href="${path}/css/style.css">
-<link rel="stylesheet" href="./resources/CSS/homeContent.css">
-<title>WEHUB</title>
-</head>
-<style>
-    table input{
-        font-size: 30px;
-        width: 100%;
-        height: 100%; 
-        border: none; 
-        text-align: center;
-    }
+<%@ include file="../common/header.jsp" %>
 
-    #button{
-        text-align: center;
-        padding-left: 210px;
-        margin-bottom: 40px;
-    }
+<c:set var="path" value="${pageContext.request.contextPath}"/>
 
-    button {
-        border-radius: 8px;
-        background: none;
-        font-size: 30px;
-        cursor: pointer;
-    }
+<link rel="stylesheet" href="${path}/css/approvalStyle.css">
+<script src="${path}/js/jquery-3.5.1.js"></script>
 
-    /* modal css */
-
-    .modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .modal .bg {
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.6);
-    }
-
-    .modalBox {
-        position: absolute;
-        background-color: #fff;
-        width: 800px;
-        height: 700px;
-        padding: 15px;
-    }
-
-    .modalBox .closeBtn-out {
-        display: block;
-        width: 80px;
-    }
-
-    .modalBox .closeBtn-in {
-        float: left;
-        display: block;
-        width: 80px;
-    }
-
-    .hidden {
-        display: none;
-    }
-</style>
-<body>
-<nav id="navbar">
-<div class="header_logo">
-    <a href="header.html"><img src="./resources/image/logo.png"></a>
-</div>
-<div class="header_user_wrap">
-    <div class="header_profile">
-        <i class="far fa-user-circle"></i>
-    </div>
-    <div class="header_userInfo">
-        <ul id="header_user">
-            <li><a href="#">홍길동 사원</a>
-                <ul>
-                    <li><a href="#">Logout</a></li>
-                    <li><a href="#">MyPage</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-</div>
-</nav>
 <section>
-    <div class="common_section">
-        <ul>
-            <li><a href="#"><i class="fas fa-home" ></i></a></li>
-            <li><a href="#"><i class="fas fa-bullhorn"></i></a></li>
-            <li><a href="#"><i class="far fa-address-card" ></i></a></li>
-            <li><a href="#"><i class="far fa-envelope"></i></a></li>
-            <li><a href="#"><i class="fas fa-users"></i></a></li>
-            <li><a href="#"><i class="far fa-calendar-alt"></i></a></li>
-        </ul>
-    </div>
     <div class="EPay-index_section">
         <h2>전자결재</h2>
         <li class="EPay-form">양식작성
@@ -276,16 +175,6 @@
             </div>
         </div>
     </div>
-</section>
-<hr>
-<footer>
-    <p>
-        이용약관 | 개인정보 보호정책 | TEL 1588-0000, 080-000-0000 | FAX 02-000-0000 <br>
-        본사 : 서울특별시 강남구 테헤란로 14길 6 남도빌딩 2F, 3F, 4F, 5F, 6F <br>
-        Copyright©WEHUB All right reservered
-    </p>
-</footer>
-</body>
 
 <script>
     $(document).ready(function () {
@@ -293,27 +182,21 @@
             $('.EPay-form > div').slideToggle();
         });
     });
-
     $(document).ready(function () {
         $('.EPay-list').on('click', function() {
             $('.EPay-list > div').slideToggle();
         });
     });
-
     // modal 창 띄우기
-
     const open = () => {
     document.querySelector(".modal").classList.remove("hidden");
     }
-
     const close = () => {
         document.querySelector(".modal").classList.add("hidden");
     }
-
     document.querySelector(".send-open").addEventListener("click", open);
     document.querySelector(".closeBtn-out").addEventListener("click", close);
     document.querySelector(".bg").addEventListener("click", close);
-
     // 수신참조자 추가하기 -> 전체 (선택, 해제)
     $(document).ready(function() {
         $('#refer-listAll').click(function() {
@@ -324,16 +207,14 @@
             }
         });
     });
-
     $(document).ready(function() {
         $('.refer-insert').click(function() {
-
             var rowData = new Array();
             var tdArr = new Array();
             var checkbox = $("input[name=refer-list]:checked");
             
             checkbox.each(function(i) {
-	
+   
             // checkbox.parent() : checkbox의 부모는 <td>이다.
             // checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.
             var tr = checkbox.parent().parent().eq(i);
@@ -351,7 +232,6 @@
             tdArr.push(name);
             tdArr.push(dept);
             tdArr.push(position);
-
             console.log(name);
             console.log(tdArr);
             $('#refer-right-section > tbody:last').append('<tr><td><input type="checkbox" name="D-refer-listAll" style="height: 15px; margin-top: 6px;"></td>'
@@ -366,10 +246,9 @@
                     }
                     
                 }
-
             });
         });
     });
-
 </script>
-</html>
+
+<%@ include file="../common/footer.jsp" %>

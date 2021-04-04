@@ -22,26 +22,31 @@
         </div>
         <div class="container">
             <form class="form" action="${path}/member/findPwd" method="post">
-                <input type="text" name="user_name" placeholder="User Name ">
-                <input type="text" name="user_id"placeholder="User ID ">
-                <input type="email" name="email"placeholder="E-mail">
-                <input type="phone" name="phone"placeholder="Phone">
+                <input type="text" id="user_id"name="user_id"placeholder="User ID ">
+                <input type="email"id="email" name="email"placeholder="E-mail">
+
                 <button type="submit" id="login-button">Find</button>
             </form>
         </div>
     </div>
 </body>
 <script>
-    $("#login-button").click(function(event){
-		event.preventDefault();
-	
-	    $('.form').fadeOut(500);
-	    $('.wrapper').addClass('form-success');
 
-        setTimeout(function() {
-        alert("입력하신 회원정보의 Password는 '나도 잘 모르겠다' 입니다.");
-        location.href="file:///C:/Users/User/Desktop/Coding/FinalProjectHTML/LogInForm.html";
-    }, 3000);
-    });
+	$("#login-button").click(function(){
+		$.ajax({
+			url : "member/findPwd",
+			type : "POST",
+			data : {
+				user_id : $("#user_id").val(),
+				email : $("#email").val()
+			},
+			success : function(result) {
+				alert(result);
+
+			},
+		})
+	});
+    
+    
 </script>
 </html>

@@ -10,9 +10,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.ibatis.session.SqlSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,9 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.wehub.member.model.service.MemberService;
+import com.kh.wehub.member.model.service.UserMailSendService;
 import com.kh.wehub.member.model.vo.Member;
-
-
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,14 +42,12 @@ public class MemberController {
 		
 	@Autowired
 	private MemberService service;
-	
 
 	@RequestMapping(value="/loginn", method={RequestMethod.POST})
 	public ModelAndView login(@SessionAttribute(name="loginMember", required=false)Member loginMember , 
 												ModelAndView model, 
 												@RequestParam(name="userId") String userId, 
 												@RequestParam(name="userPwd") String userPwd) {
-		
 	
 		loginMember = service.login(userId, userPwd);
 		log.info("loginmember in mcontroller :"+ loginMember);
@@ -55,7 +55,6 @@ public class MemberController {
 			model.addObject("loginMember" , loginMember);
 
 			model.setViewName("redirect:/main");
-
 
 		}else {
 			model.addObject("msg", "아이디 또는 비밀번호가 일치하지 않습니다.");
@@ -73,44 +72,40 @@ public class MemberController {
 		model.addObject("loginMember", loginMember);
 		model.setViewName("/main");
 		
-		
-		
 		return model;
 	}
+	
 	@RequestMapping("/logout")
 	public String logout(SessionStatus status) {
-		// 세션 삭제함.
 		
+		// 세션 삭제함.
 		log.info("status.isComplete() " +status.isComplete());
 		status.setComplete();
 		log.info("status.isComplete() " +status.isComplete());
 		
 		return "redirect:/";
-		
 	}
 	
 	@RequestMapping(value="member/findIDorPwd")
 	public String findIdorPwd() {
-	log.info("wanna go findIDorPwd");
-	return "member/findIDorPwd";
+		
+		log.info("wanna go findIDorPwd");
+		
+		return "member/findIDorPwd";
 	}
+	
 	@RequestMapping(value="member/findID")
 	public String findID() {
-	log.info("findID go!!");
-	
-	return "member/findID";
-	}
-	@RequestMapping(value="member/findPwd")
-	public String findPWD() {
+		
 		log.info("findID go!!");
 		
-		return "member/findPwd";
+		return "member/findID";
 	}
-	
+
 	@RequestMapping(value="member/findID", method={RequestMethod.POST})
 	public ModelAndView findID(ModelAndView model,@ModelAttribute Member member) {
 		
-
+		log.info("in controller email, user_id : "+member.getEmail()+" "+member.getPhone());
 		String findID =service.findID(member);
 		
 		if(findID!=null) {
@@ -127,24 +122,66 @@ public class MemberController {
 		return model;
 	}
 	
+//	@RequestMapping(value="member/findPwd",method={RequestMethod.POST})
+//	public ModelAndView findPWD(ModelAndView model,@ModelAttribute Member member) {
+//		
+//		String findPWD =service.findPWD(member);
+//		if(findPWD!=null) {
+//		//model.addObject("userPwd" , findPWD);
+//		log.info("찾은 pwd");
+//		model.addObject("msg","찾은 pwd는"+ findPWD);
+//		}else {
+//			model.addObject("msg", "찾은 비밀번호는 존재하지 않습니다");
+//		}
+//		model.setViewName("common/msg");
+//		//model.setViewName("redirect:/");
+//	return model;
+//	}
 	
-	@RequestMapping(value="member/findPwd",method={RequestMethod.POST})
-	public ModelAndView findPWD(ModelAndView model,@ModelAttribute Member member) {
+	/* 비밀번호 찾기 */
+	@RequestMapping(value="member/findPwd")
+	public String findPWD() {
+		log.info("findPwd go!!");
 		
-		String findPWD =service.findPWD(member);
-		if(findPWD!=null) {
-		//model.addObject("userPwd" , findPWD);
-		log.info("찾은 pwd");
-		model.addObject("msg","찾은 pwd는"+ findPWD);
-		}else {
-			model.addObject("msg", "찾은 비밀번호는 존재하지 않습니다");
-		}
-		model.setViewName("common/msg");
-		//model.setViewName("redirect:/");
-	return model;
+		return "member/findPwd";
 	}
 
-	// 회원가입
+    @Autowired
+    private UserMailSendService mailsender;
+
+//    .@responseBody는 리턴 값을 http 몸체로 변환하는데 사용하는데 , Ajax 처리할 시 
+//    @responseBody 어노테이션을 붙여줬음.
+
+//
+//	 @RequestMapping(value = "member/findPwd", method = RequestMethod.POST)
+//	  
+//	  @ResponseBody public String
+//	  findPwd(@RequestParam(value="user_id",required=false)String user_id,
+//			  @RequestParam(value="email" ,required = false)String email,
+//			  									HttpServletRequest request )
+//	 
+//	 { 	log.info("wanna go findPwd");
+//	 	log.info("in controller email, user_id : "+email+" "+user_id);
+//	 	mailsender.mailSendWithPassword(user_id, email, request);
+//	
+//	  	return "member/findPwd"; }
+    
+	 @RequestMapping(value = "member/findPwd", method = RequestMethod.POST)
+	 
+	 @ResponseBody public String
+	 findPwd(@RequestParam(value="user_id",required=false)String user_id,
+			 @RequestParam(value="email" ,required = false)String email,
+			 HttpServletRequest request )
+	 
+	 { 	
+		 log.info("wanna go findPwd");
+		 log.info("in controller email, user_id : "+email+" "+user_id);
+	 mailsender.mailSendWithPassword(user_id, email, request);
+	 
+	 return "member/findPwd"; }
+	 
+    
+    // 회원가입
 	@RequestMapping("member/BeforeSignUp")
 	public String BeforeSignUp() {
 		log.info("회원가입 동의 페이지 요청");
@@ -195,7 +232,6 @@ public class MemberController {
 		
 		model.setViewName("member/signUpForm");
 		
-		
 		if(result > 0) {
 			model.addObject("msg", "회원가입이 정상적으로 되었습니다.");
 			model.addObject("location", "/"); // 로그인창으로 이동시키는 로케이션
@@ -227,26 +263,11 @@ public class MemberController {
 	
 	// 회원 수정
 	@RequestMapping(value="member/memModify", method = {RequestMethod.GET})
-	public String memModify(@SessionAttribute(name = "loginMember", required = false) Member loginMember, Model model) {
+	public String memModify() {
 		log.info("회원 수정 페이지 요청");
-		
-		String memAdress = loginMember.getAddress();
-		System.out.println(memAdress);
-		String[] adressArr = memAdress.split(",");
-		System.out.println(adressArr[0]);
-		System.out.println(adressArr[1]);
-		
-		model.addAttribute("memAdress", adressArr);
 		
 		return "member/memModify";
 	}
-	
-//	@RequestMapping(value="member/memModify", method = {RequestMethod.POST})
-//	public String memModify() {
-//		log.info("회원 수정 페이지 요청");
-//		
-//		return "member/memModify";
-//	}
 	
 	@RequestMapping(value="/member/update", method = {RequestMethod.POST})
 	public ModelAndView update(@ModelAttribute Member member, ModelAndView model,
@@ -281,8 +302,6 @@ public class MemberController {
 //			String[] adressArr = memAdress.split(",");
 //			System.out.println(adressArr[0]);
 //			System.out.println(adressArr[1]);
-			
-			
 			
 			if(result > 0) {
 				System.out.println(loginMember.getUser_id().equals(member.getUser_id()) + ",  result : " + result);
@@ -383,16 +402,6 @@ public class MemberController {
 		
 		return model;
 	}
-	
-//	@RequestMapping("/member/memAdress")
-//	public ModelAndView memAdress(ModelAndView model,
-//			@SessionAttribute(name="loginMember", required = false) Member loginMember,
-//			@RequestParam("address")String address) {
-//		
-//		loginMember.getAddress();
-//		
-//		return model;
-//	}
 	
 	private String saveFile(MultipartFile file, HttpServletRequest request) {
 		String renamePath = null; 

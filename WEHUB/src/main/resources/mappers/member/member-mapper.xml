@@ -19,11 +19,10 @@
 		        DEPT_CODE,
 		        USER_IMG_ORIFILENAME,
 		        USER_IMG_REFILENAME
+
 			FROM MEMBER
 			WHERE USER_STATUS ='Y'
 	</sql>
-	
-	
 	
 	<resultMap type="Member" id="memberResultMap">
 		<!-- property : 자바의 인스턴스 변수 이름, column : DB에서 select 된 결과 컬럼명 -->
@@ -41,8 +40,10 @@
 		<id property="address" column="ADDRESS"/>
 		<id property="user_status" column="USER_STATUS"/>
 		<id property="dept_code" column="DEPT_CODE"/>
+
 		<id property="user_imgOriname" column="USER_IMG_ORIFILENAME"/>
 		<id property="user_imgRename" column="USER_IMG_REFILENAME"/>
+
 	</resultMap>
 	
 	<insert id="insertMember" parameterType="Member"
@@ -62,6 +63,7 @@
 			DEPT_CODE,
 			USER_IMG_ORIFILENAME,
 			USER_IMG_REFILENAME
+
 		)
 		VALUES(
 			SEQ_USER_NO.NEXTVAL, 
@@ -78,9 +80,16 @@
 			#{dept_code},
 			#{user_imgOriname},
 			#{user_imgRename}
+
 		)
 	</insert>
-	
+	<!-- 회원 인증키(난수) 생성 -->
+	<insert id="GetKey" parameterType="Map">
+		update member set user_key = #{param2} where user_id = #{param1}
+
+	</insert>
+<!-- [출처] 스프링(Spring) MVC 패턴을 이용한 회원가입 (mybatis 연동)|작성자 순남2 -->
+
 	<select id="selectMember" parameterType="string" resultMap="memberResultMap">
 		<include refid="selectMemberSql"></include>
 	 	AND USER_ID = #{user_id}
@@ -132,6 +141,18 @@
 		    USER_ID=#{user_id}	
 	</update>
 	
+
+	<update id="searchPassword" parameterType="Map" >
+	 	UPDATE MEMBER 
+	 	SET
+		    USER_PWD=#{key}
+		WHERE 
+		    USER_ID=#{user_id}
+		AND
+			EMAIL=#{email}
+
+	</update>
+
 	<select id="updateFindPWD" parameterType="Member" resultType="String" >
 		SELECT USER_PWD FROM MEMBER
 		WHERE
@@ -146,6 +167,7 @@
 		WHERE
 		    USER_NO=#{user_no}
 	</update> -->
+
 	
 	<delete id="deleteMember" parameterType="string">
 		UPDATE MEMBER 
@@ -154,4 +176,9 @@
 		WHERE 
 		    USER_ID=#{user_id}		
 	</delete>
+	
+	<!-- 비밀번호 변경 -->
+		<update id="updatePw" >
+			update member set PASSWORD = #{user_pwd} where id = #{user_id}
+		</update>
 </mapper>
