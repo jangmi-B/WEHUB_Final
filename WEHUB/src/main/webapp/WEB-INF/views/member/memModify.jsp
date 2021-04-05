@@ -62,7 +62,7 @@
 				</tr>
 				<tr>
 				    <td><label for="modify_userNo">사번</label></td>
-				    <td><input id="modify_userNo" name="userNo" type="text" value="A12345" readonly></td>
+				    <td><input id="modify_userNo" name="userNo" type="text" value="${ loginMember.user_no }" readonly></td>
 				    <td></td>
 				</tr>
 				<tr>
@@ -82,12 +82,12 @@
 				</tr>
 				<tr>
 				    <td><label for="modify_phone">내선전화</label></td>
-				    <td><input class="modify_input" name="comcall" id="modify_phone" type="tel" value="${ loginMember.comcall }"></td>
+				    <td><input class="modify_input" name="comcall" class="modify_phone" type="tel" value="${ loginMember.comcall }"></td>
 				    <td></td>
 				</tr>
 				<tr>
 				    <td><label for="modify_cellPhone">휴대전화</label></td>
-				    <td><input class="modify_input" name="phone" id="modify_cellPhone" type="tel" value="${ loginMember.phone }"></td>
+				    <td><input class="modify_input" name="phone" class="modify_cellPhone" type="tel" value="${ loginMember.phone }"></td>
 				    <td></td>
 				</tr>
 				<tr>
@@ -121,13 +121,6 @@
     </div>
     
 <script>
-	$(document).on("keyup", "#modify_cellPhone, #modify_phone", function() { 
-		$(this).val( $(this).val()
-				.replace(/[^0-9]/g, "")
-				.replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3")
-				.replace("--", "-") ); 
-	});
-	
 	function deleteMember() {
 		if(confirm("정말로 탈퇴하시겠습니까?")) {
 			location.replace("${path}/member/delete?user_id=${ loginMember.user_id }")

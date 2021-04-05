@@ -26,20 +26,6 @@ public interface MemberService {
 
 	String findID(Member member);
 
-	//String findPWD(Member member);
-	
-	int saveMember(Member member);
-	
-	int updateUserPassword(Member member);
-	
-	int deleteMember(String userId);
-	
-	boolean validate(String userId);
-
-	Member findMemberByUserId(String userId);
-
-	String findID(Member member);
-
 	String findPWD(Member member);
 	
 	int saveMember(Member member);
@@ -49,5 +35,6 @@ public interface MemberService {
 	int deleteMember(String userId);
 	
 	boolean validate(String userId);
+
 }
 

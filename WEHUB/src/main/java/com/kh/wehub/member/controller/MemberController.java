@@ -335,6 +335,7 @@ public class MemberController {
 			
 			if(result > 0) {
 				model.addObject("msg", "정상적으로 탈퇴되었습니다.");
+//				model.addObject("msg", "정상적으로 탈퇴되었습니다./n빛나는 당신의 내일을 WEHUB가 응원합니다.");
 				model.addObject("location", "/logout");				
 			} else {
 				model.addObject("msg", "회원 탈퇴를 실패하였습니다.");
@@ -448,4 +449,13 @@ public class MemberController {
 			file.delete();
 		}	
 	}
+	
+	/* 회원탈퇴 관련 뻘짓 */
+	@RequestMapping(value="member/DeactivateAccount", method = {RequestMethod.GET})
+	public String DeactivateAccount_1() {
+		log.info("회원 탈퇴 약관동의 페이지 요청");
+		
+		return "member/DeactivateAccount";
+	}
+	
 }
