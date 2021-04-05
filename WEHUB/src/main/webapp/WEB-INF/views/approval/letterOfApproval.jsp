@@ -59,7 +59,7 @@
                 </tr>
                 <tr>
                     <td colspan="8" style="height: 70px;">
-                        <button class="send-open">수신참조자+</button>
+                        <button class="send-open">수신참조자 +</button>
                     </td>
                 </tr>
                 <tr>
@@ -76,7 +76,7 @@
                 </tr>
                 <tr>
                     <td colspan="8" style="height: 90px;" >
-                        <button>파일첨부+</button>
+                        <button>파일첨부 +</button>
                         파일이름.img
                     </td>
                 </tr>
@@ -114,6 +114,7 @@
     </div>
 
     <!-- modal section -->
+    
     <div class="modal hidden">
         <div class="bg"></div>
         <div class="modalBox">
@@ -147,6 +148,7 @@
                         <td>개발1팀</td>
                         <td>사원</td>
                     </tr>
+                    <tbody></tbody>
                 </table>
             </div>
             <div>
@@ -157,7 +159,7 @@
                 <table id="refer-right-section" style=" width: 100%; border-bottom: 1px solid black; border-collapse: collapse;" >
                     <tr style="border-bottom: 1px solid black;">
                         <th>
-                            <input type="checkbox" name="D-refer-listAll" style="height: 15px; margin-top: 6px;">
+                            <input type="checkbox" name="D-refer-listAll" id="refer-listAll" style="height: 15px; margin-top: 6px;">
                         </th>
                         <th>이 름</th>
                         <th>부 서</th>
@@ -213,6 +215,7 @@
 	        });
 	    });
 	
+	
 	    $(document).ready(function() {
 	        $('.refer-insert').click(function() {
 	
@@ -249,6 +252,54 @@
 	            
 	                for (var i = 1; i < tdArr.length; i++) {
 	                    if($('input[name=refer-list]:checked')){
+	                        $(this).parent().parent().remove();
+	                        $('input[id=refer-listAll]:checkbox').prop('checked', false);
+	                    }
+	                    
+	                }
+	
+	            });
+	        });
+	    });
+	    
+	    /* refer-delete */
+	    
+	    $(document).ready(function() {
+	        $('.refer-delete').click(function() {
+	
+	            var rowData = new Array();
+	            var tdArr = new Array();
+	            var checkbox = $("input[name=D-refer-listAll]:checked");
+	            
+	            checkbox.each(function(i) {
+		
+	            // checkbox.parent() : checkbox의 부모는 <td>이다.
+	            // checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.
+	            var tr = checkbox.parent().parent().eq(i);
+	            var td = tr.children();
+	            
+	            // 체크된 row의 모든 값을 배열에 담는다.
+	            rowData.push(tr.text());
+	            
+	            // td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
+	            var name = td.eq(1).text();
+	            var dept = td.eq(2).text();
+	            var position = td.eq(3).text();
+	            
+	            // 가져온 값을 배열에 담는다.
+	            tdArr.push(name);
+	            tdArr.push(dept);
+	            tdArr.push(position);
+	
+	            console.log(name);
+	            console.log(tdArr);
+	            $('#refer-left-section > tbody:last').append('<tr><td><input type="checkbox" name="check-refer-listAll" id="refer-listAll" style="height: 15px; margin-top: 6px;"></td>'
+	                +'<td>'+ name +'</td>'
+	                +'<td>'+ dept +'</td>'
+	                +'<td>'+ position +'</td></tr>');
+	            
+	                for (var i = 1; i < tdArr.length; i++) {
+	                    if($('input[name=D-refer-listAll]:checked')){
 	                        $(this).parent().parent().remove();
 	                        $('input[id=refer-listAll]:checkbox').prop('checked', false);
 	                    }

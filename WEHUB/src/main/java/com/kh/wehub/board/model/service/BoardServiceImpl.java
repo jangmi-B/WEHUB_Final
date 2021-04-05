@@ -94,6 +94,12 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.selectBoardDetail();
 	}
 
+	@Override
+	public List<Board> infiniteScrollDown(Integer bnoToStart) {
+		
+		return boardDao.infiniteScrollDown(bnoToStart);
+	}
+
 	
 	
 }

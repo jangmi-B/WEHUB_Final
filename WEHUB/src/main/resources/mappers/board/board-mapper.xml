@@ -132,11 +132,11 @@
         FROM BOARD B
         JOIN MEMBER M ON(B.BOARD_WRITER_NO = M.USER_NO)
         JOIN DEPARTMENT D ON (M.DEPT_CODE = D.DEPT_CODE)
-        WHERE B.STATUS='Y'
+        WHERE B.STATUS='Y' AND ROWNUM <![CDATA[ < ]]>= 2
          <if test="keyword != null">
          AND (M.USER_NAME LIKE '%'||#{keyword}||'%' OR B.BOARD_CONTENT LIKE '%'||#{keyword}||'%')
          </if>
-        ORDER BY B.BOARD_CREATE_DATE DESC
+        ORDER BY B.BOARD_NO DESC
 	</select>
 	
 	<insert id="insertBoard" parameterType="map"
@@ -194,7 +194,26 @@
 		UPDATE REPLY SET STATUS='N' WHERE REPLY_NO=#{replyNo}	
 	</update>
 	
-	<select id=""></select>
+	<select id="infiniteScrollDown" resultType="Board">
+		SELECT B.BOARD_NO,
+		       M.USER_ID AS B_USER_ID,
+		       M.USER_NAME AS B_USER_NAME,
+		       B.BOARD_WRITER_NO,
+		       B.BOARD_CONTENT,
+		       B.BOARD_CREATE_DATE,
+		       B.BOARD_MODIFY_DATE,
+		       B.STATUS AS B_STATUS,
+		       M.MEMBER_IMAGE AS B_MEMBER_IMAGE,
+               D.DEPT_NAME
+        FROM BOARD B
+        JOIN MEMBER M ON(B.BOARD_WRITER_NO = M.USER_NO)
+        JOIN DEPARTMENT D ON (M.DEPT_CODE = D.DEPT_CODE)
+        WHERE B.BOARD_NO <![CDATA[ < ]]>= #{board.No} AND B.BOARD_NO > #{board.No}-2
+         <if test="keyword != null">
+         AND (M.USER_NAME LIKE '%'||#{keyword}||'%' OR B.BOARD_CONTENT LIKE '%'||#{keyword}||'%')
+         </if>
+        ORDER BY B.BOARD_NO DESC
+	</select>
 	
 	
 </mapper>

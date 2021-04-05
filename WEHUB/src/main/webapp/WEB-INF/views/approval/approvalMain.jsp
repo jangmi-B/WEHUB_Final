@@ -42,25 +42,25 @@
     </div>
     <div class="index_section2">
         <form action="">
-            <h2>내결재</h2>
+            <h2>결재현황</h2>
             <div id="e-pay-status">
                 <span>
                     미결
+                    <div>${mainCount}건</div>
+                </span>
+                <span>
+                    결재중
                     <div>00건</div>
                 </span>
                 <span>
-                    미정
-                    <div>00</div>
-                </span>
-                <span>
-                    미정
-                    <div>00</div>
+                    결재완료
+                    <div>00건</div>
                 </span>
             </div>
         </form>
 
         <form action="">
-            <h2 style="margin-bottom: 0;">결재리스트</h2>
+            <h2 style="margin-bottom: 0;">최근 결재목록</h2>
             <table id="e-pay-list">
                 <tr>
                     <th>번호</th>
@@ -70,30 +70,18 @@
                     <th>기안일</th>
                     <th>상태</th>
                 </tr>
-                <tr>
-                    <td>001</td>
-                    <td>휴가신청서</td>
-                    <td><a href="">000 휴가신청</a></td>
-                    <td>김정현</td>
-                    <td>2021.03.11</td>
-                    <td>결재대기</td>
-                </tr>
-                <tr>
-                    <td>002</td>
-                    <td>지출결의서</td>
-                    <td><a href="">000 휴가신청</a></td>
-                    <td>김정현</td>
-                    <td>2021.03.11</td>
-                    <td>결재중</td>
-                </tr>
-                <tr>
-                    <td>003</td>
-                    <td>품의서</td>
-                    <td><a href="">000 휴가신청</a></td>
-                    <td>김정현</td>
-                    <td>2021.03.11</td>
-                    <td>결재완료</td>
-                </tr>
+                <c:if test="${mainList != null}">
+	                <c:forEach var="list" items="${mainList}">
+		                <tr>
+		                    <td>${list.appNo}</td>
+		                    <td>${list.appKinds}</td>
+		                    <td><a href="#">제목이다</a></td>
+		                    <td>${list.userName}</td>
+		                    <td><fmt:formatDate value="${list.appWriteDate}" pattern="yyyy/MM/dd"/></td>
+		                    <td>${list.appCheckProgress}</td>
+		                </tr>
+	                </c:forEach>
+                </c:if>
             </table>
         </form>
     </div>

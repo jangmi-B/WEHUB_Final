@@ -31,4 +31,6 @@ public interface BoardService {
 
 	List<Board> selectBoardDetail();
 
+	List<Board> infiniteScrollDown(Integer bnoToStart);
+
 }

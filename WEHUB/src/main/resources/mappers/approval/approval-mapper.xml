@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kh.wehub.approval.model.dao.ApprovalDao">
+
+	<resultMap type="Approval" id="approvalResultMap">
+		<id property="appNo" column="APP_SEQ"/>
+		<result property="appWriteDate" column="APP_WRITE_SYS"/>
+		<result property="appWriterNo" column="APP_WRITER_NO"/>		
+		<result property="firstApprover" column="FIRST_TIME_APPROVER"/>
+		<result property="interimApprover" column="INTERIM_APPROVER"/>
+		<result property="finalApprover" column="FINAL_APPROVER"/>
+		<result property="appCheckSysdate" column="APP_CHECK_SYSDATE"/>
+		<result property="appCheckProgress" column="APP_CHECK_PROGRESS"/>
+		<result property="appReason" column="APP_REASON"/>
+		<result property="appOriginalFileName" column="APP_ORIFILENAME"/>
+		<result property="appRenameFileName" column="APP_REFILENAME"/>
+		<result property="userNo" column="USER_NO"/>
+		<result property="appKinds" column="APPROVAL_KINDS"/>
+		<result property="userName" column="USER_NAME"/>
+	</resultMap>
+
+	<select id="selectApprovalMainList" resultMap="approvalResultMap">
+		SELECT A.APP_SEQ,
+		     A.APP_WRITER_NO,
+		     A.APP_WRITE_SYS,
+		     A.FIRST_TIME_APPROVER,
+		     A.INTERIM_APPROVER,
+		     A.FINAL_APPROVER,
+		     A.APP_CHECK_SYSDATE,
+		     A.APP_CHECK_PROGRESS,
+		     A.APP_REASON,
+		     A.APP_ORIFILENAME,
+		     A.APP_REFILENAME,
+		     M.USER_NAME,
+		     M.RANK,
+		     A.APPROVAL_KINDS
+		FROM APPROVAL A 
+		JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
+		WHERE ROWNUM <![CDATA[ < ]]>= 5
+		ORDER BY A.APP_SEQ DESC
+	</select>
+	
+	<select id="selectApprovalMainCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM APPROVAL
+	</select>
+
+
+
+
+
+
+
+</mapper>
