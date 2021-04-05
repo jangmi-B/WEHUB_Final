@@ -1,12 +1,15 @@
 package com.kh.wehub.schedule.controller;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.wehub.member.model.vo.Member;
 import com.kh.wehub.schedule.model.service.ScheduleService;
@@ -89,6 +93,10 @@ public class CalendarController {
 			}
 		}
 		
+		System.out.println(dateList.get(today_info.get("today")).getSchedule_content());
+		System.out.println("?? 없는값?");
+		System.out.println(today_info.get("today"));
+		
 		//배열에 담음
 		model.addAttribute("dateList", dateList);		//날짜 데이터 배열
 		model.addAttribute("today_info", today_info);
@@ -105,8 +113,7 @@ public class CalendarController {
 		
 		int result = 0;
 		
-		System.out.println(month);
-		System.out.println(Integer.parseInt(year)+1);
+		System.out.println(text);
 		
 		result = service.updateCalendar(text, dayNo, Integer.parseInt(year) , month, calNo, member);
 		
@@ -119,9 +126,16 @@ public class CalendarController {
 		return str;
 	}
 	
-	
-	
-	
-	
+	@RequestMapping(value="calendar/view/mainhome", method= {RequestMethod.GET})
+	public String todayList(ModelAndView model) {
+		
+		DateTime dt = new DateTime();
+		String today = dt.toString("yyyy년 MM월 dd일");
+		
+		System.out.println(today);
+		
+		return null;
+	}
+
 	
 }

@@ -41,14 +41,12 @@
             <li>[03/09] 지출결의서_인사행정팀</li>
         </ul>
         </div>
+        
         <div>
-        <h2 class="h2d">오늘 일정<a href="#"><i class="fas fa-plus" id="con1" style="color: lightgray;"></i></a></h2>
-        <ul>
-            <li>09시 50분 팀 회의</li>
-            <li>15시 20분 거래처 방문</li>
-            <li>18시 00분 앙 퇴근띠</li>
-            <li>20시 30분 치맥</li>
-        </ul>
+	    <h2 class="h2d">오늘 일정<a href="${path}/calendar/view"><i class="fas fa-plus" id="con1" style="color: lightgray;"></i></a></h2>
+	        <ul>
+		        <li></li>
+	        </ul>
         </div>
     </div>
     

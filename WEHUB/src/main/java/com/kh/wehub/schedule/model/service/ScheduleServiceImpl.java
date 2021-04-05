@@ -40,6 +40,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 		map.put("userNo", member.getUser_no());
 		map.put("calNo", calNo);
 		
+		System.out.println("calNo : " + calNo);
+		
 		
 		if(calNo != 0) {
 			result = scheduleDao.updateCalendar(map);
