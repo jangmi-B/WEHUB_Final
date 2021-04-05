@@ -30,6 +30,7 @@
 		<result property="rank" column="RANK"/>
 		<result property="s_deptName" column="DEPT_NAME"/>
 		<result property="status" column="STATUS"/>
+		<result property="readCheck" column="READCHECK"/>
 	</resultMap>
 
 	<resultMap type="SendMessage" id="sendResultMap">
@@ -71,6 +72,7 @@
 		       R.REC_DATE, 
 		       R.DELETE_DATE,
                R.STATUS,
+               R.READCHECK,
                M.USER_NAME,
                M.RANK,
                D.DEPT_NAME
@@ -251,6 +253,17 @@
 		</foreach>
 	</update>
 	
+	<!-- 체크메세지 안읽음 표시 -->
+	<update id="readCheckSelected" parameterType="java.util.List">
+			UPDATE RECEIVE_MSG 
+			SET 
+			    READCHECK='N'
+			WHERE REC_NO IN
+		<foreach item="item" index="index" collection="list" separator="," open="(" close=")">
+			    #{item}
+		</foreach>
+	</update>
+	
 	
 	<!-- 휴지통쿼리 -->
 	
@@ -310,6 +323,15 @@
 		    DELETE_DATE=SYSDATE
 		WHERE 
 		    REC_NO= #{receiveNo}
+	</update>
+	
+	<!-- 안읽은쪽지 구현 -->
+	<update id="readCheckMsg" parameterType="_int">
+		UPDATE RECEIVE_MSG 
+		SET 
+		    READCHECK='Y'
+		WHERE 
+		    REC_NO= #{msgNo}
 	</update>
 	
 </mapper>

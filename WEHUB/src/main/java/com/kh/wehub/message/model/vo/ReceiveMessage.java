@@ -30,5 +30,7 @@ public class ReceiveMessage {
 	private String s_deptName;
 	
 	private String status;
+	
+	private String readCheck;
 
 }

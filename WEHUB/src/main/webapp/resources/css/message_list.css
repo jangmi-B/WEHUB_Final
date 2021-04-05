@@ -113,7 +113,7 @@
   height: 30px;
   border: 1px solid lightgray;
   border-radius: 5px;
-  width: 50px;
+  width: 70px;
 }
 
 .msg_btn_search {
@@ -139,6 +139,7 @@
 .message_table a{
 	color:black;
 }
+
 .message_table tr td{
 	padding-left:10px;
 	padding-right:10px;
@@ -160,6 +161,13 @@
   margin-top: 30px;
 }
 
+td.Y{
+	color: #BFB9B6;
+}
+
+a.Y{
+	color: #BFB9B6;	
+}
 /*modal*/
 
 .memSearch{

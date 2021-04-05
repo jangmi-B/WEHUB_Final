@@ -43,6 +43,7 @@
         <div class="msgComponent">
           <button type="button" class="msg_btn" onclick="deleteSelected();">삭제</button>
           <button type="button" class="msg_btn">보관</button>
+          <button type="button" class="msg_btn" onclick="readCheck();">읽지않음</button>
         </div>
           <table class="message_table" style="table-layout: fixed">
           <colgroup>
@@ -68,23 +69,26 @@
             	<c:forEach var="receiveList" items="${receiveList}">
             		<input type="hidden" name="receiveNo" value="<c:out value="${receiveList.receiveNo}"/>">
             		<tr id="msgListTable(${receiveList.receiveNo})">
-		              <td style="width:50px"><input type="checkbox" name="chk" value="${receiveList.receiveNo}"></td>
-		              <td><span class="senderName" id="s_name(${receiveList.receiveNo})"><c:out value="${receiveList.senderName}"/> <c:out value="${receiveList.rank}"/></span></td>
-		              <td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">
-		              	<a href="javascript:detailMsg(${receiveList.receiveNo})" id="detail(${receiveList.receiveNo})">
+		              <td style="width:50px" class="<c:out value="${receiveList.readCheck}"/>"><input type="checkbox" name="chk" value="${receiveList.receiveNo}"></td>
+		              <td class="<c:out value="${receiveList.readCheck}"/>"><span class="senderName" id="s_name(${receiveList.receiveNo})"><c:out value="${receiveList.senderName}"/> <c:out value="${receiveList.rank}"/></span></td>
+		              <td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;" class="<c:out value="${receiveList.readCheck}"/>">
+		              	<a href="javascript:detailMsg(${receiveList.receiveNo})" id="detail(${receiveList.receiveNo})" class="<c:out value="${receiveList.readCheck}"/>">
 							<c:out value="${receiveList.receiveContent}"/>
 						</a>
 					  </td>
-		              <td style="width:20%"><fmt:formatDate type="both" value="${receiveList.receiveDate}"/></td>
+		              <td style="width:20%" class="<c:out value="${receiveList.readCheck}"/>"><fmt:formatDate type="both" value="${receiveList.receiveDate}"/></td>
 		            </tr>
 		            <div class="modal_view fade modalNo${receiveList.receiveNo}">
 					    <div class="bg"></div>
 					    <div class="modalContainer">
 					      <h2 style="margin-left: 18px;">받은쪽지</h2>
 					        <div class="view_form info">
+					          <input type="hidden" id="msgNo${receiveList.receiveNo}" value="<c:out value="${receiveList.receiveNo}"/>">
 					          <input type="hidden" id="sName${receiveList.receiveNo}" value="<c:out value="${receiveList.senderName}"/>">
 					          <input type="hidden" id="sRank${receiveList.receiveNo}" value="<c:out value="${receiveList.rank}"/>">
 					          <input type="hidden" id="sDept${receiveList.receiveNo}" value="<c:out value="${receiveList.s_deptName}"/>">
+					          <input type="hidden" id="readCheck${receiveList.receiveNo}" value="<c:out value="${receiveList.readCheck}"/>">
+					          
 					          <label>From : <c:out value="${receiveList.senderName}"/> <c:out value="${receiveList.rank}"/> (<c:out value="${receiveList.s_deptName}"/>)</label> <br>
 					          <label>Date : </label> <fmt:formatDate type="both" value="${receiveList.receiveDate}"/>
 					        </div>
@@ -197,6 +201,43 @@
 		}
     } 
 	
+	
+	function readCheck() {
+	        var cnt = $("input[name='chk']:checked").length;
+	        var arr = new Array();
+	        
+	         $("input[name='chk']:checked").each(function() {
+	            arr.push($(this).attr('value'));
+	        });
+	         
+	        console.log(cnt);
+	        console.log(arr);
+	        
+	        if(cnt == 0){
+	        	Swal.fire({
+	        		  icon: 'error',
+	        		  text: '선택된 글이 없습니다!'
+	        	})
+	        }
+	        
+	        else{
+	        	$.ajax({
+	                type: "POST",
+	                url: "${path}/message/readCheckSelected",
+	                data: {
+						arr:arr,
+						cnt:cnt
+					},
+	                success: function(data){
+	                	location.reload();
+	                    
+	                },
+	                error: function(){alert("서버통신 오류");}
+        	});
+        }
+	}
+
+	
 	function writeMsg(){
 		const open = () => {
 	      document.querySelector(".modal").classList.remove("fade");
@@ -252,9 +293,28 @@
 	
 
 	function detailMsg(msgNo){
-		/* console.log(msgNo);
-		console.log(document.querySelector(".modalNo" + msgNo));
-		console.log(document.getElementById('detail('+ msgNo +')')); */
+		var msgNo = msgNo;
+		var readCheck = $("#readCheck"+ msgNo).val();
+		
+		console.log(readCheck);
+		console.log(msgNo);
+		
+		if(readCheck == 'N'){
+			$.ajax({
+				type: "get",
+				url:"${path}/message/readCheck",
+				data:{
+					msgNo:msgNo
+				},
+				success:function(data){
+					document.querySelector(".modalNo" + msgNo).classList.remove("fade");
+				},
+				error: function(e){
+					alert("실패");
+					console.log(e);
+				}
+			});
+		}
 		
 		const open = () => {
 	      document.querySelector(".modalNo" + msgNo).classList.remove("fade");
@@ -267,6 +327,8 @@
 	    document.getElementById('detail('+ msgNo +')').addEventListener("click", open);
 	    document.getElementById('exitBtn('+ msgNo +')').addEventListener("click", close);
 	    document.querySelector(".bg").addEventListener("click", close);
+	    
+	    
 	}
 	
 	function deleteMsg(msgNo){

@@ -88,6 +88,20 @@ public class MessageController {
 		}
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="/message/readCheck", method= {RequestMethod.GET})
+	public void readCheckMsg(@RequestParam(value="msgNo") int msgNo) {
+		
+		int result = 0;
+		result = service.readCheckMsg(msgNo);
+		
+		if(result > 0) {
+//			System.out.println("삭제성공");
+		}else {
+			System.out.println("삭제실패");
+		}
+	}
+	
 	
 ///////////////////	쪽지쓰기 ///////////////////////
 	
@@ -258,6 +272,25 @@ public class MessageController {
 			System.out.println("삭제성공");
 		}else {
 			System.out.println("삭제실패");
+		}
+	}
+	
+///////////////////	체크항목 읽지않음으로 표시 ///////////////////////
+	
+	@ResponseBody
+	@RequestMapping(value="/message/readCheckSelected", method= {RequestMethod.POST})
+	public void readCheckSelected(@RequestParam(value = "arr[]") List<Integer> checkList) {
+		
+		System.out.println(checkList);
+		System.out.println(checkList.size());
+		
+		int result = 0;
+		result = service.readCheckSelected(checkList);
+		
+		if(result > 0) {
+			System.out.println("변경성공");
+		}else {
+			System.out.println("변경실패");
 		}
 	}
 	

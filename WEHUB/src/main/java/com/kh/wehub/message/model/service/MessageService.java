@@ -42,4 +42,8 @@ public interface MessageService {
 
 	int deleteCheckDeletedMsg(List<Integer> checkList);
 
+	int readCheckMsg(int msgNo);
+
+	int readCheckSelected(List<Integer> checkList);
+
 }

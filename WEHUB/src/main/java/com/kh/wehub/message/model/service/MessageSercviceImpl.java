@@ -140,4 +140,16 @@ public class MessageSercviceImpl implements MessageService {
 		return MessageDao.deleteCheckDeletedMsg(checkList);
 	}
 
+	@Override
+	public int readCheckMsg(int msgNo) {
+		
+		return MessageDao.readCheckMsg(msgNo);
+	}
+
+	@Override
+	public int readCheckSelected(List<Integer> checkList) {
+		
+		return  MessageDao.readCheckSelected(checkList);
+	}
+
 }

@@ -41,7 +41,7 @@
           </form>
         </div>
         <div class="msgComponent">
-          <button type="button" class="msg_btn" onclick="deleteSelected();">삭제</button>
+          <button type="button" class="msg_btn" onclick="deleteSelected();">영구삭제</button>
         </div>
           <table class="message_table" style="table-layout: fixed">
           <colgroup>
