@@ -32,7 +32,7 @@
         </ul>
         </div>
         <div>
-        <h2 class="h2d">오늘 결재사항<a href="${path}/approval/letterOfApproval"><i class="fas fa-plus" id="con1" style="color: lightgray;"></i></a></h2>
+        <h2 class="h2d">오늘 결재사항<a href="${path}/approval/approvalMain"><i class="fas fa-plus" id="con1" style="color: lightgray;"></i></a></h2>
         <ul>
             <li>[03/09] 지출결의서_개발2팀</li>
             <li>[03/09] 지출결의서_인사행정팀</li>

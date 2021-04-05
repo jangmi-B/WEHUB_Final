@@ -13,9 +13,33 @@ import com.kh.wehub.member.model.vo.Member;
 @SessionAttributes("loginMember")
 public class ApprovalController {
 
+	@RequestMapping(value = "/approvalList", method = { RequestMethod.GET })
+	public String approvalList(@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+		
+		return "/approval/approvalList";
+	}
+	
 	@RequestMapping(value = "/letterOfApproval", method = { RequestMethod.GET })
-	public String approvalView(@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+	public String letterOfApproval(@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
 		
 		return "/approval/letterOfApproval";
+	}
+	
+	@RequestMapping(value = "/expenseReport", method = { RequestMethod.GET })
+	public String expenseReport(@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+		
+		return "/approval/expenseReport";
+	}
+	
+	@RequestMapping(value = "/leaveApplication", method = { RequestMethod.GET })
+	public String leaveApplication(@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+		
+		return "/approval/leaveApplication";
+	}
+	
+	@RequestMapping(value = "/approvalMain", method = { RequestMethod.GET })
+	public String approvalMain(@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+		
+		return "/approval/approvalMain";
 	}
 }

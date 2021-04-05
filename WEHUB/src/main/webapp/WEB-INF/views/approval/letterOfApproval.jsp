@@ -5,18 +5,20 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+
+<%@ include file="../common/header.jsp" %>
+
 <link rel="stylesheet" href="${path}/css/approvalStyle.css">
 <script src="${path}/js/jquery-3.5.1.js"></script>
-<%@ include file="../common/header.jsp" %>
 
     <div class="EPay-index_section">
         <h2>전자결재</h2>
         <li class="EPay-form">양식작성
             <div>
                 <ul>
-                    <li><a href="">-품의서</a></li>
-                    <li><a href="">-지출결의서</a></li>
-                    <li><a href="">-휴가신청서</a></li>
+                    <li><a href="${path}/approval/letterOfApproval">-품의서</a></li>
+                    <li><a href="${path}/approval/expenseReport">-지출결의서</a></li>
+                    <li><a href="${path}/approval/leaveApplication">-휴가신청서</a></li>
                 </ul>
             </div>
         </li>

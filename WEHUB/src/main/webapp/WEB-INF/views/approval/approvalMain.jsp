@@ -1,55 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="https://kit.fontawesome.com/d854b17d02.js" crossorigin="anonymous"></script>
-<script src="./05.jQuery/js/jquery-3.5.1.js"></script>
-<link rel="stylesheet" href="./resources/CSS/style.css">
-<link rel="stylesheet" href="./resources/CSS/homeContent.css">
-<title>WEHUB</title>
-</head>
-<body>
-<nav id="navbar">
-<div class="header_logo">
-    <a href="header.html"><img src="./resources/image/logo.png"></a>
-</div>
-<div class="header_user_wrap">
-    <div class="header_profile">
-        <i class="far fa-user-circle"></i>
-    </div>
-    <div class="header_userInfo">
-        <ul id="header_user">
-            <li><a href="#">홍길동 사원</a>
-                <ul>
-                    <li><a href="#">Logout</a></li>
-                    <li><a href="#">MyPage</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-</div>
-</nav>
-<section>
-    <div class="common_section">
-        <ul>
-            <li><a href="#"><i class="fas fa-home" ></i></a></li>
-            <li><a href="#"><i class="fas fa-bullhorn"></i></a></li>
-            <li><a href="#"><i class="far fa-address-card" ></i></a></li>
-            <li><a href="#"><i class="far fa-envelope"></i></a></li>
-            <li><a href="#"><i class="fas fa-users"></i></a></li>
-            <li><a href="#"><i class="far fa-calendar-alt"></i></a></li>
-        </ul>
-    </div>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
+<c:set var="path" value="${pageContext.request.contextPath}"/>
+
+<%@ include file="../common/header.jsp" %>
+
+<link rel="stylesheet" href="${path}/css/approvalStyle.css">
+<script src="${path}/js/jquery-3.5.1.js"></script>
+
     <div class="EPay-index_section">
         <h2>전자결재</h2>
         <li class="EPay-form">양식작성
             <div>
                 <ul>
-                    <li><a href="">-품의서</a></li>
-                    <li><a href="">-지출결의서</a></li>
-                    <li><a href="">-휴가신청서</a></li>
+                    <li><a href="${path}/approval/letterOfApproval">-품의서</a></li>
+                    <li><a href="${path}/approval/expenseReport">-지출결의서</a></li>
+                    <li><a href="${path}/approval/leaveApplication">-휴가신청서</a></li>
                 </ul>
             </div>
         </li>
@@ -73,6 +42,24 @@
     </div>
     <div class="index_section2">
         <form action="">
+            <h2>내결재</h2>
+            <div id="e-pay-status">
+                <span>
+                    미결
+                    <div>00건</div>
+                </span>
+                <span>
+                    미정
+                    <div>00</div>
+                </span>
+                <span>
+                    미정
+                    <div>00</div>
+                </span>
+            </div>
+        </form>
+
+        <form action="">
             <h2 style="margin-bottom: 0;">결재리스트</h2>
             <table id="e-pay-list">
                 <tr>
@@ -94,32 +81,22 @@
                 <tr>
                     <td>002</td>
                     <td>지출결의서</td>
-                    <td><a href="">000 물품구매</a></td>
-                    <td>아무개</td>
+                    <td><a href="">000 휴가신청</a></td>
+                    <td>김정현</td>
                     <td>2021.03.11</td>
                     <td>결재중</td>
                 </tr>
                 <tr>
                     <td>003</td>
                     <td>품의서</td>
-                    <td><a href="">000 업체조사</a></td>
-                    <td>홍길동</td>
+                    <td><a href="">000 휴가신청</a></td>
+                    <td>김정현</td>
                     <td>2021.03.11</td>
                     <td>결재완료</td>
                 </tr>
             </table>
         </form>
     </div>
-</section>
-<hr>
-<footer>
-    <p>
-        이용약관 | 개인정보 보호정책 | TEL 1588-0000, 080-000-0000 | FAX 02-000-0000 <br>
-        본사 : 서울특별시 강남구 테헤란로 14길 6 남도빌딩 2F, 3F, 4F, 5F, 6F <br>
-        Copyright©WEHUB All right reservered
-    </p>
-</footer>
-</body>
 
 <script>
     $(document).ready(function () {
@@ -136,4 +113,5 @@
 
 
 </script>
-</html>
+
+<%@ include file="../common/footer.jsp" %>

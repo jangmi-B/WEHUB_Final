@@ -6,8 +6,12 @@
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
-<script src="${path}/js/jquery-3.5.1.js"></script>
 <%@ include file="../common/header.jsp" %>
+<script src="${path}/js/jquery-3.5.1.js"></script>
+<link rel="stylesheet" href="${path}/css/board_style.css">
+<link rel="stylesheet" href="${path}/css/board_homeContent.css">
+<link rel="stylesheet" href="${path}/css/board_notice.css">
+<link rel="stylesheet" href="${path}/css/board_community.css">
 	<section>
 		<div id="notice_bar">
 			<ul>
@@ -44,7 +48,7 @@
 		      				<span class="date">${ serverTime }</span>
 		        		</div>
 		        		
-		        		<div class="freewrite">
+		        		<div class="freewrite" style="margin:30px">
 		          			<p><span id="counter">0</span>/<span id="maxLength">1000</span></p>
 		            		<textarea name="boardContent" id="textcount"cols ="50" rows ="20" placeholder="내용을 입력해주세요~" style ="resize: none ;" border ="1px gray"></textarea>
 		            
