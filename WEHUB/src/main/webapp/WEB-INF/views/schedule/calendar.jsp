@@ -4,15 +4,47 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+
+<% pageContext.setAttribute("replaceChar", "\n"); %>
+
 <%@ include file="../common/header.jsp" %>
+<%-- <script src="${path}/js/ckeditor/ckeditor.js"></script> --%>
+ <script src="https://cdn.tiny.cloud/1/0rzcrcjyhf3qgaqudflx8r1fv0cn5qa6aruamgptg7pp9vk5/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+  <script>
+//   	  tinymce.init({
+// 		  selector:'#text_',
+// 		  height: 450,
+// 		  forced_root_block : false,
+// 	      force_br_newlines : true,
+// 	      force_p_newlines : false,
+// 	      remove_linebreaks : false,
+// 	      statusbar: false,
+// 	      content_css : 'writer'
+// 	  });
+tinymce.init({
+	selector:'#text_',
+  plugins: [
+    "a11ychecker advcode casechange formatpainter",
+    "linkchecker autolink lists checklist",
+    "media mediaembed pageembed permanentpen",
+    "powerpaste table advtable tinymcespellchecker"
+  ],
+  toolbar: "formatselect | fontselect | bold italic strikethrough forecolor backcolor formatpainter | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent | link insertfile image | removeformat | code | addcomment | checklist | casechange",
+  height: 450,
+  forced_root_block : false,
+  force_br_newlines : true,
+  force_p_newlines : false,
+  remove_linebreaks : false,
+});
+  </script>
 	<link rel="stylesheet" href="${path}/css/Calendar.css">
-    <form action="${path}/notice/list" id="notice_bar" method="get">
+    <form action="${path}/calendar/view" id="notice_bar" method="get">
 	<div>
         <ul>
           <li><span>캘린더</span>
             <div class="line"></div>
             <ul>
-              <li>개인 스캐줄관리</li>
+              <li><a href="${path}/calendar/view">개인 스캐줄관리</a></li>
               <li>부서별 스캐줄관리</li>
             </ul>
           </li>
@@ -78,181 +110,166 @@
 </thead>
 <tbody id="">
 	<tr>
-		
 		<c:forEach var="dateList" items="${dateList}" varStatus="date_status">
 			<c:choose>
 				<c:when test="${dateList.value=='today'}">
 				<!-- 오늘 -->
-					<td class="today" id="today(${dateList.date})" onclick="today(${dateList.date})">
+					<td class="today" id="today${dateList.date}" onclick="today(${dateList.date})">
 						<div class="date">
 							${dateList.date}
-						<input type="hidden" name="cal_no" id="c_hidden(${dateList.date})" value="${dateList.cal_no}">
 						</div>
-						<textarea class="T_content" id="T_content(${dateList.date})" rows="5" cols="10" readonly>${dateList.schedule_content}</textarea>
+						<input type="hidden" name="cal_no" id="c_hidden${dateList.date}" value="${dateList.cal_no}" disabled>
+						<input type="hidden" name="today" id="today_hidden" value="${dateList.date}" disabled>
+						<div class="T_content" id="T_content${dateList.date}">
+							${fn:replace(dateList.schedule_content, replaceChar, "<br/>")}
+						</div>
 					</td>
 				</c:when>
 				<c:when test="${date_status.index%7==6}">
 				<!-- 토요일 -->
-					<td class="sat_day" id="satDay(${dateList.date})" onclick="satDay(${dateList.date})">
-						<div class="sat">
+					<td class="sat_day" id="satDay${dateList.date}" onclick="satDay(${dateList.date})">
+						<div class="sat" id="sat">
 							${dateList.date}
 						</div>
-						<input type="hidden" name="cal_no" id="c_hidden(${dateList.date})" value="${dateList.cal_no}">
-						<textarea class="Sat_content" id="Sat_content(${dateList.date})" rows="5" cols="10" readonly>${dateList.schedule_content}</textarea>
+						<input type="hidden" name="cal_no" id="c_hidden${dateList.date}" value="${dateList.cal_no}" disabled>
+						<input type="hidden" class="satDay" name="satDay" id="today_hidden1" value="${dateList.date}" disabled>
+						<div class="Sat_content" id="Sat_content${dateList.date}">
+							${fn:replace(dateList.schedule_content, replaceChar, "<br/>")}
+						</div>
 					</td>
+	</tr>
 				</c:when>
 				<c:when test="${date_status.index%7==0}">
 				<!-- 일요일 -->
-	</tr>
 	<tr>	
-				<td class="sun_day" id="sunDay(${dateList.date})" onclick="sunDay(${dateList.date})">
+				<td class="sun_day" id="sunDay${dateList.date}" onclick="sunDay(${dateList.date})">
 					<div class="sun">
 						${dateList.date}
 					</div>
-					<input type="hidden" name="cal_no" value="${dateList.cal_no}" id="c_hidden(${dateList.date})">
-					<textarea class="Sun_content" id="Sun_content(${dateList.date})" rows="5" cols="10" readonly>${dateList.schedule_content}</textarea>
+					<input type="hidden" name="cal_no" value="${dateList.cal_no}" id="c_hidden${dateList.date}" disabled>
+					<input type="hidden" class="sunDay" name="sunDay" id="today_hidden1" value="${dateList.date}" disabled>
+					<div class="Sun_content" id="Sun_content${dateList.date}">
+						${fn:replace(dateList.schedule_content, replaceChar, "<br/>")}
+					</div>
 				</td>
 				</c:when>
 				<c:otherwise>
 				<!-- 나머지  -->
-				<td class="normal_day" id="NDay(${dateList.date})" onclick="NDay(${dateList.date})">
+				<td class="normal_day" id="NDay${dateList.date}" onclick="NDay(${dateList.date})">
 					<div class="date">
 						${dateList.date}
 					</div>
-					<input type="hidden" name="cal_no" value="${dateList.cal_no}" id="c_hidden(${dateList.date})">
-					<textarea class="N_content" id="N_content(${dateList.date})" rows="5" cols="10" readonly>${dateList.schedule_content}</textarea>
+					<input type="hidden" name="cal_no" value="${dateList.cal_no}" id="c_hidden${dateList.date}" disabled>
+					<input type="hidden" class="NDay" name="NDay" id="today_hidden1" value="${dateList.date}" disabled>
+					<div class="N_content" id="N_content${dateList.date}">
+						${fn:replace(dateList.schedule_content, replaceChar, "<br/>")}
+					</div>
 				</td>
 				</c:otherwise>
 			</c:choose>
-			<div class="modalCal Cal_hidden modalNo${dateList.date}">
-			        <div class="bg"></div>
-			        <div class="Cal_modalBox">
-			        	<div>
-			        		<textarea id="text(${dateList.date})" rows="13" cols="55" style="resize:none; margin: 50px 0px 0px 16px; font-size: 25px"></textarea>
-			        	</div>
-			        	 <div style="margin: 40px 0px 0px 280px;">
-			                <span style="float: left; padding-right: 50px;" >
-			                    <button class="closeBtn-in" id="closeBtn-in(${dateList.date})" onclick="updateBtn(${dateList.date})">확인</button>
-			                </span>
-			                <button class="closeBtn-out" id="closeBtn-out(${dateList.date})">취소</button>
-			            </div>
-			        </div>
-			    </div>
 		</c:forEach>
 	</tr>
 </tbody>
-
 </table>
+		<div class="modalCal Cal_hidden modalNo">
+	        <div class="bg"></div>
+	        <div class="Cal_modalBox">
+	        	<div class="TextArea">
+	        		<input type="hidden" id="modal_hidden">
+					<textarea class="text_" id="text_" rows="1" cols="1"></textarea>
+	        	</div>
+	        	 <div class="BtnArea" style="margin: 40px 0px 0px 280px;">
+	                <span style="float: left; padding-right: 50px;" >
+	                    <button class="closeBtn-in" id="closeBtn-in" onclick="updateBtn()">확인</button>
+	                </span>
+	                <button class="closeBtn-out" id="closeBtn-out">취소</button>
+	            </div>
+	        </div>
+	    </div>
 </div>
 </form>
+
 <script>
-	function today(t_No){
+
+
+	 	 const open = () => {
+		 	document.querySelector('.modalNo').classList.remove("Cal_hidden");
+		 }
 		
-		var today = document.getElementById('today('+t_No+')');
-		var t_content = document.getElementById('T_content('+t_No+')');
-		var text = document.getElementById('text('+t_No+')');
- 		// modal 창 띄우기
-
- 	    const open = () => {
- 	    	document.querySelector('.modalNo'+t_No).classList.remove("Cal_hidden");
- 	    }
-
- 	    const close = () => {
- 	        document.querySelector('.modalNo'+t_No).classList.add("Cal_hidden");
- 	    }
-
- 	   	t_content.addEventListener("dblclick", open);
- 	   	t_content.addEventListener("dblclick", function(e) {
-			text.innerHTML = t_content.value;
- 	   	});
- 	    document.getElementById('closeBtn-out('+ t_No +')').addEventListener("click", close);
- 	    document.getElementById('closeBtn-in('+ t_No +')').addEventListener("click",close);
- 	    document.querySelector(".bg").addEventListener("click", close);
-		 		
-	}
-	
-	function satDay(t_No){
+		 const close = () => {
+		     document.querySelector('.modalNo').classList.add("Cal_hidden");
+		 }
+		 
+		 document.getElementById('closeBtn-out').addEventListener("click", close);
+		 document.getElementById('closeBtn-in').addEventListener("click",close);
+		 document.querySelector(".bg").addEventListener("click", close);
+		 
+		//오늘 날짜
+		 function today(No) {
 		
-		var satDay = document.getElementById('satDay('+t_No+')');
-		var sat_content = document.getElementById('Sat_content('+t_No+')');
-		var text = document.getElementById('text('+t_No+')');
-		// modal 창 띄우기
-
- 	    const open = () => {
- 	    	document.querySelector('.modalNo'+t_No).classList.remove("Cal_hidden");
- 	    }
-
- 	    const close = () => {
- 	        document.querySelector('.modalNo'+t_No).classList.add("Cal_hidden");
- 	    }
-
- 	    sat_content.addEventListener("dblclick", open);
- 	    sat_content.addEventListener("dblclick", function(e) {
-			text.innerHTML = sat_content.value;
-	   	});
- 	    
- 	    
- 	    document.getElementById('closeBtn-out('+ t_No +')').addEventListener("click", close);
- 	    document.getElementById('closeBtn-in('+ t_No +')').addEventListener("click", close);
- 	    document.querySelector(".bg").addEventListener("click", close);
-	};
-	
-	
-	function sunDay(t_No){
+		 var modal_hidden = document.getElementById('modal_hidden');
+		 modal_hidden.value = No;
+		 
+		 tinymce.get("text_").setContent(document.getElementById('T_content'+No).innerHTML);
+		 
+		 document.getElementById('today'+No).addEventListener("dblclick", open);
+		 
+// 		 var content = document.getElementsByClassName('Sat_content');
+// 			for(var i = 0; i < content.length; i++){
+// 				 var splitText = content[i].innerHTML.trim().split("</p>");
+// 				for(var j = 0; j < splitText.length; j ++){
+// 					if(splitText[j].length >= 120){
+// 						var rplContent = splitText[j].substr(120, splitText[j].length);
+// 						content[i].innerHTML = splitText[j].substr(0, 120) + rplContent.replace(rplContent, "....");
+// 					}
+// 				}
+// 			}
+		}
+		 
+		//토요일
+		 function satDay(No) {
 		
-		var sunDay = document.getElementById('sunDay('+t_No+')');
-		var Sun_content = document.getElementById('Sun_content('+t_No+')');
-		var text = document.getElementById('text('+t_No+')');
-		// modal 창 띄우기
-
- 	    const open = () => {
- 	    	document.querySelector('.modalNo'+t_No).classList.remove("Cal_hidden");
- 	    }
-
- 	    const close = () => {
- 	        document.querySelector('.modalNo'+t_No).classList.add("Cal_hidden");
- 	    }
-
- 	    Sun_content.addEventListener("dblclick", open);
- 	    Sun_content.addEventListener("dblclick", function(e) {
-			text.innerHTML = Sun_content.value;
-	   	});
- 	    document.getElementById('closeBtn-out('+ t_No +')').addEventListener("click", close);
- 	    document.getElementById('closeBtn-in('+ t_No +')').addEventListener("click", close);
- 	    document.querySelector(".bg").addEventListener("click", close);
-	}
-	
-	function NDay(t_No){
-		var NDay = document.getElementById('NDay('+t_No+')');
-		var N_content = document.getElementById('N_content('+t_No+')');
-		var text = document.getElementById('text('+t_No+')');
-		// modal 창 띄우기
-
- 	    const open = () => {
- 	    	document.querySelector('.modalNo'+t_No).classList.remove("Cal_hidden");
- 	    }
-
- 	    const close = () => {
- 	        document.querySelector('.modalNo'+t_No).classList.add("Cal_hidden");
- 	    }
-
- 	  	N_content.addEventListener("dblclick", open);
- 	    N_content.addEventListener("dblclick", function(e) {
-			text.innerHTML = N_content.value;
-	   	});
- 	    document.getElementById('closeBtn-out('+ t_No +')').addEventListener("click", close);
- 	    document.getElementById('closeBtn-in('+ t_No +')').addEventListener("click", close);
- 	    document.querySelector(".bg").addEventListener("click", close);
-	}
-
-	function updateBtn(t_No){
+		 var modal_hidden = document.getElementById('modal_hidden');
+		 modal_hidden.value = No;
+		 
+		 tinymce.get("text_").setContent(document.getElementById('Sat_content'+No).innerHTML);
+		 
+		 document.getElementById('satDay'+No).addEventListener("dblclick", open);
+		}
 		
-		var text = document.getElementById('text('+t_No+')');
-		var calNo = document.getElementById('c_hidden('+t_No+')');
+		//일요일
+		 function sunDay(No) {
+		
+		 var modal_hidden = document.getElementById('modal_hidden');
+		 modal_hidden.value = No;
+		 
+		 tinymce.get("text_").setContent(document.getElementById('Sun_content'+No).innerHTML);
+		 
+		 document.getElementById('sunDay'+No).addEventListener("dblclick", open);
+		}
+		
+		// 평일
+		 function NDay(No) {
+		
+		 var modal_hidden = document.getElementById('modal_hidden');
+		 modal_hidden.value = No;
+		 
+		 tinymce.get("text_").setContent(document.getElementById('N_content'+No).innerHTML);
+		 
+		 document.getElementById('NDay'+No).addEventListener("dblclick", open);
+		}
+
+	function updateBtn(){
+		
+// 		var text = CKEDITOR.instances.text_.getData();
+		var text = tinymce.get("text_").getContent(); 
+		var modal_hidden = document.getElementById('modal_hidden');
+		var calNo = document.getElementById('c_hidden'+modal_hidden.value);
 		var month = document.getElementById('month').value;
 		var year = document.getElementById('year').value;
 		
-		console.log(text.value); // 잘나옴
+		console.log(modal_hidden.value);
+		console.log(text); // 잘나옴
 		console.log(calNo.value)
 		console.log(month);
 		console.log(year);
@@ -263,9 +280,6 @@
         xhr.onreadystatechange = function() {
        	if(xhr.readyState == 4 && xhr.status == 200){
        		var str = xhr.responseText;
-       		
-       		document.getElementById('T_content('+t_No+')').innerHTML = str;
-       		
        	}else {
        		
        	}
@@ -275,10 +289,9 @@
         
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded;")
         
-        xhr.send("text="+text.value+"&dayNo="+t_No+"&calNo="+calNo.value+"&month="+month+"&year="+year);
+        xhr.send("text="+text+"&dayNo="+modal_hidden.value+"&calNo="+calNo.value+"&month="+month+"&year="+year);
 	}
 	
 	
-
 </script>
 

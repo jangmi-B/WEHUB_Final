@@ -9,17 +9,9 @@
 
     <div class="index_section">
       <ul>
-        <li>인명관리
+        <li><h1>인명관리</h1>
           <ul>
             <li>사원 조회</li>
-            <!-- <li>example</li> -->
-          </ul>
-        </li>
-        
-        <div class="line"></div>
-        <li>업체
-          <ul>
-            <li>연락처 조회</li>
             <!-- <li>example</li> -->
           </ul>
         </li>

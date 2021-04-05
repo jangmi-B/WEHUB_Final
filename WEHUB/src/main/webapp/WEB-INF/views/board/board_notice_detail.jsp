@@ -66,6 +66,7 @@
           <tr>
             <td class="detail_contents" colspan="4"  style='table-layout:fixed'>
               <div class="detail_contents_div">
+                ${fn:replace(notice.noticeContent, replaceChar, "<br/>")}
               </div>
             </td>
           </tr>
