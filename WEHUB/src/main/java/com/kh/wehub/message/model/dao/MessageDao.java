@@ -49,4 +49,12 @@ public interface MessageDao {
 
 	int readCheckSelected(List<Integer> checkList);
 
+	List<ReceiveMessage> selectRecSaveList(RowBounds rowBounds, Map<String, Object> map);
+
+	int saveSelected(List<Integer> checkList);
+
+	List<SendMessage> saveSendMsgList(RowBounds rowBounds, Map<String, Object> map);
+
+	int saveSendSelected(List<Integer> checkList);
+
 }

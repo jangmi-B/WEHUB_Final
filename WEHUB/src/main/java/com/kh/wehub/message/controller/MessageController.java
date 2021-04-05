@@ -96,9 +96,9 @@ public class MessageController {
 		result = service.readCheckMsg(msgNo);
 		
 		if(result > 0) {
-//			System.out.println("삭제성공");
+//			System.out.println("변경성공");
 		}else {
-			System.out.println("삭제실패");
+//			System.out.println("변경실패");
 		}
 	}
 	
@@ -281,8 +281,8 @@ public class MessageController {
 	@RequestMapping(value="/message/readCheckSelected", method= {RequestMethod.POST})
 	public void readCheckSelected(@RequestParam(value = "arr[]") List<Integer> checkList) {
 		
-		System.out.println(checkList);
-		System.out.println(checkList.size());
+//		System.out.println(checkList);
+//		System.out.println(checkList.size());
 		
 		int result = 0;
 		result = service.readCheckSelected(checkList);
@@ -291,6 +291,42 @@ public class MessageController {
 			System.out.println("변경성공");
 		}else {
 			System.out.println("변경실패");
+		}
+	}
+	
+///////////////////	체크항목 읽지않음으로 표시 ///////////////////////
+	
+	@ResponseBody
+	@RequestMapping(value="/message/saveSelected", method= {RequestMethod.POST})
+	public void saveSelected(@RequestParam(value = "arr[]") List<Integer> checkList) {
+	
+		//System.out.println(checkList);
+		//System.out.println(checkList.size());
+		
+		int result = 0;
+		result = service.saveSelected(checkList);
+		
+		if(result > 0) {
+		System.out.println("변경성공");
+		}else {
+		System.out.println("변경실패");
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/message/saveSendSelected", method= {RequestMethod.POST})
+	public void saveSendSelected(@RequestParam(value = "arr[]") List<Integer> checkList) {
+	
+		//System.out.println(checkList);
+		//System.out.println(checkList.size());
+		
+		int result = 0;
+		result = service.saveSendSelected(checkList);
+		
+		if(result > 0) {
+		System.out.println("변경성공");
+		}else {
+		System.out.println("변경실패");
 		}
 	}
 	
@@ -345,6 +381,83 @@ public class MessageController {
 		}else {
 			System.out.println("삭제실패");
 		}
+	}
+	
+///////////////////	받은편지 보관함  ///////////////////////
+	
+	@RequestMapping(value = "/message/saveListRec", method = {RequestMethod.GET})
+	public ModelAndView saveMsgList(ModelAndView model,
+			@RequestParam(value = "msgSearchList", required=false)String msgSearchList,
+			@RequestParam(value = "msgSearchText", required=false)String msgSearchText,
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+			@RequestParam(value = "listLimit", required = false, defaultValue = "15") int listLimit,
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+		
+		int msgCount = 0;
+		PageInfo pageInfo = null;
+		List<ReceiveMessage> saveMessage = null;
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("msgSearchList", msgSearchList);
+		map.put("msgSearchText", msgSearchText);
+		map.put("receiverNo", loginMember.getUser_no());
+		
+		msgCount = service.getMsgCount(map);
+		
+		pageInfo = new PageInfo(page, 10, msgCount, listLimit);
+		saveMessage = service.getSaveList(pageInfo, map);
+		
+		if(msgSearchList == null && msgSearchText == null) {
+			model.addObject("pageInfo",pageInfo);
+			model.addObject("saveMessage", saveMessage);
+		}else {
+			model.addObject("map", map);
+			model.addObject("pageInfo", pageInfo);
+			model.addObject("saveMessage",saveMessage);
+		}
+		
+		model.setViewName("message/savemessage_rec");
+		
+		return model;
+	}
+
+	
+///////////////////	보낸편지 보관함  ///////////////////////
+	
+	@RequestMapping(value = "/message/saveListSend", method = {RequestMethod.GET})
+	public ModelAndView saveListSend(ModelAndView model,
+			@RequestParam(value = "msgSearchList", required=false)String msgSearchList,
+			@RequestParam(value = "msgSearchText", required=false)String msgSearchText,
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+			@RequestParam(value = "listLimit", required = false, defaultValue = "15") int listLimit,
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+		
+		int msgCount = 0;
+		PageInfo pageInfo = null;
+		List<SendMessage> saveSendMessage = null;
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("msgSearchList", msgSearchList);
+		map.put("msgSearchText", msgSearchText);
+		map.put("senderNo", loginMember.getUser_no());
+
+		msgCount = service.getSendMsgCount(map);
+		
+		pageInfo = new PageInfo(page, 10, msgCount, listLimit);
+		saveSendMessage = service.getSaveSendList(pageInfo, map);
+		
+		if(msgSearchList == null && msgSearchText == null) {
+			model.addObject("pageInfo",pageInfo);
+			model.addObject("saveSendMessage", saveSendMessage);
+		}else {
+			model.addObject("map", map);
+			model.addObject("pageInfo", pageInfo);
+			model.addObject("saveSendMessage", saveSendMessage);
+		}
+		
+		model.setViewName("message/saveMessage_send");
+		
+		return model;
 	}
 	
 }

@@ -18,8 +18,8 @@
             <li><a href="${path}/message/deletedList">휴지통</a></li>
             <li>쪽지보관함
             	<ul class="subBar">
-            		<li><a href="#">- 받은쪽지 보관함</a></li>
-            		<li><a href="#">- 보낸쪽지 보관함</a></li>
+            		<li><a href="${path}/message/saveListRec">- 받은쪽지 보관함</a></li>
+            		<li><a href="${path}/message/saveListSend">- 보낸쪽지 보관함</a></li>
             	</ul>
             </li>
           </ul>
@@ -42,7 +42,7 @@
         </div>
         <div class="msgComponent">
           <button type="button" class="msg_btn" onclick="deleteSelected();">삭제</button>
-          <button type="button" class="msg_btn">보관</button>
+          <button type="button" class="msg_btn" onclick="saveSelected();">보관</button>
         </div>
           <table class="message_table" style="table-layout: fixed">
           <colgroup>
@@ -192,6 +192,42 @@
 	        }
 		}
     } 
+	
+	function saveSelected() {
+        var cnt = $("input[name='chk']:checked").length;
+        var arr = new Array();
+        
+         $("input[name='chk']:checked").each(function() {
+            arr.push($(this).attr('value'));
+        });
+         
+        console.log(cnt);
+        console.log(arr);
+        
+        if(cnt == 0){
+        	Swal.fire({
+        		  icon: 'error',
+        		  text: '선택된 글이 없습니다!'
+        	})
+        }
+        
+        else{
+        	$.ajax({
+                type: "POST",
+                url: "${path}/message/saveSendSelected",
+                data: {
+					arr:arr,
+					cnt:cnt
+				},
+                success: function(data){
+                	location.reload();
+                    
+                },
+                error: function(){alert("서버통신 오류");}
+    	});
+    }
+}
+	
 	
 	function writeMsg(){
 		const open = () => {

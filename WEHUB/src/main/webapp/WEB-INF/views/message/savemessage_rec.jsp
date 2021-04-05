@@ -28,9 +28,9 @@
       <div class="line"></div>
       </div>
       <div class="messageList">
-      <h2 class="msg_title" style="margin:0; text-align:left;" >휴지통</h2>
+      <h2 class="msg_title" style="margin:0; text-align:left;" >받은쪽지 보관함</h2>
         <div class="megSearchBox" style="float:right">
-          <form action="${path}/message/deletedList" method="get">
+          <form action="${path}/message/saveListRec" method="get">
             <select class="msgSearchList" name="msgSearchList">
               <option value="all" <c:out value="${msgSearchList == 'all'?'selected':''}"/>>전체</option>
               <option value="name" <c:out value="${msgSearchList == 'name'?'selected':''}"/>>이름</option>
@@ -41,60 +41,63 @@
           </form>
         </div>
         <div class="msgComponent">
-          <button type="button" class="msg_btn" onclick="deleteSelected();">영구삭제</button>
+          <button type="button" class="msg_btn" onclick="deleteSelected();">삭제</button>
         </div>
           <table class="message_table" style="table-layout: fixed">
           <colgroup>
 		  	<col style="width:5%"/>
-		  	<col style="width:10%"/>
-		  	<col style="width:51%"/>
-		  	<col style="width:17%"/>
-		  	<col style="width:17%"/>
+		  	<col style="width:12%"/>
+		  	<col style="width:65%"/>
+		  	<col style="width:18%"/>
 		  </colgroup>
             <tr>
               <th><input type="checkbox" id="checkAll" onclick="chkAll();"></th>
               <th>보낸사람</th>
-              <th>내용</th>
-              <th>받은날짜</th>
-              <th>삭제날짜</th>
+              <th colspan="">내용</th>
+              <th>날짜</th>
             </tr>
-            <c:if test="${deletedList == null || deletedList.size() == 0 }">
+            <c:if test="${saveMessage == null || saveMessage.size() == 0 }">
             	<tr>
-            		<td colspan="5">
-            			휴지통이 비어있습니다.
+            		<td colspan="4">
+            			받은 쪽지함이 비어있습니다.
             		</td>
             	</tr>
             </c:if>
-            <c:if test="${deletedList != null}">
-            	<c:forEach var="deletedList" items="${deletedList}">
-            		<input type="hidden" name="receiveNo" value="<c:out value="${deletedList.receiveNo}"/>">
-            		<tr id="msgListTable(${deletedList.receiveNo})">
-		              <td style="width:50px"><input type="checkbox" name="chk" value="${deletedList.receiveNo}"></td>
-		              <td><span class="senderName" id="s_name(${deletedList.receiveNo})"><c:out value="${deletedList.senderName}"/> <c:out value="${deletedList.rank}"/></span></td>
-		              <td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">
-		              	<a href="javascript:detailMsg(${deletedList.receiveNo})" id="detail(${deletedList.receiveNo})">
-							<c:out value="${deletedList.receiveContent}"/>
+            <c:if test="${saveMessage != null}">
+            	<c:forEach var="saveMessage" items="${saveMessage}">
+            		<input type="hidden" name="receiveNo" value="<c:out value="${saveMessage.receiveNo}"/>">
+            		<tr id="msgListTable(${saveMessage.receiveNo})">
+		              <td style="width:50px"><input type="checkbox" name="chk" value="${saveMessage.receiveNo}"></td>
+		              <td ><span class="senderName" id="s_name(${saveMessage.receiveNo})"><c:out value="${saveMessage.senderName}"/> <c:out value="${saveMessage.rank}"/></span></td>
+		              <td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;" >
+		              	<a href="javascript:detailMsg(${saveMessage.receiveNo})" id="detail(${saveMessage.receiveNo})">
+							<c:out value="${saveMessage.receiveContent}"/>
 						</a>
 					  </td>
-		              <td style="width:20%"><fmt:formatDate type="both" value="${deletedList.receiveDate}"/></td>
-		              <td style="width:20%"><fmt:formatDate type="both" value="${deletedList.deleteDate}"/></td>
+		              <td style="width:20%"><fmt:formatDate type="both" value="${saveMessage.receiveDate}"/></td>
 		            </tr>
-		            <div class="modal_view fade modalNo${deletedList.receiveNo}">
+		            <div class="modal_view fade modalNo${saveMessage.receiveNo}">
 					    <div class="bg"></div>
 					    <div class="modalContainer">
-					      <h2 style="margin-left: 18px;">휴지통(받은쪽지)</h2>
+					      <h2 style="margin-left: 18px;">받은쪽지</h2>
 					        <div class="view_form info">
-					          <label>From : </label> <c:out value="${deletedList.senderName}"/> <c:out value="${deletedList.rank}"/> (<c:out value="${deletedList.s_deptName}"/>)<br>
-					          <label>Date : </label> <fmt:formatDate type="both" value="${deletedList.receiveDate}"/>
+					          <input type="hidden" id="msgNo${saveMessage.receiveNo}" value="<c:out value="${saveMessage.receiveNo}"/>">
+					          <input type="hidden" id="sName${saveMessage.receiveNo}" value="<c:out value="${saveMessage.senderName}"/>">
+					          <input type="hidden" id="sRank${saveMessage.receiveNo}" value="<c:out value="${saveMessage.rank}"/>">
+					          <input type="hidden" id="sDept${saveMessage.receiveNo}" value="<c:out value="${saveMessage.s_deptName}"/>">
+					          <input type="hidden" id="readCheck${saveMessage.receiveNo}" value="<c:out value="${saveMessage.readCheck}"/>">
+					          
+					          <label>From : <c:out value="${saveMessage.senderName}"/> <c:out value="${saveMessage.rank}"/> (<c:out value="${saveMessage.s_deptName}"/>)</label> <br>
+					          <label>Date : </label> <fmt:formatDate type="both" value="${saveMessage.receiveDate}"/>
 					        </div>
 					        <div class ="view_form">
 					        <div class = "form-control" id="contentsDiv" rows="3" name ="messageContent"  style="overflow: scroll; margin-left:20px; margin-top:10px;">
-					       		<p style="text-align:left; margin:5px;">${ fn:replace(deletedList.receiveContent, replaceChar, "<br/>" )}</p> 
+					       		<p style="text-align:left; margin:5px;">${ fn:replace(saveMessage.receiveContent, replaceChar, "<br/>" )}</p> 
 					        </div>
 					        </div>
 					        <div class="msg_btns">
-				        	 <button type="button" class ="delegeBtn(${deletedList.receiveNo})" onclick="deleteMsg(${deletedList.receiveNo});">삭제</button>
-				       		 <button type="button" id ="exitBtn(${deletedList.receiveNo})">닫기</button>
+				        	 <button type="button" class ="deleteBtn(${saveMessage.receiveNo})" onclick="deleteMsg(${saveMessage.receiveNo});">삭제</button>
+				       		 <button type="button" id ="exitBtn(${saveMessage.receiveNo})">닫기</button>
 					        </div>
 					       
 					    </div>
@@ -104,18 +107,18 @@
           </table>
           <div class="message_page">
               <ul class="notice_pagination">
-                <li><button type="button"  onclick="location.href='${path}/message/deletedList?page=1'">처음페이지</button></li>
-                <li><button type="button"  onclick="location.href='${path}/message/deletedList?page=${pageInfo.prvePage}'">&lt;&lt;</button></li>
+                <li><button type="button"  onclick="location.href='${path}/message/saveListRec?page=1'">처음페이지</button></li>
+                <li><button type="button"  onclick="location.href='${path}/message/saveListRec?page=${pageInfo.prvePage}'">&lt;&lt;</button></li>
                 <c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
 					<c:if test="${status.current == pageInfo.currentPage}">
 						<li><button disabled><c:out value="${status.current}"/></button></li>
 	   				</c:if>
 					<c:if test="${status.current != pageInfo.currentPage}">
-						<li><button onclick="location.href='${path}/message/deletedList?page=${status.current}'"><c:out value="${status.current}"/></button></li>
+						<li><button onclick="location.href='${path}/message/saveListRec?page=${status.current}'"><c:out value="${status.current}"/></button></li>
 	   				</c:if>
 				</c:forEach>
-                <li><button type="button" onclick="location.href='${path}/message/deletedList?page=${pageInfo.nextPage}'">&gt;&gt;</button></li>
-                <li><button type="button" onclick="location.href='${path}/message/deletedList?page=${pageInfo.maxPage}'">마지막페이지</button></li>
+                <li><button type="button" onclick="location.href='${path}/message/saveListRec?page=${pageInfo.nextPage}'">&gt;&gt;</button></li>
+                <li><button type="button" onclick="location.href='${path}/message/saveListRec?page=${pageInfo.maxPage}'">마지막페이지</button></li>
 	          </ul>
           </div>
         </div>
@@ -133,7 +136,7 @@
           <span id="writeCnt">0</span>/<span id="writeMax">300</span>
         </div>
         <div class ="write_form">
-          <textarea class = "form-control" rows="3" id="sendContent" name ="sendContent"></textarea>
+          <textarea class = "form-control" rows="3" id="sendContent" name ="sendContent" style="overflow: scroll;"></textarea>
         </div>
         <div class ="write_form">
 	        <button type="button" id="sendBtn" class ="sendBtn">보내기</button>
@@ -152,7 +155,7 @@
 	}
 	
 	function deleteSelected() {
-		if(confirm("쪽지를 완전히 삭제하시겠습니까?")){
+		if(confirm("정말로 삭제하시겠습니까?")){
 	        var cnt = $("input[name='chk']:checked").length;
 	        var arr = new Array();
 	        
@@ -173,13 +176,13 @@
 	        else{
 	        	$.ajax({
 	                type: "POST",
-	                url: "${path}/deletedmessage/deleteSelected",
+	                url: "${path}/message/deleteSelected",
 	                data: {
 						arr:arr,
 						cnt:cnt
 					},
 	                success: function(data){
-	                	Swal.fire({
+	                	 Swal.fire({
 	                         icon: 'success',
 	                         title: '쪽지삭제 완료!'
 	                     });
@@ -202,12 +205,13 @@
 	  
 	    const close = () => {
 	      document.getElementById("memSearchInput").value= "";
-		  document.getElementById("sendContent").value= "";
+	      document.getElementById("sendContent").value= "";
 	      document.querySelector(".modal").classList.add("fade");
 	    }
 	  
 	    document.querySelector(".openBtn").addEventListener("click", open);
 	    document.querySelector(".closeBtn").addEventListener("click", close);
+	    
 	    
 	    $("#sendContent").on("keyup",function(){
 	        let inputLength = $(this).val().length;
@@ -223,11 +227,54 @@
 	        }
 	      });
 	}
+	
+	function reMsg(msgNo){
+		var sName = $("#sName"+ msgNo).val();
+		var sRank = $("#sRank"+ msgNo).val();
+		var sDept = $("#sDept"+ msgNo).val();
+		
+		console.log(sName);
+		console.log(sRank);
+		console.log(sDept);
+		
+	    const close = () => {
+    	  document.getElementById("memSearchInput").value= "";
+	      document.getElementById("sendContent").value= "";
+	      document.querySelector(".modal").classList.add("fade");
+	    }
+	    
+		document.querySelector(".modalNo" + msgNo).classList.add("fade");
+		document.querySelector(".modal").classList.remove("fade");
+		
+		document.getElementById("memSearchInput").value= sName + "_" + sRank + "_" + sDept;
+	  
+	    document.querySelector(".closeBtn").addEventListener("click", close);
+	}
+	
 
 	function detailMsg(msgNo){
-		/* console.log(msgNo);
-		console.log(document.querySelector(".modalNo" + msgNo));
-		console.log(document.getElementById('detail('+ msgNo +')')); */
+		var msgNo = msgNo;
+		var readCheck = $("#readCheck"+ msgNo).val();
+		
+		console.log(readCheck);
+		console.log(msgNo);
+		
+		if(readCheck == 'N'){
+			$.ajax({
+				type: "get",
+				url:"${path}/message/readCheck",
+				data:{
+					msgNo:msgNo
+				},
+				success:function(data){
+					document.querySelector(".modalNo" + msgNo).classList.remove("fade");
+				},
+				error: function(e){
+					alert("실패");
+					console.log(e);
+				}
+			});
+		}
 		
 		const open = () => {
 	      document.querySelector(".modalNo" + msgNo).classList.remove("fade");
@@ -240,10 +287,12 @@
 	    document.getElementById('detail('+ msgNo +')').addEventListener("click", open);
 	    document.getElementById('exitBtn('+ msgNo +')').addEventListener("click", close);
 	    document.querySelector(".bg").addEventListener("click", close);
+	    
+	    
 	}
 	
 	function deleteMsg(msgNo){
-		if(confirm("쪽지를 완전히 삭제하시겠습니까?")){
+		if(confirm("쪽지를 삭제하시겠습니까?")){
 			
 			var xhr = new XMLHttpRequest();
 	            
@@ -257,7 +306,7 @@
            		}
             }
             
-            xhr.open("GET", "${path}/deletedmessage/delete?receiveNo="+ msgNo, true);
+            xhr.open("GET", "${path}/message/delete?receiveNo="+ msgNo, true);
             
             xhr.send();
 		}
@@ -271,9 +320,6 @@
 			var writeCnt = $("#writeCnt").text();
 			var writeMax = $("#writeMax").text();
 			
-			console.log(senderNo);
-			console.log(userName);
-			console.log(sendContent);
 			console.log(writeCnt);
 			console.log(writeMax);
 			
@@ -293,7 +339,7 @@
 						  $('#sendContent').focus();
 					  }
 					})
-			} else if(writeCnt > 300){
+			} else if(writeCnt > writeMax){
 				console.log(writeCnt);
 				console.log(writeMax);
 				
@@ -352,7 +398,6 @@
             delay: 300,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
 		 });
 	 });
-	
 	
 </script>
 

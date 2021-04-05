@@ -152,4 +152,32 @@ public class MessageSercviceImpl implements MessageService {
 		return  MessageDao.readCheckSelected(checkList);
 	}
 
+	@Override
+	public List<ReceiveMessage> getSaveList(PageInfo pageInfo, Map<String, Object> map) {
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
+		
+		return MessageDao.selectRecSaveList(rowBounds, map);
+	}
+
+	@Override
+	public int saveSelected(List<Integer> checkList) {
+		
+		return MessageDao.saveSelected(checkList);
+	}
+
+	@Override
+	public List<SendMessage> getSaveSendList(PageInfo pageInfo, Map<String, Object> map) {
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
+		
+		return MessageDao.saveSendMsgList(rowBounds, map);
+	}
+
+	@Override
+	public int saveSendSelected(List<Integer> checkList) {
+		
+		return MessageDao.saveSendSelected(checkList);
+	}
+
 }

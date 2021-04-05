@@ -46,4 +46,12 @@ public interface MessageService {
 
 	int readCheckSelected(List<Integer> checkList);
 
+	List<ReceiveMessage> getSaveList(PageInfo pageInfo, Map<String, Object> map);
+
+	int saveSelected(List<Integer> checkList);
+
+	List<SendMessage> getSaveSendList(PageInfo pageInfo, Map<String, Object> map);
+
+	int saveSendSelected(List<Integer> checkList);
+
 }
