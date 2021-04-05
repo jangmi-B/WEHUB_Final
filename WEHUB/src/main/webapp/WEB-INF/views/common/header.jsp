@@ -15,8 +15,7 @@
   <script src="${path}/js/jquery-3.5.1.js"></script>
   <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="https://kit.fontawesome.com/d854b17d02.js" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-  <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   <link rel="icon" type="image/png" href="${path}/images/logo.png">
   <link rel="stylesheet" href="${path}/css/style.css">
   <link rel="stylesheet" href="${path}/css/homeContent.css">

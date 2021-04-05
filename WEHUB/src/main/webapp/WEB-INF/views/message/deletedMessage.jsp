@@ -164,7 +164,10 @@
 	        console.log(arr);
 	        
 	        if(cnt == 0){
-	            alert("선택된 글이 없습니다.");
+	        	Swal.fire({
+	        		  icon: 'error',
+	        		  text: '선택된 글이 없습니다!'
+	        	})
 	        }
 	        
 	        else{
@@ -176,7 +179,10 @@
 						cnt:cnt
 					},
 	                success: function(data){
-	                    alert("삭제 성공");
+	                	Swal.fire({
+	                         icon: 'success',
+	                         title: '쪽지삭제 완료!'
+	                     });
 	                    
 	                    for(var i = 0; i <arr.length; i++){
 		                    var deleteMsg = document.getElementById('msgListTable('+ arr[i] +')');
@@ -266,17 +272,29 @@
 			var writeMax = $("#writeMax").text();
 			
 			if(userName == ""){
-				alert("받는사람이 비어있습니다.");
-				document.getElementById('memSearchInput').focus();
-				
+				Swal.fire({
+					  icon: 'error',
+					  text: '받는사람을 작성하지 않으셨습니다!',
+					  didClose: () => {
+						  $('#memSearchInput').focus();
+					  }
+				})
 			} else if(sendContent == ""){
-				alert("내용을 작성하지 않으셨습니다.");
-				document.getElementById('sendContent').focus();
-				
+				Swal.fire({
+					  icon: 'error',
+					  text: '내용을 작성하지 않으셨습니다.!',
+					  didClose: () => {
+						  $('#sendContent').focus();
+					  }
+				})
 			} else if(writeCnt > writeMax){
-				alert(writeMax + "자를 초과입력할 수 없습니다.");
-				document.getElementById('sendContent').focus();
-				
+				Swal.fire({
+					  icon: 'error',
+					  text: writeMax + "자를 초과입력할 수 없습니다.!",
+					  didClose: () => {
+						  $('#sendContent').focus();
+					  }
+					})
 			} else{
 				$.ajax({
 					type: "post",
