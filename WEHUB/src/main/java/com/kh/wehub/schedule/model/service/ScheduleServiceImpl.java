@@ -52,4 +52,17 @@ public class ScheduleServiceImpl implements ScheduleService {
 		return result;
 	}
 
+	@Override
+	public List<DateData> todaySchedule(Member loginMember, String[] arr) {
+		
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		
+		map.put("userNo", loginMember.getUser_no());
+		map.put("year", arr[0]);
+		map.put("month", arr[1]);
+		map.put("today", arr[2]);
+		
+		return scheduleDao.todaySchedule(map);
+	}
+
 }

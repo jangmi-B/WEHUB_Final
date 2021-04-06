@@ -84,7 +84,7 @@ tinymce.init({
 <table class="calendar_body">
 
 <thead>
-	<tr bgcolor="#CECECE">
+	<tr bgcolor="lavender">
 		<td class="day sun" >
 			일
 		</td>
@@ -190,74 +190,63 @@ tinymce.init({
 </form>
 
 <script>
-
-
-	 	 const open = () => {
-		 	document.querySelector('.modalNo').classList.remove("Cal_hidden");
-		 }
-		
-		 const close = () => {
-		     document.querySelector('.modalNo').classList.add("Cal_hidden");
-		 }
+ 	 const open = () => {
+	 	document.querySelector('.modalNo').classList.remove("Cal_hidden");
+	 }
+	
+	 const close = () => {
+	     document.querySelector('.modalNo').classList.add("Cal_hidden");
+	 }
+	 
+	 document.getElementById('closeBtn-out').addEventListener("click", close);
+	 document.getElementById('closeBtn-in').addEventListener("click",close);
+	 document.querySelector(".bg").addEventListener("click", close);
 		 
-		 document.getElementById('closeBtn-out').addEventListener("click", close);
-		 document.getElementById('closeBtn-in').addEventListener("click",close);
-		 document.querySelector(".bg").addEventListener("click", close);
 		 
-		//오늘 날짜
-		 function today(No) {
-		
-		 var modal_hidden = document.getElementById('modal_hidden');
-		 modal_hidden.value = No;
-		 
-		 tinymce.get("text_").setContent(document.getElementById('T_content'+No).innerHTML);
-		 
-		 document.getElementById('today'+No).addEventListener("dblclick", open);
-		 
-// 		 var content = document.getElementsByClassName('Sat_content');
-// 			for(var i = 0; i < content.length; i++){
-// 				 var splitText = content[i].innerHTML.trim().split("</p>");
-// 				for(var j = 0; j < splitText.length; j ++){
-// 					if(splitText[j].length >= 120){
-// 						var rplContent = splitText[j].substr(120, splitText[j].length);
-// 						content[i].innerHTML = splitText[j].substr(0, 120) + rplContent.replace(rplContent, "....");
-// 					}
-// 				}
-// 			}
-		}
-		 
-		//토요일
-		 function satDay(No) {
-		
-		 var modal_hidden = document.getElementById('modal_hidden');
-		 modal_hidden.value = No;
-		 
-		 tinymce.get("text_").setContent(document.getElementById('Sat_content'+No).innerHTML);
-		 
-		 document.getElementById('satDay'+No).addEventListener("dblclick", open);
-		}
-		
-		//일요일
-		 function sunDay(No) {
-		
-		 var modal_hidden = document.getElementById('modal_hidden');
-		 modal_hidden.value = No;
-		 
-		 tinymce.get("text_").setContent(document.getElementById('Sun_content'+No).innerHTML);
-		 
-		 document.getElementById('sunDay'+No).addEventListener("dblclick", open);
-		}
-		
-		// 평일
-		 function NDay(No) {
-		
-		 var modal_hidden = document.getElementById('modal_hidden');
-		 modal_hidden.value = No;
-		 
-		 tinymce.get("text_").setContent(document.getElementById('N_content'+No).innerHTML);
-		 
-		 document.getElementById('NDay'+No).addEventListener("dblclick", open);
-		}
+	//오늘 날짜
+	 function today(No) {
+	
+	 var modal_hidden = document.getElementById('modal_hidden');
+	 modal_hidden.value = No;
+	 
+	 tinymce.get("text_").setContent(document.getElementById('T_content'+No).innerHTML);
+	 
+	 document.getElementById('today'+No).addEventListener("dblclick", open);
+	 
+	}
+	 
+	//토요일
+	 function satDay(No) {
+	
+	 var modal_hidden = document.getElementById('modal_hidden');
+	 modal_hidden.value = No;
+	 
+	 tinymce.get("text_").setContent(document.getElementById('Sat_content'+No).innerHTML);
+	 
+	 document.getElementById('satDay'+No).addEventListener("dblclick", open);
+	}
+	
+	//일요일
+	 function sunDay(No) {
+	
+	 var modal_hidden = document.getElementById('modal_hidden');
+	 modal_hidden.value = No;
+	 
+	 tinymce.get("text_").setContent(document.getElementById('Sun_content'+No).innerHTML);
+	 
+	 document.getElementById('sunDay'+No).addEventListener("dblclick", open);
+	}
+	
+	// 평일
+	 function NDay(No) {
+	
+	 var modal_hidden = document.getElementById('modal_hidden');
+	 modal_hidden.value = No;
+	 
+	 tinymce.get("text_").setContent(document.getElementById('N_content'+No).innerHTML);
+	 
+	 document.getElementById('NDay'+No).addEventListener("dblclick", open);
+	}
 
 	function updateBtn(){
 		

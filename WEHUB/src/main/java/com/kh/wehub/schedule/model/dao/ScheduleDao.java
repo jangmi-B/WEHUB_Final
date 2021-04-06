@@ -16,5 +16,7 @@ public interface ScheduleDao {
 	
 	int updateCalendar(Map<Object, Object> map);
 
+	List<DateData> todaySchedule(Map<Object, Object> map);
+
 
 }

@@ -45,7 +45,9 @@
         <div>
 	    <h2 class="h2d">오늘 일정<a href="${path}/calendar/view"><i class="fas fa-plus" id="con1" style="color: lightgray;"></i></a></h2>
 	        <ul>
-		        <li></li>
+		        <li>
+		        	${todaySchedule.get(0).getSchedule_content()}
+		        </li>
 	        </ul>
         </div>
     </div>

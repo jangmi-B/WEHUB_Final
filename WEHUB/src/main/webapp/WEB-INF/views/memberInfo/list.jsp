@@ -18,8 +18,8 @@
       </ul>
     </div>
 
-<form class="HM_Area" action="${path}/memberInfo/list" method="get">
 
+<form class="HM_Area" action="${path}/memberInfo/list" method="get">
   <div>
     <!-- SearchBar -->
     <div class="HM_Department_Sel">
@@ -35,9 +35,10 @@
         
     </div>
   </div>
-
+<div id="printArea">
   <table class="HM_TableArea checkbox_group" cellpadding="0" cellspacing="0" border="0">
     <thead>
+    <button type="button" style="background:none; width:40px; height:40px" onclick="Print()"><i class="fas fa-print fa-2x"></i></button>
         <tr class="header_th">
             <th class="HM_trTag HM_NameTr" colspan="2">이름</th>
             <th class="HM_trTag HM_RankTr" width="125px">직급</th>
@@ -71,6 +72,7 @@
         </c:choose>
     </tbody>
   </table>
+</div>
 </form>
 
   <!-- 하단 페이징 -->
@@ -93,5 +95,17 @@
   </div>
 </section>
   <hr>
+  
+  <script>
+  function Print(){
+	  
+	 document.body.innerHTML = printArea.innerHTML;
+
+	 objWin.print();
+  }
+  
+  </script>
+  
+  
   
  <%@ include file ="../common/footer.jsp" %>

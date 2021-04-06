@@ -44,5 +44,14 @@
 			CAL_NO = #{calNo}
 	</update>
 
+	<select id="todaySchedule" parameterType="map" resultMap="ScheduleResultMap">
+		SELECT M.USER_NO, C.CAL_NO, C.CAL_CONTENT, C.CAL_DATE, C.CAL_YEAR, C.CAL_MONTH, C.CAL_DAY
+		FROM CALENDAR C
+		JOIN MEMBER M ON(M.USER_NO = C.USER_NO)
+		WHERE M.USER_NO = #{userNo}
+		AND C.CAL_YEAR = #{year}
+		AND C.CAL_MONTH = #{month}
+		AND C.CAL_DAY = #{today}
+	</select>
 
 </mapper>

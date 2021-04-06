@@ -92,11 +92,6 @@ public class CalendarController {
 				}
 			}
 		}
-		
-		System.out.println(dateList.get(today_info.get("today")).getSchedule_content());
-		System.out.println("?? 없는값?");
-		System.out.println(today_info.get("today"));
-		
 		//배열에 담음
 		model.addAttribute("dateList", dateList);		//날짜 데이터 배열
 		model.addAttribute("today_info", today_info);
@@ -126,16 +121,7 @@ public class CalendarController {
 		return str;
 	}
 	
-	@RequestMapping(value="calendar/view/mainhome", method= {RequestMethod.GET})
-	public String todayList(ModelAndView model) {
-		
-		DateTime dt = new DateTime();
-		String today = dt.toString("yyyy년 MM월 dd일");
-		
-		System.out.println(today);
-		
-		return null;
-	}
+	
 
 	
 }

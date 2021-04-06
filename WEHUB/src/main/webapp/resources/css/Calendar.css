@@ -69,12 +69,13 @@
 		
 		
 		.calendar_body .today{
-			border:1px solid white;
+			border:1px solid darkgray;
 			width:100px;
 			height:120px;
-			background-color:antiquewhite;
+			background:white;
 			text-align: left;
 			vertical-align: top;
+		    border-radius: 6px
 		}
 		.calendar_body .date{
 			font-weight: bold;
@@ -83,11 +84,12 @@
 			padding-top: 3px;
 		}
 		.calendar_body .sat_day{
-			border:1px solid white;
+			border:1px solid darkgray;
 			height:120px;
-			background-color:#EFEFEF;
+			background:white;
 			text-align:left;
 			vertical-align: top;
+		    border-radius: 6px
 		}
 		.calendar_body .sat_day .sat{
 			color: #529dbc; 
@@ -97,12 +99,14 @@
 			padding-top: 3px;
 		}
 		.calendar_body .sun_day{
-			border:1px solid white;
+			border:1px solid darkgray;
 			height:120px;
-			background-color:#EFEFEF;
+			background:white;
 			text-align: left;
 			vertical-align: top;
+		    border-radius: 6px
 		}
+		
 		.calendar_body .sun_day .sun{
 			color: red; 
 			font-weight: bold;
@@ -111,11 +115,12 @@
 			padding-top: 3px;
 		}
 		.calendar_body .normal_day{
-			border:1px solid white;
+			border:1px solid darkgray;
 			height:120px;
-			background-color:#EFEFEF;
+			background:white;
 			vertical-align: top;
 			text-align: left;
+		    border-radius: 6px
 		}
 		
 		.calendar_body .today .T_content{
@@ -130,7 +135,6 @@
 			height:80%;
 			resize:none;
 			border:none;
-			background:#EFEFEF;
 			font-size:14px;
 		}
 		.calendar_body .sun_day .Sun_content{
@@ -138,7 +142,6 @@
 			height:80%;
 			resize:none;
 			border:none;
-			background:#EFEFEF;
 			font-size:14px;
 		}
 		.calendar_body .normal_day .N_content{
@@ -146,8 +149,20 @@
 			height:80%;
 			resize:none;
 			border:none;
-			background:#EFEFEF;
 			font-size:14px;
+		}
+		
+		.calendar_body .sun_day:hover{
+		    box-shadow: 2px 1px 10px blueviolet;
+		}
+		.calendar_body .sat_day:hover{
+			box-shadow: 2px 1px 10px blueviolet;
+		}
+		.calendar_body .today:hover{
+			box-shadow: 2px 1px 10px blueviolet;
+		}
+		.calendar_body .normal_day:hover{
+			box-shadow: 2px 1px 10px blueviolet;
 		}
 		
 		.before_after_month{

@@ -11,5 +11,7 @@ public interface ScheduleService {
 
 	int updateCalendar(String text, int dayNo, int year, String month, int calNo, Member member);
 
+	List<DateData> todaySchedule(Member loginMember, String[] arr);
+
 
 }
