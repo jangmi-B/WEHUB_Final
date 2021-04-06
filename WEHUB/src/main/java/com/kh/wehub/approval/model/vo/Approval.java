@@ -33,7 +33,6 @@ public class Approval {
    
    private String appRenameFileName;
    
-   private int userNo;
-   
+   private int userNo;   
    
 }

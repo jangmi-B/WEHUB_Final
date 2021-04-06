@@ -1,11 +1,15 @@
 package com.kh.wehub.approval.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.wehub.approval.model.vo.Approval;
 import com.kh.wehub.member.model.vo.Member;
 
 @Controller
@@ -46,5 +50,14 @@ public class ApprovalController {
 	public String leaveApplication(@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
 		
 		return "/approval/leaveApplication";
+	}
+	
+	@RequestMapping(value="/update/leave", method= {RequestMethod.POST})
+	public ModelAndView updateLeave( ModelAndView model, HttpServletRequest request,
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember, 
+			@SessionAttribute(name = "Approval", required = false) Approval approval 
+			) {
+		
+		return model;
 	}
 }
