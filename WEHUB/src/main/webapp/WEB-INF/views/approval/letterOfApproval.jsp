@@ -137,7 +137,18 @@
 		                    success: function(data){
 		                    	console.log(data);
 		                    	
-		                    	var str = '<tr>';
+		                        $("#refer-left-section").empty();
+		                        $("#refer-left-section").append(
+		                        		'<tr style="border-bottom: 1px solid black;">'
+		                                +'<th>'
+		                                +'<input type="checkbox" name="check-refer-listAll" id="refer-listAll" style="height: 15px; margin-top: 6px;">'
+		                                +'</th>'
+		                                +'<th>이 름</th>'
+		                                +'<th>부 서</th>'
+		                                +'<th>직 책</th>'
+		                            +'</tr>'
+		                        );
+		                        var str = '<tr>';
 		                    	
 		                    	$.each(data, function(i) {
 			                    	str +='<tr><td><input type="checkbox" name="refer-list" id="refer-list" style="height: 15px;"></td>'
@@ -148,6 +159,10 @@
 		                    	});
 		                        
 		                       $("#refer-left-section").append(str);
+		                        
+		                       $("#refer-left-section").append(
+							       '<tbody></tbody>'
+		                       );
 		                    },
 		                    error: function(){alert("잠시 후 다시 시도해주세요.");}
 		        		});
@@ -326,8 +341,8 @@
 	            tdArr.push(dept);
 	            tdArr.push(position);
 	
-	            console.log(name);
-	            console.log(tdArr);
+	            console.log('name: ' + name);
+	            console.log('tdArr: ' + tdArr);
 	            $('#refer-left-section > tbody:last').append('<tr><td><input type="checkbox" name="check-refer-listAll" id="refer-listAll" style="height: 15px; margin-top: 6px;"></td>'
 	                +'<td>'+ name +'</td>'
 	                +'<td>'+ dept +'</td>'
