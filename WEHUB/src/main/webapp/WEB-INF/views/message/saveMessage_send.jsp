@@ -65,33 +65,33 @@
             </c:if>
             <c:if test="${saveSendMessage != null}">
             	<c:forEach var="saveSendMessage" items="${saveSendMessage}">
-            		<input type="hidden" name="sendNo" value="<c:out value="${saveSendMessage.sendNo}"/>">
-            		<tr id="msgListTable(${saveSendMessage.sendNo})">
-		              <td style="width:50px"><input type="checkbox" name="chk" value="${saveSendMessage.sendNo}"></td>
-		              <td><span class="receiverNo" id="s_name(${saveSendMessage.sendNo})"><c:out value="${saveSendMessage.userName}"/> <c:out value="${saveSendMessage.rank}"/></span></td>
+            		<input type="hidden" name="sendNo" value="<c:out value="${saveSendMessage.msgNo}"/>">
+            		<tr id="msgListTable(${saveSendMessage.msgNo})">
+		              <td style="width:50px"><input type="checkbox" name="chk" value="${saveSendMessage.msgNo}"></td>
+		              <td><span class="receiverNo" id="s_name(${saveSendMessage.msgNo})"><c:out value="${saveSendMessage.userName}"/> <c:out value="${saveSendMessage.rank}"/></span></td>
 		              <td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">
-		              	<a href="javascript:detailMsg(${saveSendMessage.sendNo})" id="detail(${saveSendMessage.sendNo})">
-							<c:out value="${saveSendMessage.sendContent}"/>
+		              	<a href="javascript:detailMsg(${saveSendMessage.msgNo})" id="detail(${saveSendMessage.msgNo})">
+							<c:out value="${saveSendMessage.msgContent}"/>
 						</a>
 					  </td>
-		              <td style="width:20%"><fmt:formatDate type="both" value="${saveSendMessage.sendDate}"/></td>
+		              <td style="width:20%"><fmt:formatDate type="both" value="${saveSendMessage.createDate}"/></td>
 		            </tr>
-		            <div class="modal_view fade modalNo${saveSendMessage.sendNo}">
+		            <div class="modal_view fade modalNo${saveSendMessage.msgNo}">
 					    <div class="bg"></div>
 					    <div class="modalContainer">
 					      <h2 style="margin-left: 18px;">보낸쪽지</h2>
 					        <div class="view_form info">
 					          <label>To : </label> <c:out value="${saveSendMessage.userName}"/> <c:out value="${saveSendMessage.rank}"/> (<c:out value="${saveSendMessage.deptName}"/>)<br>
-					          <label>Date : </label> <fmt:formatDate type="both" value="${sendList.sendDate}"/>
+					          <label>Date : </label> <fmt:formatDate type="both" value="${sendList.createDate}"/>
 					        </div>
 					        <div class ="view_form">
 					        <div class = "form-control" id="contentsDiv" rows="3" name ="messageContent"  style="overflow: scroll; margin-left:20px; margin-top:10px;">
-					       		<p style="text-align:left; margin:5px;">${ fn:replace(saveSendMessage.sendContent, replaceChar, "<br/>" )}</p> 
+					       		<p style="text-align:left; margin:5px;">${ fn:replace(saveSendMessage.msgContent, replaceChar, "<br/>" )}</p> 
 					        </div>
 					        </div>
 					        <div class="msg_btns">
-				        	 <button type="button" class ="delegeBtn(${saveSendMessage.sendNo})" onclick="deleteMsg(${saveSendMessage.sendNo});">삭제</button>
-				       		 <button type="button" id ="exitBtn(${saveSendMessage.sendNo})">닫기</button>
+				        	 <button type="button" class ="delegeBtn(${saveSendMessage.msgNo})" onclick="deleteMsg(${saveSendMessage.msgNo});">삭제</button>
+				       		 <button type="button" id ="exitBtn(${saveSendMessage.msgNo})">닫기</button>
 					        </div>
 					       
 					    </div>
@@ -123,14 +123,14 @@
     <div class="modalContainer">
       <h2 style="margin-left:18px;">쪽지쓰기 </h2>
         <div class="info">
-      	  <input type="hidden" id="senderNo" name="senderNo" value="<c:out value="${loginMember.user_no}"/>">
+      	  <input type="hidden" id="msgFrom" name="msgFrom" value="<c:out value="${loginMember.user_no}"/>">
           <label>To : </label> <input type="text" id="memSearchInput" name="userName">
         </div>
         <div style="float:right; padding-right:25px; font-size:12px; margin-top:15px;">
           <span id="writeCnt">0</span>/<span id="writeMax">300</span>
         </div>
         <div class ="write_form">
-          <textarea class = "form-control" rows="3" id="sendContent" name ="sendContent"></textarea>
+          <textarea class = "form-control" rows="3" id="msgContent" name ="msgContent" style="overflow: scroll;"></textarea>
         </div>
         <div class ="write_form">
 	        <button type="button" id="sendBtn" class ="sendBtn">보내기</button>
@@ -192,57 +192,22 @@
 		}
     } 
 	
-	function saveSelected() {
-        var cnt = $("input[name='chk']:checked").length;
-        var arr = new Array();
-        
-         $("input[name='chk']:checked").each(function() {
-            arr.push($(this).attr('value'));
-        });
-         
-        console.log(cnt);
-        console.log(arr);
-        
-        if(cnt == 0){
-        	Swal.fire({
-        		  icon: 'error',
-        		  text: '선택된 글이 없습니다!'
-        	})
-        }
-        
-        else{
-        	$.ajax({
-                type: "POST",
-                url: "${path}/message/saveSendSelected",
-                data: {
-					arr:arr,
-					cnt:cnt
-				},
-                success: function(data){
-                	location.reload();
-                    
-                },
-                error: function(){alert("서버통신 오류");}
-    	});
-    }
-}
-	
-	
 	function writeMsg(){
 		const open = () => {
 	      document.querySelector(".modal").classList.remove("fade");
 	    }
 	  
 	    const close = () => {
-    	  document.getElementById("memSearchInput").value= "";
-	      document.getElementById("sendContent").value= "";	
+	      document.getElementById("memSearchInput").value= "";
+	      document.getElementById("msgContent").value= "";
 	      document.querySelector(".modal").classList.add("fade");
 	    }
 	  
 	    document.querySelector(".openBtn").addEventListener("click", open);
 	    document.querySelector(".closeBtn").addEventListener("click", close);
 	    
-	    $("#sendContent").on("keyup",function(){
+	    
+	    $("#msgContent").on("keyup",function(){
 	        let inputLength = $(this).val().length;
 
 	        $("#writeCnt").text(inputLength);
@@ -297,11 +262,17 @@
 	
 	$(function(){
 		$("#sendBtn").on("click",function(){
-			var senderNo = $("#senderNo").val();
-			var userName = $("#memSearchInput").val();
-			var sendContent = $("#sendContent").val();
-			var writeCnt = $("#writeCnt").text();
-			var writeMax = $("#writeMax").text();
+			let msgFrom = $("#msgFrom").val();
+			let userName = $("#memSearchInput").val();
+			let msgContent = $("#msgContent").val();
+			let writeCnt = parseInt($("#writeCnt").text());
+			let writeMax = parseInt($("#writeMax").text());
+			
+			console.log(msgFrom);
+			console.log(userName);
+			console.log(msgContent);
+			console.log(writeCnt);
+			console.log(writeMax);
 			
 			if(userName == ""){
 				Swal.fire({
@@ -310,33 +281,43 @@
 					  didClose: () => {
 						  $('#memSearchInput').focus();
 					  }
-				})
-			} else if(sendContent == ""){
+					})
+			} else if(msgContent == ""){
 				Swal.fire({
 					  icon: 'error',
 					  text: '내용을 작성하지 않으셨습니다.!',
 					  didClose: () => {
-						  $('#sendContent').focus();
+						  $('#msgContent').focus();
 					  }
-				})
-			} else if(writeCnt > writeMax){
+					})
+			} else if(writeCnt > 300){
+				console.log(writeCnt);
+				console.log(writeMax);
+				
 				Swal.fire({
 					  icon: 'error',
 					  text: writeMax + "자를 초과입력할 수 없습니다.!",
 					  didClose: () => {
-						  $('#sendContent').focus();
+						  $('#msgContent').focus();
 					  }
-				})
+					})
 			} else{
 				$.ajax({
 					type: "post",
 					url:"${path}/message/send",
 					data:{
-						senderNo:senderNo,
+						msgFrom:msgFrom,
 						userName:userName,
-						sendContent:sendContent
+						msgContent:msgContent
 					},
 					success:function(data){
+						Swal.fire({
+	                         icon: 'success',
+	                         text: '쪽지를 성공적으로 전송하였습니다.'
+	                     });
+						
+						document.getElementById("memSearchInput").value= "";
+					    document.getElementById("msgContent").value= "";
 						document.querySelector(".modal").classList.add("fade");
 					},
 					error: function(e){

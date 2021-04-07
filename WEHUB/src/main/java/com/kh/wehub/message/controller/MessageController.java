@@ -23,6 +23,7 @@ import com.kh.wehub.board.model.vo.Notice;
 import com.kh.wehub.common.util.PageInfo;
 import com.kh.wehub.member.model.vo.Member;
 import com.kh.wehub.message.model.service.MessageService;
+import com.kh.wehub.message.model.vo.Message;
 import com.kh.wehub.message.model.vo.ReceiveMessage;
 import com.kh.wehub.message.model.vo.SendMessage;
 
@@ -36,8 +37,7 @@ public class MessageController {
 	@Autowired
 	private MessageService service;
 	
-///////////////////	받은 메세지함 ///////////////////////
-	
+// 1. 받은 메세지함
 	@RequestMapping(value = "/message/list", method = {RequestMethod.GET})
 	public ModelAndView msgList(ModelAndView model,
 			@RequestParam(value = "msgSearchList", required=false)String msgSearchList,
@@ -48,12 +48,12 @@ public class MessageController {
 		
 		int msgCount = 0;
 		PageInfo pageInfo = null;
-		List<ReceiveMessage> receiveList = null;
+		List<Message> receiveList = null;
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("msgSearchList", msgSearchList);
 		map.put("msgSearchText", msgSearchText);
-		map.put("receiverNo", loginMember.getUser_no());
+		map.put("msgTo", loginMember.getUser_no());
 		
 		msgCount = service.getMsgCount(map);
 		
@@ -76,10 +76,10 @@ public class MessageController {
 	
 	@ResponseBody
 	@RequestMapping(value="/message/delete", method= {RequestMethod.GET})
-	public void deleteMsg(@RequestParam(value="receiveNo") int receiveNo) {
+	public void deleteMsg(@RequestParam(value="msgNo") int msgNo) {
 		
 		int result = 0;
-		result = service.deleteMsg(receiveNo);
+		result = service.deleteMsg(msgNo);
 		
 		if(result > 0) {
 //			System.out.println("삭제성공");
@@ -93,22 +93,17 @@ public class MessageController {
 	public void readCheckMsg(@RequestParam(value="msgNo") int msgNo) {
 		
 		int result = 0;
-		int sendResult = 0;
 		result = service.readCheckMsg(msgNo);
-		sendResult = service.readDateSet(msgNo); //보낸편지함 읽은날짜 추가
 		
-		System.out.println(sendResult);
-		
-		if(result > 0 && sendResult > 0) {
-			System.out.println("변경성공");
+		if(result > 0) {
+//			System.out.println("변경성공");
 		}else {
 			System.out.println("변경실패");
 		}
 	}
 	
 	
-///////////////////	쪽지쓰기 ///////////////////////
-	
+// 2. 쪽지쓰기
 	//자동완성
 	@ResponseBody
 	@RequestMapping(value="/search/json", method = {RequestMethod.GET})
@@ -131,42 +126,36 @@ public class MessageController {
 	@RequestMapping(value="/message/send", method = {RequestMethod.POST})
 	public void noticeWrite(
 			@SessionAttribute(name="loginMember", required=false) Member loginMember, 
-			SendMessage sendMessage) { 
+			Message Message) { 
 		
 		int result = 0;
 		int result2 = 0;
-		ReceiveMessage recMsg = new ReceiveMessage();
 		
-		String[] arr = sendMessage.getUserName().split("_");
+		String[] arr = Message.getUserName().split("_");
 		
-		sendMessage.setUserName(arr[0]);
-		sendMessage.setRank(arr[1]);
-		sendMessage.setDeptName(arr[2]);
+		Message.setUserName(arr[0]);
+		Message.setRank(arr[1]);
+		Message.setDeptName(arr[2]);
 		
 		Map<String, Object> map = new HashMap<>();
-		map.put("user_name", sendMessage.getUserName());
-		map.put("dept_name", sendMessage.getDeptName());
+		map.put("user_name", Message.getUserName());
+		map.put("dept_name", Message.getDeptName());
 		
-		Member member = service.getSender(map);
+		Member member = service.getReceiver(map);
 		
-		sendMessage.setReceiverNo(member.getUser_no());
+		Message.setMsgTo(member.getUser_no());
 		
-		recMsg.setSenderNo(sendMessage.getSenderNo());
-		recMsg.setReceiverNo(sendMessage.getReceiverNo());
-		recMsg.setReceiveContent(sendMessage.getSendContent());
-			
-		result = service.sendMsg(sendMessage);
-		result2 =service.recMsg(recMsg);
+		result = service.sendMsg(Message);
 
-		if(result > 0 && result2 > 0) {
-			System.out.println("전송완료");
+		if(result > 0) {
+//			System.out.println("전송완료");
 		} else {
 			System.out.println("전송실패");
 		}
 	}
 	
 	
-///////////////////	보낸메세지함 ///////////////////////
+// 3. 보낸 메세지함
 	
 	@RequestMapping(value = "/message/sendList", method = {RequestMethod.GET})
 	public ModelAndView sendMsgList(ModelAndView model,
@@ -178,23 +167,17 @@ public class MessageController {
 		
 		int msgCount = 0;
 		PageInfo pageInfo = null;
-		List<SendMessage> sendList = null;
+		List<Message> sendList = null;
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("msgSearchList", msgSearchList);
 		map.put("msgSearchText", msgSearchText);
-		map.put("senderNo", loginMember.getUser_no());
-		
-//		System.out.println(map.toString());
+		map.put("msgFrom", loginMember.getUser_no());
 
 		msgCount = service.getSendMsgCount(map);
 		
-//		System.out.println(msgCount);
-		
 		pageInfo = new PageInfo(page, 10, msgCount, listLimit);
 		sendList = service.getSendList(pageInfo, map);
-		
-//		System.out.println(sendList.toString());
 		
 		if(msgSearchList == null && msgSearchText == null) {
 			model.addObject("pageInfo",pageInfo);
@@ -213,33 +196,30 @@ public class MessageController {
 	// 보낸메세지 삭제
 	@ResponseBody
 	@RequestMapping(value="/sendMessage/delete", method= {RequestMethod.GET})
-	public void deleteSendMsg(@RequestParam(value="sendNo") int sendNo) {
+	public void deleteSendMsg(@RequestParam(value="msgNo") int msgNo) {
 		
 		int result = 0;
-		result = service.deleteSendMsg(sendNo);
+		result = service.deleteSendMsg(msgNo);
 		
 		if(result > 0) {
-			System.out.println("삭제성공");
+//			System.out.println("삭제성공");
 		}else {
 			System.out.println("삭제실패");
 		}
 	}
 	
 	
-///////////////////	체크항목 삭제 ///////////////////////
-	
+// 4. 체크항목 삭제
 	//받은메세지 삭제
 	@ResponseBody
 	@RequestMapping(value="/message/deleteSelected", method= {RequestMethod.POST})
 	public void deleteSelected(@RequestParam(value = "arr[]") List<Integer> checkList) {
-//		System.out.println(checkList);
-//		System.out.println(checkList.size());
 		
 		int result = 0;
 		result = service.deleteCheckMsg(checkList);
 		
 		if(result > 0) {
-			System.out.println("삭제성공");
+//			System.out.println("삭제성공");
 		}else {
 			System.out.println("삭제실패");
 		}
@@ -256,7 +236,7 @@ public class MessageController {
 		result = service.deleteCheckSendMsg(checkList);
 		
 		if(result > 0) {
-			System.out.println("삭제성공");
+//			System.out.println("삭제성공");
 		}else {
 			System.out.println("삭제실패");
 		}
@@ -266,52 +246,42 @@ public class MessageController {
 	@ResponseBody
 	@RequestMapping(value="/deletedmessage/deleteSelected", method= {RequestMethod.POST})
 	public void deletedMsgSelected(@RequestParam(value = "arr[]") List<Integer> checkList) {
-//		System.out.println(checkList);
-//		System.out.println(checkList.size());
 		
 		int result = 0;
 		result = service.deleteCheckDeletedMsg(checkList);
 		
 		if(result > 0) {
-			System.out.println("삭제성공");
+//			System.out.println("삭제성공");
 		}else {
 			System.out.println("삭제실패");
 		}
 	}
-	
-///////////////////	체크항목 읽지않음으로 표시 ///////////////////////
-	
+
+	// 체크항목 읽지않음으로 표시 
 	@ResponseBody
 	@RequestMapping(value="/message/readCheckSelected", method= {RequestMethod.POST})
 	public void readCheckSelected(@RequestParam(value = "arr[]") List<Integer> checkList) {
-		
-//		System.out.println(checkList);
-//		System.out.println(checkList.size());
 		
 		int result = 0;
 		result = service.readCheckSelected(checkList);
 		
 		if(result > 0) {
-			System.out.println("변경성공");
+//			System.out.println("변경성공");
 		}else {
 			System.out.println("변경실패");
 		}
 	}
 	
-///////////////////	체크항목 읽지않음으로 표시 ///////////////////////
-	
+	// 체크항목 보관함이동	
 	@ResponseBody
 	@RequestMapping(value="/message/saveSelected", method= {RequestMethod.POST})
 	public void saveSelected(@RequestParam(value = "arr[]") List<Integer> checkList) {
-	
-		//System.out.println(checkList);
-		//System.out.println(checkList.size());
 		
 		int result = 0;
 		result = service.saveSelected(checkList);
 		
 		if(result > 0) {
-		System.out.println("변경성공");
+//		System.out.println("변경성공");
 		}else {
 		System.out.println("변경실패");
 		}
@@ -320,21 +290,18 @@ public class MessageController {
 	@ResponseBody
 	@RequestMapping(value="/message/saveSendSelected", method= {RequestMethod.POST})
 	public void saveSendSelected(@RequestParam(value = "arr[]") List<Integer> checkList) {
-	
-		//System.out.println(checkList);
-		//System.out.println(checkList.size());
 		
 		int result = 0;
 		result = service.saveSendSelected(checkList);
 		
 		if(result > 0) {
-		System.out.println("변경성공");
+//		System.out.println("변경성공");
 		}else {
 		System.out.println("변경실패");
 		}
 	}
 	
-///////////////////	휴지통 ///////////////////////
+//5. 휴지통
 	
 	@RequestMapping(value = "/message/deletedList", method = {RequestMethod.GET})
 	public ModelAndView deletedMsgList(ModelAndView model,
@@ -346,12 +313,12 @@ public class MessageController {
 		
 		int msgCount = 0;
 		PageInfo pageInfo = null;
-		List<ReceiveMessage> deletedList = null;
+		List<Message> deletedList = null;
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("msgSearchList", msgSearchList);
 		map.put("msgSearchText", msgSearchText);
-		map.put("receiverNo", loginMember.getUser_no());
+		map.put("msgTo", loginMember.getUser_no());
 		
 		msgCount = service.getDeletedMsgCount(map);
 		
@@ -374,21 +341,20 @@ public class MessageController {
 	
 	@ResponseBody
 	@RequestMapping(value="/deletedmessage/delete", method= {RequestMethod.GET})
-	public void deletedMsgDelete(@RequestParam(value="receiveNo") int receiveNo) {
+	public void deletedMsgDelete(@RequestParam(value="msgNo") int msgNo) {
 		
-//		System.out.println(receiveNo);
 		int result = 0;
-		result = service.deletedMsgDelete(receiveNo);
+		result = service.deletedMsgDelete(msgNo);
 		
 		if(result > 0) {
-			System.out.println("삭제성공");
+//			System.out.println("삭제성공");
 		}else {
 			System.out.println("삭제실패");
 		}
 	}
 	
-///////////////////	받은편지 보관함  ///////////////////////
-	
+// 6. 보관함	
+	//받은편지 보관함
 	@RequestMapping(value = "/message/saveListRec", method = {RequestMethod.GET})
 	public ModelAndView saveMsgList(ModelAndView model,
 			@RequestParam(value = "msgSearchList", required=false)String msgSearchList,
@@ -399,14 +365,14 @@ public class MessageController {
 		
 		int msgCount = 0;
 		PageInfo pageInfo = null;
-		List<ReceiveMessage> saveMessage = null;
+		List<Message> saveMessage = null;
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("msgSearchList", msgSearchList);
 		map.put("msgSearchText", msgSearchText);
-		map.put("receiverNo", loginMember.getUser_no());
+		map.put("msgTo", loginMember.getUser_no());
 		
-		msgCount = service.getMsgCount(map);
+		msgCount = service.getSaveRecCount(map);
 		
 		pageInfo = new PageInfo(page, 10, msgCount, listLimit);
 		saveMessage = service.getSaveList(pageInfo, map);
@@ -425,9 +391,7 @@ public class MessageController {
 		return model;
 	}
 
-	
-///////////////////	보낸편지 보관함  ///////////////////////
-	
+	//	보낸편지 보관함
 	@RequestMapping(value = "/message/saveListSend", method = {RequestMethod.GET})
 	public ModelAndView saveListSend(ModelAndView model,
 			@RequestParam(value = "msgSearchList", required=false)String msgSearchList,
@@ -438,14 +402,14 @@ public class MessageController {
 		
 		int msgCount = 0;
 		PageInfo pageInfo = null;
-		List<SendMessage> saveSendMessage = null;
+		List<Message> saveSendMessage = null;
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("msgSearchList", msgSearchList);
 		map.put("msgSearchText", msgSearchText);
-		map.put("senderNo", loginMember.getUser_no());
+		map.put("msgFrom", loginMember.getUser_no());
 
-		msgCount = service.getSendMsgCount(map);
+		msgCount = service.saveSendMsgCount(map);
 		
 		pageInfo = new PageInfo(page, 10, msgCount, listLimit);
 		saveSendMessage = service.getSaveSendList(pageInfo, map);
@@ -463,5 +427,4 @@ public class MessageController {
 		
 		return model;
 	}
-	
 }

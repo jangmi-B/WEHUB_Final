@@ -67,40 +67,40 @@
             </c:if>
             <c:if test="${receiveList != null}">
             	<c:forEach var="receiveList" items="${receiveList}">
-            		<input type="hidden" name="receiveNo" value="<c:out value="${receiveList.receiveNo}"/>">
-            		<tr id="msgListTable(${receiveList.receiveNo})">
-		              <td style="width:50px" class="<c:out value="${receiveList.readCheck}"/>"><input type="checkbox" name="chk" value="${receiveList.receiveNo}"></td>
-		              <td class="<c:out value="${receiveList.readCheck}"/>"><span class="senderName" id="s_name(${receiveList.receiveNo})"><c:out value="${receiveList.senderName}"/> <c:out value="${receiveList.rank}"/></span></td>
-		              <td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;" class="<c:out value="${receiveList.readCheck}"/>">
-		              	<a href="javascript:detailMsg(${receiveList.receiveNo})" id="detail(${receiveList.receiveNo})" class="<c:out value="${receiveList.readCheck}"/>">
-							<c:out value="${receiveList.receiveContent}"/>
+            		<input type="hidden" name="receiveNo" value="<c:out value="${receiveList.msgTo}"/>">
+            		<tr id="msgListTable(${receiveList.msgNo})">
+		              <td style="width:50px" class="<c:out value="${receiveList.readStatus}"/>"><input type="checkbox" name="chk" value="${receiveList.msgNo}"></td>
+		              <td class="<c:out value="${receiveList.readStatus}"/>"><span class="senderName" id="s_name(${receiveList.msgNo})"><c:out value="${receiveList.userName}"/> <c:out value="${receiveList.rank}"/></span></td>
+		              <td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;" class="<c:out value="${receiveList.readStatus}"/>">
+		              	<a href="javascript:detailMsg(${receiveList.msgNo})" id="detail(${receiveList.msgNo})" class="<c:out value="${receiveList.readStatus}"/>">
+							<c:out value="${receiveList.msgContent}"/>
 						</a>
 					  </td>
-		              <td style="width:20%" class="<c:out value="${receiveList.readCheck}"/>"><fmt:formatDate type="both" value="${receiveList.receiveDate}"/></td>
+		              <td style="width:20%" class="<c:out value="${receiveList.readStatus}"/>"><fmt:formatDate type="both" value="${receiveList.createDate}"/></td>
 		            </tr>
-		            <div class="modal_view fade modalNo${receiveList.receiveNo}">
+		            <div class="modal_view fade modalNo${receiveList.msgNo}">
 					    <div class="bg"></div>
 					    <div class="modalContainer">
 					      <h2 style="margin-left: 18px;">받은쪽지</h2>
 					        <div class="view_form info">
-					          <input type="hidden" id="msgNo${receiveList.receiveNo}" value="<c:out value="${receiveList.receiveNo}"/>">
-					          <input type="hidden" id="sName${receiveList.receiveNo}" value="<c:out value="${receiveList.senderName}"/>">
-					          <input type="hidden" id="sRank${receiveList.receiveNo}" value="<c:out value="${receiveList.rank}"/>">
-					          <input type="hidden" id="sDept${receiveList.receiveNo}" value="<c:out value="${receiveList.s_deptName}"/>">
-					          <input type="hidden" id="readCheck${receiveList.receiveNo}" value="<c:out value="${receiveList.readCheck}"/>">
+					          <input type="hidden" id="msgNo${receiveList.msgNo}" value="<c:out value="${receiveList.msgNo}"/>">
+					          <input type="hidden" id="sName${receiveList.msgNo}" value="<c:out value="${receiveList.userName}"/>">
+					          <input type="hidden" id="sRank${receiveList.msgNo}" value="<c:out value="${receiveList.rank}"/>">
+					          <input type="hidden" id="sDept${receiveList.msgNo}" value="<c:out value="${receiveList.deptName}"/>">
+					          <input type="hidden" id="readCheck${receiveList.msgNo}" value="<c:out value="${receiveList.readStatus}"/>">
 					          
-					          <label>From : <c:out value="${receiveList.senderName}"/> <c:out value="${receiveList.rank}"/> (<c:out value="${receiveList.s_deptName}"/>)</label> <br>
-					          <label>Date : </label> <fmt:formatDate type="both" value="${receiveList.receiveDate}"/>
+					          <label>From : <c:out value="${receiveList.userName}"/> <c:out value="${receiveList.rank}"/> (<c:out value="${receiveList.deptName}"/>)</label> <br>
+					          <label>Date : </label> <fmt:formatDate type="both" value="${receiveList.createDate}"/>
 					        </div>
 					        <div class ="view_form">
 					        <div class = "form-control" id="contentsDiv" rows="3" name ="messageContent"  style="overflow: scroll; margin-left:20px; margin-top:10px;">
-					       		<p style="text-align:left; margin:5px;">${ fn:replace(receiveList.receiveContent, replaceChar, "<br/>" )}</p> 
+					       		<p style="text-align:left; margin:5px;">${ fn:replace(receiveList.msgContent, replaceChar, "<br/>" )}</p> 
 					        </div>
 					        </div>
 					        <div class="msg_btns">
-				        	 <button type="button" class ="deleteBtn(${receiveList.receiveNo})" onclick="deleteMsg(${receiveList.receiveNo});">삭제</button>
-				       		 <button type="button" id ="responseBtn(${receiveList.receiveNo})" onclick="reMsg(${receiveList.receiveNo});">답장</button>
-				       		 <button type="button" id ="exitBtn(${receiveList.receiveNo})">닫기</button>
+				        	 <button type="button" class ="deleteBtn(${receiveList.msgNo})" onclick="deleteMsg(${receiveList.msgNo});">삭제</button>
+				       		 <button type="button" id ="responseBtn(${receiveList.msgNo})" onclick="reMsg(${receiveList.msgNo});">답장</button>
+				       		 <button type="button" id ="exitBtn(${receiveList.msgNo})">닫기</button>
 					        </div>
 					       
 					    </div>
@@ -132,14 +132,14 @@
     <div class="modalContainer">
       <h2 style="margin-left:18px;">쪽지쓰기 </h2>
         <div class="info">
-      	  <input type="hidden" id="senderNo" name="senderNo" value="<c:out value="${loginMember.user_no}"/>">
+      	  <input type="hidden" id="msgFrom" name="msgFrom" value="<c:out value="${loginMember.user_no}"/>">
           <label>To : </label> <input type="text" id="memSearchInput" name="userName">
         </div>
         <div style="float:right; padding-right:25px; font-size:12px; margin-top:15px;">
           <span id="writeCnt">0</span>/<span id="writeMax">300</span>
         </div>
         <div class ="write_form">
-          <textarea class = "form-control" rows="3" id="sendContent" name ="sendContent" style="overflow: scroll;"></textarea>
+          <textarea class = "form-control" rows="3" id="msgContent" name ="msgContent" style="overflow: scroll;"></textarea>
         </div>
         <div class ="write_form">
 	        <button type="button" id="sendBtn" class ="sendBtn">보내기</button>
@@ -280,7 +280,7 @@
 	  
 	    const close = () => {
 	      document.getElementById("memSearchInput").value= "";
-	      document.getElementById("sendContent").value= "";
+	      document.getElementById("msgContent").value= "";
 	      document.querySelector(".modal").classList.add("fade");
 	    }
 	  
@@ -288,7 +288,7 @@
 	    document.querySelector(".closeBtn").addEventListener("click", close);
 	    
 	    
-	    $("#sendContent").on("keyup",function(){
+	    $("#msgContent").on("keyup",function(){
 	        let inputLength = $(this).val().length;
 
 	        $("#writeCnt").text(inputLength);
@@ -314,7 +314,7 @@
 		
 	    const close = () => {
     	  document.getElementById("memSearchInput").value= "";
-	      document.getElementById("sendContent").value= "";
+	      document.getElementById("msgContent").value= "";
 	      document.querySelector(".modal").classList.add("fade");
 	    }
 	    
@@ -381,7 +381,7 @@
            		}
             }
             
-            xhr.open("GET", "${path}/message/delete?receiveNo="+ msgNo, true);
+            xhr.open("GET", "${path}/message/delete?msgNo="+ msgNo, true);
             
             xhr.send();
 		}
@@ -389,15 +389,15 @@
 	
 	$(function(){
 		$("#sendBtn").on("click",function(){
-			let senderNo = $("#senderNo").val();
+			let msgFrom = $("#msgFrom").val();
 			let userName = $("#memSearchInput").val();
-			let sendContent = $("#sendContent").val();
+			let msgContent = $("#msgContent").val();
 			let writeCnt = parseInt($("#writeCnt").text());
 			let writeMax = parseInt($("#writeMax").text());
 			
-			console.log(senderNo);
+			console.log(msgFrom);
 			console.log(userName);
-			console.log(sendContent);
+			console.log(msgContent);
 			console.log(writeCnt);
 			console.log(writeMax);
 			
@@ -409,12 +409,12 @@
 						  $('#memSearchInput').focus();
 					  }
 					})
-			} else if(sendContent == ""){
+			} else if(msgContent == ""){
 				Swal.fire({
 					  icon: 'error',
 					  text: '내용을 작성하지 않으셨습니다.!',
 					  didClose: () => {
-						  $('#sendContent').focus();
+						  $('#msgContent').focus();
 					  }
 					})
 			} else if(writeCnt > 300){
@@ -425,7 +425,7 @@
 					  icon: 'error',
 					  text: writeMax + "자를 초과입력할 수 없습니다.!",
 					  didClose: () => {
-						  $('#sendContent').focus();
+						  $('#msgContent').focus();
 					  }
 					})
 			} else{
@@ -433,11 +433,18 @@
 					type: "post",
 					url:"${path}/message/send",
 					data:{
-						senderNo:senderNo,
+						msgFrom:msgFrom,
 						userName:userName,
-						sendContent:sendContent
+						msgContent:msgContent
 					},
 					success:function(data){
+						Swal.fire({
+	                         icon: 'success',
+	                         text: '쪽지를 성공적으로 전송하였습니다.'
+	                     });
+						
+						document.getElementById("memSearchInput").value= "";
+					    document.getElementById("msgContent").value= "";
 						document.querySelector(".modal").classList.add("fade");
 					},
 					error: function(e){

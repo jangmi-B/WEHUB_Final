@@ -12,6 +12,7 @@ import com.kh.wehub.board.model.dao.BoardDao;
 import com.kh.wehub.common.util.PageInfo;
 import com.kh.wehub.member.model.vo.Member;
 import com.kh.wehub.message.model.dao.MessageDao;
+import com.kh.wehub.message.model.vo.Message;
 import com.kh.wehub.message.model.vo.ReceiveMessage;
 import com.kh.wehub.message.model.vo.SendMessage;
 
@@ -31,7 +32,7 @@ public class MessageSercviceImpl implements MessageService {
 	}
 
 	@Override
-	public List<ReceiveMessage> getReceiveList(PageInfo pageInfo, Map<String, Object> map) {
+	public List<Message> getReceiveList(PageInfo pageInfo, Map<String, Object> map) {
 		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
 		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
 		
@@ -40,11 +41,23 @@ public class MessageSercviceImpl implements MessageService {
 
 	@Override
 	@Transactional
-	public int deleteMsg(int receiveNo) {
+	public int deleteMsg(int msgNo) {
 		
-		return MessageDao.deleteMessage(receiveNo);
+		return MessageDao.deleteMessage(msgNo);
 	}
-
+	
+	@Override
+	public int readCheckMsg(int msgNo) {
+		
+		return MessageDao.readCheckMsg(msgNo);
+	}
+	
+	@Override
+	public int saveSelected(List<Integer> checkList) {
+		
+		return MessageDao.saveSelected(checkList);
+	}
+	
 	@Override
 	public List<Member> getSearchMember(String user_name) {
 		
@@ -53,29 +66,19 @@ public class MessageSercviceImpl implements MessageService {
 
 	@Override
 	@Transactional
-	public int sendMsg(SendMessage sendMessage) {
+	public int sendMsg(Message Message) {
 		
 		int result = 0;
 		
-		result = MessageDao.sendMsg(sendMessage);
+		result = MessageDao.sendMsg(Message);
 		
 		return result;
 	}
 
 	@Override
-	public Member getSender(Map<String, Object> map) {
+	public Member getReceiver(Map<String, Object> map) {
 		
-		return MessageDao.getSender(map);
-	}
-
-	@Override
-	@Transactional
-	public int recMsg(ReceiveMessage recMsg) {
-		int result = 0;
-		
-		result = MessageDao.recMsg(recMsg);
-		
-		return result;
+		return MessageDao.getReceiver(map);
 	}
 
 	@Override
@@ -85,7 +88,7 @@ public class MessageSercviceImpl implements MessageService {
 	}
 
 	@Override
-	public List<SendMessage> getSendList(PageInfo pageInfo, Map<String, Object> map) {
+	public List<Message> getSendList(PageInfo pageInfo, Map<String, Object> map) {
 		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
 		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
 		
@@ -94,9 +97,9 @@ public class MessageSercviceImpl implements MessageService {
 
 	@Override
 	@Transactional
-	public int deleteSendMsg(int sendNo) {
+	public int deleteSendMsg(int msgNo) {
 		
-		return MessageDao.deleteSendMessage(sendNo);
+		return MessageDao.deleteSendMessage(msgNo);
 	}
 
 	@Override
@@ -120,7 +123,7 @@ public class MessageSercviceImpl implements MessageService {
 	}
 
 	@Override
-	public List<ReceiveMessage> getDeletedList(PageInfo pageInfo, Map<String, Object> map) {
+	public List<Message> getDeletedList(PageInfo pageInfo, Map<String, Object> map) {
 		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
 		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
 		
@@ -129,9 +132,9 @@ public class MessageSercviceImpl implements MessageService {
 
 	@Override
 	@Transactional
-	public int deletedMsgDelete(int receiveNo) {
+	public int deletedMsgDelete(int msgNo) {
 		
-		return MessageDao.deletedMsgDelete(receiveNo);
+		return MessageDao.deletedMsgDelete(msgNo);
 	}
 
 	@Override
@@ -141,19 +144,13 @@ public class MessageSercviceImpl implements MessageService {
 	}
 
 	@Override
-	public int readCheckMsg(int msgNo) {
-		
-		return MessageDao.readCheckMsg(msgNo);
-	}
-
-	@Override
 	public int readCheckSelected(List<Integer> checkList) {
 		
 		return  MessageDao.readCheckSelected(checkList);
 	}
 
 	@Override
-	public List<ReceiveMessage> getSaveList(PageInfo pageInfo, Map<String, Object> map) {
+	public List<Message> getSaveList(PageInfo pageInfo, Map<String, Object> map) {
 		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
 		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
 		
@@ -161,13 +158,7 @@ public class MessageSercviceImpl implements MessageService {
 	}
 
 	@Override
-	public int saveSelected(List<Integer> checkList) {
-		
-		return MessageDao.saveSelected(checkList);
-	}
-
-	@Override
-	public List<SendMessage> getSaveSendList(PageInfo pageInfo, Map<String, Object> map) {
+	public List<Message> getSaveSendList(PageInfo pageInfo, Map<String, Object> map) {
 		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
 		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
 		
@@ -181,9 +172,16 @@ public class MessageSercviceImpl implements MessageService {
 	}
 
 	@Override
-	public int readDateSet(int msgNo) {
+	public int getSaveRecCount(Map<String, Object> map) {
 		
-		return MessageDao.readDateSet(msgNo);
+		return MessageDao.getSaveRecCount(map);
 	}
+
+	@Override
+	public int saveSendMsgCount(Map<String, Object> map) {
+		
+		return MessageDao.saveSendMsgCount(map);
+	}
+
 
 }

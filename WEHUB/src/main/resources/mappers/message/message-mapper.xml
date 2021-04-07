@@ -4,6 +4,42 @@
 
 <mapper namespace="com.kh.wehub.message.model.dao.MessageDao">
 	
+	<sql id="receiveMessageSql">
+		SELECT R.MSG_NO,
+		       R.MSG_TO,
+		       R.MSG_FROM,
+		       R.MSG_CONTENT,
+		       R.CREATE_DATE, 
+		       R.DELETE_DATE,
+		       R.READ_DATE,
+		       R.READ_STATUS,
+		       R.STATUS,
+		       M.USER_NAME,
+		       M.RANK,
+		       D.DEPT_NAME
+		FROM MESSAGE R
+		JOIN MEMBER M ON(R.MSG_FROM = M.USER_NO)
+		JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
+	</sql>
+	
+	<sql id="sendMessageSql">
+		SELECT S.MSG_NO,
+		       S.MSG_TO,
+		       S.MSG_FROM,
+		       S.MSG_CONTENT,
+		       S.CREATE_DATE, 
+		       S.DELETE_DATE,
+		       S.READ_DATE,
+		       S.READ_STATUS,
+		       S.STATUS,
+		       M.USER_NAME,
+		       M.RANK,
+		       D.DEPT_NAME
+		FROM MESSAGE S
+		JOIN MEMBER M ON(S.MSG_TO = M.USER_NO)
+		JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
+	</sql>
+	
 	<resultMap type="Member" id="memberResultMap">
 		<id property="user_no" column="USER_NO"/>
 		<result property="user_companyname" column="USER_COMPANYNAME"/>
@@ -19,42 +55,30 @@
 		<result property="dept_code" column="DEPT_CODE"/>
 	</resultMap>
 	
-	<resultMap type="ReceiveMessage" id="receiveResultMap">
-		<id property="receiveNo" column="REC_NO"/>
-		<result property="senderNo" column="SENDER_NO"/>
-		<result property="receiverNo" column="RECEIVER_NO"/>
-		<result property="receiveContent" column="REC_CONTENT"/>
-		<result property="receiveDate" column="REC_DATE"/>
+	<resultMap type="Message" id="messageResultMap">
+		<id property="msgNo" column="MSG_NO"/>
+		<result property="msgTo" column="MSG_TO"/>
+		<result property="msgFrom" column="MSG_FROM"/>
+		<result property="msgContent" column="MSG_CONTENT"/>
+		<result property="createDate" column="CREATE_DATE"/>
 		<result property="deleteDate" column="DELETE_DATE"/>
-		<result property="senderName" column="USER_NAME"/>
-		<result property="rank" column="RANK"/>
-		<result property="s_deptName" column="DEPT_NAME"/>
+		<result property="readDate" column="READ_DATE"/>
+		<result property="readStatus" column="READ_STATUS"/>
 		<result property="status" column="STATUS"/>
-		<result property="readCheck" column="READCHECK"/>
-	</resultMap>
-
-	<resultMap type="SendMessage" id="sendResultMap">
-		<id property="sendNo" column="SEND_NO"/>
-		<result property="senderNo" column="SENDER_NO"/>
-		<result property="receiverNo" column="RECEIVER_NO"/>
-		<result property="sendContent" column="SEND_CONTENT"/>
-		<result property="deptName" column="DEPT_NAME"/>
+		<result property="sendStatus" column="SEND_STATUS"/>
 		<result property="userName" column="USER_NAME"/>
-		<result property="sendDate" column="SEND_DATE"/>
-		<result property="deleteDate" column="DELETE_DATE"/>
-		<result property="readCheck" column="READCHECK"/>
-		<result property="readDate" column="READDATE"/>
-		<result property="status" column="STATUS"/>
+		<result property="rank" column="RANK"/>
+		<result property="deptName" column="DEPT_NAME"/>
 	</resultMap>
 
 	<select id="getMessageCount" parameterType="map" resultType="_int">
 		SELECT COUNT(*)
-		FROM RECEIVE_MSG R
-		JOIN MEMBER M ON(R.SENDER_NO = M.USER_NO)
-		WHERE STATUS ='Y'
-		AND RECEIVER_NO = #{receiverNo}
+		FROM MESSAGE R
+		JOIN MEMBER M ON(R.MSG_FROM = M.USER_NO)
+		WHERE STATUS ='Y' 
+		AND MSG_TO = #{msgTo}
 		<if test="msgSearchList == 'all'">
-			AND (R.REC_CONTENT LIKE '%'||#{msgSearchText}||'%'
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%'
 			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
 			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
 		</if>
@@ -63,27 +87,17 @@
 			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
 		</if>
 		<if test="msgSearchList == 'content'">
-			AND (R.REC_CONTENT LIKE '%'||#{msgSearchText}||'%')
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%')
 		</if>
 	</select>
 
-	<select id="selectMessageList" parameterType="map" resultMap="receiveResultMap">
-		SELECT R.REC_NO,
-               R.SENDER_NO,
-		       R.REC_CONTENT,
-		       R.REC_DATE, 
-		       R.DELETE_DATE,
-               R.STATUS,
-               R.READCHECK,
-               M.USER_NAME,
-               M.RANK,
-               D.DEPT_NAME
-		FROM RECEIVE_MSG R
-		JOIN MEMBER M ON(R.SENDER_NO = M.USER_NO)
-        JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
-        WHERE R.STATUS='Y' AND RECEIVER_NO = #{receiverNo}
+	<select id="selectMessageList" parameterType="map" resultMap="messageResultMap">
+		
+		<include refid="receiveMessageSql"></include>
+		
+		WHERE R.STATUS='Y' AND MSG_TO = #{msgTo}
        	<if test="msgSearchList == 'all'">
-			AND (R.REC_CONTENT LIKE '%'||#{msgSearchText}||'%'
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%'
 			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
 			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
 		</if>
@@ -92,34 +106,65 @@
 			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
 		</if>
 		<if test="msgSearchList == 'content'">
-			AND (R.REC_CONTENT LIKE '%'||#{msgSearchText}||'%')
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%')
 		</if>
-		ORDER BY R.REC_NO DESC
+		ORDER BY R.MSG_NO DESC
 	</select>
 	
 	<update id="deleteMessage" parameterType="_int">
-		UPDATE RECEIVE_MSG 
+		UPDATE MESSAGE 
 		SET 
 		    STATUS='N',
 		    DELETE_DATE=SYSDATE
 		WHERE 
-		    REC_NO= #{receiveNo}
+		    MSG_NO= #{msgNo}
 	</update>
-
-	<!-- <select id="getSearchMember" parameterType="Member" resultMap="memberResultMap">
-		SELECT USER_NAME, DEPT_NAME
-		FROM MEMBER M
-		LEFT OUTER JOIN DEPARTMENT D ON (M.DEPT_CODE = D.DEPT_CODE)
-	</select> -->
-
-	<select id="getSearchMember" parameterType="string" resultMap="memberResultMap">
-		SELECT M.USER_NAME, D.DEPT_NAME, M.rank
-		FROM MEMBER M
-		LEFT OUTER JOIN DEPARTMENT D ON (M.DEPT_CODE = D.DEPT_CODE)
-		WHERE USER_NAME LIKE '%'|| #{user_name} ||'%'
-	</select>
-
-	<select id="getSender" parameterType="map"  resultMap="memberResultMap">
+	
+	<!-- 안읽은쪽지 구현 -->
+	<update id="readCheckMsg" parameterType="_int">
+		UPDATE MESSAGE 
+		SET 
+		    READ_STATUS='Y',
+		    READ_DATE=SYSDATE
+		WHERE 
+		    MSG_NO= #{msgNo}
+	</update>
+	
+	<!-- 체크된 메세지 삭제 (받은쪽지)-->
+	<update id="deleteCheckMsg" parameterType="java.util.List">
+			UPDATE MESSAGE 
+			SET 
+			    STATUS='N',
+			    DELETE_DATE=SYSDATE
+			WHERE MSG_NO IN
+		<foreach item="item" index="index" collection="list" separator="," open="(" close=")">
+			    #{item}
+		</foreach>
+	</update>
+	
+	<!-- 체크메세지 안읽음 표시 -->
+	<update id="readCheckSelected" parameterType="java.util.List">
+			UPDATE MESSAGE 
+			SET 
+			    READ_STATUS='N'
+			WHERE MSG_NO IN
+		<foreach item="item" index="index" collection="list" separator="," open="(" close=")">
+			    #{item}
+		</foreach>
+	</update>
+	
+	<!-- 체크한 받은편지 보관함 -->
+	<update id="saveSelected" parameterType="java.util.List">
+			UPDATE MESSAGE 
+			SET 
+			    STATUS='S'
+			WHERE MSG_NO IN
+		<foreach item="item" index="index" collection="list" separator="," open="(" close=")">
+			    #{item}
+		</foreach>
+	</update>
+	
+	<select id="getReceiver" parameterType="map"  resultMap="memberResultMap">
 		SELECT M.USER_NO,
 		        M.USER_ID,
 		        M.USER_PWD,
@@ -130,35 +175,20 @@
 		JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
 		WHERE USER_STATUS ='Y' AND (USER_NAME = '${user_name}' AND DEPT_NAME= '${dept_name}')
 	</select>
-
-	<insert id="sendMsg" parameterType="map"
-  		useGeneratedKeys="true" keyProperty="sendNo" keyColumn="SEND_NO">
-  		
-		INSERT INTO SEND_MSG 
-  		VALUES(
-  			SEQ_SEND_NO.NEXTVAL,
-  			#{senderNo},
-  			#{receiverNo},
-  			#{sendContent},
-  			SYSDATE,
-  			SYSDATE,
-  			DEFAULT,
-  			DEFAULT,
-  			DEFAULT
- 		)
-	</insert>
 	
-	<insert id="recMsg" parameterType="ReceiveMessage"
-  		useGeneratedKeys="true" keyProperty="receiveNo" keyColumn="REC_NO">
+	<insert id="sendMsg" parameterType="map"
+  		useGeneratedKeys="true" keyProperty="msgNo" keyColumn="MSG_NO">
   		
-		INSERT INTO RECEIVE_MSG 
+		INSERT INTO MESSAGE 
   		VALUES(
-  			SEQ_REC_NO.NEXTVAL,
-  			#{senderNo},
-  			#{receiverNo},
-  			#{receiveContent},
+  			SEQ_MSG_NO.NEXTVAL,
+  			#{msgTo},
+  			#{msgFrom},
+  			#{msgContent},
   			SYSDATE,
   			SYSDATE,
+  			SYSDATE,
+  			DEFAULT,
   			DEFAULT,
   			DEFAULT
  		)
@@ -166,12 +196,12 @@
 	
 	<select id="getSendMessageCount" parameterType="map" resultType="_int">
 		SELECT COUNT(*)
-		FROM SEND_MSG S
-		JOIN MEMBER M ON(S.RECEIVER_NO = M.USER_NO)
-		WHERE STATUS ='Y'
-		AND SENDER_NO = #{senderNo}
+		FROM MESSAGE S
+		JOIN MEMBER M ON(S.MSG_TO = M.USER_NO)
+		WHERE SEND_STATUS ='Y' 
+		AND MSG_FROM = #{msgFrom}
 		<if test="msgSearchList == 'all'">
-			AND (S.SEND_CONTENT LIKE '%'||#{msgSearchText}||'%'
+			AND (S.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%'
 			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
 			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
 		</if>
@@ -180,28 +210,17 @@
 			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
 		</if>
 		<if test="msgSearchList == 'content'">
-			AND (S.SEND_CONTENT LIKE '%'||#{msgSearchText}||'%')
+			AND (S.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%')
 		</if>
 	</select>
 	
-	<select id="selectSendMsgList" parameterType="map" resultMap="sendResultMap">
-		SELECT S.SEND_NO,
-		       S.SENDER_NO,
-		       S.SEND_CONTENT,
-		       S.SEND_DATE, 
-		       S.DELETE_DATE,
-		       S.STATUS,
-		       S.READCHECK,
-		       S.READDATE,
-		       M.USER_NAME,
-		       M.RANK,
-		       D.DEPT_NAME
-		FROM SEND_MSG S
-		JOIN MEMBER M ON(S.RECEIVER_NO = M.USER_NO)
-		JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
-		WHERE S.STATUS='Y' AND SENDER_NO = #{senderNo}
-       	<if test="msgSearchList == 'all'">
-			AND (S.SEND_CONTENT LIKE '%'||#{msgSearchText}||'%'
+	<select id="selectSendMsgList" parameterType="map" resultMap="messageResultMap">
+	
+		<include refid="sendMessageSql"></include>
+		
+		WHERE S.SEND_STATUS='Y' AND MSG_FROM = #{msgFrom}
+       		<if test="msgSearchList == 'all'">
+			AND (S.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%'
 			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
 			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
 		</if>
@@ -210,99 +229,52 @@
 			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
 		</if>
 		<if test="msgSearchList == 'content'">
-			AND (S.SEND_CONTENT LIKE '%'||#{msgSearchText}||'%')
+			AND (S.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%')
 		</if>
-		ORDER BY S.SEND_NO DESC
+		ORDER BY S.MSG_NO DESC
 	</select>
-	
-	<update id="deleteSendMessage" parameterType="_int">
-		UPDATE SEND_MSG 
-		SET 
-		    STATUS='N',
-		    DELETE_DATE=SYSDATE
-		WHERE 
-		    SEND_NO= #{sendNo}
-	</update>
-	
-	<!-- 체크된 메세지 삭제 (받은쪽지)-->
-	<update id="deleteCheckMsg" parameterType="java.util.List">
-			UPDATE RECEIVE_MSG 
-			SET 
-			    STATUS='N',
-			    DELETE_DATE=SYSDATE
-			WHERE REC_NO IN
-		<foreach item="item" index="index" collection="list" separator="," open="(" close=")">
-			    #{item}
-		</foreach>
-	</update>
 	
 	<!-- 체크된 메세지 삭제 (보낸쪽지)-->
 	<update id="deleteCheckSendMsg" parameterType="java.util.List">
-			UPDATE SEND_MSG 
+			UPDATE MESSAGE 
 			SET 
-			    STATUS='N',
+			    SEND_STATUS='X',
 			    DELETE_DATE=SYSDATE
-			WHERE SEND_NO IN
+			WHERE MSG_NO IN
 		<foreach item="item" index="index" collection="list" separator="," open="(" close=")">
 			    #{item}
 		</foreach>
 	</update>
 	
-	<!-- 체크된 메세지 삭제 (휴지통쪽지)-->
-	<update id="deleteCheckDeletedMsg" parameterType="java.util.List">
-			UPDATE RECEIVE_MSG 
-			SET 
-			    STATUS='X',
-		    	DELETE_DATE=SYSDATE
-			WHERE REC_NO IN
-		<foreach item="item" index="index" collection="list" separator="," open="(" close=")">
-			    #{item}
-		</foreach>
-	</update>
-	
-	<!-- 체크메세지 안읽음 표시 -->
-	<update id="readCheckSelected" parameterType="java.util.List">
-			UPDATE RECEIVE_MSG 
-			SET 
-			    READCHECK='N'
-			WHERE REC_NO IN
-		<foreach item="item" index="index" collection="list" separator="," open="(" close=")">
-			    #{item}
-		</foreach>
-	</update>
-	
-	<!-- 체크한 받은편지 보관함 -->
-	<update id="saveSelected" parameterType="java.util.List">
-			UPDATE RECEIVE_MSG 
-			SET 
-			    STATUS='S'
-			WHERE REC_NO IN
-		<foreach item="item" index="index" collection="list" separator="," open="(" close=")">
-			    #{item}
-		</foreach>
+	<update id="deleteSendMessage" parameterType="_int">
+		UPDATE MESSAGE 
+		SET 
+		    SEND_STATUS='X',
+		    DELETE_DATE=SYSDATE
+		WHERE 
+		    MSG_NO= #{msgNo}
 	</update>
 	
 	<!-- 체크한 보낸편지 보관함 -->
 	<update id="saveSendSelected" parameterType="java.util.List">
-			UPDATE SEND_MSG 
+			UPDATE MESSAGE 
 			SET 
-			    STATUS='S'
-			WHERE SEND_NO IN
+			    SEND_STATUS='S'
+			WHERE MSG_NO IN
 		<foreach item="item" index="index" collection="list" separator="," open="(" close=")">
 			    #{item}
 		</foreach>
 	</update>
 	
 	<!-- 휴지통쿼리 -->
-	
 	<select id="getDeletedMessageCount" parameterType="map" resultType="_int">
 		SELECT COUNT(*)
-		FROM RECEIVE_MSG R
-		JOIN MEMBER M ON(R.SENDER_NO = M.USER_NO)
-		WHERE STATUS ='N'
-		AND RECEIVER_NO = #{receiverNo}
+		FROM MESSAGE R
+		JOIN MEMBER M ON(R.MSG_FROM = M.USER_NO)
+		WHERE STATUS ='N' 
+		AND MSG_TO = #{msgTo}
 		<if test="msgSearchList == 'all'">
-			AND (R.REC_CONTENT LIKE '%'||#{msgSearchText}||'%'
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%'
 			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
 			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
 		</if>
@@ -311,26 +283,17 @@
 			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
 		</if>
 		<if test="msgSearchList == 'content'">
-			AND (R.REC_CONTENT LIKE '%'||#{msgSearchText}||'%')
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%')
 		</if>
 	</select>
 	
-	<select id="selectDeletedMsgList" parameterType="map" resultMap="receiveResultMap">
-		SELECT R.REC_NO,
-               R.SENDER_NO,
-		       R.REC_CONTENT,
-		       R.REC_DATE, 
-		       R.DELETE_DATE,
-               R.STATUS,
-               M.USER_NAME,
-               M.RANK,
-               D.DEPT_NAME
-		FROM RECEIVE_MSG R
-		JOIN MEMBER M ON(R.SENDER_NO = M.USER_NO)
-        JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
-        WHERE R.STATUS='N' AND RECEIVER_NO = #{receiverNo}
+	<select id="selectDeletedMsgList" parameterType="map" resultMap="messageResultMap">
+	
+		<include refid="receiveMessageSql"></include>
+		
+		WHERE R.STATUS='N' AND MSG_TO = #{msgTo}
        	<if test="msgSearchList == 'all'">
-			AND (R.REC_CONTENT LIKE '%'||#{msgSearchText}||'%'
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%'
 			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
 			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
 		</if>
@@ -339,58 +302,41 @@
 			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
 		</if>
 		<if test="msgSearchList == 'content'">
-			AND (R.REC_CONTENT LIKE '%'||#{msgSearchText}||'%')
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%')
 		</if>
-		ORDER BY R.REC_NO DESC
+		ORDER BY R.MSG_NO DESC
 	</select>
+	
+	<!-- 체크된 메세지 삭제 (휴지통쪽지)-->
+	<update id="deleteCheckDeletedMsg" parameterType="java.util.List">
+			UPDATE MESSAGE 
+			SET 
+			    STATUS='X',
+		    	DELETE_DATE=SYSDATE
+			WHERE MSG_NO IN
+		<foreach item="item" index="index" collection="list" separator="," open="(" close=")">
+			    #{item}
+		</foreach>
+	</update>
 	
 	<update id="deletedMsgDelete" parameterType="_int">
-		UPDATE RECEIVE_MSG 
+		UPDATE MESSAGE 
 		SET 
 		    STATUS='X',
 		    DELETE_DATE=SYSDATE
 		WHERE 
-		    REC_NO= #{receiveNo}
+		    MSG_NO= #{MSG_NO}
 	</update>
 	
-	<!-- 안읽은쪽지 구현 -->
-	<update id="readCheckMsg" parameterType="_int">
-		UPDATE RECEIVE_MSG 
-		SET 
-		    READCHECK='Y'
-		WHERE 
-		    REC_NO= #{msgNo}
-	</update>
-	
-	<!-- 보낸쪽지 수신확인 구현 -->
-	
-	<update id="readDateSet" parameterType="_int">
-		UPDATE SEND_MSG 
-		SET 
-		    READCHECK='Y',
-		    READDATE=SYSDATE
-		WHERE 
-		    SEND_NO= #{msgNo}
-	</update>
-	
-	<!-- 쪽지보관함 -->
-	<select id="selectRecSaveList" parameterType="map" resultMap="receiveResultMap">
-		SELECT R.REC_NO,
-               R.SENDER_NO,
-		       R.REC_CONTENT,
-		       R.REC_DATE, 
-		       R.DELETE_DATE,
-               R.STATUS,
-               R.READCHECK,
-               M.USER_NAME,
-               M.RANK,
-               D.DEPT_NAME
-		FROM RECEIVE_MSG R
-		JOIN MEMBER M ON(R.SENDER_NO = M.USER_NO)
-        JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
-        WHERE R.STATUS='S' AND RECEIVER_NO = #{receiverNo}
-       	<if test="msgSearchList == 'all'">
-			AND (R.REC_CONTENT LIKE '%'||#{msgSearchText}||'%'
+	<!-- 받은쪽지 리스트 카운트 -->
+	<select id="getSaveRecCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM MESSAGE R
+		JOIN MEMBER M ON(R.MSG_FROM = M.USER_NO)
+		WHERE STATUS ='S' 
+		AND MSG_TO = #{msgTo}
+		<if test="msgSearchList == 'all'">
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%'
 			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
 			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
 		</if>
@@ -399,30 +345,58 @@
 			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
 		</if>
 		<if test="msgSearchList == 'content'">
-			AND (R.REC_CONTENT LIKE '%'||#{msgSearchText}||'%')
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%')
 		</if>
-		ORDER BY R.REC_NO DESC
+	</select>
+	
+	<!-- 받은쪽지 보관함 -->
+	<select id="selectRecSaveList" parameterType="map" resultMap="messageResultMap">
+	
+		<include refid="receiveMessageSql"></include>
+		
+		WHERE R.STATUS='S' AND MSG_TO = #{msgTo}
+       	<if test="msgSearchList == 'all'">
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'name'">
+			AND (M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'content'">
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		ORDER BY R.MSG_NO DESC
+	</select>
+	
+	<update id="deleteCheckSavedMsg" parameterType="java.util.List">
+			UPDATE MESSAGE 
+			SET 
+			    STATUS='X',
+		    	DELETE_DATE=SYSDATE
+			WHERE MSG_NO IN
+		<foreach item="item" index="index" collection="list" separator="," open="(" close=")">
+			    #{item}
+		</foreach>
+	</update>
+	
+	<select id="getSearchMember" parameterType="string" resultMap="memberResultMap">
+		SELECT M.USER_NAME, D.DEPT_NAME, M.rank
+		FROM MEMBER M
+		LEFT OUTER JOIN DEPARTMENT D ON (M.DEPT_CODE = D.DEPT_CODE)
+		WHERE USER_NAME LIKE '%'|| #{user_name} ||'%'
 	</select>
 	
 	<!-- 보낸편지 보관함 -->
-	<select id="saveSendMsgList" parameterType="map" resultMap="sendResultMap">
-		SELECT S.SEND_NO,
-		       S.SENDER_NO,
-		       S.SEND_CONTENT,
-		       S.SEND_DATE, 
-		       S.DELETE_DATE,
-		       S.STATUS,
-		       S.READCHECK,
-		       S.READDATE,
-		       M.USER_NAME,
-		       M.RANK,
-		       D.DEPT_NAME
-		FROM SEND_MSG S
-		JOIN MEMBER M ON(S.RECEIVER_NO = M.USER_NO)
-		JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
-		WHERE S.STATUS='S' AND SENDER_NO = #{senderNo}
-       	<if test="msgSearchList == 'all'">
-			AND (S.SEND_CONTENT LIKE '%'||#{msgSearchText}||'%'
+	<select id="saveSendMsgCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM MESSAGE S
+		JOIN MEMBER M ON(S.MSG_TO = M.USER_NO)
+		WHERE SEND_STATUS ='S' 
+		AND MSG_FROM = #{msgFrom}
+		<if test="msgSearchList == 'all'">
+			AND (S.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%'
 			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
 			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
 		</if>
@@ -431,9 +405,28 @@
 			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
 		</if>
 		<if test="msgSearchList == 'content'">
-			AND (S.SEND_CONTENT LIKE '%'||#{msgSearchText}||'%')
+			AND (S.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%')
 		</if>
-		ORDER BY S.SEND_NO DESC
+	</select>
+	
+	<select id="saveSendMsgList" parameterType="map" resultMap="messageResultMap">
+	
+		<include refid="sendMessageSql"></include>
+		
+		WHERE S.SEND_STATUS='S' AND MSG_FROM = #{msgFrom}
+       		<if test="msgSearchList == 'all'">
+			AND (S.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'name'">
+			AND (M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'content'">
+			AND (S.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		ORDER BY S.MSG_NO DESC
 	</select>
 	
 </mapper>

@@ -67,34 +67,34 @@
             </c:if>
             <c:if test="${deletedList != null}">
             	<c:forEach var="deletedList" items="${deletedList}">
-            		<input type="hidden" name="receiveNo" value="<c:out value="${deletedList.receiveNo}"/>">
-            		<tr id="msgListTable(${deletedList.receiveNo})">
-		              <td style="width:50px"><input type="checkbox" name="chk" value="${deletedList.receiveNo}"></td>
-		              <td><span class="senderName" id="s_name(${deletedList.receiveNo})"><c:out value="${deletedList.senderName}"/> <c:out value="${deletedList.rank}"/></span></td>
+            		<input type="hidden" name="receiveNo" value="<c:out value="${deletedList.msgNo}"/>">
+            		<tr id="msgListTable(${deletedList.msgNo})">
+		              <td style="width:50px"><input type="checkbox" name="chk" value="${deletedList.msgNo}"></td>
+		              <td><span class="senderName" id="s_name(${deletedList.msgNo})"><c:out value="${deletedList.userName}"/> <c:out value="${deletedList.rank}"/></span></td>
 		              <td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">
-		              	<a href="javascript:detailMsg(${deletedList.receiveNo})" id="detail(${deletedList.receiveNo})">
-							<c:out value="${deletedList.receiveContent}"/>
+		              	<a href="javascript:detailMsg(${deletedList.msgNo})" id="detail(${deletedList.msgNo})">
+							<c:out value="${deletedList.msgContent}"/>
 						</a>
 					  </td>
-		              <td style="width:20%"><fmt:formatDate type="both" value="${deletedList.receiveDate}"/></td>
+		              <td style="width:20%"><fmt:formatDate type="both" value="${deletedList.createDate}"/></td>
 		              <td style="width:20%"><fmt:formatDate type="both" value="${deletedList.deleteDate}"/></td>
 		            </tr>
-		            <div class="modal_view fade modalNo${deletedList.receiveNo}">
+		            <div class="modal_view fade modalNo${deletedList.msgNo}">
 					    <div class="bg"></div>
 					    <div class="modalContainer">
 					      <h2 style="margin-left: 18px;">휴지통(받은쪽지)</h2>
 					        <div class="view_form info">
-					          <label>From : </label> <c:out value="${deletedList.senderName}"/> <c:out value="${deletedList.rank}"/> (<c:out value="${deletedList.s_deptName}"/>)<br>
-					          <label>Date : </label> <fmt:formatDate type="both" value="${deletedList.receiveDate}"/>
+					          <label>From : </label> <c:out value="${deletedList.msgFrom}"/> <c:out value="${deletedList.rank}"/> (<c:out value="${deletedList.deptName}"/>)<br>
+					          <label>Date : </label> <fmt:formatDate type="both" value="${deletedList.createDate}"/>
 					        </div>
 					        <div class ="view_form">
 					        <div class = "form-control" id="contentsDiv" rows="3" name ="messageContent"  style="overflow: scroll; margin-left:20px; margin-top:10px;">
-					       		<p style="text-align:left; margin:5px;">${ fn:replace(deletedList.receiveContent, replaceChar, "<br/>" )}</p> 
+					       		<p style="text-align:left; margin:5px;">${ fn:replace(deletedList.msgContent, replaceChar, "<br/>" )}</p> 
 					        </div>
 					        </div>
 					        <div class="msg_btns">
-				        	 <button type="button" class ="delegeBtn(${deletedList.receiveNo})" onclick="deleteMsg(${deletedList.receiveNo});">삭제</button>
-				       		 <button type="button" id ="exitBtn(${deletedList.receiveNo})">닫기</button>
+				        	 <button type="button" class ="delegeBtn(${deletedList.msgNo})" onclick="deleteMsg(${deletedList.msgNo});">삭제</button>
+				       		 <button type="button" id ="exitBtn(${deletedList.msgNo})">닫기</button>
 					        </div>
 					       
 					    </div>
@@ -121,19 +121,19 @@
         </div>
 	</div>
 
-  <div class="modal fade">
+   <div class="modal fade">
     <div class="bg"></div>
     <div class="modalContainer">
       <h2 style="margin-left:18px;">쪽지쓰기 </h2>
         <div class="info">
-      	  <input type="hidden" id="senderNo" name="senderNo" value="<c:out value="${loginMember.user_no}"/>">
+      	  <input type="hidden" id="msgFrom" name="msgFrom" value="<c:out value="${loginMember.user_no}"/>">
           <label>To : </label> <input type="text" id="memSearchInput" name="userName">
         </div>
         <div style="float:right; padding-right:25px; font-size:12px; margin-top:15px;">
           <span id="writeCnt">0</span>/<span id="writeMax">300</span>
         </div>
         <div class ="write_form">
-          <textarea class = "form-control" rows="3" id="sendContent" name ="sendContent"></textarea>
+          <textarea class = "form-control" rows="3" id="msgContent" name ="msgContent" style="overflow: scroll;"></textarea>
         </div>
         <div class ="write_form">
 	        <button type="button" id="sendBtn" class ="sendBtn">보내기</button>
@@ -202,14 +202,15 @@
 	  
 	    const close = () => {
 	      document.getElementById("memSearchInput").value= "";
-		  document.getElementById("sendContent").value= "";
+	      document.getElementById("msgContent").value= "";
 	      document.querySelector(".modal").classList.add("fade");
 	    }
 	  
 	    document.querySelector(".openBtn").addEventListener("click", open);
 	    document.querySelector(".closeBtn").addEventListener("click", close);
 	    
-	    $("#sendContent").on("keyup",function(){
+	    
+	    $("#msgContent").on("keyup",function(){
 	        let inputLength = $(this).val().length;
 
 	        $("#writeCnt").text(inputLength);
@@ -257,7 +258,7 @@
            		}
             }
             
-            xhr.open("GET", "${path}/deletedmessage/delete?receiveNo="+ msgNo, true);
+            xhr.open("GET", "${path}/deletedmessage/delete?msgNo="+ msgNo, true);
             
             xhr.send();
 		}
@@ -265,15 +266,15 @@
 	
 	$(function(){
 		$("#sendBtn").on("click",function(){
-			var senderNo = $("#senderNo").val();
-			var userName = $("#memSearchInput").val();
-			var sendContent = $("#sendContent").val();
-			var writeCnt = $("#writeCnt").text();
-			var writeMax = $("#writeMax").text();
+			let msgFrom = $("#msgFrom").val();
+			let userName = $("#memSearchInput").val();
+			let msgContent = $("#msgContent").val();
+			let writeCnt = parseInt($("#writeCnt").text());
+			let writeMax = parseInt($("#writeMax").text());
 			
-			console.log(senderNo);
+			console.log(msgFrom);
 			console.log(userName);
-			console.log(sendContent);
+			console.log(msgContent);
 			console.log(writeCnt);
 			console.log(writeMax);
 			
@@ -285,12 +286,12 @@
 						  $('#memSearchInput').focus();
 					  }
 					})
-			} else if(sendContent == ""){
+			} else if(msgContent == ""){
 				Swal.fire({
 					  icon: 'error',
 					  text: '내용을 작성하지 않으셨습니다.!',
 					  didClose: () => {
-						  $('#sendContent').focus();
+						  $('#msgContent').focus();
 					  }
 					})
 			} else if(writeCnt > 300){
@@ -301,7 +302,7 @@
 					  icon: 'error',
 					  text: writeMax + "자를 초과입력할 수 없습니다.!",
 					  didClose: () => {
-						  $('#sendContent').focus();
+						  $('#msgContent').focus();
 					  }
 					})
 			} else{
@@ -309,11 +310,18 @@
 					type: "post",
 					url:"${path}/message/send",
 					data:{
-						senderNo:senderNo,
+						msgFrom:msgFrom,
 						userName:userName,
-						sendContent:sendContent
+						msgContent:msgContent
 					},
 					success:function(data){
+						Swal.fire({
+	                         icon: 'success',
+	                         text: '쪽지를 성공적으로 전송하였습니다.'
+	                     });
+						
+						document.getElementById("memSearchInput").value= "";
+					    document.getElementById("msgContent").value= "";
 						document.querySelector(".modal").classList.add("fade");
 					},
 					error: function(e){

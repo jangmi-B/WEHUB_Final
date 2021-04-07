@@ -65,39 +65,39 @@
             </c:if>
             <c:if test="${saveMessage != null}">
             	<c:forEach var="saveMessage" items="${saveMessage}">
-            		<input type="hidden" name="receiveNo" value="<c:out value="${saveMessage.receiveNo}"/>">
-            		<tr id="msgListTable(${saveMessage.receiveNo})">
-		              <td style="width:50px"><input type="checkbox" name="chk" value="${saveMessage.receiveNo}"></td>
-		              <td ><span class="senderName" id="s_name(${saveMessage.receiveNo})"><c:out value="${saveMessage.senderName}"/> <c:out value="${saveMessage.rank}"/></span></td>
+            		<input type="hidden" name="receiveNo" value="<c:out value="${saveMessage.msgNo}"/>">
+            		<tr id="msgListTable(${saveMessage.msgNo})">
+		              <td style="width:50px"><input type="checkbox" name="chk" value="${saveMessage.msgNo}"></td>
+		              <td ><span class="senderName" id="s_name(${saveMessage.msgNo})"><c:out value="${saveMessage.userName}"/> <c:out value="${saveMessage.rank}"/></span></td>
 		              <td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;" >
-		              	<a href="javascript:detailMsg(${saveMessage.receiveNo})" id="detail(${saveMessage.receiveNo})">
-							<c:out value="${saveMessage.receiveContent}"/>
+		              	<a href="javascript:detailMsg(${saveMessage.msgNo})" id="detail(${saveMessage.msgNo})">
+							<c:out value="${saveMessage.msgContent}"/>
 						</a>
 					  </td>
-		              <td style="width:20%"><fmt:formatDate type="both" value="${saveMessage.receiveDate}"/></td>
+		              <td style="width:20%"><fmt:formatDate type="both" value="${saveMessage.createDate}"/></td>
 		            </tr>
-		            <div class="modal_view fade modalNo${saveMessage.receiveNo}">
+		            <div class="modal_view fade modalNo${saveMessage.msgNo}">
 					    <div class="bg"></div>
 					    <div class="modalContainer">
 					      <h2 style="margin-left: 18px;">받은쪽지</h2>
 					        <div class="view_form info">
-					          <input type="hidden" id="msgNo${saveMessage.receiveNo}" value="<c:out value="${saveMessage.receiveNo}"/>">
-					          <input type="hidden" id="sName${saveMessage.receiveNo}" value="<c:out value="${saveMessage.senderName}"/>">
-					          <input type="hidden" id="sRank${saveMessage.receiveNo}" value="<c:out value="${saveMessage.rank}"/>">
-					          <input type="hidden" id="sDept${saveMessage.receiveNo}" value="<c:out value="${saveMessage.s_deptName}"/>">
-					          <input type="hidden" id="readCheck${saveMessage.receiveNo}" value="<c:out value="${saveMessage.readCheck}"/>">
+					          <input type="hidden" id="msgNo${saveMessage.msgNo}" value="<c:out value="${saveMessage.msgNo}"/>">
+					          <input type="hidden" id="sName${saveMessage.msgNo}" value="<c:out value="${saveMessage.msgFrom}"/>">
+					          <input type="hidden" id="sRank${saveMessage.msgNo}" value="<c:out value="${saveMessage.rank}"/>">
+					          <input type="hidden" id="sDept${saveMessage.msgNo}" value="<c:out value="${saveMessage.deptName}"/>">
+					          <input type="hidden" id="readCheck${saveMessage.msgNo}" value="<c:out value="${saveMessage.readStatus}"/>">
 					          
-					          <label>From : <c:out value="${saveMessage.senderName}"/> <c:out value="${saveMessage.rank}"/> (<c:out value="${saveMessage.s_deptName}"/>)</label> <br>
-					          <label>Date : </label> <fmt:formatDate type="both" value="${saveMessage.receiveDate}"/>
+					          <label>From : <c:out value="${saveMessage.userName}"/> <c:out value="${saveMessage.rank}"/> (<c:out value="${saveMessage.deptName}"/>)</label> <br>
+					          <label>Date : </label> <fmt:formatDate type="both" value="${saveMessage.createDate}"/>
 					        </div>
 					        <div class ="view_form">
 					        <div class = "form-control" id="contentsDiv" rows="3" name ="messageContent"  style="overflow: scroll; margin-left:20px; margin-top:10px;">
-					       		<p style="text-align:left; margin:5px;">${ fn:replace(saveMessage.receiveContent, replaceChar, "<br/>" )}</p> 
+					       		<p style="text-align:left; margin:5px;">${ fn:replace(saveMessage.msgContent, replaceChar, "<br/>" )}</p> 
 					        </div>
 					        </div>
 					        <div class="msg_btns">
-				        	 <button type="button" class ="deleteBtn(${saveMessage.receiveNo})" onclick="deleteMsg(${saveMessage.receiveNo});">삭제</button>
-				       		 <button type="button" id ="exitBtn(${saveMessage.receiveNo})">닫기</button>
+				        	 <button type="button" class ="deleteBtn(${saveMessage.msgNo})" onclick="deleteMsg(${saveMessage.msgNo});">삭제</button>
+				       		 <button type="button" id ="exitBtn(${saveMessage.msgNo})">닫기</button>
 					        </div>
 					       
 					    </div>
@@ -129,14 +129,14 @@
     <div class="modalContainer">
       <h2 style="margin-left:18px;">쪽지쓰기 </h2>
         <div class="info">
-      	  <input type="hidden" id="senderNo" name="senderNo" value="<c:out value="${loginMember.user_no}"/>">
+      	  <input type="hidden" id="msgFrom" name="msgFrom" value="<c:out value="${loginMember.user_no}"/>">
           <label>To : </label> <input type="text" id="memSearchInput" name="userName">
         </div>
         <div style="float:right; padding-right:25px; font-size:12px; margin-top:15px;">
           <span id="writeCnt">0</span>/<span id="writeMax">300</span>
         </div>
         <div class ="write_form">
-          <textarea class = "form-control" rows="3" id="sendContent" name ="sendContent" style="overflow: scroll;"></textarea>
+          <textarea class = "form-control" rows="3" id="msgContent" name ="msgContent" style="overflow: scroll;"></textarea>
         </div>
         <div class ="write_form">
 	        <button type="button" id="sendBtn" class ="sendBtn">보내기</button>
@@ -205,7 +205,7 @@
 	  
 	    const close = () => {
 	      document.getElementById("memSearchInput").value= "";
-	      document.getElementById("sendContent").value= "";
+	      document.getElementById("msgContent").value= "";
 	      document.querySelector(".modal").classList.add("fade");
 	    }
 	  
@@ -213,7 +213,7 @@
 	    document.querySelector(".closeBtn").addEventListener("click", close);
 	    
 	    
-	    $("#sendContent").on("keyup",function(){
+	    $("#msgContent").on("keyup",function(){
 	        let inputLength = $(this).val().length;
 
 	        $("#writeCnt").text(inputLength);
@@ -239,7 +239,7 @@
 		
 	    const close = () => {
     	  document.getElementById("memSearchInput").value= "";
-	      document.getElementById("sendContent").value= "";
+	      document.getElementById("msgContent").value= "";
 	      document.querySelector(".modal").classList.add("fade");
 	    }
 	    
@@ -306,7 +306,7 @@
            		}
             }
             
-            xhr.open("GET", "${path}/message/delete?receiveNo="+ msgNo, true);
+            xhr.open("GET", "${path}/message/delete?msgNo="+ msgNo, true);
             
             xhr.send();
 		}
@@ -314,12 +314,15 @@
 	
 	$(function(){
 		$("#sendBtn").on("click",function(){
-			var senderNo = $("#senderNo").val();
-			var userName = $("#memSearchInput").val();
-			var sendContent = $("#sendContent").val();
-			var writeCnt = $("#writeCnt").text();
-			var writeMax = $("#writeMax").text();
+			let msgFrom = $("#msgFrom").val();
+			let userName = $("#memSearchInput").val();
+			let msgContent = $("#msgContent").val();
+			let writeCnt = parseInt($("#writeCnt").text());
+			let writeMax = parseInt($("#writeMax").text());
 			
+			console.log(msgFrom);
+			console.log(userName);
+			console.log(msgContent);
 			console.log(writeCnt);
 			console.log(writeMax);
 			
@@ -331,15 +334,15 @@
 						  $('#memSearchInput').focus();
 					  }
 					})
-			} else if(sendContent == ""){
+			} else if(msgContent == ""){
 				Swal.fire({
 					  icon: 'error',
 					  text: '내용을 작성하지 않으셨습니다.!',
 					  didClose: () => {
-						  $('#sendContent').focus();
+						  $('#msgContent').focus();
 					  }
 					})
-			} else if(writeCnt > writeMax){
+			} else if(writeCnt > 300){
 				console.log(writeCnt);
 				console.log(writeMax);
 				
@@ -347,7 +350,7 @@
 					  icon: 'error',
 					  text: writeMax + "자를 초과입력할 수 없습니다.!",
 					  didClose: () => {
-						  $('#sendContent').focus();
+						  $('#msgContent').focus();
 					  }
 					})
 			} else{
@@ -355,11 +358,18 @@
 					type: "post",
 					url:"${path}/message/send",
 					data:{
-						senderNo:senderNo,
+						msgFrom:msgFrom,
 						userName:userName,
-						sendContent:sendContent
+						msgContent:msgContent
 					},
 					success:function(data){
+						Swal.fire({
+	                         icon: 'success',
+	                         text: '쪽지를 성공적으로 전송하였습니다.'
+	                     });
+						
+						document.getElementById("memSearchInput").value= "";
+					    document.getElementById("msgContent").value= "";
 						document.querySelector(".modal").classList.add("fade");
 					},
 					error: function(e){
