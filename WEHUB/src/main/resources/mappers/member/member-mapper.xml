@@ -27,10 +27,7 @@
 	
 	
 	<resultMap type="Member" id="memberResultMap">
-		<!-- property : 자바의 인스턴스 변수 이름, column : DB에서 select 된 결과 컬럼명 -->
-		<!-- DB에서 기본키를 의미 -->
 		<id property="user_no" column="USER_NO"/>
-		<!-- DB에서 일반 컬럼들 -->
 		<id property="user_companyname" column="USER_COMPANYNAME"/>
 		<id property="user_id" column="USER_ID"/>
 		<id property="user_pwd" column="USER_PWD"/>
@@ -48,6 +45,24 @@
 	<select id="selectMember" parameterType="string" resultMap="memberResultMap">
 		<include refid="selectMemberSql"></include>
 	 	AND USER_ID = #{userId}
+	</select>
+	
+	<select id="selectMemberAll" parameterType="string" resultMap="memberResultMap">
+		<include refid="selectMemberSql"></include>
+		AND USER_ID != #{userId}
+	</select>
+	
+	<select id="selectSearchedMember" parameterType="map" resultMap="memberResultMap">
+		SELECT M.USER_NO,
+		        M.USER_NAME,
+		        M.RANK,
+		        D.DEPT_NAME
+		FROM MEMBER M
+        JOIN DEPARTMENT D ON (M.DEPT_CODE = D.DEPT_CODE)
+        WHERE M.USER_STATUS='Y' AND (M.USER_NAME LIKE '%'||#{searchData}||'%' OR
+        							 M.RANK LIKE '%'||#{searchData}||'%' OR 
+        							 D.DEPT_NAME LIKE '%'||#{searchData}||'%')		
+		AND USER_ID != #{userId}		 
 	</select>
 	
 </mapper>

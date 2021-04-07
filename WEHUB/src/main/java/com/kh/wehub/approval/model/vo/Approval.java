@@ -39,5 +39,6 @@ public class Approval {
 	
 	private String userName;
 	
+	private int rowNum;
 	
 }

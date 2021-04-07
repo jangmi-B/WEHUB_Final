@@ -33,12 +33,14 @@
             </ul>
             </div>
         </li>
-        <li>보관함
-            <ul>
-                <li><a href="">품의서</a></li>
-                <li><a href="">지출결의서</a></li>
-                <li><a href="">휴가신청서</a></li>
-            </ul>
+        <li class="EPay-box">보관함
+            <div>
+	            <ul>
+	                <li><a href="">품의서</a></li>
+	                <li><a href="">지출결의서</a></li>
+	                <li><a href="">휴가신청서</a></li>
+	            </ul>
+            </div>
         </li>
     </div>
     <div class="cash-form-section" style="height: 100%; margin: 0 300px 0 300px;">
@@ -161,6 +163,12 @@
     $(document).ready(function () {
         $('.EPay-list').on('click', function() {
             $('.EPay-list > div').slideToggle();
+        });
+    });
+    
+    $(document).ready(function () {
+        $('.EPay-box').on('click', function() {
+            $('.EPay-box > div').slideToggle();
         });
     });
 

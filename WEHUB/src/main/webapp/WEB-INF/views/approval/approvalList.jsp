@@ -32,12 +32,14 @@
             </ul>
             </div>
         </li>
-        <li>보관함
-            <ul>
-                <li><a href="">품의서</a></li>
-                <li><a href="">지출결의서</a></li>
-                <li><a href="">휴가신청서</a></li>
-            </ul>
+        <li class="EPay-box">보관함
+            <div>
+	            <ul>
+	                <li><a href="">품의서</a></li>
+	                <li><a href="">지출결의서</a></li>
+	                <li><a href="">휴가신청서</a></li>
+	            </ul>
+            </div>
         </li>
     </div>
     <div class="index_section2">
@@ -50,33 +52,27 @@
                     <th>제목</th>
                     <th>기안자</th>
                     <th>기안일</th>
-                    <th>상태</th>
                 </tr>
-                <tr>
-                    <td>001</td>
-                    <td>휴가신청서</td>
-                    <td><a href="">000 휴가신청</a></td>
-                    <td>김정현</td>
-                    <td>2021.03.11</td>
-                    <td>결재대기</td>
-                </tr>
-                <tr>
-                    <td>002</td>
-                    <td>지출결의서</td>
-                    <td><a href="">000 물품구매</a></td>
-                    <td>아무개</td>
-                    <td>2021.03.11</td>
-                    <td>결재중</td>
-                </tr>
-                <tr>
-                    <td>003</td>
-                    <td>품의서</td>
-                    <td><a href="">000 업체조사</a></td>
-                    <td>홍길동</td>
-                    <td>2021.03.11</td>
-                    <td>결재완료</td>
-                </tr>
-            </table>
+                
+                <c:if test="${empty mainList}">
+                	</table>
+                		<h3 style="top:50%; text-align:center; margin-left:300px; margin-top:150px">
+                			조회된 결재목록이 없습니다.
+                		</h3>
+                </c:if>
+                
+                <c:if test="${mainList != null}">
+	                <c:forEach var="list" items="${mainList}">
+		                <tr>
+		                    <td>${list.rowNum}</td>
+		                    <td><a href="#">${list.appKinds}</a></td>
+		                    <td>${list.userName}</td>
+		                    <td><fmt:formatDate value="${list.appWriteDate}" pattern="yyyy/MM/dd"/></td>
+		                    <td>${list.appCheckProgress}</td>
+		                </tr>
+	                </c:forEach>
+                </c:if>   
+        	</table>    
         </form>
     </div>
 
@@ -93,6 +89,11 @@
         });
     });
 
+    $(document).ready(function () {
+        $('.EPay-box').on('click', function() {
+            $('.EPay-box > div').slideToggle();
+        });
+    });
 
 </script>
 

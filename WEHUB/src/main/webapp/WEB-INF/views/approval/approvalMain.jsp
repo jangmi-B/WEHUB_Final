@@ -32,12 +32,14 @@
             </ul>
             </div>
         </li>
-        <li>보관함
-            <ul>
-                <li><a href="">품의서</a></li>
-                <li><a href="">지출결의서</a></li>
-                <li><a href="">휴가신청서</a></li>
-            </ul>
+        <li class="EPay-box">보관함
+            <div>
+	            <ul>
+	                <li><a href="">품의서</a></li>
+	                <li><a href="">지출결의서</a></li>
+	                <li><a href="">휴가신청서</a></li>
+	            </ul>
+            </div>
         </li>
     </div>
     <div class="index_section2">
@@ -45,44 +47,51 @@
             <h2>결재현황</h2>
             <div id="e-pay-status">
                 <span>
-                    미결
-                    <div>${mainCount}건</div>
+                    <p></p>결재대기
+                    <div>${countYet}건</div>
                 </span>
                 <span>
-                    결재중
-                    <div>00건</div>
+                    <p></p>결재중
+                    <div>${countUnder}건</div>
                 </span>
                 <span>
-                    결재완료
-                    <div>00건</div>
+                    <p></p>결재완료
+                    <div>${countDone}건</div>
                 </span>
             </div>
         </form>
 
         <form action="">
-            <h2 style="margin-bottom: 0;">최근 결재목록</h2>
+            <h4 style="float:right; margin-right:134px; margin-top:50px; color:gray;"><a href="${path}/approval/approvalList">+ 결재목록 전체보기</a></h4>
+            <h2 style="margin-bottom: 0; margin-top:30px">나의 결재목록</h2>
             <table id="e-pay-list">
                 <tr>
                     <th>번호</th>
                     <th>종류</th>
-                    <th>제목</th>
                     <th>기안자</th>
                     <th>기안일</th>
                     <th>상태</th>
                 </tr>
+                
+                <c:if test="${empty mainList}">
+                	</table>
+                		<h3 style="top:50%; text-align:center; margin-left:300px; margin-top:150px">
+                			조회된 결재목록이 없습니다.
+                		</h3>
+                </c:if>
+                
                 <c:if test="${mainList != null}">
 	                <c:forEach var="list" items="${mainList}">
 		                <tr>
-		                    <td>${list.appNo}</td>
-		                    <td>${list.appKinds}</td>
-		                    <td><a href="#">제목이다</a></td>
+		                    <td>${list.rowNum}</td>
+		                    <td><a href="#">${list.appKinds}</a></td>
 		                    <td>${list.userName}</td>
 		                    <td><fmt:formatDate value="${list.appWriteDate}" pattern="yyyy/MM/dd"/></td>
 		                    <td>${list.appCheckProgress}</td>
 		                </tr>
 	                </c:forEach>
                 </c:if>
-            </table>
+        	</table>        
         </form>
     </div>
 
@@ -96,6 +105,12 @@
     $(document).ready(function () {
         $('.EPay-list').on('click', function() {
             $('.EPay-list > div').slideToggle();
+        });
+    });
+    
+    $(document).ready(function () {
+        $('.EPay-box').on('click', function() {
+            $('.EPay-box > div').slideToggle();
         });
     });
 

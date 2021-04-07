@@ -19,10 +19,12 @@
 		<result property="userNo" column="USER_NO"/>
 		<result property="appKinds" column="APPROVAL_KINDS"/>
 		<result property="userName" column="USER_NAME"/>
+		<result property="rowNum" column="ROWNUM"/>
+		
 	</resultMap>
 
-	<select id="selectApprovalMainList" resultMap="approvalResultMap">
-		SELECT A.APP_SEQ,
+	<select id="selectRecentList" parameterType="map" resultMap="approvalResultMap">
+		SELECT ROWNUM, A.APP_SEQ,
 		     A.APP_WRITER_NO,
 		     A.APP_WRITE_SYS,
 		     A.FIRST_TIME_APPROVER,
@@ -38,19 +40,62 @@
 		     A.APPROVAL_KINDS
 		FROM APPROVAL A 
 		JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
-		WHERE ROWNUM <![CDATA[ < ]]>= 5
+		WHERE ROWNUM <![CDATA[ < ]]>= 6 AND (((#{user_name} = A.FIRST_TIME_APPROVER) OR 
+			                                  (#{user_name} = A.INTERIM_APPROVER) OR 
+			                                  (#{user_name} = A.FINAL_APPROVER)) OR 
+			                                  (#{user_no} = A.APP_WRITER_NO))
 		ORDER BY A.APP_SEQ DESC
 	</select>
 	
-	<select id="selectApprovalMainCount" parameterType="map" resultType="_int">
+	<select id="approvalCount_YET" parameterType="map" resultType="_int">
 		SELECT COUNT(*)
-		FROM APPROVAL
+		FROM APPROVAL A
+		WHERE APP_CHECK_PROGRESS = '결재대기' AND (((#{user_name} = A.FIRST_TIME_APPROVER) OR 
+			                                  (#{user_name} = A.INTERIM_APPROVER) OR 
+			                                  (#{user_name} = A.FINAL_APPROVER)) OR 
+			                                  (#{user_no} = A.APP_WRITER_NO))
 	</select>
 
+	<select id="approvalCount_UNDER" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM APPROVAL A
+		WHERE APP_CHECK_PROGRESS = '결재중' AND (((#{user_name} = A.FIRST_TIME_APPROVER) OR 
+			                                  (#{user_name} = A.INTERIM_APPROVER) OR 
+			                                  (#{user_name} = A.FINAL_APPROVER)) OR 
+			                                  (#{user_no} = A.APP_WRITER_NO))
+	</select>
 
+	<select id="approvalCount_DONE" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM APPROVAL A
+		WHERE APP_CHECK_PROGRESS = '결재완료' AND (((#{user_name} = A.FIRST_TIME_APPROVER) OR 
+			                                  (#{user_name} = A.INTERIM_APPROVER) OR 
+			                                  (#{user_name} = A.FINAL_APPROVER)) OR 
+			                                  (#{user_no} = A.APP_WRITER_NO))
+	</select>
 
-
-
-
+	<select id="selectApprovalList" parameterType="map" resultMap="approvalResultMap">
+		SELECT ROWNUM, A.APP_SEQ,
+		     A.APP_WRITER_NO,
+		     A.APP_WRITE_SYS,
+		     A.FIRST_TIME_APPROVER,
+		     A.INTERIM_APPROVER,
+		     A.FINAL_APPROVER,
+		     A.APP_CHECK_SYSDATE,
+		     A.APP_CHECK_PROGRESS,
+		     A.APP_REASON,
+		     A.APP_ORIFILENAME,
+		     A.APP_REFILENAME,
+		     M.USER_NAME,
+		     M.RANK,
+		     A.APPROVAL_KINDS
+		FROM APPROVAL A 
+		JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
+		WHERE (((#{user_name} = A.FIRST_TIME_APPROVER) OR 
+                (#{user_name} = A.INTERIM_APPROVER) OR 
+                (#{user_name} = A.FINAL_APPROVER)) OR 
+                (#{user_no} = A.APP_WRITER_NO))
+		ORDER BY A.APP_SEQ DESC
+	</select>
 
 </mapper>

@@ -32,12 +32,14 @@
             </ul>
             </div>
         </li>
-        <li>보관함
-            <ul>
-                <li><a href="">품의서</a></li>
-                <li><a href="">지출결의서</a></li>
-                <li><a href="">휴가신청서</a></li>
-            </ul>
+        <li class="EPay-box">보관함
+            <div>
+	            <ul>
+	                <li><a href="">품의서</a></li>
+	                <li><a href="">지출결의서</a></li>
+	                <li><a href="">휴가신청서</a></li>
+	            </ul>
+            </div>
         </li>
     </div>
     <div class="cash-form-section" style="height: 100%; margin: 0 300px 0 300px;">
@@ -100,7 +102,7 @@
                 </tr>
                 <tr>
                     <td colspan="8" style="text-align: right; height: 100px; padding-right: 50px;">
-                        신청자 : <input type="text" style=" width:200px; border: none; text-align: center;" maxlength="4">
+                        신청자 : <input type="text" style="width:200px; border: none; text-align: center;" maxlength="4">
                         (인)
                     </td>
                 </tr>
@@ -119,10 +121,41 @@
         <div class="bg"></div>
         <div class="modalBox">
             <div style="margin: 40px 0px 0px 60px;">
-                <input type="text" style="width: 250px; height: 30px; border-radius: 10px; font-size: 20px; text-align: center;" maxlength="4" >
-                <button>검색</button>
+                <input type="text" name="searchData" id="searchData" style="width: 250px; height: 30px; border-radius: 10px; font-size: 20px; text-align: center;" maxlength="4" >
+                <button type="button" id="search1">검색</button>
+                
+                <script>
+                	$("#search1").on("click",function(){
+	                	var searchData = $("input[name='searchData']").val();
+	                	
+	                	$.ajax({
+		                    type: "get",
+		                    url: "${path}/approval/searchMemberInModal",
+		                    data: {
+		    					searchData:searchData
+		    				},
+		                    success: function(data){
+		                    	console.log(data);
+		                    	
+		                    	var str = '<tr>';
+		                    	
+		                    	$.each(data, function(i) {
+			                    	str +='<tr><td><input type="checkbox" name="refer-list" id="refer-list" style="height: 15px;"></td>'
+			    	                +'<td>'+ data[i].user_name +'</td>'
+			    	                +'<td>'+ data[i].dept_name +'</td>'
+			    	                +'<td>'+ data[i].rank +'</td>';
+			    	                str += '</tr>';
+		                    	});
+		                        
+		                       $("#refer-left-section").append(str);
+		                    },
+		                    error: function(){alert("잠시 후 다시 시도해주세요.");}
+		        		});
+	                });
+	 			</script>
+	 			
             </div>
-            <div style=" border: 1px solid black; width: 280px; height: 440px; margin: 60px 0px 0px 60px; float: left; text-align: center;">
+            <div style=" border: 1px solid black; width: 280px; height: 440px; margin: 60px 0px 0px 60px; float: left; text-align: center; overflow:scroll;">
                 <table id="refer-left-section" style="width: 100%; border-bottom: 1px solid black; border-collapse: collapse;">
                     <tr style="border-bottom: 1px solid black;">
                         <th>
@@ -132,22 +165,18 @@
                         <th>부 서</th>
                         <th>직 책</th>
                     </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" name="refer-list" id="refer-list" style="height: 15px;">
-                        </td>
-                        <td>홍길동</td>
-                        <td>개발1팀</td>
-                        <td>사원</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" name="refer-list" id="refer-list" style="height: 15px;">
-                        </td>
-                        <td>아무개</td>
-                        <td>개발1팀</td>
-                        <td>사원</td>
-                    </tr>
+                    <c:if test="${memberList != null}">
+		                <c:forEach var="member" items="${memberList}">
+			                <tr>
+			                	<td>
+                            		<input type="checkbox" name="refer-list" id="refer-list" style="height: 15px;">
+                        		</td>
+			                    <td>${member.user_name}</td>
+			                    <td>${member.dept_name}</td>
+			                    <td>${member.rank}</td>
+			                </tr>
+		                </c:forEach>
+                	</c:if>
                     <tbody></tbody>
                 </table>
             </div>
@@ -155,7 +184,7 @@
                 <button class="refer-insert" style="margin: 200px 0px 0px 27px; float: left; position: absolute;"> -> </button>
                 <button class="refer-delete" style="margin: 300px 0px 0px 27px; float: left;"> <- </button>
             </div>
-            <div style=" border: 1px solid black; width: 280px; height: 440px; margin: 60px 0px 0px 440px; text-align: center;">
+            <div style=" border: 1px solid black; width: 280px; height: 440px; margin: 60px 0px 0px 440px; text-align: center; overflow:scroll;">
                 <table id="refer-right-section" style=" width: 100%; border-bottom: 1px solid black; border-collapse: collapse;" >
                     <tr style="border-bottom: 1px solid black;">
                         <th>
@@ -187,6 +216,12 @@
 	    $(document).ready(function () {
 	        $('.EPay-list').on('click', function() {
 	            $('.EPay-list > div').slideToggle();
+	        });
+	    });
+	    
+	    $(document).ready(function () {
+	        $('.EPay-box').on('click', function() {
+	            $('.EPay-box > div').slideToggle();
 	        });
 	    });
 	

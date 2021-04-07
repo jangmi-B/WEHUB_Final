@@ -1,5 +1,7 @@
 package com.kh.wehub.member.model.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,20 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Member findMemberByUserId(String userId) {
 		return memberDao.selectMember(userId);
+	}
+
+
+	@Override
+	public List<Member> selectMemberAll(String userId) {
+		
+		return memberDao.selectMemberAll(userId);
+	}
+
+
+	@Override
+	public List<Member> selectSearchedMember(String searchData, String userId) {
+		
+		return memberDao.selectSearchedMember(searchData, userId);
 	}
 
 }
