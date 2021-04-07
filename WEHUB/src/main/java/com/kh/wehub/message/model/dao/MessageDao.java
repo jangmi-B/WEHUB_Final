@@ -57,4 +57,6 @@ public interface MessageDao {
 
 	int saveSendSelected(List<Integer> checkList);
 
+	int readDateSet(int msgNo);
+
 }

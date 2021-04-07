@@ -54,4 +54,6 @@ public interface MessageService {
 
 	int saveSendSelected(List<Integer> checkList);
 
+	int readDateSet(int msgNo);
+
 }

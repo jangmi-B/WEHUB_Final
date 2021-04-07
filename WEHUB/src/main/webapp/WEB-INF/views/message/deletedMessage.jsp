@@ -45,11 +45,11 @@
         </div>
           <table class="message_table" style="table-layout: fixed">
           <colgroup>
-		  	<col style="width:5%"/>
+		  	<col style="width:4%"/>
 		  	<col style="width:10%"/>
-		  	<col style="width:51%"/>
-		  	<col style="width:17%"/>
-		  	<col style="width:17%"/>
+		  	<col style="width:50%"/>
+		  	<col style="width:18%"/>
+		  	<col style="width:18%"/>
 		  </colgroup>
             <tr>
               <th><input type="checkbox" id="checkAll" onclick="chkAll();"></th>

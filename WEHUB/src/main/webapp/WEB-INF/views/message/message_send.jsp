@@ -46,9 +46,10 @@
         </div>
           <table class="message_table" style="table-layout: fixed">
           <colgroup>
-		  	<col style="width:5%"/>
-		  	<col style="width:12%"/>
-		  	<col style="width:65%"/>
+		  	<col style="width:4%"/>
+		  	<col style="width:10%"/>
+		  	<col style="width:52%"/>
+		  	<col style="width:18%"/>
 		  	<col style="width:18%"/>
 		  </colgroup>
             <tr>
@@ -56,10 +57,11 @@
               <th>받는사람</th>
               <th colspan="">내용</th>
               <th>날짜</th>
+              <th>수신확인</th>
             </tr>
             <c:if test="${sendList == null || sendList.size() == 0 }">
             	<tr>
-            		<td colspan="4">
+            		<td colspan="5">
             			보낸 쪽지함이 비어있습니다.
             		</td>
             	</tr>
@@ -76,6 +78,12 @@
 						</a>
 					  </td>
 		              <td style="width:20%"><fmt:formatDate type="both" value="${sendList.sendDate}"/></td>
+		              <c:if test="${sendList.readCheck == 'Y'}">
+			              <td><fmt:formatDate type="both" value="${sendList.sendDate}"/></td>
+		              </c:if>
+		              <c:if test="${sendList.readCheck == 'N'}">
+			              <td>읽지않음</td>
+		              </c:if>
 		            </tr>
 		            <div class="modal_view fade modalNo${sendList.sendNo}">
 					    <div class="bg"></div>

@@ -42,6 +42,8 @@
 		<result property="userName" column="USER_NAME"/>
 		<result property="sendDate" column="SEND_DATE"/>
 		<result property="deleteDate" column="DELETE_DATE"/>
+		<result property="readCheck" column="READCHECK"/>
+		<result property="readDate" column="READDATE"/>
 		<result property="status" column="STATUS"/>
 	</resultMap>
 
@@ -140,6 +142,8 @@
   			#{sendContent},
   			SYSDATE,
   			SYSDATE,
+  			DEFAULT,
+  			DEFAULT,
   			DEFAULT
  		)
 	</insert>
@@ -187,6 +191,8 @@
 		       S.SEND_DATE, 
 		       S.DELETE_DATE,
 		       S.STATUS,
+		       S.READCHECK,
+		       S.READDATE,
 		       M.USER_NAME,
 		       M.RANK,
 		       D.DEPT_NAME
@@ -356,6 +362,17 @@
 		    REC_NO= #{msgNo}
 	</update>
 	
+	<!-- 보낸쪽지 수신확인 구현 -->
+	
+	<update id="readDateSet" parameterType="_int">
+		UPDATE SEND_MSG 
+		SET 
+		    READCHECK='Y',
+		    READDATE=SYSDATE
+		WHERE 
+		    SEND_NO= #{msgNo}
+	</update>
+	
 	<!-- 쪽지보관함 -->
 	<select id="selectRecSaveList" parameterType="map" resultMap="receiveResultMap">
 		SELECT R.REC_NO,
@@ -395,6 +412,8 @@
 		       S.SEND_DATE, 
 		       S.DELETE_DATE,
 		       S.STATUS,
+		       S.READCHECK,
+		       S.READDATE,
 		       M.USER_NAME,
 		       M.RANK,
 		       D.DEPT_NAME

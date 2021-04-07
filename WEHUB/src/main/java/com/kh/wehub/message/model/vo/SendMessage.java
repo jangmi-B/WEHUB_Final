@@ -23,6 +23,10 @@ public class SendMessage {
 	
 	private Date deleteDate;
 	
+	private Date readDate;
+	
+	private String readCheck;
+	
 	private String userName;
 	
 	private String rank;

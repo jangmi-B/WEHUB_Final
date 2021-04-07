@@ -93,12 +93,16 @@ public class MessageController {
 	public void readCheckMsg(@RequestParam(value="msgNo") int msgNo) {
 		
 		int result = 0;
+		int sendResult = 0;
 		result = service.readCheckMsg(msgNo);
+		sendResult = service.readDateSet(msgNo); //보낸편지함 읽은날짜 추가
 		
-		if(result > 0) {
-//			System.out.println("변경성공");
+		System.out.println(sendResult);
+		
+		if(result > 0 && sendResult > 0) {
+			System.out.println("변경성공");
 		}else {
-//			System.out.println("변경실패");
+			System.out.println("변경실패");
 		}
 	}
 	

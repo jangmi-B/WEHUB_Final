@@ -389,11 +389,11 @@
 	
 	$(function(){
 		$("#sendBtn").on("click",function(){
-			var senderNo = $("#senderNo").val();
-			var userName = $("#memSearchInput").val();
-			var sendContent = $("#sendContent").val();
-			var writeCnt = $("#writeCnt").text();
-			var writeMax = $("#writeMax").text();
+			let senderNo = $("#senderNo").val();
+			let userName = $("#memSearchInput").val();
+			let sendContent = $("#sendContent").val();
+			let writeCnt = parseInt($("#writeCnt").text());
+			let writeMax = parseInt($("#writeMax").text());
 			
 			console.log(senderNo);
 			console.log(userName);

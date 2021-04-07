@@ -180,4 +180,10 @@ public class MessageSercviceImpl implements MessageService {
 		return MessageDao.saveSendSelected(checkList);
 	}
 
+	@Override
+	public int readDateSet(int msgNo) {
+		
+		return MessageDao.readDateSet(msgNo);
+	}
+
 }
