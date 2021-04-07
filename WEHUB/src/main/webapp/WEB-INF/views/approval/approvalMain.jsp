@@ -62,7 +62,7 @@
         </form>
 
         <form action="">
-            <h4 style="float:right; margin-right:134px; margin-top:50px; color:gray;"><a href="${path}/approval/approvalList">+ 결재목록 전체보기</a></h4>
+            <h4 style="float:right; margin-right:334px; margin-top:50px; color:gray;"><a href="${path}/approval/approvalList">+ 결재목록 전체보기</a></h4>
             <h2 style="margin-bottom: 0; margin-top:30px">나의 결재목록</h2>
             <table id="e-pay-list">
                 <tr>
