@@ -13,8 +13,6 @@ public class Approval {
    
    private int appNo;
    
-   private int appWriterNo;
-   
    private Date appWriteDate;
    
    private String firstApprover;
@@ -23,16 +21,16 @@ public class Approval {
    
    private String finalApprover;
    
-   private Date appCheckSysdate;
+   private Date appCheckSysdate; // 결재결과일시
    
-   private String appCheckProgress;
-   
-   private String appReason;
+   private String appReason; // 반려사유
    
    private String appOriginalFileName;
    
    private String appRenameFileName;
    
-   private int userNo;   
+   private String appCheckProgress; //APP_CHECK_PROGRESS IN ('결재대기', '결재중', '결재완료')
+   
+   private String approvalKinds; // 결재 종류
    
 }

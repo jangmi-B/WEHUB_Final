@@ -72,10 +72,10 @@
 	}	
 </style>
 
-<form>
+<form action="" method="">
 	<div class="EPay-index_section">
         <h2>전자결재</h2>
-        <li class="EPay-form">양식작성
+        <li class="EPay-form" style="">양식작성
             <div>
                 <ul>
                     <li><a href="${path}/approval/letterOfApproval">-품의서</a></li>
@@ -130,7 +130,7 @@
                 </tr>
                 <tr>
                     <td colspan="3" style="height: 70px; width: 80px; font-family: 'InfinitySans-RegularA1'; font-size: 15px;">비 상 연 락 망</td>
-                    <td colspan="5"><input type="tel" placeholder="전화번호만 입력하세요." class="callNumber" name=""></td>
+                    <td colspan="5"><input type="tel" placeholder="전화번호만 입력하세요." class="callNumber" name="" style="font-size: 18px;"></td>
                 </tr>
 	                <script>
 	                    $(document).on("keyup", ".callNumber", function() {
@@ -166,10 +166,10 @@
                     </td>
                 </tr>
                 <tr>
-                	<td style="width: 80px;  font-family: 'InfinitySans-RegularA1'; font-size: 15px;">휴가 구분</td>
+                	<td style="width: 80px; height: 70px; font-family: 'InfinitySans-RegularA1'; font-size: 15px;">휴가 구분</td>
                 	<td colspan="8">
-                		<input type="checkbox" id="ex_chk3"> <!-- https://webdir.tistory.com/433 -->
-  						<label for="ex_chk3">연차</label> 
+                		<!-- <input type="checkbox" id="ex_chk3"> https://webdir.tistory.com/433
+  						<label for="ex_chk3">연차</label>  -->
                 	</td>
                 </tr>
                 <tr>

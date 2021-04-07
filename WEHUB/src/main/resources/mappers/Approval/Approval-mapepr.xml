@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kh.wehub.approval.model.dao.ApprovalDao">
+	
+	<resultMap type="Member" id="memberResultMap">
+		<id property="user_no" column="USER_NO"/>
+		
+		<id property="user_companyname" column="USER_COMPANYNAME"/>
+		<id property="user_id" column="USER_ID"/>
+		<id property="user_pwd" column="USER_PWD"/>
+		<id property="user_name" column="USER_NAME"/>
+		<id property="rank" column="RANK"/>
+		<id property="email" column="EMAIL"/>
+		<id property="comcall" column="COMCALL"/>
+		<id property="phone" column="PHONE"/>
+		<id property="address" column="ADDRESS"/>
+		<id property="user_status" column="USER_STATUS"/>
+		<id property="dept_code" column="DEPT_CODE"/>
+		<id property="user_imgOriname" column="USER_IMG_ORIFILENAME"/>
+		<id property="user_imgRename" column="USER_IMG_REFILENAME"/>
+	</resultMap>
+	
+	<resultMap type="Approval" id="ApprovalResultMap">
+		<!-- 기본키 -->
+		<id property="appNo" column="APP_SEQ"/>
+		
+		<id property="appWriterNo" column="APP_WRITE_SYS"/>
+		<id property="appWriteDate" column="FIRST_TIME_APPROVER"/>
+		<id property="firstApprover" column="INTERIM_APPROVER"/>
+		<id property="interimApprover" column="FINAL_APPROVER"/>
+		<id property="finalApprover" column="APP_CHECK_SYSDATE"/>
+		<id property="appCheckSysdate" column="APP_REASON"/>
+		<id property="appCheckProgress" column="APP_ORIFILENAME"/>
+		<id property="appReason" column="APP_REFILENAME"/>
+		<id property="appOriginalFileName" column="APP_CHECK_PROGRESS"/>
+		<id property="appRenameFileName" column="APPROVAL_KINDS"/>
+	</resultMap>
+	
+	<resultMap type="App_Leave" id="leaveResultMap">
+		<id property="user_no" column="LEAVE_SEQ"/>
+		
+		<id property="user_companyname" column="LEAVE_APP_SEQ"/>
+		<id property="leaveAppNo" column="LEAVE_CLASSIFY"/>
+		<id property="leaveClassify" column="LEAVE_START"/>
+		<id property="laeveStart" column="LEAVE_FINISH"/>
+		<id property="laeveFinish" column="LEAVE_DETAIL"/>
+		<id property="laeveDetale" column="LEAVE_STATUS"/>
+		<id property="laevePreasent" column="LEAVE_PRESENT"/>
+	</resultMap>
+	
+	<insert id="writeApproval" parameterType="map"
+		useGeneratedKeys="true" keyProperty="appNo" keyColumn="APP_SEQ">
+		INSERT INTO APPROVAL (
+		VALUES(
+			SEQ_APP_SEQ.NEXTVAL,
+			SYSDATE,
+			#{firstApprover},
+			#{interimApprover},
+			#{finalApprover},
+			SYSDATE,
+			#{appCheckProgress},
+			#{appReason},
+			#{appOriginalFileName},
+			#{appRenameFileName},
+			#{appWriterNo}
+		)
+	</insert>
+	
+	<insert id="writeAppLeave" parameterType="map"
+		useGeneratedKeys="true" keyProperty="appNo" keyColumn="APP_SEQ">
+		INSERT INTO APPROVAL (
+		VALUES(
+			SEQ_LEAVE_SEQ.NEXTVAL,
+			#{leaveAppNo},
+			#{leaveClassify},
+			SYSDATE,
+			SYSDATE,
+			#{laeveDetale},
+			#{laevePreasent}
+		)
+	</insert>
+	
+</mapper>

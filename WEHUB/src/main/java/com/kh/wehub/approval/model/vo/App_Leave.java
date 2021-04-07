@@ -15,14 +15,14 @@ public class App_Leave {
 	
 	private int leaveAppNo;
 	
-	private String leaveClassify;
+	private String leaveClassify; //휴가구분
 	
 	private Date laeveStart;
 	
 	private Date laeveFinish;
 	
-	private String laeveDetale;
+	private String laeveDetale; //문서상태
 	
-	private String laevePreasent;
+	private String laevePreasent; // 결재상태
 
 }
