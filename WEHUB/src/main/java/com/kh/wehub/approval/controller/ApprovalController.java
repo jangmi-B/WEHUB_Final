@@ -1,6 +1,7 @@
 package com.kh.wehub.approval.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.kh.wehub.approval.model.service.ApprovalService;
 import com.kh.wehub.approval.model.vo.App_Leave;
 import com.kh.wehub.approval.model.vo.Approval;
@@ -101,16 +104,20 @@ public class ApprovalController {
 		return model;
 	}
 	
-	@RequestMapping("approval/searchMember")
+	@RequestMapping(value="/approval/searchMember", method = { RequestMethod.GET })
 	@ResponseBody
-	public Object idCheck(@RequestParam("searchText")String searchText) {
+	public String searchJson(@RequestParam(value="userName") String userName) {
 		
-		Map<String, Object> map = new HashMap<>();
+		List<Member> memSearch = service.getSearchMember(userName);
 		
-//		map.put("validate", service.validate(searchText));
+		JsonArray array = new JsonArray();
 		
-		System.out.println(map);
+		for(int i=0; i < memSearch.size(); i++) {
+			array.add(memSearch.get(i).getUser_name() + " / " + memSearch.get(i).getRank() + " / " + memSearch.get(i).getDept_code());
+		}
 		
-		return map;
+		Gson gson = new Gson();
+	
+		return gson.toJson(array);	
 	}
 }

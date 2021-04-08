@@ -1,5 +1,7 @@
 package com.kh.wehub.approval.model.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +27,12 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public int insertLeave(App_Leave appLeave) {
 		
 		return 0;
+	}
+
+	@Override
+	public List<Member> getSearchMember(String userName) {
+		
+		return approvalDao.getSearchMember(userName);
 	}
 
 

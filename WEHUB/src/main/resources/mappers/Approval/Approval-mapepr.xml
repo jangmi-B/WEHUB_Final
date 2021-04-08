@@ -49,6 +49,12 @@
 		<id property="laevePreasent" column="LEAVE_PRESENT"/>
 	</resultMap>
 	
+	<select id="getSearchMember" parameterType="string" resultMap="memberResultMap">
+		SELECT M.USER_NAME, D.DEPT_NAME, M.RANK
+		FROM MEMBER M
+		WHERE USER_NAME LIKE '%'|| #{userName} ||'%'
+	</select>
+	
 	<insert id="writeApproval" parameterType="map"
 		useGeneratedKeys="true" keyProperty="appNo" keyColumn="APP_SEQ">
 		INSERT INTO APPROVAL (

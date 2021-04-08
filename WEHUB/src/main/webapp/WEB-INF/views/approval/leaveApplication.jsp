@@ -219,17 +219,17 @@
     	<div class="modal_content">
     		<label style="font-size: 15px;">부서, 이름을 검색해주세요.</label><br><br>
     		<div class="searchBar">
+    			<input type="text" id="memSearchInput" name="userName">
     			<input type="text" class="APPLE_searchArea" name="searchText" id="searchText" placeholder="검색">
         		<button type="submit" class="APPLE_searchBox"><i class="fas fa-check"></i></button>
         		<br><br><br>
         		<div>
-        			<span style="color: #5b18ff;">김예슬</span> 님이 맞으신가요?
+        			<span style="color: #5b18ff;">??</span> 님이 맞으신가요?
         		</div>
     			<button class="searchMember" type="button" id="modalClose" style="font">확인</button>
     		</div>
     	</div>
     </div>
-    
     
 </form> 
 
@@ -283,6 +283,34 @@
 			});
 		});
 	});
+    
+     $(document).ready(() => { 
+		 $("#memSearchInput").autocomplete({
+			source:function(request, response){
+				$.ajax({
+					url : "${path}/approval/searchMember",
+					type : "get",
+					dataType : 'json',
+					data : {
+						userName:$("#memSearchInput").val()
+					},
+					success : function(data){
+						var result = data;
+						response(result);
+					},
+					error : function(e){
+						alert("ajax에러발생..!")
+					}
+				});
+			},
+           focus : function(event, ui) {    //포커스 가면
+               return false;//한글 에러 잡기용도로 사용됨
+           },
+           minLength: 1,// 최소 글자수
+           autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
+           delay: 300,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
+		 });
+	 });
 	
 </script>
 
