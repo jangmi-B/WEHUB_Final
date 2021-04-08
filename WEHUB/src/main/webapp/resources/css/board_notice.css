@@ -1,0 +1,142 @@
+@charset "UTF-8";
+
+/* notice 바 부분 */
+
+section > #notice_bar {
+  position: fixed;
+  margin-left: 100px;
+  margin-top: 30px;
+  padding-left: 10px;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  width: 200px;
+  line-height: 30px;
+  box-shadow: 3px 3px 3px lightgray;
+  margin-right: 30px;
+  background-color: white;
+}
+
+#notice_bar > ul {
+  margin-top: 0;
+}
+
+#notice_bar > ul > li {
+  padding-bottom: 25px;
+  padding-top: 10px;
+ 
+}
+
+#notice_bar li a{
+  color:black;
+}
+
+
+#notice_bar > ul > li span {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.line {
+  border: 1px solid black;
+  width: 150px;
+  background-color: black;
+  margin: 10px 0;
+}
+
+#notice_bar ul > li > ul > li:hover {
+  cursor: pointer;
+  font-weight: 800;
+  color: #5b18ff;
+}
+
+#notice_bar input {
+  width: 130px;
+  height: 25px;
+  border-radius: 5px;
+  border: 1px solid rgb(139, 138, 138);
+}
+
+#notice_bar input:focus {
+  border: 2px solid rgb(139, 138, 138);
+}
+
+#notice_bar button {
+  border-radius: 5px;
+  border: 1px solid transparent;
+  color: white;
+  background-color: #5b18ff;
+  width: 40px;
+  height: 25px;
+  /* box-shadow: 1px 1px 1px gray; */
+}
+
+#notice_bar button:active {
+  box-shadow: 1px 1px 3px gray;
+}
+
+/* 게시판내용부분 */
+
+.notice_contents {
+  display: flex;
+  flex-direction: row;
+  padding-left: 350px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+#notice_list_contents {
+  padding: 30px;
+  border: 2px solid #101820b4;
+  border-radius: 10px;
+  min-width: 780px;
+  line-height: 30px;
+  box-shadow: 3px 3px 7px gray;
+}
+
+#notice_list_contents textarea {
+  resize: none;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+  margin-left: 10px;
+}
+
+#notice_list_contents input {
+  width: 100%;
+  height: 30px;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+.notice_input {
+  border: 1px solid lightgray;
+}
+
+.notice_input:focus {
+  border: 2px solid gray;
+}
+
+#notice_list_contents textarea:focus {
+  border: 2px solid gray;
+}
+
+#notice_btn {
+  text-align: center;
+}
+
+.notice_btn {
+  width: 100px;
+  height: 35px;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+}
+
+#n_btn {
+  color: white;
+  background-color: #5b18ff;
+}
+
+.notice_btn:focus {
+  box-shadow: 1px 1px 3px gray;
+}

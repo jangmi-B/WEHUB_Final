@@ -39,7 +39,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @SessionAttributes("loginMember")
-
 public class MemberController {
 		
 	@Autowired

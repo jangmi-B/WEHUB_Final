@@ -1,0 +1,165 @@
+@charset "UTF-8";
+
+.notice_detail_wrap {
+  display: flex;
+  flex-direction: row;
+  padding-left: 350px;
+  margin-top: 5px;
+  margin-bottom: 30px;
+  width: 100%;
+  /* border: 1px solid red; */
+}
+
+#notice_detail {
+  /* border: 2px solid gray; */
+  border-radius: 10px;
+  width: 1000px;
+  min-height: 700px;
+  padding: 10px 30px;
+  margin-bottom: 30px;
+  margin-top: 20px;
+  /* display: flex;
+  align-content: space-between; */
+}
+
+#notice_detail_top table{
+  border-collapse: collapse;
+  width: 100%;
+  padding: 30px;
+  border-top: 3px solid black;
+  border-bottom: 3px solid black;
+}
+
+#notice_detail .detail_contents_div{
+  height: 420px;
+  overflow: scroll;
+}
+
+#notice_detail_top td {
+  width: 200px;
+  height: 38px;
+  line-height: 35px;
+  border-bottom: 2px solid lightgray;
+  padding: 3px;
+
+}
+
+
+
+.title_detail{
+  font-size: 27px;
+}
+
+.comment_list_td{
+  padding-bottom: 10px;
+}
+
+#download_icon{
+  font-size: 17px;
+  color: gray;
+  margin: 10px 0;
+}
+
+#notice_detail_btn{
+  text-align: center;
+}
+#notice_detail_btn button{
+  margin: 10px 0;
+  width: 90px;
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  background-color: #5b18ff;
+}
+
+#notice_detail_btn button:focus{
+  box-shadow: 1px 1px 4px gray;
+}
+
+#notice_detail_btn .d_btn{
+  color: black;
+  background-color: lightgray;
+}
+
+/* 댓글 */
+
+#comment_div button{
+  height: 50px;
+  width: 50px;
+}
+
+#comment_div td{
+  padding: 0px;
+}
+
+#comment_div textarea{
+  resize: none;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+}
+
+#comment_div textarea:focus{
+  border: 2px solid gray;
+  
+}
+
+#notice_conment_list td{
+  padding: 3px;
+}
+
+#notice_conment_list{
+  background-color: rgb(241, 239, 239);
+  border-radius: 5px;
+}
+
+#notice_conment_list a{
+  color: #380aad;
+}
+
+.coment_container{
+  /* border: 1px solid springgreen; */
+  margin-top: 15px;
+  width: 100%;
+}
+
+.comment_line{
+  margin: 5px 0;
+  border: 1px solid rgba(0, 0, 0, 0.781);
+  background-color: rgba(0, 0, 0, 0.781)
+}
+
+.commnet_btn{
+  width: 60px;
+  height: 60px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  font-size: 15px;
+}
+
+.commnet_btn:focus,
+.commnet_btn:hover{
+  box-shadow: 1px 1px 3px gray;
+  background-color: lightgray;
+  color: black;
+}
+
+#notice_conment_list i{
+  font-size: 40px;
+}
+
+.comment_sub{
+  color: gray;
+  font-size: 13px;
+}
+
+.comment_details{
+  font-size: 14px;
+}
+
+.notice_conment_list a{
+  text-align: right;
+}
+
+/* modal */
+

@@ -27,6 +27,7 @@ body {
 
 a {
   text-decoration: none;
+  color:black;
 }
 
 ul {
@@ -75,8 +76,7 @@ section > .common_section {
 footer {
   display: flex;
   align-items: flex-end;
-  /* padding-left: 70px; */
-  margin-left: 70px;
+  margin-left: 190px;
   justify-content: center;
 }
 
@@ -169,12 +169,10 @@ footer > p {
   /* transition: all 200ms ease; */
   font-size: 30px;
 }
+
+.active,
 .common_section i:active {
   transform: scale(1.2);
-  /* padding: 5px;
-  border: 2px solid transparent;
-  border-radius: 50%;
-  background-color: #283b4db6; */
   cursor: pointer;
   color: #a484f3;
 }
@@ -309,4 +307,35 @@ section > .index_section2 table{
 .index_section2-form1 #table1 td{
   text-align: center;
   height: 50px;
+}
+
+/* 추가 메뉴섹션 예시 */
+
+.index_section {
+  margin-left: 70px;
+  border: 1px solid transparent;
+  width: 200px;
+  height: 880px;
+  position: fixed;
+}
+
+.index_section {
+  padding-left: 10px;
+  background-color: #d2ddd8;
+  line-height: 30px;
+}
+
+.index_section > ul > li {
+  padding-bottom: 20px;
+  padding-top: 10px;
+}
+
+.line {
+  border: 1px solid black;
+  width: 150px;
+}
+
+.index_section ul > li > ul > li:hover {
+  cursor: pointer;
+  font-weight: 800;
 }
