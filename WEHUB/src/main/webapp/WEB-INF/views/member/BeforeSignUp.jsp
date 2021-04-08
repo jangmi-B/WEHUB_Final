@@ -350,7 +350,6 @@
                                         <div class="agreebox">
                                             <label>
                                                 <input type="checkbox" name="agree" id="chk1">
-                                                <input type="checkbox" name="agreement1" required />
                                                 <span class="span">내용을 모두 숙지하였으며, 이용약관에 동의합니다.</span>
                                             </label>
                                         </div>
@@ -544,7 +543,6 @@
                                         <div class="agreebox">
                                             <label>
                                                 <input type="checkbox" name="agree" id="chk2" />
-                                                <input type="checkbox" name="agreement2" required />
                                                 <span class="span">내용을 모두 숙지하였으며, 개인정보 수집 및 이용에 동의합니다.</span>
                                                 </label>
                                         </div>
@@ -564,9 +562,6 @@
                 <p id="findPwdAndSignUp">
                     <!-- <a href="${path}/" id="fpas">Already have an account?</a> -->
                     <a href="${path}/" id="fpas" style="font-size: 12px;">로그인 페이지로 돌아가기</a>
-                <button type="submit" id="login-button" onclick="location.href='${path}/member/signUpForm'">Continue</button>
-                <p id="findPwdAndSignUp">
-                    <a href="file:///C:/Users/User/Desktop/Coding/FinalProjectHTML/LogInForm.html" id="fpas">Already have an account?</a>
                 </p>
             </div>
             <!-- </form> -->

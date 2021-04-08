@@ -32,8 +32,6 @@
                     <a onclick="location.href='${path}/member/findIDorPwd'" id="fpas1">Forgot ID / Password?</a>
 
                     <a href="${path}/member/BeforeSignUp" id="fpas2">Sign Up</a>
-                    <a href="" id="fpas1">Forgot ID / Password?</a>
-                    <a href="" id="fpas2">Sign Up</a>
                 </p>
             </form>
         </div>
