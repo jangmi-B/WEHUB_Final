@@ -29,6 +29,8 @@ public class Approval {
    
    private String appRenameFileName;
    
+   private int AppWriterNo; //member.getUser_no
+   
    private String appCheckProgress; //APP_CHECK_PROGRESS IN ('결재대기', '결재중', '결재완료')
    
    private String approvalKinds; // 결재 종류

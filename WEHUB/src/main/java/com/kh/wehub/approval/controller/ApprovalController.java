@@ -1,11 +1,16 @@
 package com.kh.wehub.approval.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
@@ -68,13 +73,44 @@ public class ApprovalController {
 			@SessionAttribute(name = "App_Leave", required = false) App_Leave appLeave
 			) {
 		
-		log.info("휴가 신청서 작성");
+		log.info("휴가 신청서 작성 페이지 요청");
 		int result = 0;
-				
-		result = service.insertApproval(approval);
+		int result2 = 0;
 		
-		model.addObject("Approval", appLeave);
+		approval.setAppWriterNo(loginMember.getUser_no());
+		
+		System.out.println(approval);
+		System.out.println(appLeave);
+		
+		if(loginMember.getUser_no() == approval.getAppWriterNo()) {
+			
+			result = service.insertApproval(approval);
+			result2 = service.insertLeave(appLeave);
+			
+			if(result > 0 && result2 > 0) {
+				model.addObject("msg", "휴가신청서가 정상적으로 등록되었습니다.");
+				model.addObject("location", "/approval/approvalList");
+			} else {
+				model.addObject("msg", "결재서류 등록을 실패하였습니다.");
+				model.addObject("location", "/approval/approvalList");
+			}
+		}
+		
+		model.addObject("Approval", appLeave); // <- ?
 		
 		return model;
+	}
+	
+	@RequestMapping("approval/searchMember")
+	@ResponseBody
+	public Object idCheck(@RequestParam("searchText")String searchText) {
+		
+		Map<String, Object> map = new HashMap<>();
+		
+//		map.put("validate", service.validate(searchText));
+		
+		System.out.println(map);
+		
+		return map;
 	}
 }

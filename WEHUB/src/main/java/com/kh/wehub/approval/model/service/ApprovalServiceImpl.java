@@ -1,5 +1,6 @@
 package com.kh.wehub.approval.model.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,12 +11,19 @@ import com.kh.wehub.member.model.vo.Member;
 
 @Service
 public class ApprovalServiceImpl implements ApprovalService {
+	@Autowired
+	private ApprovalDao approvalDao;
 
 	@Override
 	@Transactional
 	public int insertApproval(Approval approval) {
 		
-//		return ApprovalDao.writeApproval(approval);
+		return approvalDao.writeApproval(approval);
+	}
+
+	@Override
+	public int insertLeave(App_Leave appLeave) {
+		
 		return 0;
 	}
 

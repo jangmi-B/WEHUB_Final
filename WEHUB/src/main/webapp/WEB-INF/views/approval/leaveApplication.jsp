@@ -25,8 +25,8 @@
 	.searchMember{
 		font-family: 'InfinitySans-RegularA1';
 		font-size: 14px;
-		width: 70px;
-		height: 35px;
+		width: 55px;
+		height: 30px;
 		background-color: #fff;
 		border: 1px solid #5b18ff;
 		border-radius: 5px;
@@ -41,7 +41,7 @@
 		display:none; 
 	}
 	.modal_content{
-	  width:400px; height:300px;
+	  width:400px; height:315px;
 	  background:#fff; border-radius:10px;
 	  position:relative; top:50%; left:50%;
 	  margin-top:-100px; margin-left:-200px;
@@ -52,12 +52,12 @@
 	#modalClose {
 		font-family: 'InfinitySans-RegularA1';
 		font-size: 14px;
-		margin: 90px;
+		margin: 15px; /* 50px */
 	}
 	.APPLE_searchArea {
 	  border: 0; border-bottom: 2px solid #5b18ff;
 	  font-family: 'InfinitySans-RegularA1';
-	  padding: 6px;
+	  padding: 8px; /* 서치바랑 검 */
 	}
 	.APPLE_searchBox {
 	  border: 0;
@@ -67,20 +67,18 @@
 	  margin-bottom: -20px;
 	  border-radius: 0;
 	}
-	.fa-search {
-		font-size: 10px;
-	}	
+	.fa-check { font-size: 10px; }	
+	.nameView{ height: 50px; }
 </style>
 
-<form action="" method="">
 	<div class="EPay-index_section">
         <h2>전자결재</h2>
         <li class="EPay-form" style="">양식작성
             <div>
                 <ul>
-                    <li><a href="${path}/approval/letterOfApproval">-품의서</a></li>
-                    <li><a href="${path}/approval/expenseReport">-지출결의서</a></li>
-                    <li><a href="${path}/approval/leaveApplication">-휴가신청서</a></li>
+                    <li><a href="${path}/approval/letterOfApproval">품의서</a></li>
+                    <li><a href="${path}/approval/expenseReport">지출결의서</a></li>
+                    <li><a href="${path}/approval/leaveApplication">휴가신청서</a></li>
                 </ul>
             </div>
         </li>
@@ -102,6 +100,7 @@
         </li>
     </div>
     
+<form action="" method="">
     <div class="cash-form-section" style="height: 100%; width:1000px; margin: 0 300px 0 300px;">
         <div class="cash-disbursement" style="text-align: center; margin: 80px 0px 80px 200px; border: 2px solid black;">
             <table border="2" style="width: 100%; font-size: 20px; border-collapse: collapse;">
@@ -112,13 +111,25 @@
                     <td style="width: 100px; font-family: 'InfinitySans-RegularA1'; font-size: 15px;">중간승인자</td>
                     <td style="width: 100px; font-family: 'InfinitySans-RegularA1'; font-size: 15px;">최종승인자</td>
                 </tr>
-                <tr> <!-- 이미지화 시켜서 인쇄할 수 있는 방법 찾아보기  -->
-                    <td><input type="button" value="검색" class="searchMember" id="firstBtn" name="firstApprover"><!-- 최초승인자 --></td>
-                    <td><input type="button" value="검색" class="searchMember" id="" name="interimApprover"><!-- 중간승인자 --></td>
-                    <td><input type="button" value="검색" class="searchMember" id="" name="finalApprover"><!-- 최종승인자 --></td>
+                <tr>
+                	<td style=""> <!-- 이미지화 시켜서 인쇄할 수 있는 방법 찾아보기 -->
+                		<input type="text" value="" id="" name="firstApprover" readonly="readonly" class="nameView">
+                		<input type="button" value="검색" class="searchMember" id="firstBtn" name="firstApprover">
+                	</td>
+                	<td>
+                		<input type="text" value="" id="" name="interimApprover" readonly="readonly" class="nameView">
+                		<input type="button" value="검색" class="searchMember" id="" name="interimApprover">
+                	</td>
+                	<td>
+                		<input type="text" value="" id="" name="finalApprover" readonly="readonly" class="nameView">
+                		<input type="button" value="검색" class="searchMember" id="" name="finalApprover">
+                	</td>
                 </tr>
                 <tr>
                     <td colspan="8" style="height: 50px;">수신참조자</td>
+                </tr>
+                <tr>
+                	<td colspan="8" style="height: 50px;"></td>
                 </tr>
                 <tr>
                     <td style="height: 70px; width: 80px; font-family: 'InfinitySans-RegularA1'; font-size: 15px;">성 명</td>
@@ -206,24 +217,15 @@
     <!-- 승인자 모달창  -->
     <div class="modal">
     	<div class="modal_content">
-    		히히히히
+    		<label style="font-size: 15px;">부서, 이름을 검색해주세요.</label><br><br>
     		<div class="searchBar">
-    			<input type="text" class="APPLE_searchArea" name="searchText" placeholder="검색">
-        		<button type="submit" class="APPLE_searchBox"><i class="fas fa-search"></i></button>
-        		<br><br>
-    			<button class="searchMember" id="modalClose" style="font">완료</button>
-    		</div>
-    		<div>
-    			<table>
-    				<tr>
-    					<th>
-    						
-    						
-    					</th>
-    				</tr>
-    				<tr>
-    				</tr>
-    			</table>
+    			<input type="text" class="APPLE_searchArea" name="searchText" id="searchText" placeholder="검색">
+        		<button type="submit" class="APPLE_searchBox"><i class="fas fa-check"></i></button>
+        		<br><br><br>
+        		<div>
+        			<span style="color: #5b18ff;">김예슬</span> 님이 맞으신가요?
+        		</div>
+    			<button class="searchMember" type="button" id="modalClose" style="font">확인</button>
     		</div>
     	</div>
     </div>
@@ -232,12 +234,13 @@
 </form> 
 
 <script>
+	
     $(document).ready(function () {
         $('.EPay-form').on('click', function() {
             $('.EPay-form > div').slideToggle();
         });
     });
-
+	
     $(document).ready(function () {
         $('.EPay-list').on('click', function() {
             $('.EPay-list > div').slideToggle();
@@ -253,7 +256,34 @@
     		$(".modal").fadeOut(); 
     	}); 
     });
-
+    
+    $(document).ready(() => {
+		$(".fa-check").on("click", () => {
+			let user_id = $("#searchText").val().trim();
+			
+			$.ajax({
+				type: "get",
+				url: "${path}/approval/searchMember",
+				dataType: "json",
+				data: {
+					searchText
+				},
+				success: function(data) {
+					console.log(data);
+					
+					if(data.validate !== true) {
+						alert("");
+					} else {
+						alert("");						
+					}
+				},
+				error: function(e) {
+					console.log(e);
+				}				
+			});
+		});
+	});
+	
 </script>
 
 <%@ include file="../common/footer.jsp" %>

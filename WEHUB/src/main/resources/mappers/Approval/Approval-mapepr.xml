@@ -23,7 +23,6 @@
 	</resultMap>
 	
 	<resultMap type="Approval" id="ApprovalResultMap">
-		<!-- 기본키 -->
 		<id property="appNo" column="APP_SEQ"/>
 		
 		<id property="appWriterNo" column="APP_WRITE_SYS"/>

@@ -8,6 +8,8 @@ public interface ApprovalService {
 
 	int insertApproval(Approval approval);
 
+	int insertLeave(App_Leave appLeave);
+
 
 
 }

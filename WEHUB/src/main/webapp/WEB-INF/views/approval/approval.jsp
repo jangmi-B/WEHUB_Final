@@ -197,16 +197,18 @@
     document.querySelector(".send-open").addEventListener("click", open);
     document.querySelector(".closeBtn-out").addEventListener("click", close);
     document.querySelector(".bg").addEventListener("click", close);
+    
     // 수신참조자 추가하기 -> 전체 (선택, 해제)
     $(document).ready(function() {
         $('#refer-listAll').click(function() {
             if($('#refer-listAll').prop('checked')){
                 $('input[name=refer-list]:checkbox').prop('checked', true);
-            }else {
+            } else {
                 $('input[name=refer-list]:checkbox').prop('checked', false);
             }
         });
     });
+    
     $(document).ready(function() {
         $('.refer-insert').click(function() {
             var rowData = new Array();
