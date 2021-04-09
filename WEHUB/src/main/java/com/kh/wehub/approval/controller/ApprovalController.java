@@ -1,6 +1,10 @@
 package com.kh.wehub.approval.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.wehub.approval.model.service.ApprovalService;
 import com.kh.wehub.approval.model.vo.Approval;
+import com.kh.wehub.board.model.vo.Board;
+import com.kh.wehub.common.util.PageInfo;
 import com.kh.wehub.member.model.service.MemberService;
 import com.kh.wehub.member.model.vo.Member;
 
@@ -26,6 +32,8 @@ public class ApprovalController {
 	
 	@Autowired
 	private MemberService service2;
+	
+	/** 메인화면 */
 	
 	@RequestMapping(value="/approvalMain", method={RequestMethod.GET})
 	public ModelAndView approvalMain(@SessionAttribute(name = "loginMember", required = false)
@@ -54,33 +62,126 @@ public class ApprovalController {
 		return model;
 	}
 	
+	/** 결재리스트 */
+	
 	@RequestMapping(value="/approvalList", method={RequestMethod.GET})
-	public ModelAndView approvalList(@SessionAttribute(name = "loginMember", required = false)
-															Member loginMember, ModelAndView model) {
+	public ModelAndView approvalList(ModelAndView model,
+						@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+						@RequestParam(value = "listLimit", required = false, defaultValue = "10") int listLimit,
+						@RequestParam(value = "notice_search", required=false)String searchText) {
 	
 		List<Approval> mainList2 = null;
 		
-		mainList2 = service.getApprovalList(loginMember);
+		int listCount = service.getListCount(searchText);
+		
+		PageInfo pageInfo = new PageInfo(page, 10, listCount, listLimit);
+		
+		mainList2 = service.getApprovalList(pageInfo, searchText);
+		
+		System.out.println("mainList2 : " + mainList2);
+		
+		if(searchText != null) {
+			model.addObject("notice_search",searchText);
+		}
 		
 		model.addObject("mainList", mainList2);
+		model.addObject("pageInfo", pageInfo);
+		
 		model.setViewName("approval/approvalList");
 		
 		return model;
 	}
 	
+	/** 수신참조자 모달 내 멤버 리스트 불러오기 (leaveApplication) */
+	
+	/*
+	 * @RequestMapping(value = "/leaveApplication", method = { RequestMethod.GET })
+	 * public ModelAndView leaveApplication(@SessionAttribute(name = "loginMember",
+	 * required = false) Member loginMember, ModelAndView model, Member member) {
+	 * 
+	 * List<Member> memberList = null;
+	 * 
+	 * memberList = service2.selectMemberAll(loginMember.getUser_id());
+	 * 
+	 * model.addObject("memberList", memberList);
+	 * model.setViewName("approval/leaveApplication");
+	 * 
+	 * return model; }
+	 */
+	
+	/** 수신참조자 모달 내 멤버 리스트 불러오기 (letterOfApproval) */
+	
 	@RequestMapping(value = "/letterOfApproval", method = { RequestMethod.GET })
 	public ModelAndView letterOfApproval(@SessionAttribute(name = "loginMember", required = false) 
 												Member loginMember, ModelAndView model, Member member) {
 		
+		Date date = new Date();
+		//DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, locale);
+
+		//String formattedDate = dateFormat.format(date);
+
+		SimpleDateFormat format = new SimpleDateFormat("yyyy 년 MM 월 dd 일");
+		
+		String today =  format.format(date);
+
+		model.addObject("serverTime", today);
+		
 		List<Member> memberList = null;
 		
 		memberList = service2.selectMemberAll(loginMember.getUser_id());
+		
+		System.out.println("memberList : " + memberList);
 		
 		model.addObject("memberList", memberList);
 		model.setViewName("approval/letterOfApproval");
 		
 		return model;
 	}
+	
+	@RequestMapping(value = "/letterOfApproval", method = { RequestMethod.POST })
+	public ModelAndView letterOfApprovalWrite(@SessionAttribute(name = "loginMember", required = false) Member loginMember,
+											Approval approval, ModelAndView model) {
+		int result = 0;
+		int result2 = 0;
+		int result3 = 0;
+
+		approval.setAppWriterNo(loginMember.getUser_no());
+
+		result = service.saveLetterOfApproval(approval);
+		
+		approval.setLoaAppNo(approval.getAppNo());
+		
+		result2 = service.saveLetterOfApproval2(approval);
+		
+		approval.setReceiveRefAppNo(approval.getAppNo());
+		
+		result3 = service.saveLetterOfApproval3(approval);
+	
+		if (result > 0 && result2 > 0 && result3 > 0) {
+			model.addObject("msg", "품의서가 정상적으로 등록되었습니다.");
+			model.addObject("location", "/approval/approvalList");
+		} else {
+			model.addObject("msg", "품의서 등록에 실패하였습니다.");
+			model.addObject("location", "/");
+		}
+
+		model.setViewName("common/msg");
+
+		return model;
+	}
+	
+	@RequestMapping(value="/letterOfApprovalView", method={RequestMethod.GET})
+	public ModelAndView letterOfApprovalView(@RequestParam("appNo") int appNo, ModelAndView model) {
+		Approval approval = service.findListByNo(appNo);
+		
+		model.addObject("approval", approval);
+		model.setViewName("/approval/letterOfApprovalView");
+		
+		return model;
+	}
+	
+	
+	/** 수신참조자 모달 내 검색 */
 	
 	@ResponseBody
 	@RequestMapping(value = "/searchMemberInModal", method = { RequestMethod.GET })
@@ -142,9 +243,16 @@ public class ApprovalController {
 		return "/approval/expenseReport";
 	}
 	
-	@RequestMapping(value = "/leaveApplication", method = { RequestMethod.GET })
-	public String leaveApplication(@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+	@RequestMapping(value = "/expenseReportView", method = { RequestMethod.GET })
+	public String expenseReportView(@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
 		
-		return "/approval/leaveApplication";
+		return "/approval/expenseReportView";
 	}
+	
+	@RequestMapping(value = "/leaveApplicationView", method = { RequestMethod.GET })
+	public String leaveApplicationView(@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+		
+		return "/approval/leaveApplicationView";
+	}
+	
 }

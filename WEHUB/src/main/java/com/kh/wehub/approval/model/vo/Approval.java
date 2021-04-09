@@ -11,6 +11,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Approval {
 	
+	private int userNo;
+
+	private String deptName;
+	
+	private String userName;
+	
+	private int rowNum;
+	
+	private String rank;
+	
+	// approval
+
 	private int appNo;
 	
 	private int appWriterNo;
@@ -33,12 +45,22 @@ public class Approval {
 	
 	private String appRenameFileName;
 	
-	private int userNo;
-	
 	private String appKinds;
 	
-	private String userName;
 	
-	private int rowNum;
+	// letterOfApproval
+	
+	private String loaTitle;
+	
+	private String loaContent;
+	
+	private int loaAppNo;
+	
+	
+	// 수신참조
+	
+	private int receiveRefAppNo;
+	
+	private String referList;
 	
 }

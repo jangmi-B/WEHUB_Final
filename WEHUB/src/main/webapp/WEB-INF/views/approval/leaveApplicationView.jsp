@@ -14,7 +14,7 @@
 
 <%@ include file="../approval/approvalSubMenu.jsp" %>	
 	
-    <form>
+    <form action="${path}/approval/leaveApplication" method="post">
 	    <div class="cash-form-section" style="height: 100%; margin: 0 300px 0 300px;">
 	        <div class="cash-disbursement" style="text-align: center; margin: 80px 0px 80px 200px; border: 2px solid black;">
 	            <table border="2px" style="width: 100%; font-size: 20px; border-collapse: collapse;">
@@ -32,23 +32,23 @@
 	                </tr>
 	                <tr>
 	                    <td colspan="2" style="height: 70px;">
-                        	<button class="send-open">수신참조자 +</button>
+	                        <h3>수신참조자</h3>
 	                    </td>
 	                    <td colspan="6" style="height: 70px;">
 	                    	<span id="referList"></span>
-	                    </td>
-	                </tr>
+	                    </td>	
+                	</tr>
 	                <tr>
 	                    <td style="height: 70px; width: 80px;">성 명</td>
-	                    <td><input type="text" name="" id=""  ></td>
+	                    <td><input type="text" readonly></td>
 	                    <td style="width: 80px;">부 서</td>
-	                    <td><input type="text"  ></td>
+	                    <td><input type="text" readonly></td>
 	                    <td style="width: 80px;">직 급</td>
-	                    <td colspan="3"><input type="text"  ></td>
+	                    <td colspan="3"><input type="text" readonly></td>
 	                </tr>
 	                <tr>
 	                    <td colspan="3" style="height: 70px; width: 80px;">비 상 연 락 망</td>
-	                    <td colspan="5"><input type="text"  ></td>
+	                    <td colspan="5"><input type="text" readonly></td>
 	                </tr>
 	                <tr>
 	                    <td colspan="3" style="height: 70px; width: 80px;">기 간</td>
@@ -65,7 +65,7 @@
 	                <tr>
 	                    <td style="width: 80px;">세부사항</td>
 	                    <td colspan="8">
-	                        <input style="height: 300px;" type="text">
+	                        <input style="height: 300px;" type="text" readonly>
 	                    </td>
 	                </tr>
 	                <tr>
@@ -73,14 +73,14 @@
 	                </tr>
 	                <tr style="border: white;">
 	                    <td colspan="8" style="text-align: center; height: 100px;">
-	                        20 <input type="text" style="border: none; width: 40px; font-size: 20px;">년
-	                        <input type="text" style="border: none; width: 40px; font-size: 20px;">월
-	                        <input type="text" style="border: none; width: 40px; font-size: 20px;">일
+	                        20 <input type="text" style="border: none; width: 40px; font-size: 20px;" value="" readonly>년
+	                        <input type="text" style="border: none; width: 40px; font-size: 20px;" value="" readonly>월
+	                        <input type="text" style="border: none; width: 40px; font-size: 20px;" value="" readonly>일
 	                    </td>
 	                </tr>
 	                <tr>
 	                    <td colspan="8" style="text-align: right; height: 100px; padding-right: 50px;">
-	                        신청자 : <input type="text" style=" width:200px; border: none; text-align: center;" maxlength="4">
+	                        신청자 : <input type="text" style=" width:200px; border: none; text-align: center;" maxlength="4" value="" readonly>
 	                        (인)
 	                    </td>
 	                </tr>
@@ -88,11 +88,13 @@
 	        </div>
 	        
 	        <div id="button">
-		        <button>등록</button>
+		        <button>결재</button>
 		        <input type="text" style="border: none; width: 40px;" disabled>
 		        <button>취소</button>
-	        </div>
+		        <input type="text" style="border: none; width: 40px;" disabled>
+		        <button style="color:red">반려</button>
+        	</div>
 	    </div>
 	</form>
-
+ 
 <%@ include file="../common/footer.jsp" %>

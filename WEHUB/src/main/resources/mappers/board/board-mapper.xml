@@ -132,7 +132,7 @@
         FROM BOARD B
         JOIN MEMBER M ON(B.BOARD_WRITER_NO = M.USER_NO)
         JOIN DEPARTMENT D ON (M.DEPT_CODE = D.DEPT_CODE)
-        WHERE B.STATUS='Y' AND ROWNUM <![CDATA[ < ]]>= 2
+        WHERE B.STATUS='Y'<!--  AND ROWNUM <![CDATA[ < ]]>= 2 -->
          <if test="keyword != null">
          AND (M.USER_NAME LIKE '%'||#{keyword}||'%' OR B.BOARD_CONTENT LIKE '%'||#{keyword}||'%')
          </if>

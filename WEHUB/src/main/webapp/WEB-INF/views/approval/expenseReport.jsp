@@ -12,37 +12,8 @@
 <link rel="stylesheet" href="${path}/css/expenseReport.css">
 <script src="${path}/js/jquery-3.5.1.js"></script>
 
-<div class="EPay-index_section">
-        <h2>전자결재</h2>
-        <li class="EPay-form">양식작성
-            <div>
-                <ul>
-                    <li><a href="${path}/approval/letterOfApproval">-품의서</a></li>
-                    <li><a href="${path}/approval/expenseReport">-지출결의서</a></li>
-                    <li><a href="${path}/approval/leaveApplication">-휴가신청서</a></li>
-                </ul>
-            </div>
-        </li>
-        <li class="EPay-list">
-            결재리스트
-            <div>
-            <ul>
-                <li><a href="">-개인별</a></li>
-                <li><a href="">-부서별</a></li>
-                <li><a href="">-전체</a></li>
-            </ul>
-            </div>
-        </li>
-        <li class="EPay-box">보관함
-            <div>
-	            <ul>
-	                <li><a href="">품의서</a></li>
-	                <li><a href="">지출결의서</a></li>
-	                <li><a href="">휴가신청서</a></li>
-	            </ul>
-            </div>
-        </li>
-    </div>
+<%@ include file="../approval/approvalSubMenu.jsp" %>
+
     <div class="cash-form-section" style="height: 100%; margin: 0 300px 0 300px;">
         <div class="cash-disbursement" style="text-align: center; margin: 80px 0px 80px 200px; border: 2px solid black;">
             <table border="2" style="width: 100%; font-size: 20px; border-collapse: collapse;">
@@ -152,27 +123,5 @@
         <button>취소</button>
         </div>
     </div>
-
-<script>
-    $(document).ready(function () {
-        $('.EPay-form').on('click', function() {
-            $('.EPay-form > div').slideToggle();
-        });
-    });
-
-    $(document).ready(function () {
-        $('.EPay-list').on('click', function() {
-            $('.EPay-list > div').slideToggle();
-        });
-    });
-    
-    $(document).ready(function () {
-        $('.EPay-box').on('click', function() {
-            $('.EPay-box > div').slideToggle();
-        });
-    });
-
-
-</script>
 
 <%@ include file="../common/footer.jsp" %>

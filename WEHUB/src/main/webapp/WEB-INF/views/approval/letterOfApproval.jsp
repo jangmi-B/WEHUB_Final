@@ -7,41 +7,12 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 <%@ include file="../common/header.jsp" %>
+<%-- <%@ include file="../approval/approvalSubMenu.jsp" %> --%>
 
 <link rel="stylesheet" href="${path}/css/approvalStyle.css">
 <script src="${path}/js/jquery-3.5.1.js"></script>
 
-    <div class="EPay-index_section">
-        <h2 style="margin-left:19px">전자결재</h2>
-        <li class="EPay-form">양식작성
-            <div>
-                <ul>
-                    <li><a href="${path}/approval/letterOfApproval">-품의서</a></li>
-                    <li><a href="${path}/approval/expenseReport">-지출결의서</a></li>
-                    <li><a href="${path}/approval/leaveApplication">-휴가신청서</a></li>
-                </ul>
-            </div>
-        </li>
-        <li class="EPay-list">
-            결재리스트
-            <div>
-            <ul>
-                <li><a href="">-개인별</a></li>
-                <li><a href="">-부서별</a></li>
-                <li><a href="">-전체</a></li>
-            </ul>
-            </div>
-        </li>
-        <li class="EPay-box">보관함
-            <div>
-	            <ul>
-	                <li><a href="">품의서</a></li>
-	                <li><a href="">지출결의서</a></li>
-	                <li><a href="">휴가신청서</a></li>
-	            </ul>
-            </div>
-        </li>
-    </div>
+<form action="${path}/approval/letterOfApproval" method="POST">
     <div class="cash-form-section" style="height: 100%; margin: 0 300px 0 300px;">
         <div class="cash-disbursement" style="text-align: center; margin: 80px 0px 80px 200px; border: 2px solid black;">
             <table border="2" style="width: 100%; font-size: 20px; border-collapse: collapse;">
@@ -61,27 +32,27 @@
                 </tr>
                 <tr>
                     <td colspan="2" style="height: 70px;">
-                        <button class="send-open">수신참조자 +</button>
+                        <button class="send-open" type="button">수신참조자 +</button>
                     </td>
                     <td colspan="6" style="height: 70px;">
-                    	<span id="referList"></span>
+                    	<textArea readonly name="referList" id="referList" style="border:none;margin-bottom:-12px; font-size:19px; width:600px; height:60px; text-align: center; resize: none;"></textArea>
                     </td>	
                 </tr>
                 <tr>
                     <td style="height: 70px; width: 80px;">성 명</td>
-                    <td><input type="text" name="" id=""  ></td>
+                    <td><input type="text" name="writerName" value="${loginMember.user_name}" readonly></td>
                     <td style="width: 80px;">부 서</td>
-                    <td><input type="text"  ></td>
+                    <td><input type="text" value="${loginMember.dept_name}" readonly></td>
                     <td style="width: 80px;">직 급</td>
-                    <td colspan="3"><input type="text"  ></td>
+                    <td colspan="3"><input type="text" value="${loginMember.rank}" readonly></td>
                 </tr>
                 <tr>
                     <td style="height: 70px; width: 80px;">제 목</td>
-                    <td colspan="8"><input type="text"  ></td>
+                    <td colspan="8"><input type="text" name="loaTitle" id="loaTitle"></td>
                 </tr>
                 <tr>
                     <td colspan="8" style="height: 90px;" >
-                        <button>파일첨부 +</button>
+                        <button type="button">파일첨부 +</button>
                         파일이름.img
                     </td>
                 </tr>
@@ -90,7 +61,7 @@
                 </tr>
                 <tr>
                     <td colspan="8">
-                        <textarea name="" id="" cols="151px" rows="11px" style="width: 100%; height: 100%; border: none; resize: none; overflow: hidden; font-size: 25px;"></textarea>
+                        <textarea name="loaContent" id="loaContent" cols="151px" rows="11px" style="width: 100%; height: 100%; border: none; resize: none; overflow: hidden; font-size: 25px;"></textarea>
                     </td>
                 </tr>
                 <tr>
@@ -98,25 +69,26 @@
                 </tr>
                 <tr style="border: white;">
                     <td colspan="8" style="text-align: center; height: 100px;">
-                        20 <input type="text" style="border: none; width: 40px; font-size: 20px;">년
-                        <input type="text" style="border: none; width: 40px; font-size: 20px;">월
-                        <input type="text" style="border: none; width: 40px; font-size: 20px;">일
+                        <input type="text" style="text-align:center; font-size: 30px;" readonly value="${ serverTime }">
                     </td>
                 </tr>
                 <tr>
                     <td colspan="8" style="text-align: right; height: 100px; padding-right: 50px;">
-                        신청자 : <input type="text" style="width:200px; border: none; text-align: center;" maxlength="4">
+                        <input type="button" name="proposer" id="proposer" style="font-size:15px; width:70px; height:30px; border: none; text-align: center; border-radius:20px; margin-right:10px" value="서명" />
+                        신청자 : 
+                        <textArea name="proposerText" id="proposerText" style="width:130px; border: none; text-align: center; resize: none; font-size:24px; margin-bottom:-42px"></textArea>
                         (인)
                     </td>
                 </tr>
             </table>
         </div>
         <div id="button">
-        <button>등록</button>
-        <input type="text" style="border: none; width: 40px;" disabled>
-        <button>취소</button>
+        	<button type="submit">등록</button>
+	        <input type="text" style="border: none; width: 40px;" disabled>
+	        <button>취소</button>
         </div>
     </div>
+</form>
 
     <!-- modal section -->
     
@@ -172,12 +144,22 @@
             </div>
             <div style="margin: 5% 0px 0px 37%;">
                 <span style="padding-right: 60px; float: left;" >
-                    <button type="submit" class="closeBtn-in" onclick="addRefer()" id="addRefer">추가</button>
+                    <button type="submit" class="closeBtn-in" id="addRefer">추가</button>
                 </span>
                 <button class="closeBtn-out">닫기</button>
             </div>
         </div>
     </div>
+    
+    <!-- 서명 클릭 스크립트  -->
+    
+    <script>
+    	$("#proposer").one("click",function(){
+     		var proposerValue = $("input[name='writerName']").val();
+     	
+     		$("#proposerText").append(proposerValue);
+    	});
+    </script>
     
     
     <!-- 모달 내 검색 스크립트 -->
@@ -246,28 +228,11 @@
 	<!-- 모달 스크립트 -->
 	
 	<script>
-	    $(document).ready(function () {
-	        $('.EPay-form').on('click', function() {
-	            $('.EPay-form > div').slideToggle();
-	        });
-	    });
-	
-	    $(document).ready(function () {
-	        $('.EPay-list').on('click', function() {
-	            $('.EPay-list > div').slideToggle();
-	        });
-	    });
-	    
-	    $(document).ready(function () {
-	        $('.EPay-box').on('click', function() {
-	            $('.EPay-box > div').slideToggle();
-	        });
-	    });
-	
 	    // modal 창 띄우기
-	
+		
 	    const open = () => {
-	    document.querySelector(".modal").classList.remove("hidden");
+	    	document.querySelector(".modal").classList.remove("hidden");
+	    	
 	    }
 	
 	    const close = () => {
@@ -277,7 +242,9 @@
 	    document.querySelector(".send-open").addEventListener("click", open);
 	    document.querySelector(".closeBtn-out").addEventListener("click", close);
 	
+	    
 	    // 수신참조자 추가하기 -> 전체 (선택, 해제)
+	    
 	    $(document).ready(function() {
 	        $('#refer-listAll').click(function() {
 	            if($('#refer-listAll').prop('checked')){
@@ -288,6 +255,7 @@
 	        });
 	    });
 	
+	    /* refer-insert */
 	
 	    $(document).ready(function() {
 	        $('.refer-insert').click(function() {
@@ -299,8 +267,6 @@
 	            
 	            checkbox.each(function(i) {
 		
-		            // checkbox.parent() : checkbox의 부모는 <td>이다.
-		            // checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.
 		            var tr = checkbox.parent().parent().eq(i);
 		            var td = tr.children();
 		            
@@ -309,16 +275,14 @@
 		            console.log('tr: ' + tr);
 		            console.log('td: ' + td);
 		            
-		            // 체크된 row의 모든 값을 배열에 담는다.
 		            rowData.push(tr.text());
 		            
 		            console.log('rowData: ' + rowData);
-		            // td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
+		            
 		            var name = td.eq(1).text();
 		            var dept = td.eq(2).text();
 		            var position = td.eq(3).text();
 		            
-		            // 가져온 값을 배열에 담는다.
 		            tdArr.push(name);
 		            tdArr.push(dept);
 		            tdArr.push(position);
@@ -345,6 +309,7 @@
 	    });
 	    
 	    /* refer-delete */
+	    
 	    $(document).ready(function() {
 	        $('#D-refer-listAll').click(function() {
 	            if($('#D-refer-listAll').prop('checked')){
@@ -365,20 +330,15 @@
 	            
 	            checkbox.each(function(i) {
 		
-	            // checkbox.parent() : checkbox의 부모는 <td>이다.
-	            // checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.
 	            var tr = checkbox.parent().parent().eq(i);
 	            var td = tr.children();
 	            
-	            // 체크된 row의 모든 값을 배열에 담는다.
 	            rowData.push(tr.text());
 	            
-	            // td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
 	            var name = td.eq(1).text();
 	            var dept = td.eq(2).text();
 	            var position = td.eq(3).text();
 	            
-	            // 가져온 값을 배열에 담는다.
 	            tdArr.push(name);
 	            tdArr.push(dept);
 	            tdArr.push(position);
@@ -423,19 +383,7 @@
 		            var str = name + " " + position +"(" + dept + ")" + ", ";
 		            
 		            $('#referList').append(str);		            	
-		            	
 		           
-		            /* var referListValue = new Array();
-		            
-		            referListValue = $('#referList').val().split(', ');
-		            
-		            console.log(referListValue); */
-		            
-		            
-		            /* if($('#referList').val().split(', ') != str) {
-		            } */
-		            
-		            
 		            $("#refer-right-section").empty();
                     $("#refer-right-section").append(
                     		'<tr style="border-bottom: 1px solid black;">'
@@ -458,26 +406,5 @@
 	    });
 	    
 	</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <%@ include file="../common/footer.jsp" %>

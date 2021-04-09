@@ -2,11 +2,13 @@ package com.kh.wehub.approval.model.service;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.wehub.approval.model.dao.ApprovalDao;
 import com.kh.wehub.approval.model.vo.Approval;
+import com.kh.wehub.common.util.PageInfo;
 import com.kh.wehub.member.model.vo.Member;
 
 @Service
@@ -43,9 +45,51 @@ public class ApprovalServiceImpl implements ApprovalService {
 	}
 
 	@Override
-	public List<Approval> getApprovalList(Member loginMember) {
+	public List<Approval> getApprovalList(PageInfo pageInfo, String searchText) {
 		
-		return approvalDao.selectApprovalList(loginMember);
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
+		
+		return approvalDao.selectApprovalList(rowBounds,searchText);
+	}
+
+	@Override
+	public int getListCount(String searchText) {
+		
+		return approvalDao.listCount(searchText);
+	}
+
+	@Override
+	public int saveLetterOfApproval(Approval approval) {
+		int result = 0;
+		
+		result = approvalDao.insertLetterOfApproval(approval);
+		
+		return result;
+	}
+
+	@Override
+	public int saveLetterOfApproval2(Approval approval) {
+		int result = 0;
+		
+		result = approvalDao.insertLetterOfApproval2(approval);
+		
+		return result;
+	}
+
+	@Override
+	public int saveLetterOfApproval3(Approval approval) {
+		int result = 0;
+		
+		result = approvalDao.insertLetterOfApproval3(approval);
+		
+		return result;
+	}
+
+	@Override
+	public Approval findListByNo(int appNo) {
+		
+		return approvalDao.selectApprovalListDetail(appNo);
 	}
 
 }
