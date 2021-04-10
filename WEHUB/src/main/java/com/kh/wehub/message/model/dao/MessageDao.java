@@ -8,8 +8,6 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.kh.wehub.member.model.vo.Member;
 import com.kh.wehub.message.model.vo.Message;
-import com.kh.wehub.message.model.vo.ReceiveMessage;
-import com.kh.wehub.message.model.vo.SendMessage;
 
 @Mapper
 public interface MessageDao {

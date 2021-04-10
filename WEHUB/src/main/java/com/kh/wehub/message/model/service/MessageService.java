@@ -6,8 +6,6 @@ import java.util.Map;
 import com.kh.wehub.common.util.PageInfo;
 import com.kh.wehub.member.model.vo.Member;
 import com.kh.wehub.message.model.vo.Message;
-import com.kh.wehub.message.model.vo.ReceiveMessage;
-import com.kh.wehub.message.model.vo.SendMessage;
 
 public interface MessageService {
 

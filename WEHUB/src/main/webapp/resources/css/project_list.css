@@ -1,0 +1,317 @@
+@charset "UTF-8";
+
+.pj1 {
+  background: #6b5b95;
+}
+.pj2 {
+  background: #feb236;
+}
+
+.pj3 {
+  background: #d64161;
+}
+
+.pj4 {
+  background: #ff7b25;
+}
+
+.pj5 {
+  background: #c94c4c;
+}
+
+.pj6 {
+  background: #eea29a;
+}
+
+.pj7 {
+  background: #b1cbbb;
+}
+
+.pj8 {
+  background: #deeaee;
+}
+
+.pj9 {
+  background: #588c7e;
+}
+
+.pj10 {
+  background: #f2e394;
+}
+
+.pj11 {
+  background: #f2ae72;
+}
+
+.pj12 {
+  background: #d96459;
+}
+
+.make_project_btn {
+  margin-bottom: 10px;
+  background-color: #5b18ff;
+  width: 140px;
+  height: 30px;
+  color: white;
+  border-color: transparent;
+  border-radius: 5px;
+}
+
+.projectWrap {
+  /* border: 1px solid red; */
+  margin-left: 280px;
+  padding-left: 110px;
+  padding-right: 110px;
+  width: 80%;
+  min-height: 850px;
+}
+
+.pline {
+  width: 240px;
+  padding: 1px;
+  background-color: gray;
+}
+
+.project_search {
+  text-align: center;
+  margin-top: 20px;
+  /* border: 1px solid green; */
+}
+
+#pInput {
+  width: 300px;
+  height: 35px;
+  border-radius: 5px;
+  border: 2px solid lightgray;
+}
+
+#pBtn {
+  width: 50px;
+  height: 35px;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+}
+
+.pojectdiv {
+  display: inline-block;
+
+  width: 250px;
+  height: 250px;
+  /* border: 1px solid blue; */
+  border-radius: 30px;
+  margin: 30px;
+}
+
+.pojectdiv:hover {
+  box-shadow: 3px 3px 3px rgb(161, 161, 161);
+}
+
+.projextdivIn {
+  width: 100%;
+  height: 70%;
+  padding: 5px;
+  padding-top: 30px;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  text-align: center;
+  font-size: 26px;
+}
+.projectdivInfo {
+  padding-left: 15px;
+  height: 30%;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+
+.project_page {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.favBtnY{
+	font-size:30px;
+	color :white;
+}
+
+.favBtnS{
+	font-size:30px;
+	color: yellow;
+}
+
+
+/* modal css*/
+
+.proContainer button {
+  color:black;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  border: q;
+  cursor: pointer;
+  width: 80px;
+  height: 35px;
+  margin-top: 15px;
+}
+
+.proContainer button:active{
+	box-shadow: 1px 1px 1px grey;
+}
+
+.modal_project {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border : 1px solid grey;
+}
+
+.modal_project .bg {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.proContainer {
+  position: absolute;
+  background-color: #fff;
+  width: 680px;
+  height: 630px;
+ 
+}
+
+.view_form {
+  text-align: center;
+  padding:0px;
+}
+
+.fade {
+  display: none;
+}
+
+.form-control {
+  width: 94%;
+  height: 230px;
+  border: 2px solid lightgray;
+  border-radius: 20px;
+  resize: none;
+  margin-top:10px;
+  padding:10px;
+}
+
+.projectInfo{
+	text-align: left;
+	margin-botton:15px;
+}
+
+.project_btns{
+	text-align:center;
+	
+}
+
+
+.titleDiv{
+	height:150px;
+	
+}
+
+#proTitle{
+	font-size:30px;
+	text-align:center;
+	margin:0px;
+	padding-top:50px;
+}
+
+.projectModal{
+	margin:10px;
+	border:1px solid red;
+}
+
+
+/* make project modal*/
+.memSearch{
+	background-color: lightgrey;
+	border: transparent;
+	border-radius:5px;
+	width:50px;
+	height:30px;
+}
+
+.memSearch:active{
+	box-shadow: 1px 1px 1px grey;
+}
+
+.projectContainer button {
+  background: navy;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 10px;
+  border: q;
+  cursor: pointer;
+  width: 100px;
+  height: 35px;
+  margin-top: 15px;
+}
+
+.projectContainer button:active{
+	box-shadow: 1px 1px 1px grey;
+}
+
+.modal_pro {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal_pro .bg {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.projectContainer {
+  position: absolute;
+  background-color: #fff;
+  width: 800px;
+  height: 630px;
+  padding: 15px;
+}
+
+.write_form {
+  text-align: center;
+}
+
+
+.text_Count{
+	float:right;
+}
+
+.fade {
+  display: none;
+}
+
+input#memSearch {
+  width: 250px;
+  height: 30px;
+  margin-bottom: 10px;
+  border: transparent;
+  /* border-bottom:1px solid lightgrey; */
+}
+
+.projectContainer #contentsDiv {
+  width: 430px;
+  height: 250px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  resize: none;
+  padding:7px;
+} 

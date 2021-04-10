@@ -16,6 +16,7 @@
   <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="https://kit.fontawesome.com/d854b17d02.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="icon" type="image/png" href="${path}/images/logo.png">
   <link rel="stylesheet" href="${path}/css/style.css">
   <link rel="stylesheet" href="${path}/css/homeContent.css">
@@ -25,6 +26,7 @@
   <link rel="stylesheet" href="${path}/css/board_notice_detail.css">
   <link rel="stylesheet" href="${path}/css/modal.css">
   <link rel="stylesheet" href="${path}/css/message_list.css">
+  <link rel="stylesheet" href="${path}/css/project_list.css">
   <title>WEHUB</title>
 </head>
 <body>
@@ -57,6 +59,7 @@
         <li><a href="${path}/message/list"><i class="far fa-envelope home_contents"></i></a></li>
         <li><a href="${path}/memberInfo/list"><i class="fas fa-users home_contents"></i></a></li>
         <li><a href="#"><i class="far fa-calendar-alt home_contents"></i></a></li>
+        <li><a href="${path}/project/list"><i class="fas fa-project-diagram"></i></a></li>
       </ul>
     </div>
 

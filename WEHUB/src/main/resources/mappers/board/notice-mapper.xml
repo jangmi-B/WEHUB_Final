@@ -98,7 +98,7 @@
 		FROM NOTICE N
 		JOIN MEMBER M ON(N.NOTICE_WRITER_NO = M.USER_NO)
 		WHERE N.STATUS='Y' AND N.NOTICE_TYPE='N'
-		<if test="searchList != 'null'">
+		<if test="searchText != 'null'">
 			AND (N.NOTICE_TITLE LIKE '%'|| #{searchText} ||'%'
 			OR N.NOTICE_CONTENT LIKE '%'|| #{searchText} ||'%')
 		</if>

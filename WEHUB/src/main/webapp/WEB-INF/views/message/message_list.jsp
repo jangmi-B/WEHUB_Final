@@ -82,7 +82,7 @@
 					    <div class="bg"></div>
 					    <div class="modalContainer">
 					      <h2 style="margin-left: 18px;">받은쪽지</h2>
-					        <div class="view_form info">
+					        <div class="view_form info" style="margin-left:20px; text-align:left;">
 					          <input type="hidden" id="msgNo${receiveList.msgNo}" value="<c:out value="${receiveList.msgNo}"/>">
 					          <input type="hidden" id="sName${receiveList.msgNo}" value="<c:out value="${receiveList.userName}"/>">
 					          <input type="hidden" id="sRank${receiveList.msgNo}" value="<c:out value="${receiveList.rank}"/>">
@@ -459,6 +459,7 @@
 	$(document).ready(() => { 
 		 $("#memSearchInput").autocomplete({
 			source:function(request, response){
+			 console.log($("#memSearchInput").val());
 				$.ajax({
 					url : "${path}/search/json",
 					type : "get",

@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,18 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.kh.wehub.board.model.vo.Notice;
 import com.kh.wehub.common.util.PageInfo;
 import com.kh.wehub.member.model.vo.Member;
 import com.kh.wehub.message.model.service.MessageService;
 import com.kh.wehub.message.model.vo.Message;
-import com.kh.wehub.message.model.vo.ReceiveMessage;
-import com.kh.wehub.message.model.vo.SendMessage;
 
 import lombok.extern.slf4j.Slf4j;
 
