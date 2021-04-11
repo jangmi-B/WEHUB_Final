@@ -31,7 +31,7 @@
       <div class="projectBox">
       <c:if test="${projectList != null}">
       	<c:forEach var="projectList" items="${projectList}" varStatus="status">
-	        <div class="pojectdiv">
+	        <div class="pojectdiv" id="projectDivNo${projectList.projectNo}">
       		<input type="hidden" name="projectNo" value="<c:out value="${projectList.projectNo}"/>">
       		<input type="hidden" id="favStatus" name="projectStatus" value="<c:out value="${projectList.status}"/>">
 	          <div class="projextdivIn pj${ status.count }">
@@ -75,7 +75,7 @@
 			        </div>
 		        </div>
 		        <div class="project_btns">
-	        	 <button style="width:100px; background:" type="button" id="deleteBtn(${receiveList.msgNo})" class="pj${ status.count }" onclick="deleteMsg(${receiveList.msgNo});">프로젝트종료</button>
+	        	 <button style="width:100px; background:" type="button" id="deleteBtn(${projectList.projectNo})" class="pj${ status.count }" onclick="closeProject(${projectList.projectNo});">프로젝트종료</button>
 	       		 <button type="button" id="exitBtn(${projectList.projectNo})">닫기</button>
 		        </div>
 		    </div>
@@ -193,6 +193,47 @@ function makeProject(){
       });
 }
 
+function closeProject(proNo){
+	console.log(proNo);
+	Swal.fire({
+		  title: '프로젝트를 정말 종료하시겠습니까?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: '네 종료하겠습니다!'
+		}).then((result) => {
+		  if (result.isConfirmed) {
+			  $.ajax({
+					type: "post",
+					url:"${path}/project/close",
+					data:{
+						proNo:proNo
+					},
+					success:function(data){
+						console.log(data)
+						
+						var closeProject = document.getElementById('projectDivNo'+ proNo);
+						closeProject.remove();
+						document.querySelector(".proNo" + proNo).classList.add("fade");
+					},
+					error: function(e){
+						Swal.fire({
+							  icon: 'error',
+							  text: '프로젝트 종료 실패! 관리자에게 문의하세요'
+							})
+						console.log(e);
+					}
+				});  
+			  
+		    Swal.fire({
+		    	icon: 'success',
+				text: '프로젝트가 성공적으로 종료되었습니다 :)'
+		    })
+		  }
+		})
+}
+
 $(function(){
 	$("#makeBtn").on("click",function(){
 		let projectWriter = $("#projectWriter").val();
@@ -203,7 +244,7 @@ $(function(){
 		let dueDate = $("#dueDate").val();
 		let writeCnt = parseInt($("#writeCnt").text());
 		let writeMax = parseInt($("#writeMax").text());
-		let msgContent = projectTitle + " 프로젝트에 참여되었습니다. :)" + "\n\n" + "프로젝트 내용은 아래와 같습니다. :  " + "\n" + projectContent;
+		let msgContent = projectTitle + " 프로젝트에 참여되었습니다. :)" + "\n\n" + "▶ 프로젝트 내용  " + "\n" + projectContent;
 		
 		if(projectTitle == ""){
 			Swal.fire({

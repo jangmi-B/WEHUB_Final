@@ -40,4 +40,6 @@ public interface ProjectDao {
 
 	List<Project> getFavList(RowBounds rowBounds, Map<String, Object> map);
 
+	int closeProject(int proNo);
+
 }

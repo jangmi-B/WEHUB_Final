@@ -120,4 +120,10 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectDao.getFavList(rowBounds, map);
 	}
 
+	@Override
+	public int closeProject(int proNo) {
+		
+		return projectDao.closeProject(proNo);
+	}
+
 }

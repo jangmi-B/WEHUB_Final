@@ -241,4 +241,12 @@
 		ORDER BY P.PROJECT_NO DESC
 	</select>
 	
+	<update id="closeProject" parameterType="_int">
+		UPDATE PROJECT 
+		SET 
+		    STATUS='N'
+		WHERE 
+		    PROJECT_NO= #{proNum}
+	</update>
+	
 </mapper>

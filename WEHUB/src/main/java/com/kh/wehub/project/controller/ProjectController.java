@@ -91,8 +91,6 @@ public class ProjectController {
 		
 		int result = 0;
 		
-		System.out.println(Project);
-		
 		result = service.makeProject(Project);
 
 		if(result > 0) {
@@ -115,17 +113,13 @@ public class ProjectController {
 		String msgContent = msg.getMsgContent();
 		
 		String[] arr = msg.getUserName().split("/ ");
-		System.out.println("arr : " + arr[0] + arr[1] + arr[2]);
 
 		for(int i=0; i <arr.length; i++) {
 			Message forMsg = new Message();
 			
 			String[] name = arr[i].split("_");
-			System.out.println("name : " + name[0] + name[1] + name[2]);
 			
 			Member member = service.findReceiver(name[0], name[1], name[2]);
-			
-			System.out.println("member : " + member);
 			
 			forMsg.setMsgFrom(getMsgFrom);
 			forMsg.setMsgTo(member.getUser_no());
@@ -133,15 +127,8 @@ public class ProjectController {
 			forMsg.setRank(name[1]);
 			forMsg.setDeptName(name[2]);
 			
-			System.out.println("forMsg : " + forMsg);
-			
 			message.add(i,forMsg);
-			
-			System.out.println("message 저장확인" + message);
 		}
-		
-		System.out.println("message :" + message);
-		
 		Map<String, Object> map = new HashMap<>();
 		map.put("list", message);
 		
@@ -243,6 +230,19 @@ public class ProjectController {
 		model.setViewName("project/project_fav");
 		
 		return model;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/project/close", method= {RequestMethod.POST})
+	public void closeProject(@RequestParam(value="proNo") int proNo) {
+		int result = 0;
+		result = service.closeProject(proNo);
+		
+		if(result > 0) {
+//			System.out.println("종료성공");
+		}else {
+//			System.out.println("종료실패");
+		}
 	}
 	
 }

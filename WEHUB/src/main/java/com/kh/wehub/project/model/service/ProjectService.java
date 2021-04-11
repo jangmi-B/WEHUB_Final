@@ -36,4 +36,6 @@ public interface ProjectService {
 
 	List<Project> getFavList(PageInfo pageInfo, Map<String, Object> map);
 
+	int closeProject(int proNo);
+
 }
