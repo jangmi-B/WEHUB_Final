@@ -1,5 +1,6 @@
 package com.kh.wehub.approval.model.service;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +21,19 @@ public class ApprovalServiceImpl implements ApprovalService {
 	@Transactional
 	public int insertApproval(Approval approval) {
 		
-		return approvalDao.writeApproval(approval);
+		return approvalDao.insertApproval(approval);
 	}
 
 	@Override
 	public int insertLeave(App_Leave appLeave) {
 		
-		return 0;
+		return approvalDao.insertAppLeave(appLeave);
 	}
 
 	@Override
-	public List<Member> getSearchMember(String userName) {
+	public List<Member> getSearchMember(String user_name) {
 		
-		return approvalDao.getSearchMember(userName);
+		return approvalDao.getSearchMember(user_name);
 	}
 
 

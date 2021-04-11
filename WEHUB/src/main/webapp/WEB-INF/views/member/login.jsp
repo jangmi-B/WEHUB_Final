@@ -22,7 +22,8 @@
     	<div class="wrapper">
         <div class="container">
 
-            <img src="${path}/images/wehub(white).png"/>
+           <%--  <img src="${path}/images/wehub(white).png"/> --%>
+            <img src="${path}/images/WEHUB_LogoW.png"/>
 
             <form class="form" action="loginn" method="POST" id="loginForm" onsubmit="loginForm();">
                 <input type="text" name="userId" placeholder="User Id ">
@@ -39,7 +40,7 @@
 </body>
 
 <script>
-/*  	$("#login-button").click(function(event){
+  	$("#login-button").click(function(event){
 	
 		$('form').fadeOut(300);
 		$('.wrapper').addClass('form-success');
@@ -49,11 +50,7 @@
 		return;
 		
 		$('#loginForm').submit();
-	}); */
-	
-	function loginForm() {
-		
-	}
+	});
      
      /* $("#login-button").click(function(event){ 2800
     	 alert("Request method 'GET' not supported/nreturn location.href=\"${path}/main\";이라고 쓰면 비밀번호를 입력하지 않아도 main화면으로 넘어감.");

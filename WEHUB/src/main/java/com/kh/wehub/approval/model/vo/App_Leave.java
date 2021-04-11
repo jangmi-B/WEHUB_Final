@@ -2,6 +2,8 @@ package com.kh.wehub.approval.model.vo;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,12 +19,16 @@ public class App_Leave {
 	
 	private String leaveClassify; //휴가구분
 	
-	private Date laeveStart;
+	private String leaveStart;
 	
-	private Date laeveFinish;
+	private String leaveFinish;
 	
-	private String laeveDetale; //문서상태
+	private String leaveDetail;
 	
-	private String laevePreasent; // 결재상태
+	private String leaveStatus; //문서상태
+	
+	private String leavePreasent; // 결재상태
+	
+	private String appEmergncyCall; // 비상연락망
 
 }

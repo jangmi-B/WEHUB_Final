@@ -6,84 +6,110 @@
 	
 	<resultMap type="Member" id="memberResultMap">
 		<id property="user_no" column="USER_NO"/>
-		
-		<id property="user_companyname" column="USER_COMPANYNAME"/>
-		<id property="user_id" column="USER_ID"/>
-		<id property="user_pwd" column="USER_PWD"/>
-		<id property="user_name" column="USER_NAME"/>
-		<id property="rank" column="RANK"/>
-		<id property="email" column="EMAIL"/>
-		<id property="comcall" column="COMCALL"/>
-		<id property="phone" column="PHONE"/>
-		<id property="address" column="ADDRESS"/>
-		<id property="user_status" column="USER_STATUS"/>
-		<id property="dept_code" column="DEPT_CODE"/>
-		<id property="user_imgOriname" column="USER_IMG_ORIFILENAME"/>
-		<id property="user_imgRename" column="USER_IMG_REFILENAME"/>
+		<result property="user_companyname" column="USER_COMPANYNAME"/>
+		<result property="user_id" column="USER_ID"/>
+		<result property="user_pwd" column="USER_PWD"/>
+		<result property="user_name" column="USER_NAME"/>
+		<result property="rank" column="RANK"/>
+		<result property="email" column="EMAIL"/>
+		<result property="comcall" column="COMCALL"/>
+		<result property="phone" column="PHONE"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="user_status" column="USER_STATUS"/>
+		<result property="dept_code" column="DEPT_CODE"/>
+		<result property="user_imgOriname" column="USER_IMG_ORIFILENAME"/>
+		<result property="user_imgRename" column="USER_IMG_REFILENAME"/>
 	</resultMap>
 	
 	<resultMap type="Approval" id="ApprovalResultMap">
 		<id property="appNo" column="APP_SEQ"/>
-		
-		<id property="appWriterNo" column="APP_WRITE_SYS"/>
-		<id property="appWriteDate" column="FIRST_TIME_APPROVER"/>
-		<id property="firstApprover" column="INTERIM_APPROVER"/>
-		<id property="interimApprover" column="FINAL_APPROVER"/>
-		<id property="finalApprover" column="APP_CHECK_SYSDATE"/>
-		<id property="appCheckSysdate" column="APP_REASON"/>
-		<id property="appCheckProgress" column="APP_ORIFILENAME"/>
-		<id property="appReason" column="APP_REFILENAME"/>
-		<id property="appOriginalFileName" column="APP_CHECK_PROGRESS"/>
-		<id property="appRenameFileName" column="APPROVAL_KINDS"/>
+		<result property="appWriteDate" column="APP_WRITE_SYS"/>
+		<result property="firstApprover" column="FIRST_TIME_APPROVER"/>
+		<result property="interimApprover" column="INTERIM_APPROVER"/>
+		<result property="finalApprover" column="FINAL_APPROVER"/>
+		<result property="appCheckSysdate" column="APP_CHECK_SYSDATE"/>
+		<result property="appReason" column="APP_REASON"/>
+		<result property="appOriginalFileName" column="APP_ORIFILENAME"/>
+		<result property="appRenameFileName" column="APP_REFILENAME"/>
+		<result property="AppWriterNo" column="APP_WRITER_NO"/>
+		<result property="appCheckProgress" column="APP_CHECK_PROGRESS"/>
+		<result property="approvalKinds" column="APPROVAL_KINDS"/>
 	</resultMap>
 	
 	<resultMap type="App_Leave" id="leaveResultMap">
-		<id property="user_no" column="LEAVE_SEQ"/>
-		
-		<id property="user_companyname" column="LEAVE_APP_SEQ"/>
-		<id property="leaveAppNo" column="LEAVE_CLASSIFY"/>
-		<id property="leaveClassify" column="LEAVE_START"/>
-		<id property="laeveStart" column="LEAVE_FINISH"/>
-		<id property="laeveFinish" column="LEAVE_DETAIL"/>
-		<id property="laeveDetale" column="LEAVE_STATUS"/>
-		<id property="laevePreasent" column="LEAVE_PRESENT"/>
+		<id property="leaveNo" column="LEAVE_SEQ"/>
+		<result property="leaveAppNo" column="LEAVE_APP_SEQ"/>
+		<result property="leaveClassify" column="LEAVE_CLASSIFY"/>
+		<result property="leaveStart" column="LEAVE_START"/>
+		<result property="leaveFinish" column="LEAVE_FINISH"/>
+		<result property="leaveDetail" column="LEAVE_DETAIL"/>
+		<result property="leaveStatus" column="LEAVE_STATUS"/>
+		<result property="leavePreasent" column="LEAVE_PRESENT"/>
+		<result property="appEmergncyCall" column="APP_EMERGENCYCALL"/>
 	</resultMap>
 	
+	<!-- 자동완성 -->
 	<select id="getSearchMember" parameterType="string" resultMap="memberResultMap">
-		SELECT M.USER_NAME, D.DEPT_NAME, M.RANK
+		SELECT M.USER_NAME, M.DEPT_CODE, M.RANK
 		FROM MEMBER M
 		WHERE USER_NAME LIKE '%'|| #{userName} ||'%'
 	</select>
 	
-	<insert id="writeApproval" parameterType="map"
+ 	<insert id="insertApproval" parameterType="map"
 		useGeneratedKeys="true" keyProperty="appNo" keyColumn="APP_SEQ">
-		INSERT INTO APPROVAL (
+		INSERT INTO APPROVAL(
+			APP_SEQ,
+			APP_WRITE_SYS,
+			FIRST_TIME_APPROVER,
+			INTERIM_APPROVER,
+			FINAL_APPROVER,
+			APP_CHECK_SYSDATE,
+			APP_REASON,
+			APP_ORIFILENAME,
+			APP_REFILENAME,
+			APP_WRITER_NO,
+			APP_CHECK_PROGRESS,
+			APPROVAL_KINDS
+		)
 		VALUES(
 			SEQ_APP_SEQ.NEXTVAL,
 			SYSDATE,
 			#{firstApprover},
 			#{interimApprover},
 			#{finalApprover},
-			SYSDATE,
-			#{appCheckProgress},
+			#{appCheckSysdate},
 			#{appReason},
 			#{appOriginalFileName},
 			#{appRenameFileName},
-			#{appWriterNo}
+			#{AppWriterNo},
+			DEFAULT,
+            #{approvalKinds}
 		)
 	</insert>
 	
-	<insert id="writeAppLeave" parameterType="map"
-		useGeneratedKeys="true" keyProperty="appNo" keyColumn="APP_SEQ">
-		INSERT INTO APPROVAL (
+	<insert id="insertAppLeave" parameterType="map"
+		useGeneratedKeys="true" keyProperty="leaveNo" keyColumn="LEAVE_SEQ">
+		INSERT INTO APP_LEAVE(
+			LEAVE_SEQ,
+			LEAVE_APP_SEQ,
+			LEAVE_CLASSIFY,
+			LEAVE_START,
+			LEAVE_FINISH,
+			LEAVE_DETAIL,
+			LEAVE_STATUS,
+			LEAVE_PRESENT,
+			APP_EMERGENCYCALL
+		)
 		VALUES(
 			SEQ_LEAVE_SEQ.NEXTVAL,
 			#{leaveAppNo},
 			#{leaveClassify},
-			SYSDATE,
-			SYSDATE,
-			#{laeveDetale},
-			#{laevePreasent}
+			#{leaveStart},
+			#{leaveFinish},
+			#{leaveDetail},
+			DEFAULT,
+			DEFAULT,
+			#{appEmergncyCall}
 		)
 	</insert>
 	

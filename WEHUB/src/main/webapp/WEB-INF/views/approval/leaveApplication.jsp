@@ -8,14 +8,12 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 <%@ include file="../common/header.jsp" %>
+<link rel="stylesheet" href="${path}/css/approvalStyle.css">
 
 <% Calendar today =  Calendar.getInstance(); %>
 
-<link rel="stylesheet" href="${path}/css/approvalStyle.css">
-<link rel="stylesheet" href="${path}/css/leaveApplication.css">
-<script src="${path}/js/jquery-3.5.1.js"></script>
-
 <style>
+	* {font-family: 'InfinitySans-RegularA1'; }
 	@font-face {
 	    font-family: 'InfinitySans-RegularA1';
 	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-RegularA1.woff') format('woff');
@@ -69,6 +67,7 @@
 	}
 	.fa-check { font-size: 10px; }	
 	.nameView{ height: 50px; }
+	label { display: inline-block; font-family: 'InfinitySans-RegularA1'; font-size: 14px; }
 </style>
 
 	<div class="EPay-index_section">
@@ -100,7 +99,7 @@
         </li>
     </div>
     
-<form action="" method="">
+<form action="${path}/approval/updateLeave" method="POST">
     <div class="cash-form-section" style="height: 100%; width:1000px; margin: 0 300px 0 300px;">
         <div class="cash-disbursement" style="text-align: center; margin: 80px 0px 80px 200px; border: 2px solid black;">
             <table border="2" style="width: 100%; font-size: 20px; border-collapse: collapse;">
@@ -113,16 +112,16 @@
                 </tr>
                 <tr>
                 	<td style=""> <!-- 이미지화 시켜서 인쇄할 수 있는 방법 찾아보기 -->
-                		<input type="text" value="" id="" name="firstApprover" readonly="readonly" class="nameView">
+                		<input type="text" value="" id="firstApprover" name="firstApprover" readonly="readonly" class="nameView">
                 		<input type="button" value="검색" class="searchMember" id="firstBtn" name="firstApprover">
                 	</td>
                 	<td>
-                		<input type="text" value="" id="" name="interimApprover" readonly="readonly" class="nameView">
-                		<input type="button" value="검색" class="searchMember" id="" name="interimApprover">
+                		<input type="text" value="" id="interimName" name="interimApprover" readonly="readonly" class="nameView">
+                		<input type="button" value="검색" class="searchMember" id="secondBtn" name="interimApprover">
                 	</td>
                 	<td>
-                		<input type="text" value="" id="" name="finalApprover" readonly="readonly" class="nameView">
-                		<input type="button" value="검색" class="searchMember" id="" name="finalApprover">
+                		<input type="text" value="" id="finalApprover" name="finalApprover" readonly="readonly" class="nameView">
+                		<input type="button" value="검색" class="searchMember" id="thirdBtn" name="finalApprover">
                 	</td>
                 </tr>
                 <tr>
@@ -141,7 +140,7 @@
                 </tr>
                 <tr>
                     <td colspan="3" style="height: 70px; width: 80px; font-family: 'InfinitySans-RegularA1'; font-size: 15px;">비 상 연 락 망</td>
-                    <td colspan="5"><input type="tel" placeholder="전화번호만 입력하세요." class="callNumber" name="" style="font-size: 18px;"></td>
+                    <td colspan="5"><input type="tel" placeholder="전화번호만 입력하세요." class="callNumber" name="appEmergncyCall" style="font-size: 18px;"></td>
                 </tr>
 	                <script>
 	                    $(document).on("keyup", ".callNumber", function() {
@@ -154,11 +153,11 @@
                     <td colspan="3" style="height: 70px; width: 80px;  font-family: 'InfinitySans-RegularA1'; font-size: 15px;">기 간</td>
                     <td colspan="5">
                         <span>
-                            <input style="width: 160px; font-size: 18px;" type="date" name="" id="startDate" required>
+                            <input style="width: 160px; font-size: 18px;" type="date" name="leaveStart" id="startDate" />
                         </span>
                         &nbsp;&nbsp; ~ &nbsp;&nbsp;
                         <span>
-                            <input style="width: 160px; font-size: 18px;" type="date" name="" id="endDate" required> 
+                            <input style="width: 160px; font-size: 18px;" type="date" name="leaveFinish" id="endDate" /> 
                         </span>
 	                        <script type="text/javascript">
 	                     		// 시작일 < 종료일
@@ -180,13 +179,20 @@
                 	<td style="width: 80px; height: 70px; font-family: 'InfinitySans-RegularA1'; font-size: 15px;">휴가 구분</td>
                 	<td colspan="8">
                 		<!-- <input type="checkbox" id="ex_chk3"> https://webdir.tistory.com/433
-  						<label for="ex_chk3">연차</label>  -->
+  						<label for="ex_chk3">연차</label>  --> 
+  						<div class="redioChk">
+	  						<label><input type="radio" name="leaveClassify" class="redioChk" id="leave0" value="연차">연차</label>
+	  						<label><input type="radio" name="leaveClassify" class="redioChk" id="leave1" value="반차">반차</label>
+	  						<label><input type="radio" name="leaveClassify" class="redioChk" id="leave2" value="병가">운동</label>
+	  						<label><input type="radio" name="leaveClassify" class="redioChk" id="leave3" value="보상휴가">운동</label>
+	  						<label><input type="radio" name="leaveClassify" class="redioChk" id="leave4" value="기타">기타(세부사항 상세 기술)</label>
+  						</div>
                 	</td>
                 </tr>
                 <tr>
                     <td style="width: 80px; font-family: 'InfinitySans-RegularA1'; font-size: 15px;">세부사항</td>
                     <td colspan="8">
-                        <input style="height: 300px;" type="text">
+                        <input style="height: 300px;" type="text" name="leaveDetail">
                     </td>
                 </tr>
                 <tr>
@@ -208,33 +214,46 @@
             </table>
         </div>
         <div id="button">
-        <button type="submit" class="goToLeave" onclick="">등록</button>
+        <input type="hidden" name="approvalKinds" value="휴가신청서">
+        <button type="submit" class="goToLeave" onclick="${path}/approval/updateLeave">등록</button>
         <input type="text" style="border: none; width: 40px;" disabled>
         <button type="reset" class="resetLeave" onclick="">취소</button>
         </div>
     </div>
     
     <!-- 승인자 모달창  -->
-    <div class="modal">
+	<div class="modal">
     	<div class="modal_content">
     		<label style="font-size: 15px;">부서, 이름을 검색해주세요.</label><br><br>
     		<div class="searchBar">
-    			<input type="text" id="memSearchInput" name="userName">
-    			<input type="text" class="APPLE_searchArea" name="searchText" id="searchText" placeholder="검색">
-        		<button type="submit" class="APPLE_searchBox"><i class="fas fa-check"></i></button>
+    			<input type="text" id="" name="searchText">
+    			<input type="text" class="APPLE_searchArea" name="searchText" id="" placeholder="검색"/>
+        		<!-- <button type="submit" class="APPLE_searchBox"><i class="fas fa-check"></i></button> -->
         		<br><br><br>
         		<div>
-        			<span style="color: #5b18ff;">??</span> 님이 맞으신가요?
+        			<span style="color: #5b18ff;" value="" class="selectName"></span> 님이 맞으신가요?
         		</div>
-    			<button class="searchMember" type="button" id="modalClose" style="font">확인</button>
+    			<button class="searchMember" type="button" id="modalClose" style="">확인</button>
     		</div>
     	</div>
     </div>
     
+    
 </form> 
+    <div id="testForm" name="testForm">
+	    <div class="modal">
+	    	<div class="modal_content">
+	    		<div>
+	    			<input type="text" id="memSearchInput" name="userName">
+	    			<span style="color: #5b18ff;" value="" class="selectName"></span> 님이 맞으신가요?
+	    		</div>
+	    			<button class="searchMember" type="button" id="modalClose2" style="">확인</button>
+	    	</div>
+	    </div>
+    </div>
 
 <script>
-	
+/* 	
     $(document).ready(function () {
         $('.EPay-form').on('click', function() {
             $('.EPay-form > div').slideToggle();
@@ -246,71 +265,53 @@
             $('.EPay-list > div').slideToggle();
         });
     });
-	
+*/	
     $(function(){ 
-    	$("#firstBtn").click(function(){ 
+    	$("#secondBtn").click(function(){ 
     		$(".modal").fadeIn(); 
+    		$("#memSearchInput").autocomplete({
+    			source:function(request, response){
+    				$.ajax({
+    					url : "${path}/approval/search/json",
+    					type : "get",
+    					dataType : 'json',
+    					data : {
+    						userName:$("#memSearchInput").val()
+    					},
+    					success : function(data){
+    						var result = data;
+    						response(result);
+    						$('#')
+    					},
+    					error : function(e){
+    						alert("ajax에러발생..!")
+						}
+					});
+				},
+				focus : function(event, ui) {    //포커스 가면
+					return false;//한글 에러 잡기용도로 사용됨
+				},
+				minLength: 1,// 최소 글자수
+				autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
+				delay: 500,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
+    		 });
     	}); 
     	
-    	$("#modalClose").click(function(){ 
+    	$("#modalClose2").click(function(){ 
     		$(".modal").fadeOut(); 
     	}); 
     });
     
-    $(document).ready(() => {
-		$(".fa-check").on("click", () => {
-			let user_id = $("#searchText").val().trim();
-			
-			$.ajax({
-				type: "get",
-				url: "${path}/approval/searchMember",
-				dataType: "json",
-				data: {
-					searchText
-				},
-				success: function(data) {
-					console.log(data);
-					
-					if(data.validate !== true) {
-						alert("");
-					} else {
-						alert("");						
-					}
-				},
-				error: function(e) {
-					console.log(e);
-				}				
-			});
-		});
-	});
-    
-     $(document).ready(() => { 
-		 $("#memSearchInput").autocomplete({
-			source:function(request, response){
-				$.ajax({
-					url : "${path}/approval/searchMember",
-					type : "get",
-					dataType : 'json',
-					data : {
-						userName:$("#memSearchInput").val()
-					},
-					success : function(data){
-						var result = data;
-						response(result);
-					},
-					error : function(e){
-						alert("ajax에러발생..!")
-					}
-				});
-			},
-           focus : function(event, ui) {    //포커스 가면
-               return false;//한글 에러 잡기용도로 사용됨
-           },
-           minLength: 1,// 최소 글자수
-           autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
-           delay: 300,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
-		 });
-	 });
+/*     $(function(){ 
+    	$("#twoBtn").click(function(){ 
+    		$(".modal").fadeIn(); 
+    	});
+    	
+    	$("#modalClose").click(function(){ 
+    		$(".modal").fadeOut(); 
+    	});
+    }); */
+	
 	
 </script>
 

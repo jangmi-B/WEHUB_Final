@@ -11,9 +11,10 @@ import com.kh.wehub.member.model.vo.Member;
 @Mapper
 public interface ApprovalDao {
 
-	int writeApproval(Approval approval);
+	int insertApproval(Approval approval);
 	
-	int writeApproval(App_Leave writeAppLeave);
+	int insertAppLeave(App_Leave writeAppLeave);
 
-	List<Member> getSearchMember(String userName);
+	List<Member> getSearchMember(String user_name); //쪽지 자동완성
+
 }

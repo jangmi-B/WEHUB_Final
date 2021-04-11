@@ -458,4 +458,12 @@ public class MemberController {
 		return "member/DeactivateAccount";
 	}
 	
+	// 회원 비밀번호 변경 관련 뻘짓
+	@RequestMapping("/member/updatePasswordTest")
+	public String updatePassword() {
+		log.info("뻘짓회원 비밀번호 변경 페이지 요청");
+		
+		return "/member/updatePasswordTest";
+	}
+	
 }
