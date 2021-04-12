@@ -53,7 +53,8 @@
 		margin: 15px; /* 50px */
 	}
 	.APPLE_searchArea {
-	  border: 0; border-bottom: 2px solid #5b18ff;
+	  border: 0; border-bottom: 3px solid #5b18ff;
+	  font-size: 18px;
 	  font-family: 'InfinitySans-RegularA1';
 	  padding: 8px; /* 서치바랑 검 */
 	}
@@ -68,6 +69,34 @@
 	.fa-check { font-size: 10px; }	
 	.nameView{ height: 50px; }
 	label { display: inline-block; font-family: 'InfinitySans-RegularA1'; font-size: 14px; }
+	.form-radio{
+    display: inline-block; 
+    line-height: 20px; 
+    vertical-align: middle;
+	}
+	.form-chek::before, .form-radio::before{
+	    content: ""; 
+	    display: inline-block; 
+	    width: 10px; 
+	    height: 10px; 
+	    background: #ffffff; 
+	    border: 1px solid #3d3d3e; 
+	    margin-right: 8px;
+	}
+	.form-radio::before{
+	    border-radius: 50%;
+	}
+	.input-chek, .input-radio{
+	    display: none;
+	}
+	.input-chek:checked + .form-chek::before, .input-radio:checked + .form-radio::before{
+	    background: #5b18ff;
+	}
+	.input-chek:checked + .form-chek, .input-radio:checked + .form-radio{
+	    color: #5b18ff;
+	}
+	.modalInputName{font-family: 'InfinitySans-RegularA1'; font-size: 28px; padding-bottom: 50px; color:#5b18ff; }
+	.anserMember{ font-size: 18px; }
 </style>
 
 	<div class="EPay-index_section">
@@ -140,7 +169,7 @@
                 </tr>
                 <tr>
                     <td colspan="3" style="height: 70px; width: 80px; font-family: 'InfinitySans-RegularA1'; font-size: 15px;">비 상 연 락 망</td>
-                    <td colspan="5"><input type="tel" placeholder="전화번호만 입력하세요." class="callNumber" name="appEmergncyCall" style="font-size: 18px;"></td>
+                    <td colspan="5"><input type="tel" placeholder="전화번호만 입력하세요." class="callNumber" name="appEmergncyCall" style="font-size: 18px;" required/></td>
                 </tr>
 	                <script>
 	                    $(document).on("keyup", ".callNumber", function() {
@@ -180,13 +209,28 @@
                 	<td colspan="8">
                 		<!-- <input type="checkbox" id="ex_chk3"> https://webdir.tistory.com/433
   						<label for="ex_chk3">연차</label>  --> 
-  						<div class="redioChk">
-	  						<label><input type="radio" name="leaveClassify" class="redioChk" id="leave0" value="연차">연차</label>
-	  						<label><input type="radio" name="leaveClassify" class="redioChk" id="leave1" value="반차">반차</label>
-	  						<label><input type="radio" name="leaveClassify" class="redioChk" id="leave2" value="병가">운동</label>
-	  						<label><input type="radio" name="leaveClassify" class="redioChk" id="leave3" value="보상휴가">운동</label>
-	  						<label><input type="radio" name="leaveClassify" class="redioChk" id="leave4" value="기타">기타(세부사항 상세 기술)</label>
-  						</div>
+  						<div class="form-checkbox-wrap">
+					        <sapn class="form-inline">
+					            <input type="radio" name="leaveClassify" class="input-radio" id="radio1" value="연차">&nbsp;&nbsp;&nbsp;
+					            <label for="radio1" class="form-radio">연차</label>
+					        </sapn>
+					        <sapn class="form-inline">
+					            <input type="radio" name="leaveClassify" class="input-radio" id="radio2" value="반차">&nbsp;&nbsp;&nbsp;
+					            <label for="radio2" class="form-radio">반차</label>
+					        </sapn>
+					        <sapn class="form-inline">
+					            <input type="radio" name="leaveClassify" class="input-radio" id="radio3" value="병가">&nbsp;&nbsp;&nbsp;
+					            <label for="radio3" class="form-radio">병가</label>
+					        </sapn>
+					        <sapn class="form-inline">
+					            <input type="radio" name="leaveClassify" class="input-radio" id="radio4" value="보상휴가">&nbsp;&nbsp;&nbsp;
+					            <label for="radio4" class="form-radio">보상휴가</label>
+					        </sapn>
+					        <sapn class="form-inline">
+					            <input type="radio" name="leaveClassify" class="input-radio" id="radio5" value="기타">&nbsp;&nbsp;&nbsp;
+					            <label for="radio5" class="form-radio">기타(세부사항 상세 기술)</label>
+					        </sapn>
+					    </div>
                 	</td>
                 </tr>
                 <tr>
@@ -221,33 +265,30 @@
         </div>
     </div>
     
-    <!-- 승인자 모달창  -->
-	<div class="modal">
-    	<div class="modal_content">
-    		<label style="font-size: 15px;">부서, 이름을 검색해주세요.</label><br><br>
-    		<div class="searchBar">
-    			<input type="text" id="" name="searchText">
-    			<input type="text" class="APPLE_searchArea" name="searchText" id="" placeholder="검색"/>
-        		<!-- <button type="submit" class="APPLE_searchBox"><i class="fas fa-check"></i></button> -->
-        		<br><br><br>
-        		<div>
-        			<span style="color: #5b18ff;" value="" class="selectName"></span> 님이 맞으신가요?
-        		</div>
-    			<button class="searchMember" type="button" id="modalClose" style="">확인</button>
-    		</div>
-    	</div>
+    <!-- 중간 승인자 모달창  -->
+    <div id="testForm" name="testForm">
+	    <div class="modal Amodal">
+	    	<div class="modal_content">
+	    	<div class="modalInputName">이름을 입력해 주세요.</div>
+	    		<div>
+	    			<input type="text" id="memSearchInput" name="userName" class="APPLE_searchArea"> <lable class="anserMember">님이 맞으신가요?</lable>
+	    		</div>
+	    		<br><br>
+	    			<button class="searchMember" type="button" id="modalClose2" style="">확인</button>
+	    	</div>
+	    </div>
     </div>
     
-    
-</form> 
-    <div id="testForm" name="testForm">
-	    <div class="modal">
-	    	<div class="modal_content">
+    <!-- 최초 승인자 모달창  -->
+    <div id="testForm1" name="testForm1">
+	    <div class="modal Amodal1">
+	    	<div class="modal_content1">
+	    	<div class="modalInputName1">이름을 입력해 주세요.</div>
 	    		<div>
-	    			<input type="text" id="memSearchInput" name="userName">
-	    			<span style="color: #5b18ff;" value="" class="selectName"></span> 님이 맞으신가요?
+	    			<input type="text" id="memSearchInput" name="userName" class="APPLE_searchArea"> <lable class="anserMember">님이 맞으신가요?</lable>
 	    		</div>
-	    			<button class="searchMember" type="button" id="modalClose2" style="">확인</button>
+	    		<br><br>
+	    			<button class="searchMember" type="button" id="modalCloseFirst">확인</button>
 	    	</div>
 	    </div>
     </div>
@@ -268,7 +309,7 @@
 */	
     $(function(){ 
     	$("#secondBtn").click(function(){ 
-    		$(".modal").fadeIn(); 
+    		$(".Amodal").fadeIn(); 
     		$("#memSearchInput").autocomplete({
     			source:function(request, response){
     				$.ajax({
@@ -281,7 +322,17 @@
     					success : function(data){
     						var result = data;
     						response(result);
-    						$('#')
+    						
+    						console.log(data);
+    						
+    						let arr1 = result[0].split('_');
+    						
+    						console.log(arr1[0]);
+    						console.log(arr1[1]);
+    						console.log(arr1[2]);
+    						
+    						/* document.getElementById('interimName').value = data; */
+    						document.getElementById('interimName').value = arr1[0];
     					},
     					error : function(e){
     						alert("ajax에러발생..!")
@@ -301,18 +352,8 @@
     		$(".modal").fadeOut(); 
     	}); 
     });
+
     
-/*     $(function(){ 
-    	$("#twoBtn").click(function(){ 
-    		$(".modal").fadeIn(); 
-    	});
-    	
-    	$("#modalClose").click(function(){ 
-    		$(".modal").fadeOut(); 
-    	});
-    }); */
-	
-	
 </script>
 
 <%@ include file="../common/footer.jsp" %>

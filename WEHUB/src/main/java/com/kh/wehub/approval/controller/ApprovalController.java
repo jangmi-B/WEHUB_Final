@@ -118,6 +118,8 @@ public class ApprovalController {
 			array.add(memSearch.get(i).getUser_name() + "_" + memSearch.get(i).getRank() + "_" +memSearch.get(i).getDept_code());
 		}
 		
+		System.out.println(array);
+		
 		Gson gson = new Gson();
 	
 		return gson.toJson(array);	

@@ -48,6 +48,12 @@
 		<result property="appEmergncyCall" column="APP_EMERGENCYCALL"/>
 	</resultMap>
 	
+	<resultMap type="" id="">
+		<id property="receiveRefNo" column="RECEIVE_REF_SEQ"/>
+		<result property="refAppNo" column="RECEIVE_REF_APP_SEQ"/>
+		<result property="receiveCc" column="RECEIVE_REF_CC"/>
+	</resultMap>
+	
 	<!-- 자동완성 -->
 	<select id="getSearchMember" parameterType="string" resultMap="memberResultMap">
 		SELECT M.USER_NAME, M.DEPT_CODE, M.RANK

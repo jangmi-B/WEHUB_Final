@@ -113,7 +113,7 @@
 				<td><input type="password" id="newPass" class="passInput"  name="user_pwd" /></td>
 			</tr>
 			<tr>
-				<td><div class="updateInfo" id="updatePassChk">변경할 비밀번호</div></td>
+				<td><div class="updateInfo" id="updatePassChk">비밀번호 확인</div></td>
 				<td>&nbsp;</td>
 				<td><input type="password" id="newPassChk" class="passInput" /></td>
 			</tr>

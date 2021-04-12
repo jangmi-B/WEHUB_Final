@@ -270,11 +270,12 @@ COMMENT ON COLUMN APP_RECEIVE_REF.RECEIVE_REF_APP_SEQ IS '전자결재시퀀스';
 COMMENT ON COLUMN APP_RECEIVE_REF.RECEIVE_REF_CC IS '수신참조자';
     
 COMMIT;    
-
+-- APP_lEAVE 컬럼 1개
 alter table approval add APP_WRITER_NO number not null;
 alter table approval drop column user_no;
 alter table app_leave add APP_EMERGENCYCALL number not null;
-COMMENT ON COLUMN APP_LEAVE.APP_EMERGENCYCALL IS '비상연락망';
+CO
+MMENT ON COLUMN APP_LEAVE.APP_EMERGENCYCALL IS '비상연락망';
 ALTER TABLE approval DROP COLUMN app_check_progress;
 alter table approval add APP_CHECK_PROGRESS VARCHAR2(20) DEFAULT '결재대기' CHECK(APP_CHECK_PROGRESS IN ('결재대기', '결재중', '결재완료'));
 COMMENT ON COLUMN APPROVAL.APP_CHECK_PROGRESS IS '결재상태';
@@ -282,7 +283,13 @@ COMMIT;
 alter table approval add APPROVAL_KINDS varchar2(30) null;
 COMMENT ON COLUMN approval.approval_kinds IS '결재종류';
 
+
 -- 04/11 update
 ALTER TABLE APP_LEAVE MODIFY LEAVE_START VARCHAR2(10);
 ALTER TABLE APP_LEAVE MODIFY LEAVE_FINISH VARCHAR2(10);
 ALTER TABLE APP_LEAVE MODIFY APP_EMERGENCYCALL VARCHAR2(20);
+ALTER TABLE APP_RECEIVE_REF MODIFY RECEIVE_REF_CC VARCHAR2(3000);
+
+alter table approval modify APP_CHECK_PROGRESS VARCHAR2(20) DEFAULT '결재대기' CHECK(APP_CHECK_PROGRESS IN ('결재대기', '결재중', '결재완료', '결재반려'));
+alter table approval drop constraint SYS_C007112; -- (기존에 걸어놓은 삭제할 제약조건 CONSTRAINT_NAME 이름)
+ALTER TABLE approval MODIFY APP_REASON VARCHAR2(1000);
