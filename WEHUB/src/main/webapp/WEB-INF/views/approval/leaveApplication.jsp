@@ -271,7 +271,7 @@
 	    	<div class="modal_content">
 	    	<div class="modalInputName">이름을 입력해 주세요.</div>
 	    		<div>
-	    			<input type="text" id="memSearchInput" name="userName" class="APPLE_searchArea"> <lable class="anserMember">님이 맞으신가요?</lable>
+	    			<input type="text" id="memSearchInput2" name="userName" class="APPLE_searchArea"> <lable class="anserMember">님이 맞으신가요?</lable>
 	    		</div>
 	    		<br><br>
 	    			<button class="searchMember" type="button" id="modalClose2" style="">확인</button>
@@ -282,13 +282,27 @@
     <!-- 최초 승인자 모달창  -->
     <div id="testForm1" name="testForm1">
 	    <div class="modal Amodal1">
-	    	<div class="modal_content1">
-	    	<div class="modalInputName1">이름을 입력해 주세요.</div>
+	    	<div class="modal_content">
+	    	<div class="modalInputName">이름을 입력해 주세요.</div>
 	    		<div>
-	    			<input type="text" id="memSearchInput" name="userName" class="APPLE_searchArea"> <lable class="anserMember">님이 맞으신가요?</lable>
+	    			<input type="text" id="memSearchInput1" name="userName" class="APPLE_searchArea"> <lable class="anserMember">님이 맞으신가요?</lable>
 	    		</div>
 	    		<br><br>
 	    			<button class="searchMember" type="button" id="modalCloseFirst">확인</button>
+	    	</div>
+	    </div>
+    </div>
+    
+    <!-- 최종 승인자 모달창  -->
+    <div id="testForm3" name="testForm3">
+	    <div class="modal Amodal3">
+	    	<div class="modal_content">
+	    	<div class="modalInputName">이름을 입력해 주세요.</div>
+	    		<div>
+	    			<input type="text" id="memSearchInput3" name="userName" class="APPLE_searchArea"> <lable class="anserMember">님이 맞으신가요?</lable>
+	    		</div>
+	    		<br><br>
+	    			<button class="searchMember" type="button" id="modalCloseThird">확인</button>
 	    	</div>
 	    </div>
     </div>
@@ -310,14 +324,14 @@
     $(function(){ 
     	$("#secondBtn").click(function(){ 
     		$(".Amodal").fadeIn(); 
-    		$("#memSearchInput").autocomplete({
+    		$("#memSearchInput2").autocomplete({
     			source:function(request, response){
     				$.ajax({
     					url : "${path}/approval/search/json",
     					type : "get",
     					dataType : 'json',
     					data : {
-    						userName:$("#memSearchInput").val()
+    						userName:$("#memSearchInput2").val()
     					},
     					success : function(data){
     						var result = data;
@@ -349,9 +363,104 @@
     	}); 
     	
     	$("#modalClose2").click(function(){ 
-    		$(".modal").fadeOut(); 
+    		$(".Amodal").fadeOut(); 
     	}); 
     });
+    
+	/* 최초승인자 */
+	$(function(){ 
+		$("#firstBtn").click(function(){ 
+			$(".Amodal1").fadeIn(); 
+			$("#memSearchInput1").autocomplete({
+				source:function(request, response){
+					$.ajax({
+						url : "${path}/approval/search/json",
+						type : "get",
+						dataType : 'json',
+						data : {
+							userName:$("#memSearchInput1").val()
+						},
+						success : function(data){
+							var result = data;
+							response(result);
+							
+							console.log(data);
+							
+							let arr1 = result[0].split('_');
+							
+							console.log(arr1[0]);
+							console.log(arr1[1]);
+							console.log(arr1[2]);
+							
+							/* document.getElementById('interimName').value = data; */
+							document.getElementById('firstApprover').value = arr1[0];
+						},
+						error : function(e){
+							alert("ajax에러발생..!")
+						}
+					});
+				},
+				focus : function(event, ui) {    //포커스 가면
+					return false;//한글 에러 잡기용도로 사용됨
+				},
+				minLength: 1,// 최소 글자수
+				autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
+				delay: 500,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
+			 });
+		}); 
+		
+		$("#modalCloseFirst").click(function(){ 
+			$(".Amodal1").fadeOut(); 
+		}); 
+	});
+	
+
+	/* 최초승인자 */
+	$(function(){ 
+		$("#thirdBtn").click(function(){ 
+			$(".Amodal3").fadeIn(); 
+			$("#memSearchInput3").autocomplete({
+				source:function(request, response){
+					$.ajax({
+						url : "${path}/approval/search/json",
+						type : "get",
+						dataType : 'json',
+						data : {
+							userName:$("#memSearchInput3").val()
+						},
+						success : function(data){
+							var result = data;
+							response(result);
+							
+							console.log(data);
+							
+							let arr1 = result[0].split('_');
+							
+							console.log(arr1[0]);
+							console.log(arr1[1]);
+							console.log(arr1[2]);
+							
+							/* document.getElementById('interimName').value = data; */
+							document.getElementById('finalApprover').value = arr1[0];
+						},
+						error : function(e){
+							alert("ajax에러발생..!")
+						}
+					});
+				},
+				focus : function(event, ui) {    //포커스 가면
+					return false;//한글 에러 잡기용도로 사용됨
+				},
+				minLength: 1,// 최소 글자수
+				autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
+				delay: 500,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
+			 });
+		}); 
+		
+		$("#modalCloseThird").click(function(){ 
+			$(".Amodal3").fadeOut(); 
+		}); 
+	});
 
     
 </script>
