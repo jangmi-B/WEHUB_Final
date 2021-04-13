@@ -45,9 +45,18 @@
         <div>
 	    <h2 class="h2d">오늘 일정<a href="${path}/calendar/view"><i class="fas fa-plus" id="con1" style="color: lightgray;"></i></a></h2>
 	        <ul>
-		        <li>
-		        	${todaySchedule.get(0).getSchedule_content()}
-		        </li>
+	        <c:choose>
+	        	<c:when test="${todaySchedule.size() == 0}">
+			        <li>
+			        	일정을 등록해주세요
+			        </li>
+		        </c:when>
+		        <c:otherwise>
+			        <li>
+			        	${todaySchedule.get(0).getSchedule_content()}
+			        </li>
+		        </c:otherwise>
+		    </c:choose>
 	        </ul>
         </div>
     </div>

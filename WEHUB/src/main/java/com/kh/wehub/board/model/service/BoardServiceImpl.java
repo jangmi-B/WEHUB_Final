@@ -75,7 +75,6 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int updateReadCount(Map<String, Object> map) {
 		
-		
 		return boardDao.updateReadCount(map);
 	}
 

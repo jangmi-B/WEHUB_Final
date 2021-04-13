@@ -1,10 +1,5 @@
 package com.kh.wehub.member.controller;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.chrono.IsoChronology;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -62,8 +57,6 @@ public class MemberController {
 		
 		
 		List<DateData> todaySchedule = ScheduleService.todaySchedule(loginMember, arr);
-		
-		System.out.println(todaySchedule.get(0).getSchedule_content());
 		
 		
 		model.addObject("todaySchedule",todaySchedule);
