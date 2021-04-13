@@ -11,8 +11,95 @@
 
 <link rel="stylesheet" href="${path}/css/approvalStyle.css">
 <script src="${path}/js/jquery-3.5.1.js"></script>
+<style>
+	* {font-family: 'InfinitySans-RegularA1'; }
+	@font-face {
+	    font-family: 'InfinitySans-RegularA1';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-RegularA1.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
+	}
+	.searchMember{
+		font-family: 'InfinitySans-RegularA1';
+		font-size: 14px;
+		width: 55px;
+		height: 30px;
+		background-color: #fff;
+		border: 1px solid #5b18ff;
+		border-radius: 5px;
+	}
+	.modalys{ 
+		position:absolute; 	
+		width:100%; 
+		height:100%; 
+		background: rgba(0,0,0,0.8); 
+		top:0; 
+		left:0; 
+		display:none; 
+	}
+	.modal_content{
+	  width:400px; height:315px;
+	  background:#fff; border-radius:10px;
+	  position:relative; top:50%; left:50%;
+	  margin-top:-100px; margin-left:-200px;
+	  text-align:center;
+	  box-sizing:border-box; padding:74px 0;
+	  line-height:23px; cursor:pointer;
+	}
+	#modalClose {
+		font-family: 'InfinitySans-RegularA1';
+		font-size: 14px;
+		margin: 15px; /* 50px */
+	}
+	.APPLE_searchArea {
+	  border: 0; border-bottom: 3px solid #5b18ff;
+	  font-size: 18px;
+	  font-family: 'InfinitySans-RegularA1';
+	  padding: 8px; /* 서치바랑 검 */
+	}
+	.APPLE_searchBox {
+	  border: 0;
+	  color: #5b18ff; background-color: #fff;
+	  border-bottom: 2px solid #5b18ff;
+	  margin-left: -20px;
+	  margin-bottom: -20px;
+	  border-radius: 0;
+	}
+	.fa-check { font-size: 10px; }	
+	.nameView{ height: 50px; }
+	label { display: inline-block; font-family: 'InfinitySans-RegularA1'; font-size: 14px; }
+	.form-radio{
+    display: inline-block; 
+    line-height: 20px; 
+    vertical-align: middle;
+	}
+	.form-chek::before, .form-radio::before{
+	    content: ""; 
+	    display: inline-block; 
+	    width: 10px; 
+	    height: 10px; 
+	    background: #ffffff; 
+	    border: 1px solid #3d3d3e; 
+	    margin-right: 8px;
+	}
+	.form-radio::before{
+	    border-radius: 50%;
+	}
+	.input-chek, .input-radio{
+	    display: none;
+	}
+	.input-chek:checked + .form-chek::before, .input-radio:checked + .form-radio::before{
+	    background: #5b18ff;
+	}
+	.input-chek:checked + .form-chek, .input-radio:checked + .form-radio{
+	    color: #5b18ff;
+	}
+	.modalInputName{font-family: 'InfinitySans-RegularA1'; font-size: 28px; padding-bottom: 50px; color:#5b18ff; }
+	.anserMember{ font-size: 18px; }
+</style>
 
-<form action="${path}/approval/letterOfApproval" method="POST">
+
+<form action="${path}/approval/letterOfApproval" method="POST" name="loaWriteForm" onsubmit="return check_onclick()">
     <div class="cash-form-section" style="height: 100%; margin: 0 300px 0 300px;">
         <div class="cash-disbursement" style="text-align: center; margin: 80px 0px 80px 200px; border: 2px solid black;">
             <table border="2" style="width: 100%; font-size: 20px; border-collapse: collapse;">
@@ -26,9 +113,18 @@
                     <td style="width: 100px;">최종승인자</td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                	<td style="">
+                		<input type="text" value="" id="firstApprover" name="firstApprover" readonly="readonly" class="nameView">
+                		<input type="button" value="검색" class="searchMember" id="firstBtn" name="firstApprover">
+                	</td>
+                	<td>
+                		<input type="text" value="" id="interimName" name="interimApprover" readonly="readonly" class="nameView">
+                		<input type="button" value="검색" class="searchMember" id="secondBtn" name="interimApprover">
+                	</td>
+                	<td>
+                		<input type="text" value="" id="finalApprover" name="finalApprover" readonly="readonly" class="nameView">
+                		<input type="button" value="검색" class="searchMember" id="thirdBtn" name="finalApprover">
+                	</td>
                 </tr>
                 <tr>
                     <td colspan="2" style="height: 70px;">
@@ -90,6 +186,50 @@
     </div>
 </form>
 
+	<!-- 승인자 모달 -->
+
+    <!-- 최초 승인자 모달창  -->
+    <div id="testForm1" name="testForm1">
+	    <div class="modalys Amodal1">
+	    	<div class="modal_content">
+	    	<div class="modalInputName">이름을 입력해 주세요.</div>
+	    		<div>
+	    			<input type="text" id="memSearchInput1" name="userName" class="APPLE_searchArea"> <lable class="anserMember">님이 맞으신가요?</lable>
+	    		</div>
+	    		<br><br>
+	    			<button class="searchMember" type="button" id="modalCloseFirst">확인</button>
+	    	</div>
+	    </div>
+    </div>
+    
+    <!-- 중간 승인자 모달창  -->
+    <div id="testForm" name="testForm">
+	    <div class="modalys Amodal">
+	    	<div class="modal_content">
+	    	<div class="modalInputName">이름을 입력해 주세요.</div>
+	    		<div>
+	    			<input type="text" id="memSearchInput2" name="userName" class="APPLE_searchArea"> <lable class="anserMember">님이 맞으신가요?</lable>
+	    		</div>
+	    		<br><br>
+	    			<button class="searchMember" type="button" id="modalClose2" style="">확인</button>
+	    	</div>
+	    </div>
+    </div>
+    
+    <!-- 최종 승인자 모달창  -->
+    <div id="testForm3" name="testForm3">
+	    <div class="modalys Amodal3">
+	    	<div class="modal_content">
+	    	<div class="modalInputName">이름을 입력해 주세요.</div>
+	    		<div>
+	    			<input type="text" id="memSearchInput3" name="userName" class="APPLE_searchArea"> <lable class="anserMember">님이 맞으신가요?</lable>
+	    		</div>
+	    		<br><br>
+	    			<button class="searchMember" type="button" id="modalCloseThird">확인</button>
+	    	</div>
+	    </div>
+    </div>
+
     <!-- modal section -->
     
     <div class="modal hidden">
@@ -150,6 +290,30 @@
             </div>
         </div>
     </div>
+    
+    <!-- 필수 입력 스크립트 -->
+	<script>
+
+		function check_onclick() {
+		    var loaWriteForm = document.loaWriteForm;
+		    
+		    if(loaWriteForm.loaContent.value=="" || loaWriteForm.loaTitle.value==""){
+		        alert("상세내용 또는 제목란이 비어있습니다. 확인 후 등록하세요.");
+		        
+		        return false;
+		    } else if(loaWriteForm.proposerText.value=="") {
+		       alert("서명 후 등록을 완료해주세요.");
+		       
+		       return false;
+			} else {
+				return true;
+			}
+		    
+		}
+
+	</script>
+
+
     
     <!-- 서명 클릭 스크립트  -->
     
@@ -406,5 +570,147 @@
 	    });
 	    
 	</script>
-
+	
+	<script>
+	/* 중간 승인자 */
+	$(function(){ 
+    	$("#secondBtn").click(function(){ 
+    		$(".Amodal").fadeIn(); 
+    		$("#memSearchInput2").autocomplete({
+    			source:function(request, response){
+    				$.ajax({
+    					url : "${path}/approval/search/json",
+    					type : "get",
+    					dataType : 'json',
+    					data : {
+    						userName:$("#memSearchInput2").val()
+    					},
+    					success : function(data){
+    						var result = data;
+    						response(result);
+    						
+    						console.log(data);
+    						
+    						let arr1 = result[0].split('_');
+    						
+    						console.log(arr1[0]);
+    						console.log(arr1[1]);
+    						console.log(arr1[2]);
+    						
+    						/* document.getElementById('interimName').value = data; */
+    						document.getElementById('interimName').value = arr1[0];
+    					},
+    					error : function(e){
+    						alert("ajax에러발생..!")
+						}
+					});
+				},
+				focus : function(event, ui) {    //포커스 가면
+					return false;//한글 에러 잡기용도로 사용됨
+				},
+				minLength: 1,// 최소 글자수
+				autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
+				delay: 500,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
+    		 });
+    	}); 
+    	
+    	$("#modalClose2").click(function(){ 
+    		$(".Amodal").fadeOut(); 
+    	}); 
+    });
+	
+	/* 최초 승인자 */
+	$(function(){ 
+		$("#firstBtn").click(function(){ 
+			$(".Amodal1").fadeIn(); 
+			$("#memSearchInput1").autocomplete({
+				source:function(request, response){
+					$.ajax({
+						url : "${path}/approval/search/json",
+						type : "get",
+						dataType : 'json',
+						data : {
+							userName:$("#memSearchInput1").val()
+						},
+						success : function(data){
+							var result = data;
+							response(result);
+							
+							console.log(data);
+							
+							let arr1 = result[0].split('_');
+							
+							console.log(arr1[0]);
+							console.log(arr1[1]);
+							console.log(arr1[2]);
+							
+							/* document.getElementById('interimName').value = data; */
+							document.getElementById('firstApprover').value = arr1[0];
+						},
+						error : function(e){
+							alert("ajax에러발생..!")
+						}
+					});
+				},
+				focus : function(event, ui) {    //포커스 가면
+					return false;//한글 에러 잡기용도로 사용됨
+				},
+				minLength: 1,// 최소 글자수
+				autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
+				delay: 500,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
+			 });
+		}); 
+		
+		$("#modalCloseFirst").click(function(){ 
+			$(".Amodal1").fadeOut(); 
+		}); 
+	});
+	
+	/* 최종 승인자 */
+	$(function(){ 
+		$("#thirdBtn").click(function(){ 
+			$(".Amodal3").fadeIn(); 
+			$("#memSearchInput3").autocomplete({
+				source:function(request, response){
+					$.ajax({
+						url : "${path}/approval/search/json",
+						type : "get",
+						dataType : 'json',
+						data : {
+							userName:$("#memSearchInput3").val()
+						},
+						success : function(data){
+							var result = data;
+							response(result);
+							
+							console.log(data);
+							
+							let arr1 = result[0].split('_');
+							
+							console.log(arr1[0]);
+							console.log(arr1[1]);
+							console.log(arr1[2]);
+							
+							/* document.getElementById('interimName').value = data; */
+							document.getElementById('finalApprover').value = arr1[0];
+						},
+						error : function(e){
+							alert("ajax에러발생..!")
+						}
+					});
+				},
+				focus : function(event, ui) {    //포커스 가면
+					return false;//한글 에러 잡기용도로 사용됨
+				},
+				minLength: 1,// 최소 글자수
+				autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
+				delay: 500,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
+			 });
+		}); 
+		
+		$("#modalCloseThird").click(function(){ 
+			$(".Amodal3").fadeOut(); 
+		}); 
+	});
+	</script>
 <%@ include file="../common/footer.jsp" %>

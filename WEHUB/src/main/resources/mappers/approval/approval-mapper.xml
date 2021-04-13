@@ -49,10 +49,33 @@
 		FROM APPROVAL A 
 		JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
 		JOIN DEPARTMENT D ON (D.DEPT_CODE = M.DEPT_CODE)
-		WHERE <!-- ROWNUM <![CDATA[ < ]]>= 6 AND  -->(((#{user_name} = A.FIRST_TIME_APPROVER) OR 
+		WHERE <!-- ROWNUM <![CDATA[ < ]]>= 6 AND  -->((#{user_name} = A.FIRST_TIME_APPROVER) OR 
 			                                  (#{user_name} = A.INTERIM_APPROVER) OR 
-			                                  (#{user_name} = A.FINAL_APPROVER)) OR 
-			                                  (#{user_no} = A.APP_WRITER_NO))
+			                                  (#{user_name} = A.FINAL_APPROVER)) 
+		ORDER BY A.APP_SEQ DESC) B
+		ORDER BY ROWNUM
+	</select>
+	
+	<select id="selectRecentList1" parameterType="map" resultMap="approvalResultMap">
+		SELECT ROWNUM, B.* FROM (SELECT A.APP_SEQ,
+		     A.APP_WRITER_NO,
+		     A.APP_WRITE_SYS,
+		     A.FIRST_TIME_APPROVER,
+		     A.INTERIM_APPROVER,
+		     A.FINAL_APPROVER,
+		     A.APP_CHECK_SYSDATE,
+		     A.APP_CHECK_PROGRESS,
+		     A.APP_REASON,
+		     A.APP_ORIFILENAME,
+		     A.APP_REFILENAME,
+		     M.USER_NAME,
+		     M.RANK,
+		     A.APPROVAL_KINDS,
+		     D.DEPT_NAME
+		FROM APPROVAL A 
+		JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
+		JOIN DEPARTMENT D ON (D.DEPT_CODE = M.DEPT_CODE)
+		WHERE <!-- ROWNUM <![CDATA[ < ]]>= 6 AND  --> (#{user_no} = A.APP_WRITER_NO)
 		ORDER BY A.APP_SEQ DESC) B
 		ORDER BY ROWNUM
 	</select>
@@ -201,7 +224,11 @@
 		JOIN DEPARTMENT D ON (D.DEPT_CODE = M.DEPT_CODE)
         JOIN APP_LOA L ON (A.APP_SEQ = L.LOA_APP_SEQ)
         JOIN APP_RECEIVE_REF R ON (A.APP_SEQ = R.RECEIVE_REF_APP_SEQ)
-        WHERE A.APP_SEQ = ${appNo}
+        WHERE A.APP_SEQ = #{appNo}
 	</select>
+	
+	<update id="rejectUpdate" parameterType="Approval">
+		UPDATE APPROVAL SET APP_CHECK_PROGRESS='결재반려', APP_REASON=#{appReason} WHERE APP_SEQ=#{appNo}	
+	</update>
 
 </mapper>

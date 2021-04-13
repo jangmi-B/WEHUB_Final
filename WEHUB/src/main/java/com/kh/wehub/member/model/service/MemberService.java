@@ -14,4 +14,6 @@ public interface MemberService {
 
 	List<Member> selectSearchedMember(String searchData, String userId);
 
+	List<Member> getSearchMember(String userName);
+
 }

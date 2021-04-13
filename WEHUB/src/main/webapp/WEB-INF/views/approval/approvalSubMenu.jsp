@@ -18,9 +18,10 @@
     <li class="EPay-box">보관함
         <div>
          <ul>
-             <li><a href="">품의서</a></li>
-             <li><a href="">지출결의서</a></li>
-             <li><a href="">휴가신청서</a></li>
+             <li><a href="${path}/approval/approvalList?notice_search=결재대기">결재대기</a></li>
+             <li><a href="${path}/approval/approvalList?notice_search=결재중">결재중</a></li>
+             <li><a href="${path}/approval/approvalList?notice_search=결재완료">결재완료</a></li>
+             <li><a href="${path}/approval/approvalList?notice_search=결재반려">결재반려</a></li>
          </ul>
         </div>
     </li>

@@ -34,8 +34,8 @@
 
         <form action="">
             <h4 style="float:right; margin-right:114px; margin-top:50px; color:gray;"><a href="${path}/approval/approvalList">+ 결재목록 전체보기</a></h4>
-            <h2 style="margin-bottom: 0; margin-top:30px">나의 결재목록</h2>
-            <table id="e-pay-list" style="margin-bottom:130px">
+            <h2 style="margin-bottom: 0; margin-top:70px">결재 수신현황</h2>
+            <table id="e-pay-list" style="margin-bottom:100px">
                 
                 <tr>
                     <th>번호</th>
@@ -48,7 +48,7 @@
                 
                 <c:if test="${empty mainList}">
                 	</table>
-                		<h3 style="top:50%; text-align:center; margin-left:300px; margin-top:150px">
+                		<h3 style="top:50%; text-align:center; margin-left:300px; margin-top:150px; margin-bottom:140px">
                 			조회된 결재목록이 없습니다.
                 		</h3>
                 </c:if>
@@ -57,11 +57,67 @@
 	                <c:forEach var="list" items="${mainList}">
 		                <tr>
 		                    <td>${list.rowNum}</td>
-		                    <td><a href="#">${list.appKinds}</a></td>
+		                    <c:choose>
+			                    <c:when test="${list.appKinds eq '품의서'}">
+			                    	<td><a href="${path}/approval/letterOfApprovalView?appNo=${list.appNo}">${list.appKinds}</a></td>
+			                    </c:when>
+			                    <c:when test="${list.appKinds eq '지출결의서'}">
+			                    	<td><a href="${path}/approval/leaveApplicationView?appNo=${list.appNo}">${list.appKinds}</a></td>
+			                    </c:when>
+			                    <c:when test="${list.appKinds eq '휴가신청서'}">
+			                    	<td><a href="${path}/approval/expenseReportView?appNo=${list.appNo}">${list.appKinds}</a></td>
+			                    </c:when>
+		                    </c:choose>
 		                    <td>${list.userName}</td>
 		                    <td>${list.deptName}</td>
 		                    <td><fmt:formatDate value="${list.appWriteDate}" pattern="yyyy/MM/dd"/></td>
 		                    <td>${list.appCheckProgress}</td>
+		                </tr>
+	                </c:forEach>
+                </c:if>
+        	</table>        
+        </form>
+        
+        <form action="">
+            <h4 style="float:right; margin-right:114px; margin-top:50px; color:gray;"><a href="${path}/approval/approvalList">+ 결재목록 전체보기</a></h4>
+            <h2 style="margin-bottom: 0; margin-top:30px">내가 작성한 결재</h2>
+            <table id="e-pay-list" style="margin-bottom:140px">
+                
+                <tr>
+                    <th>번호</th>
+                    <th>종류</th>
+                    <th>기안자</th>
+                    <th>부서</th>
+                    <th>기안일</th>
+                    <th>상태</th>
+                </tr>
+                
+                <c:if test="${empty mainList1}">
+                	</table>
+                		<h3 style="top:50%; text-align:center; margin-left:300px; margin-top:150px; margin-bottom:140px">
+                			조회된 결재목록이 없습니다.
+                		</h3>
+                </c:if>
+                
+                <c:if test="${mainList1 != null}">
+	                <c:forEach var="list1" items="${mainList1}">
+		                <tr>
+		                    <td>${list1.rowNum}</td>
+		                    <c:choose>
+			                    <c:when test="${list1.appKinds eq '품의서'}">
+			                    	<td><a href="${path}/approval/letterOfApprovalView?appNo=${list1.appNo}">${list1.appKinds}</a></td>
+			                    </c:when>
+			                    <c:when test="${list1.appKinds eq '지출결의서'}">
+			                    	<td><a href="${path}/approval/leaveApplicationView?appNo=${list1.appNo}">${list1.appKinds}</a></td>
+			                    </c:when>
+			                    <c:when test="${list1.appKinds eq '휴가신청서'}">
+			                    	<td><a href="${path}/approval/expenseReportView?appNo=${list1.appNo}">${list1.appKinds}</a></td>
+			                    </c:when>
+		                    </c:choose>
+		                    <td>${list1.userName}</td>
+		                    <td>${list1.deptName}</td>
+		                    <td><fmt:formatDate value="${list1.appWriteDate}" pattern="yyyy/MM/dd"/></td>
+		                    <td>${list1.appCheckProgress}</td>
 		                </tr>
 	                </c:forEach>
                 </c:if>

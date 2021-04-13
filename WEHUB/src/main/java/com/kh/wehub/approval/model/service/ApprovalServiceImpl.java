@@ -43,6 +43,12 @@ public class ApprovalServiceImpl implements ApprovalService {
 		
 		return approvalDao.selectRecentList(loginMember);
 	}
+	
+	@Override
+	public List<Approval> getRecentList1(Member loginMember) {
+		
+		return approvalDao.selectRecentList1(loginMember);
+	}
 
 	@Override
 	public List<Approval> getApprovalList(PageInfo pageInfo, String searchText) {
@@ -91,5 +97,16 @@ public class ApprovalServiceImpl implements ApprovalService {
 		
 		return approvalDao.selectApprovalListDetail(appNo);
 	}
+
+	@Override
+	public int rejectUpdate(Approval approval) {
+		int result = 0;
+		
+		result = approvalDao.rejectUpdate(approval);
+		
+		return result;
+	}
+
+	
 
 }

@@ -88,11 +88,13 @@
 	        </div>
 	        
 	        <div id="button">
-		        <button>결재</button>
-		        <input type="text" style="border: none; width: 40px;" disabled>
+		        <c:if test="">
+		        	<button>결재</button>
+		        	<input type="text" style="border: none; width: 40px;" disabled>
+		        	<button style="color:red">반려</button>
+			        <input type="text" style="border: none; width: 40px;" disabled>
+		        </c:if>
 		        <button>취소</button>
-		        <input type="text" style="border: none; width: 40px;" disabled>
-		        <button style="color:red">반려</button>
         	</div>
 	    </div>
 	</form>

@@ -25,7 +25,9 @@ public interface ApprovalService {
 	
 	Approval findListByNo(int appNo);
 	
+	List<Approval> getRecentList1(Member loginMember);
 	
+	int rejectUpdate(Approval approval);
 	
 
 }

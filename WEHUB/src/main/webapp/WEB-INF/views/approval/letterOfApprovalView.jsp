@@ -13,6 +13,11 @@
 
 <%@ include file="../approval/approvalSubMenu.jsp" %>
 
+	<c:if test="${!empty approval.appReason}">
+		<div style="position:absolute; margin-left:400px; margin-top:30px">
+			<img src="${path}/images/rejected.png" style="width:200px; height:200px" />
+		</div>
+	</c:if>
     <div class="cash-form-section" style="height: 100%; margin: 0 300px 0 300px;">
         <div class="cash-disbursement" style="text-align: center; margin: 80px 0px 80px 200px; border: 2px solid black;">
             <table border="2" style="width: 100%; font-size: 20px; border-collapse: collapse;">
@@ -82,13 +87,155 @@
                 </tr>
             </table>
         </div>
+        
         <div id="button">
-	        <button>결재</button>
-	        <input type="text" style="border: none; width: 40px;" disabled>
-	        <button>취소</button>
-	        <input type="text" style="border: none; width: 40px;" disabled>
-	        <button style="color:red">반려</button>
+        	<input type="hidden" name="appNo" value = "${approval.appNo}"/>
+	        	
+	        <c:if test="${loginMember.user_name eq approval.firstApprover || approval.interimApprover || approval.finalApprover}">
+       			<c:choose>
+       				<c:when test="${!empty approval.appReason}">
+       					<button type="button" class="openRejectionWhy">반려사유</button>
+        				<input type="text" style="border: none; width: 40px;" disabled>
+	        		</c:when>
+	        		<c:otherwise>
+	        			<button type="submit">결재</button>
+       					<input type="text" style="border: none; width: 40px;"disabled >
+       					<button type="button" style="color:red" id="openRejection">반려</button>
+        				<input type="text" style="border: none; width: 40px;" disabled>
+	        		</c:otherwise>
+        		</c:choose>
+			</c:if>
+			
+			<button><a href="${path}/approval/approvalMain" style="color:black">취소</a></button>
         </div>
     </div>
+
+    <!-- 모달 테이블(반려 확인) -->
+    
+	<div class="modal modal1 hidden">
+        <div class="bg"></div>
+        <div class="modalBox" style="width:600px; height:400px; border-radius:20px">
+            <div style="font-size:26px; margin:30px">
+            	정말 반려처리 하시겠습니까?
+            </div>
+            <div style="margin: 43% 0px 0% 53%;">
+                <span style="padding-right: 20px; margin-left:46px; float: left;" >
+                    <button type="submit" class="closeBtn-in rejModalOk1" id="rejectOrNo">확인</button>
+                </span>
+                <button class="closeBtn-out rejModalNo1">취소</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 모달 테이블(반려 사유 작성) -->
+    
+	<div class="modal modal2 hidden">
+        <div class="bg"></div>
+        <div class="modalBox" style="width:600px; height:400px; border-radius:20px">
+            <div style="font-size:26px; margin:30px">
+            	반려 사유를 입력해주세요.
+            </div>
+            <textarea name="rejectReasonText" rows="5" cols="40" style="font-size:23px; margin-left:23px; resize: none;"></textarea>
+            <div style="margin: 9.3% 0px 0% 53%;">
+                <span style="padding-right: 20px; margin-left:46px;float: left;" >
+                    <button type="submit" class="closeBtn-in rejModalOk2" id="rejectReason">확인</button>
+                </span>
+                <button class="closeBtn-out rejModalNo2">취소</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 반려사유 보여주는 모달 -->
+    
+    <div class="modal modal3 hidden">
+        <div class="bg"></div>
+        <div class="modalBox" style="width:600px; height:400px; border-radius:20px">
+            <div style="font-size:26px; margin:30px">
+            	반려사유 :
+            </div>
+            <textarea name="rejectReasonText" rows="6" cols="41" style="font-size:23px; margin-left:23px; resize: none;" readonly>${approval.appReason}</textarea>
+            <div style="margin: 5% 0px 0% 69%;">
+                <span style="padding-right: 20px; margin-left:46px; float: left;" >
+                    <button type="button" class="closeBtn-in3">확인</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    /* 반려사유 확인 모달 */
+	const open3 = () => {
+    	document.querySelector(".modal3").classList.remove("hidden");
+    }
+
+    const close3 = () => {
+        document.querySelector(".modal3").classList.add("hidden");
+    }
+	
+    document.querySelector(".openRejectionWhy").addEventListener("click", open3);
+    document.querySelector(".closeBtn-in3").addEventListener("click", close3);
+	
+    </script>
+    
+    <!-- 모달 스크립트 -->
+    <script>
+    	const open = () => {
+	    	document.querySelector(".modal1").classList.remove("hidden");
+	    }
+	
+	    const close = () => {
+	        document.querySelector(".modal1").classList.add("hidden");
+	    }
+	
+	    document.querySelector("#openRejection").addEventListener("click", open);
+	    document.querySelector(".rejModalNo1").addEventListener("click", close);
+    		
+	    /* 모달 반려사유 */
+	    
+    	const open2 = () => {
+	    	document.querySelector(".modal2").classList.remove("hidden");
+	    }
+	
+	    const close2 = () => {
+	        document.querySelector(".modal2").classList.add("hidden");
+	    }
+		
+	    document.querySelector(".rejModalOk1").addEventListener("click", close);
+	    document.querySelector(".rejModalOk1").addEventListener("click", open2);
+	    document.querySelector(".rejModalNo2").addEventListener("click", close2);
+
+	    
+    	document.querySelector(".rejModalOk2").addEventListener("click",close2);
+    	
+    	$(document).ready(function() {
+	    	$('#rejectReason').click(function() {
+	    		var rejectReasonText = $("textarea[name='rejectReasonText']").val();
+	    		var appNo = $("input[name=appNo]").val();
+	    		
+	    		console.log(rejectReasonText);
+	    		$.ajax({
+	                   type: "post",
+	                   url: "${path}/approval/letterOfApprovalUpdate?appNo="+appNo,
+	                   data: {
+	                	   rejectReasonText:rejectReasonText
+	   				   },
+	                   success: function(data){
+	                	   var url = "${path}/approval/approvalMain";
+               	           
+	                	   if(data != 0) {
+	                		   alert("결재반려 처리가 정상적으로 완료되었습니다.");
+      		    	   	       $(location).attr('href',url);
+	                	   } else {
+	                		   alert("결재반려 처리에 실패하였습니다.");
+      		    	   	       $(location).attr('href',url);
+	                	   }
+	            	   },
+	                   error: function(){ alert("잠시 후 다시 시도해주세요."); }
+	       		});
+	    	});
+    	});
+    </script>
+    
+    
 
 <%@ include file="../common/footer.jsp" %>

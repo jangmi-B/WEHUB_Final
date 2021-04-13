@@ -16,4 +16,6 @@ public interface MemberDao {
 
 	public List<Member> selectSearchedMember(@Param("searchData") String searchData, @Param("userId") String userId);
 
+	public List<Member> getSearchMember(String user_name);
+
 }

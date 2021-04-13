@@ -46,5 +46,11 @@ public class MemberServiceImpl implements MemberService {
 		
 		return memberDao.selectSearchedMember(searchData, userId);
 	}
+	
+	@Override
+	public List<Member> getSearchMember(String user_name) {
+		
+		return memberDao.getSearchMember(user_name);
+	}
 
 }

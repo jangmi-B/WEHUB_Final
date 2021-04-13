@@ -65,4 +65,10 @@
 		AND USER_ID != #{userId}		 
 	</select>
 	
+	<select id="getSearchMember" parameterType="string" resultMap="memberResultMap">
+		SELECT M.USER_NAME, M.DEPT_CODE, M.RANK
+		FROM MEMBER M
+		WHERE USER_NAME LIKE '%'|| #{userName} ||'%'
+	</select>
+	
 </mapper>

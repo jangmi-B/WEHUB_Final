@@ -59,46 +59,7 @@
                     <td colspan="2"><input type="text"  ></td>
                     <td colspan="3"><input type="text"  ></td>
                 </tr>
-                <tr>
-                    <td colspan="2"><input type="text"  ></td>
-                    <td colspan="2"><input type="text"  ></td>
-                    <td colspan="3"><input type="text"  ></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><input type="text"  ></td>
-                    <td colspan="2"><input type="text"  ></td>
-                    <td colspan="3"><input type="text"  ></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><input type="text"  ></td>
-                    <td colspan="2"><input type="text"  ></td>
-                    <td colspan="3"><input type="text"  ></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><input type="text"  ></td>
-                    <td colspan="2"><input type="text"  ></td>
-                    <td colspan="3"><input type="text"  ></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><input type="text"  ></td>
-                    <td colspan="2"><input type="text"  ></td>
-                    <td colspan="3"><input type="text"  ></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><input type="text"  ></td>
-                    <td colspan="2"><input type="text"  ></td>
-                    <td colspan="3"><input type="text"  ></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><input type="text"  ></td>
-                    <td colspan="2"><input type="text"  ></td>
-                    <td colspan="3"><input type="text"  ></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><input type="text"></td>
-                    <td colspan="2"><input type="text"></td>
-                    <td colspan="3"><input type="text"></td>
-                </tr>
+                
                 <tr>
                     <td colspan="8" style="text-align: left; height: 100px; border-bottom: none;">위 금액을 청구하오니 결재바랍니다.</td>
                 </tr>
