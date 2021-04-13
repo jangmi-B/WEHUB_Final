@@ -30,4 +30,6 @@ public class Project {
 	private String userName;
 	
 	private int projectCount;
+	
+	private String bookmark;
 }

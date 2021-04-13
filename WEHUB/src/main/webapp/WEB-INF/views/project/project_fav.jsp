@@ -39,7 +39,7 @@
 	          </div>
 	          <div class="projectdivInfo pj${ status.count }">
 	            <span style=""><c:out value="${projectList.userName}"/>님 외 총 <c:out value="${projectList.projectCount}"/>명</span>
-	            <a href="javascript:clickFav(${projectList.projectNo})" id="favBtn" class="favBtn${projectList.status}"><i class="fas fa-star"></i></a>
+	            <a href="javascript:clickFav(${projectList.projectNo})" id="favBtn" class="fav${projectList.bookmark}"><i class="fas fa-star"></i></a>
 	          </div>
 	        </div>
 	        <div class="modal_project fade proNo${projectList.projectNo}">

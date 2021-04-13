@@ -22,11 +22,11 @@ public interface ProjectService {
 
 	int sendProjectMsg(Map<String, Object> map);
 
-	int makeFav(int proNum);
+	int makeFav(Map<String, Object> map);
 
-	int removeFav(int proNum);
+	int removeFav(Map<String, Object> map);
 
-	Project findStatus(int proNum);
+	int findStatus(Map<String,Object> map);
 
 	int getParticipantCount(Map<String, Object> map);
 

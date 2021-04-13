@@ -69,27 +69,27 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public int makeFav(int proNum) {
+	public int makeFav(Map<String, Object> map) {
 		int result = 0;
 		
-		result = projectDao.makeFav(proNum);
+		result = projectDao.makeFav(map);
 		
 		return result;
 	}
 
 	@Override
-	public int removeFav(int proNum) {
+	public int removeFav(Map<String, Object> map) {
 		int result = 0;
 		
-		result = projectDao.removeFav(proNum);
+		result = projectDao.removeFav(map);
 		
 		return result;
 	}
 
 	@Override
-	public Project findStatus(int proNum) {
+	public int findStatus(Map<String,Object> map) {
 		
-		return projectDao.findStatus(proNum);
+		return projectDao.findStatus(map);
 	}
 
 	@Override

@@ -30,13 +30,20 @@
 		<result property="status" column="STATUS"/>
 		<result property="userName" column="USER_NAME"/>
 		<result property="projectCount" column="PCOUNT"/>
+		<result property="bookmark" column="BOOKMARK"/>
+	</resultMap>
+	
+	<resultMap type="Bookmark" id="BookmarkResultMap">
+		<id property="bookmarkNo" column="BOOKMARK_NO"/>
+		<result property="userNo" column="USER_ID"/>
+		<result property="projectNo" column="PROJECT_NO"/>
 	</resultMap>
 	
 	<select id="getProjectCount" parameterType="map" resultType="_int">
 		SELECT COUNT(*)
 		FROM PROJECT P
 		JOIN MEMBER M ON(P.PROJECT_MAKE = M.USER_NO)
-		WHERE STATUS ='Y' OR STATUS='S'
+		WHERE STATUS ='Y'
 		<if test="searchText != 'null'">
 			AND (P.PROJECT_CONTENT LIKE '%'||#{searchText}||'%'
 			OR P.PROJECT_TITLE LIKE '%'||#{searchText}||'%'
@@ -57,12 +64,15 @@
 		       M.USER_NAME,
 		       M.RANK,
 		       D.DEPT_NAME,
-		       (SELECT COUNT(*) FROM PROJECT) AS PCOUNT
+		       (SELECT COUNT(*) FROM PROJECT) AS PCOUNT,
+               NVL2(B.USER_ID, 'Y','N') AS BOOKMARK
 		FROM PROJECT P
+		LEFT OUTER JOIN (SELECT USER_ID, PROJECT_NO FROM BOOKMARK WHERE USER_ID=#{userNo}) B
+		ON (P.PROJECT_NO = B.PROJECT_NO)
 		JOIN MEMBER M ON(P.PROJECT_MAKE = M.USER_NO)
 		JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
-		WHERE (P.STATUS='Y' OR P.STATUS='S')
-       	<if test="searchText != 'null'">
+		WHERE P.STATUS ='Y'
+		<if test="searchText != 'null'">
 			AND (P.PROJECT_CONTENT LIKE '%'||#{searchText}||'%'
 			OR P.PROJECT_TITLE LIKE '%'||#{searchText}||'%'
 			OR P.PARTICIPANT LIKE '%'||#{searchText}||'%'
@@ -137,33 +147,31 @@
 			) T
 	</insert>
 	
-	<update id="makeFav" parameterType="_int">
-		UPDATE PROJECT 
-		SET 
-		    STATUS='S'
-		WHERE 
-		    PROJECT_NO= #{proNum}
-	</update>
+	<insert id="makeFav" parameterType="map">
+		INSERT INTO BOOKMARK
+		VALUES(
+			SEQ_BOOKMARK_NO.NEXTVAL,
+			#{userNo},
+			#{proNum}
+		)
+	</insert>
 	
-	<update id="removeFav" parameterType="_int">
-		UPDATE PROJECT 
-		SET 
-		    STATUS='Y'
-		WHERE 
-		    PROJECT_NO= #{proNum}
-	</update>
+	<delete id="removeFav" parameterType="_int">
+		DELETE FROM BOOKMARK
+		WHERE USER_ID=#{userNo} AND PROJECT_NO=#{proNum}
+	</delete>
 	
-	<select id="findStatus" parameterType="_int" resultMap="projectResultMap">
-		SELECT STATUS
-		FROM PROJECT
-		WHERE PROJECT_NO = #{proNum}
+	<select id="findStatus" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOOKMARK
+		WHERE USER_ID=#{userNo} and PROJECT_NO=#{proNum}
 	</select>
 	
 	<select id="getParticipantCount" parameterType="map" resultType="_int">
 		SELECT COUNT(*)
 		FROM PROJECT P
 		JOIN MEMBER M ON(P.PROJECT_MAKE = M.USER_NO)
-		WHERE (STATUS ='Y' OR STATUS ='S')
+		WHERE STATUS ='Y'
 		AND (P.PROJECT_MAKE = #{userNo}
 			OR P.PARTICIPANT LIKE '%'||#{userName}||'_' ||#{rank}||'_'||#{deptName}||'%')
 		<if test="searchText != 'null'">
@@ -186,11 +194,14 @@
 		       M.USER_NAME,
 		       M.RANK,
 		       D.DEPT_NAME,
-		       (SELECT COUNT(*) FROM PROJECT) AS PCOUNT
+		       (SELECT COUNT(*) FROM PROJECT) AS PCOUNT,
+		       NVL2(B.USER_ID, 'Y','N') AS BOOKMARK
 		FROM PROJECT P
+		LEFT OUTER JOIN (SELECT USER_ID, PROJECT_NO FROM BOOKMARK WHERE USER_ID=#{userNo}) B
+		ON (P.PROJECT_NO = B.PROJECT_NO)
 		JOIN MEMBER M ON(P.PROJECT_MAKE = M.USER_NO)
 		JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
-		WHERE (STATUS ='Y' OR STATUS ='S')
+		WHERE P.STATUS ='Y'
 		AND (P.PROJECT_MAKE = #{userNo}
 			OR P.PARTICIPANT LIKE '%'||#{userName}||'_'||#{rank}||'_'||#{deptName}||'%')
        	<if test="searchText != 'null'">
@@ -227,11 +238,14 @@
 		       M.USER_NAME,
 		       M.RANK,
 		       D.DEPT_NAME,
-		       (SELECT COUNT(*) FROM PROJECT) AS PCOUNT
+		       (SELECT COUNT(*) FROM PROJECT) AS PCOUNT,
+		       NVL2(B.USER_ID, 'Y','N') AS BOOKMARK
 		FROM PROJECT P
+		JOIN (SELECT USER_ID, PROJECT_NO FROM BOOKMARK WHERE USER_ID=#{userNo}) B
+		ON (P.PROJECT_NO = B.PROJECT_NO)
 		JOIN MEMBER M ON(P.PROJECT_MAKE = M.USER_NO)
 		JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
-		WHERE STATUS ='S'
+		WHERE P.STATUS ='Y' 
        	<if test="searchText != 'null'">
 			AND (P.PROJECT_CONTENT LIKE '%'||#{searchText}||'%'
 			OR P.PROJECT_TITLE LIKE '%'||#{searchText}||'%'

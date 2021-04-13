@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,9 +47,9 @@ public class ProjectController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("searchText", searchText);
+		map.put("userNo", loginMember.getUser_no());
 		
 		projectCount = service.getProjectCount(map);
-		
 		
 		pageInfo = new PageInfo(page, 10, projectCount, listLimit);
 		projectList = service.getProjectList(pageInfo, map);
@@ -58,6 +59,11 @@ public class ProjectController {
 			
 			projectList.get(i).setProjectCount(arr.length);
 		}
+		
+		List<Integer> projectNoList = projectList.stream().map(project -> project.getProjectNo()).collect(Collectors.toList());
+		
+//		System.out.println(projectNoList);	
+//		System.out.println(loginMember.getUser_no());
 		
 		model.addObject("pageInfo", pageInfo);
 		model.addObject("projectList",projectList);
@@ -144,15 +150,21 @@ public class ProjectController {
 	
 	@ResponseBody
 	@RequestMapping(value="/project/makeFav", method= {RequestMethod.POST})
-	public void makeFav(@RequestParam(value="proNum") int proNum) {
+	public void makeFav(@SessionAttribute(name="loginMember", required=false) Member loginMember, 
+			@RequestParam(value="proNum") int proNum) {
 		
 		int result = 0;
-		Project project = service.findStatus(proNum);
 		
-		if(project.getStatus().equals("Y")) {
-			result = service.makeFav(proNum);
-		} else if(project.getStatus().equals("S")) {
-			result = service.removeFav(proNum);
+		Map<String,Object> map = new HashMap<>();
+		map.put("proNum", proNum);
+		map.put("userNo", loginMember.getUser_no());
+		
+		int Bookmark  = service.findStatus(map);
+		
+		if(Bookmark == 0) {
+			result = service.makeFav(map);
+		} else {
+			result = service.removeFav(map);
 		}
 		
 		if(result > 0) {
@@ -212,6 +224,7 @@ public class ProjectController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("searchText", searchText);
+		map.put("userNo", loginMember.getUser_no());
 		
 		projectCount = service.getFavCount(map);
 		
