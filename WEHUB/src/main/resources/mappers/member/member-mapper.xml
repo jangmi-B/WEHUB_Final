@@ -21,8 +21,6 @@
 			WHERE USER_STATUS ='Y'
 	</sql>
 	
-	
-	
 	<resultMap type="Member" id="memberResultMap">
 		<id property="user_no" column="USER_NO"/>
 		<id property="user_companyname" column="USER_COMPANYNAME"/>

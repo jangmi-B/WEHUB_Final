@@ -1,0 +1,344 @@
+.index_section {
+  margin-left: 70px;
+  border: 1px solid transparent;
+  width: 200px;
+  height: 880px;
+  position: fixed;
+}
+
+.index_section {
+  padding-left: 10px;
+  background-color: #d2ddd8;
+  line-height: 30px;
+}
+
+.index_section a{
+	color:black;
+}
+
+.index_section > ul > li {
+  padding-bottom: 20px;
+  padding-top: 10px;
+}
+
+.line {
+  border: 1px solid black;
+  width: 150px;
+}
+
+.index_section ul > li > ul > li:hover {
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.msgComponent > li  ul{
+	font-size: 13px;
+	line-height:25px;
+	/* display:none; */
+}
+
+.msgComponent > li a:active,
+.msgComponent > li a:hover{
+	color: #5b18ff;
+}
+
+.msgComponent > li > a:active + ul,
+.msgComponent > li > a:hover + ul{
+	display: block;
+}
+
+.msgComponent > li > ul:active,
+.msgComponent > li > ul:hover{
+	display: block;
+}
+
+.msg_write_btn {
+  margin-bottom: 10px;
+  background-color: #5b18ff;
+  width: 140px;
+  height: 30px;
+  color: white;
+  border-color: transparent;
+  border-radius: 5px;
+}
+
+/* 쪽지 리스트 구현 */
+
+.msg_title {
+  margin: 0;
+  padding-left: 10px;
+  text-align:right;
+}
+
+.messageList {
+  /* border: 1px solid red; */
+  margin-left: 280px;
+  padding-top: 20px;
+  width: 80%;
+  min-height: 850px;
+}
+
+.megSearchBox {
+  float: right;
+}
+
+.megSearchBox input {
+  width: 250px;
+  height: 28px;
+  border-radius: 5px;
+  border: 1px solid gray;
+}
+.megSearchBox select {
+  width: 100px;
+  height: 28px;
+  border-radius: 5px;
+  border: 1px solid gray;
+}
+
+.msgComponent {
+  padding: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.msg_btn:active {
+  box-shadow: 1px 1px 1px grey;
+}
+.msg_btn_search:active,
+.msg_write_btn:active {
+  box-shadow: 1px 1px 1px black;
+}
+
+.msg_btn {
+  height: 30px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  width: 70px;
+}
+
+.msg_btn_search {
+  background-color: #5b18ff;
+  color: white;
+  height: 30px;
+  width: 50px;
+  border: none;
+  border-radius: 5px;
+}
+
+.message_table {
+  width: 100%;
+  text-align: center;
+  padding-top: 30px;
+  padding-bottom: 40px;
+  line-height: 32px;
+  border-collapse: collapse;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+}
+
+.message_table a{
+	color:black;
+}
+
+.message_table tr td{
+	padding-left:10px;
+	padding-right:10px;
+}
+
+
+.message_table th,
+.message_table td {
+  border: 1px solid lightgray;
+
+}
+
+.message_table th {
+  background-color: lightgray;
+}
+
+.message_page {
+  text-align: center;
+  margin-top: 30px;
+}
+
+td.Y{
+	color: #BFB9B6;
+}
+
+a.Y{
+	color: #BFB9B6;	
+}
+/*modal*/
+
+.memSearch{
+	background-color: lightgrey;
+	border: transparent;
+	border-radius:5px;
+	width:50px;
+	height:30px;
+}
+
+.memSearch:active{
+	box-shadow: 1px 1px 1px grey;
+}
+
+.modalContainer button {
+  background-color: #5b18ff;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  border: q;
+  cursor: pointer;
+  width: 80px;
+  height: 35px;
+  margin-top: 15px;
+}
+
+.modalContainer button:active{
+	box-shadow: 1px 1px 1px grey;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal .bg {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modalContainer {
+  position: absolute;
+  background-color: #fff;
+  width: 500px;
+  height: 500px;
+  padding: 15px;
+}
+
+.write_form {
+  text-align: center;
+}
+
+
+.text_Count{
+	float:right;
+}
+
+.fade {
+  display: none;
+}
+
+input#memSearchInput {
+  width: 370px;
+  height: 30px;
+  margin-bottom: 10px;
+  border: transparent;
+  border-bottom:1px solid lightgrey;
+}
+
+.modalContainer #contentsDiv {
+  width: 430px;
+  height: 250px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  resize: none;
+  padding:7px;
+}
+
+/* view modal */
+
+
+.modalContainer button {
+  background-color: #5b18ff;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  border: q;
+  cursor: pointer;
+  width: 80px;
+  height: 35px;
+  margin-top: 15px;
+}
+
+.modalContainer button:active{
+	box-shadow: 1px 1px 1px grey;
+}
+
+.modal_view {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal_view .bg {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modalContainer {
+  position: absolute;
+  background-color: #fff;
+  width: 500px;
+  height: 500px;
+  padding: 15px;
+}
+
+.view_form {
+  text-align: center;
+}
+
+.fade {
+  display: none;
+}
+
+.modalContainer textarea {
+  width: 430px;
+  height: 250px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  resize: none;
+  margin-top:10px;
+}
+
+.info{
+	text-align: left;
+	margin-bottom:15px;
+	padding-left:20px;
+}
+
+.msg_btns{
+	text-align:center;
+}
+
+
+/* jQuery autoComplete*/
+#ui-id-1{
+	background :white;
+	width:200px;
+	border:1px solid lightgrey;
+}
+
+#ui-id-1 li{
+	font-size: 15px;
+	line-height:23px;
+}
+#ui-id-1 li:hover{
+	color: #5b18ff;
+	cursor:pointer;
+}

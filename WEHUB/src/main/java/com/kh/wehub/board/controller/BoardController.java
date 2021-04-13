@@ -20,9 +20,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -68,7 +66,6 @@ public class BoardController {
 		PageInfo pageInfo = new PageInfo(page, 10, noticeCount, listLimit);
 		
 		list = service.getNoticeList(pageInfo,searchText);
-		
 		staticList = service.getStaticList();
 		
 		if(searchText != null) {
@@ -103,12 +100,6 @@ public class BoardController {
 			@SessionAttribute(name="loginMember", required=false) Member loginMember, 
 			HttpServletRequest request, Notice notice, @RequestParam("upfile") MultipartFile upfile, ModelAndView model) {
 		
-//		System.out.println(upfile.getOriginalFilename());
-//		System.out.println(notice);
-//		System.out.println(loginMember);
-		
-//		System.out.println(notice.getNoticeType());
-//		System.out.println(notice);
 		
 		if(notice.getNoticeType() == null) {
 			notice.setNoticeType("N");

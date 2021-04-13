@@ -275,7 +275,6 @@
             
             xhr.open("GET", "${path}/notice/comments/delete?commentsNo="+c_no, true);
             
-            
             xhr.send();
      	 }
      	 

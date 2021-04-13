@@ -37,8 +37,7 @@
   </div>
 <div id="printArea">
   <table class="HM_TableArea checkbox_group" cellpadding="0" cellspacing="0" border="0">
-    <thead>
-    <button type="button" style="background:none; width:40px; height:40px" onclick="Print()"><i class="fas fa-print fa-2x"></i></button>
+    <thead class="HMtbody">
         <tr class="header_th">
             <th class="HM_trTag HM_NameTr" colspan="2">이름</th>
             <th class="HM_trTag HM_RankTr" width="125px">직급</th>
@@ -93,19 +92,5 @@
     <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="location.href='${path}/memberInfo/list?page=${info.getNextPage()}&searchText=${map.searchText}&searchList=${map.searchList}'">&gt;&gt;</button>&nbsp;&nbsp;
     <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="location.href='${path}/memberInfo/list?page=${info.getMaxPage()}&searchText=${map.searchText}&searchList=${map.searchList}'">마지막페이지</button>
   </div>
-</section>
-  <hr>
-  
-  <script>
-  function Print(){
-	  
-	 document.body.innerHTML = printArea.innerHTML;
-
-	 objWin.print();
-  }
-  
-  </script>
-  
-  
   
  <%@ include file ="../common/footer.jsp" %>

@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="${path}/js/jquery-3.5.1.js"></script>
     <title>LogInForm</title>
     <link rel="stylesheet" href="${path}/css/LogInForm.css">
 </head>
@@ -32,27 +32,16 @@
     </div>
 </body>
 <script>
-       $("#login-button").click(function(event){
-	 
-	    $('form').fadeOut(300);
-	    $('.wrapper').addClass('form-success');
-
-       /*  setTimeout(function() {
-        }, 2800); */
-        
-        return;
-        
-        $('#loginForm').submit();
-
-     }); 
-       
-       function loginForm() {
-    	   
-       }
- 
- 	
- 
-     
-
+$("#login-button").click(function(event){
+	
+	$('form').fadeOut(300);
+	$('.wrapper').addClass('form-success');
+	setTimeout(function() {
+	}, 2800);
+      
+	return;
+	
+	$('#loginForm').submit();
+});
 </script>
 </html>
