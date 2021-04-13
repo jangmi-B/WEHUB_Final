@@ -9,70 +9,19 @@
 
 <%@ include file="../common/header.jsp" %>
 <link rel="stylesheet" href="${path}/css/approvalStyle.css">
+<link rel="stylesheet" href="${path}/css/appAutocomplete.css">
 
 <% Calendar today =  Calendar.getInstance(); %>
 
 <style>
-	* {font-family: 'InfinitySans-RegularA1'; }
-	@font-face {
-	    font-family: 'InfinitySans-RegularA1';
-	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-RegularA1.woff') format('woff');
-	    font-weight: normal;
-	    font-style: normal;
-	}
-	.searchMember{
-		font-family: 'InfinitySans-RegularA1';
-		font-size: 14px;
-		width: 55px;
-		height: 30px;
-		background-color: #fff;
-		border: 1px solid #5b18ff;
-		border-radius: 5px;
-	}
-	.modal{ 
-		position:absolute; 	
-		width:100%; 
-		height:100%; 
-		background: rgba(0,0,0,0.8); 
-		top:0; 
-		left:0; 
-		display:none; 
-	}
-	.modal_content{
-	  width:400px; height:315px;
-	  background:#fff; border-radius:10px;
-	  position:relative; top:50%; left:50%;
-	  margin-top:-100px; margin-left:-200px;
-	  text-align:center;
-	  box-sizing:border-box; padding:74px 0;
-	  line-height:23px; cursor:pointer;
-	}
-	#modalClose {
-		font-family: 'InfinitySans-RegularA1';
-		font-size: 14px;
-		margin: 15px; /* 50px */
-	}
-	.APPLE_searchArea {
-	  border: 0; border-bottom: 3px solid #5b18ff;
-	  font-size: 18px;
-	  font-family: 'InfinitySans-RegularA1';
-	  padding: 8px; /* 서치바랑 검 */
-	}
-	.APPLE_searchBox {
-	  border: 0;
-	  color: #5b18ff; background-color: #fff;
-	  border-bottom: 2px solid #5b18ff;
-	  margin-left: -20px;
-	  margin-bottom: -20px;
-	  border-radius: 0;
-	}
-	.fa-check { font-size: 10px; }	
-	.nameView{ height: 50px; }
-	label { display: inline-block; font-family: 'InfinitySans-RegularA1'; font-size: 14px; }
+	 * {font-family: 'InfinitySans-RegularA1'; }
+	
+	/* 휴가 구분 css */
 	.form-radio{
-    display: inline-block; 
-    line-height: 20px; 
-    vertical-align: middle;
+	    display: inline-block; 
+	    line-height: 20px; 
+	    vertical-align: middle;
+	    font-size: 14px; 
 	}
 	.form-chek::before, .form-radio::before{
 	    content: ""; 
@@ -83,50 +32,14 @@
 	    border: 1px solid #3d3d3e; 
 	    margin-right: 8px;
 	}
-	.form-radio::before{
-	    border-radius: 50%;
-	}
-	.input-chek, .input-radio{
-	    display: none;
-	}
-	.input-chek:checked + .form-chek::before, .input-radio:checked + .form-radio::before{
-	    background: #5b18ff;
-	}
-	.input-chek:checked + .form-chek, .input-radio:checked + .form-radio{
-	    color: #5b18ff;
-	}
-	.modalInputName{font-family: 'InfinitySans-RegularA1'; font-size: 28px; padding-bottom: 50px; color:#5b18ff; }
-	.anserMember{ font-size: 18px; }
+	.form-radio::before{ border-radius: 50%; }
+	.input-chek, .input-radio{ display: none; }
+	.input-chek:checked + .form-chek::before, .input-radio:checked + .form-radio::before{ background: #5b18ff; }
+	.input-chek:checked + .form-chek, .input-radio:checked + .form-radio{ color: #5b18ff; }
+	.leaveDetailTextArea { font-size: 25px; }
 </style>
 
-	<div class="EPay-index_section">
-        <h2>전자결재</h2>
-        <li class="EPay-form" style="">양식작성
-            <div>
-                <ul>
-                    <li><a href="${path}/approval/letterOfApproval">품의서</a></li>
-                    <li><a href="${path}/approval/expenseReport">지출결의서</a></li>
-                    <li><a href="${path}/approval/leaveApplication">휴가신청서</a></li>
-                </ul>
-            </div>
-        </li>
-        <li class="EPay-list">결재리스트
-            <div>
-            <ul>
-                <li><a href="">개인별</a></li>
-                <li><a href="">부서별</a></li>
-                <li><a href="">전체</a></li>
-            </ul>
-            </div>
-        </li>
-        <li>보관함
-            <ul>
-                <li><a href="">품의서</a></li>
-                <li><a href="">지출결의서</a></li>
-                <li><a href="">휴가신청서</a></li>
-            </ul>
-        </li>
-    </div>
+<%@ include file="../approval/approvalSubMenu.jsp" %>	
     
 <form action="${path}/approval/updateLeave" method="POST">
     <div class="cash-form-section" style="height: 100%; width:1000px; margin: 0 300px 0 300px;">
@@ -211,23 +124,23 @@
   						<label for="ex_chk3">연차</label>  --> 
   						<div class="form-checkbox-wrap">
 					        <sapn class="form-inline">
-					            <input type="radio" name="leaveClassify" class="input-radio" id="radio1" value="연차">&nbsp;&nbsp;&nbsp;
+					            <input type="radio" name="leaveClassify" class="input-radio" id="radio1" value="연차"> &nbsp;&nbsp;&nbsp;
 					            <label for="radio1" class="form-radio">연차</label>
 					        </sapn>
 					        <sapn class="form-inline">
-					            <input type="radio" name="leaveClassify" class="input-radio" id="radio2" value="반차">&nbsp;&nbsp;&nbsp;
+					            <input type="radio" name="leaveClassify" class="input-radio" id="radio2" value="반차"> &nbsp;&nbsp;&nbsp;
 					            <label for="radio2" class="form-radio">반차</label>
 					        </sapn>
 					        <sapn class="form-inline">
-					            <input type="radio" name="leaveClassify" class="input-radio" id="radio3" value="병가">&nbsp;&nbsp;&nbsp;
+					            <input type="radio" name="leaveClassify" class="input-radio" id="radio3" value="병가"> &nbsp;&nbsp;&nbsp;
 					            <label for="radio3" class="form-radio">병가</label>
 					        </sapn>
 					        <sapn class="form-inline">
-					            <input type="radio" name="leaveClassify" class="input-radio" id="radio4" value="보상휴가">&nbsp;&nbsp;&nbsp;
+					            <input type="radio" name="leaveClassify" class="input-radio" id="radio4" value="보상휴가"> &nbsp;&nbsp;&nbsp;
 					            <label for="radio4" class="form-radio">보상휴가</label>
 					        </sapn>
 					        <sapn class="form-inline">
-					            <input type="radio" name="leaveClassify" class="input-radio" id="radio5" value="기타">&nbsp;&nbsp;&nbsp;
+					            <input type="radio" name="leaveClassify" class="input-radio" id="radio5" value="기타"> &nbsp;&nbsp;&nbsp;
 					            <label for="radio5" class="form-radio">기타(세부사항 상세 기술)</label>
 					        </sapn>
 					    </div>
@@ -236,7 +149,7 @@
                 <tr>
                     <td style="width: 80px; font-family: 'InfinitySans-RegularA1'; font-size: 15px;">세부사항</td>
                     <td colspan="8">
-                        <input style="height: 300px;" type="text" name="leaveDetail">
+                        <input style="height: 300px;" type="text" name="leaveDetail" class="leaveDetailTextArea">
                     </td>
                 </tr>
                 <tr>
@@ -258,211 +171,60 @@
             </table>
         </div>
         <div id="button">
-        <input type="hidden" name="approvalKinds" value="휴가신청서">
-        <button type="submit" class="goToLeave" onclick="${path}/approval/updateLeave">등록</button>
-        <input type="text" style="border: none; width: 40px;" disabled>
-        <button type="reset" class="resetLeave" onclick="">취소</button>
+        	<input type="hidden" name="approvalKinds" value="휴가신청서">
+        	<button type="submit" class="goToLeave" onclick="">등록</button><!-- ${path}/approval/updateLeave -->
+        	<input type="text" style="border: none; width: 40px;" disabled>
+        	<button type="reset" class="resetLeave" onclick="">취소</button>
         </div>
     </div>
+</form>    
     
     <!-- 중간 승인자 모달창  -->
-    <div id="testForm" name="testForm">
-	    <div class="modal Amodal">
-	    	<div class="modal_content">
-	    	<div class="modalInputName">이름을 입력해 주세요.</div>
+    <div id="testForm">
+	    <div class="appModal Amodal">
+	    	<div class="appModal_content">
+	    	<div class="appModalInputName">이름을 입력해 주세요.</div>
 	    		<div>
 	    			<input type="text" id="memSearchInput2" name="userName" class="APPLE_searchArea"> <lable class="anserMember">님이 맞으신가요?</lable>
 	    		</div>
 	    		<br><br>
-	    			<button class="searchMember" type="button" id="modalClose2" style="">확인</button>
+	    			<button class="modalSearchMember" type="button" id="appModalClose2" style="">확인</button>
 	    	</div>
 	    </div>
     </div>
     
     <!-- 최초 승인자 모달창  -->
-    <div id="testForm1" name="testForm1">
-	    <div class="modal Amodal1">
-	    	<div class="modal_content">
-	    	<div class="modalInputName">이름을 입력해 주세요.</div>
+    <div id="testForm1">
+	    <div class="appModal Amodal1">
+	    	<div class="appModal_content">
+	    	<div class="appModalInputName">이름을 입력해 주세요.</div>
 	    		<div>
 	    			<input type="text" id="memSearchInput1" name="userName" class="APPLE_searchArea"> <lable class="anserMember">님이 맞으신가요?</lable>
 	    		</div>
 	    		<br><br>
-	    			<button class="searchMember" type="button" id="modalCloseFirst">확인</button>
+	    			<button class="modalSearchMember" type="button" id="appModalCloseFirst">확인</button>
 	    	</div>
 	    </div>
     </div>
     
     <!-- 최종 승인자 모달창  -->
-    <div id="testForm3" name="testForm3">
-	    <div class="modal Amodal3">
-	    	<div class="modal_content">
-	    	<div class="modalInputName">이름을 입력해 주세요.</div>
+    <div id="testForm3">
+	    <div class="appModal Amodal3">
+	    	<div class="appModal_content">
+	    	<div class="appModalInputName">이름을 입력해 주세요.</div>
 	    		<div>
 	    			<input type="text" id="memSearchInput3" name="userName" class="APPLE_searchArea"> <lable class="anserMember">님이 맞으신가요?</lable>
 	    		</div>
 	    		<br><br>
-	    			<button class="searchMember" type="button" id="modalCloseThird">확인</button>
+	    			<button class="modalSearchMember" type="button" id="appModalCloseThird">확인</button>
 	    	</div>
 	    </div>
     </div>
-
+    
 <script>
-/* 	
-    $(document).ready(function () {
-        $('.EPay-form').on('click', function() {
-            $('.EPay-form > div').slideToggle();
-        });
-    });
 	
-    $(document).ready(function () {
-        $('.EPay-list').on('click', function() {
-            $('.EPay-list > div').slideToggle();
-        });
-    });
-*/	
-    $(function(){ 
-    	$("#secondBtn").click(function(){ 
-    		$(".Amodal").fadeIn(); 
-    		$("#memSearchInput2").autocomplete({
-    			source:function(request, response){
-    				$.ajax({
-    					url : "${path}/approval/search/json",
-    					type : "get",
-    					dataType : 'json',
-    					data : {
-    						userName:$("#memSearchInput2").val()
-    					},
-    					success : function(data){
-    						var result = data;
-    						response(result);
-    						
-    						console.log(data);
-    						
-    						let arr1 = result[0].split('_');
-    						
-    						console.log(arr1[0]);
-    						console.log(arr1[1]);
-    						console.log(arr1[2]);
-    						
-    						/* document.getElementById('interimName').value = data; */
-    						document.getElementById('interimName').value = arr1[0];
-    					},
-    					error : function(e){
-    						alert("ajax에러발생..!")
-						}
-					});
-				},
-				focus : function(event, ui) {    //포커스 가면
-					return false;//한글 에러 잡기용도로 사용됨
-				},
-				minLength: 1,// 최소 글자수
-				autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
-				delay: 500,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
-    		 });
-    	}); 
-    	
-    	$("#modalClose2").click(function(){ 
-    		$(".Amodal").fadeOut(); 
-    	}); 
-    });
-    
-	/* 최초승인자 */
-	$(function(){ 
-		$("#firstBtn").click(function(){ 
-			$(".Amodal1").fadeIn(); 
-			$("#memSearchInput1").autocomplete({
-				source:function(request, response){
-					$.ajax({
-						url : "${path}/approval/search/json",
-						type : "get",
-						dataType : 'json',
-						data : {
-							userName:$("#memSearchInput1").val()
-						},
-						success : function(data){
-							var result = data;
-							response(result);
-							
-							console.log(data);
-							
-							let arr1 = result[0].split('_');
-							
-							console.log(arr1[0]);
-							console.log(arr1[1]);
-							console.log(arr1[2]);
-							
-							/* document.getElementById('interimName').value = data; */
-							document.getElementById('firstApprover').value = arr1[0];
-						},
-						error : function(e){
-							alert("ajax에러발생..!")
-						}
-					});
-				},
-				focus : function(event, ui) {    //포커스 가면
-					return false;//한글 에러 잡기용도로 사용됨
-				},
-				minLength: 1,// 최소 글자수
-				autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
-				delay: 500,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
-			 });
-		}); 
-		
-		$("#modalCloseFirst").click(function(){ 
-			$(".Amodal1").fadeOut(); 
-		}); 
-	});
-	
-
-	/* 최초승인자 */
-	$(function(){ 
-		$("#thirdBtn").click(function(){ 
-			$(".Amodal3").fadeIn(); 
-			$("#memSearchInput3").autocomplete({
-				source:function(request, response){
-					$.ajax({
-						url : "${path}/approval/search/json",
-						type : "get",
-						dataType : 'json',
-						data : {
-							userName:$("#memSearchInput3").val()
-						},
-						success : function(data){
-							var result = data;
-							response(result);
-							
-							console.log(data);
-							
-							let arr1 = result[0].split('_');
-							
-							console.log(arr1[0]);
-							console.log(arr1[1]);
-							console.log(arr1[2]);
-							
-							/* document.getElementById('interimName').value = data; */
-							document.getElementById('finalApprover').value = arr1[0];
-						},
-						error : function(e){
-							alert("ajax에러발생..!")
-						}
-					});
-				},
-				focus : function(event, ui) {    //포커스 가면
-					return false;//한글 에러 잡기용도로 사용됨
-				},
-				minLength: 1,// 최소 글자수
-				autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
-				delay: 500,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
-			 });
-		}); 
-		
-		$("#modalCloseThird").click(function(){ 
-			$(".Amodal3").fadeOut(); 
-		}); 
-	});
-
-    
 </script>
+
+<%@ include file="appAutocomplete.jsp" %> <!-- 자동완성 Ajax & script -->
 
 <%@ include file="../common/footer.jsp" %>

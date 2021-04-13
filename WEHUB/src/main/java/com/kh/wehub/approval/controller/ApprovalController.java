@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.kh.wehub.approval.model.service.ApprovalService;
 import com.kh.wehub.approval.model.vo.App_Leave;
+import com.kh.wehub.approval.model.vo.App_Receive_Ref;
 import com.kh.wehub.approval.model.vo.Approval;
 import com.kh.wehub.member.model.vo.Member;
 
@@ -69,31 +70,35 @@ public class ApprovalController {
 	@RequestMapping(value="/approval/updateLeave", method= {RequestMethod.POST})
 	public ModelAndView insertLeave(ModelAndView model, HttpServletRequest request,
 			@SessionAttribute(name = "loginMember", required = false) Member loginMember,
-			Approval approval, App_Leave appLeave) {
+			Approval approval, App_Leave appLeave, App_Receive_Ref appReceiveRef) {
 		
 		log.info("휴가 신청서 작성 컨트롤러 : " + approval);
 		log.info("휴가 신청서 appLeave : " + appLeave);
+		log.info("휴가 신청서 appReceiveRef : " + appReceiveRef);
 		int result = 0;
 		int result2 = 0;
+		int result3 = 0;
 		
 		approval.setAppWriterNo(loginMember.getUser_no());
 		
-		System.out.println(approval.getAppWriterNo());
-		
-		System.out.println(approval + "\n" + appLeave);
+		System.out.println(approval.getAppWriterNo() + "\n" + approval + "\n" + appLeave);
 		
 		if(loginMember.getUser_no() == approval.getAppWriterNo()) {
 			System.out.println(loginMember.getUser_no() + " ,\n" + approval.getAppWriterNo());
 			result = service.insertApproval(approval);
 			
 			appLeave.setLeaveAppNo(approval.getAppNo());
+			appReceiveRef.setRefAppNo(approval.getAppNo());
+			
+			System.out.println("appReceiveRef.getRefAppNo() : " + appReceiveRef.getRefAppNo());
 						
 			result2 = service.insertLeave(appLeave);
+			result3 = service.insertReceive(appReceiveRef);
 			
 //			System.out.println("97번줄 : " + appLeave.getLeaveAppNo());
 //			System.out.println("101 result : " + result + "\nresult2 : " + result2);
 			
-			if (result > 0 && result2 > 0) {
+			if (result > 0 && result2 > 0 && result3 > 0) {
 				model.addObject("msg", "휴가신청서가 정상적으로 등록되었습니다.");
 				model.addObject("location", "/approval/approvalList");
 			} else {

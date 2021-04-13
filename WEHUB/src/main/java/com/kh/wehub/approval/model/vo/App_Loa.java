@@ -9,15 +9,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class App_Loa {
 	
-	 private int loaNo;
+	 private int loaNo; // LOA 시퀀스
 	 
-	 private int loaAppNo;
+	 private int loaAppNo; // APP 시퀀스
 	 
-	 private String loaTltle;
+	 private String loaTltle; // 제목
 	 
-	 private String loaDetale;
+	 private String loaDetale; // 상세내용
 	 
 	 private String loaStatus;
 	 
-	 private String loaPresent;
+	 private String loaPresent; // 결재현황
 }

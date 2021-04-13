@@ -1,6 +1,7 @@
 package com.kh.wehub.approval.model.vo;
 
-import java.util.Date;
+
+import java.sql.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -19,9 +20,9 @@ public class App_Leave {
 	
 	private String leaveClassify; //휴가구분
 	
-	private String leaveStart;
+	private Date leaveStart;
 	
-	private String leaveFinish;
+	private Date leaveFinish;
 	
 	private String leaveDetail;
 	

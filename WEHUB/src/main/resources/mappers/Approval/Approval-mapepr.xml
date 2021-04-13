@@ -48,11 +48,20 @@
 		<result property="appEmergncyCall" column="APP_EMERGENCYCALL"/>
 	</resultMap>
 	
-<!-- 	<resultMap type="" id="">
+ 	<resultMap type="App_Receive_Ref" id="receiveResultMap">
 		<id property="receiveRefNo" column="RECEIVE_REF_SEQ"/>
 		<result property="refAppNo" column="RECEIVE_REF_APP_SEQ"/>
 		<result property="receiveCc" column="RECEIVE_REF_CC"/>
-	</resultMap> -->
+	</resultMap>
+	
+	<resultMap type="APP_LOA" id="LOAResultMap">
+		<id property="loaNo" column="LOA_SEQ"/>
+		<result property="loaAppNo" column="LOA_APP_SEQ"/>
+		<result property="loaTltle" column="LOA_TITLE"/>
+		<result property="loaDetale" column="LOA_DETAIL"/>
+		<result property="loaStatus" column="LOA_STATUS"/>
+		<result property="loaPresent" column="LOA_PRESENT"/>
+	</resultMap>
 	
 	<!-- 자동완성 -->
 	<select id="getSearchMember" parameterType="string" resultMap="memberResultMap">
@@ -61,6 +70,7 @@
 		WHERE USER_NAME LIKE '%'|| #{userName} ||'%'
 	</select>
 	
+	<!-- insert Approval -->
  	<insert id="insertApproval" parameterType="map"
 		useGeneratedKeys="true" keyProperty="appNo" keyColumn="APP_SEQ">
 		INSERT INTO APPROVAL(
@@ -93,6 +103,7 @@
 		)
 	</insert>
 	
+	<!-- insert Leave -->
 	<insert id="insertAppLeave" parameterType="map"
 		useGeneratedKeys="true" keyProperty="leaveNo" keyColumn="LEAVE_SEQ">
 		INSERT INTO APP_LEAVE(
@@ -118,5 +129,38 @@
 			#{appEmergncyCall}
 		)
 	</insert>
+	
+	<!-- insert Receive -->
+	<insert id="insertReceiveRef" parameterType="map"
+		useGeneratedKeys="true" keyProperty="receiveRefNo" keyColumn="RECEIVE_REF_SEQ">
+		INSERT INTO APP_RECEIVE_REF(
+			RECEIVE_REF_SEQ,
+			RECEIVE_REF_APP_SEQ,
+			RECEIVE_REF_CC
+		)
+		VALUES(
+			SEQ_RECEIVE_REF_SEQ.NEXTVAL,
+			#{refAppNo},
+			null
+		)
+	</insert>
+	
+	<!-- insert LOA -->
+<!-- 	<insert id="insertLOA" parameterType="map"
+		useGeneratedKeys="true" keyProperty="loaNo" keyColumn="LOA_SEQ">
+		INSERT INTO APP_LOA (
+			LOA_SEQ,
+			LOA_APP_SEQ,
+			LOA_TITLE,
+			LOA_DETAIL,
+			LOA_STATUS,
+			LOA_PRESENT
+		)
+		VALUES(
+			SEQ.NEXTVAL,
+			#{refAppNo},
+			null
+		)
+	</insert> -->
 	
 </mapper>

@@ -1,6 +1,5 @@
 package com.kh.wehub.approval.model.service;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.wehub.approval.model.dao.ApprovalDao;
 import com.kh.wehub.approval.model.vo.App_Leave;
+import com.kh.wehub.approval.model.vo.App_Receive_Ref;
 import com.kh.wehub.approval.model.vo.Approval;
 import com.kh.wehub.member.model.vo.Member;
 
@@ -34,6 +34,12 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public List<Member> getSearchMember(String user_name) {
 		
 		return approvalDao.getSearchMember(user_name);
+	}
+
+	@Override
+	public int insertReceive(App_Receive_Ref appReceiveRef) {
+		
+		return approvalDao.insertReceiveRef(appReceiveRef);
 	}
 
 
