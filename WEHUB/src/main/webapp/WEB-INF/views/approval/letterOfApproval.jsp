@@ -40,6 +40,8 @@
             </ul>
         </li>
     </div>
+    
+<form class="from" action="${path}/approval/insertLoa" method="post" enctype="multipart/form-data">
     <div class="cash-form-section" style="height: 100%; margin: 0 300px 0 300px;">
         <div class="cash-disbursement" style="text-align: center; margin: 80px 0px 80px 200px; border: 2px solid black;">
             <table border="2" style="width: 100%; font-size: 20px; border-collapse: collapse;">
@@ -76,8 +78,7 @@
                 </tr>
                 <tr>
                     <td colspan="8" style="height: 90px;" >
-                        <button>파일첨부+</button>
-                        파일이름.img
+                        <input type="file" name="appFileUpload" value="파일첨부" id="appFileOri">
                     </td>
                 </tr>
                 <tr>
@@ -107,11 +108,12 @@
             </table>
         </div>
         <div id="button">
-        <button>등록</button>
-        <input type="text" style="border: none; width: 40px;" disabled>
-        <button>취소</button>
+        	<button type="submit">등록</button>
+        	<input type="text" style="border: none; width: 40px;" disabled>
+        	<button>취소</button>
         </div>
     </div>
+</form>    
 
     <!-- modal section -->
     <div class="modal hidden">

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.wehub.approval.model.dao.ApprovalDao;
 import com.kh.wehub.approval.model.vo.App_Leave;
+import com.kh.wehub.approval.model.vo.App_Loa;
 import com.kh.wehub.approval.model.vo.App_Receive_Ref;
 import com.kh.wehub.approval.model.vo.Approval;
 import com.kh.wehub.member.model.vo.Member;
@@ -42,6 +43,10 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return approvalDao.insertReceiveRef(appReceiveRef);
 	}
 
-
+	@Override
+	public int insertLoa(App_Loa appLoa) {
+		
+		return approvalDao.insertLOA(appLoa);
+	}
 
 }

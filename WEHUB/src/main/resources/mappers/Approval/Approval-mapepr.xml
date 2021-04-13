@@ -146,7 +146,7 @@
 	</insert>
 	
 	<!-- insert LOA -->
-<!-- 	<insert id="insertLOA" parameterType="map"
+ 	<insert id="insertLOA" parameterType="map"
 		useGeneratedKeys="true" keyProperty="loaNo" keyColumn="LOA_SEQ">
 		INSERT INTO APP_LOA (
 			LOA_SEQ,
@@ -157,10 +157,13 @@
 			LOA_PRESENT
 		)
 		VALUES(
-			SEQ.NEXTVAL,
-			#{refAppNo},
-			null
+			SEQ_LOA_SEQ.NEXTVAL,
+			#{loaAppNo},
+			#{loaTltle},
+			#{loaDetale},
+			DEFAULT,
+			DEFAULT
 		)
-	</insert> -->
+	</insert>
 	
 </mapper>
