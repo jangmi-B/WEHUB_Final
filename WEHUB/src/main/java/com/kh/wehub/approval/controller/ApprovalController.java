@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,9 @@ import com.kh.wehub.common.util.PageInfo;
 import com.kh.wehub.member.model.service.MemberService;
 import com.kh.wehub.member.model.vo.Member;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/approval")
 @SessionAttributes("loginMember")
@@ -252,15 +257,16 @@ public class ApprovalController {
 		return result;
 	}
 	
+	// 자동완성
 	@ResponseBody
 	@RequestMapping(value="/search/json", method = {RequestMethod.GET})
 	public String searchJson(@RequestParam(value="userName") String userName) {
 		System.out.println(userName);
 		
-		List<Member> memSearch = service2.getSearchMemberForApproval(userName);
+		List<Member> memSearch = service2.getSearchMemberAutoC(userName);
 		
 		JsonArray array = new JsonArray();
-		for(int i=0; i < memSearch.size(); i++) {
+		for(int i=0; i < memSearch.size(); i++) { // 쿼리 부서코드 테이블 dect_code로 바꿔야함
 			array.add(memSearch.get(i).getUser_name() + "_" + memSearch.get(i).getRank() + "_" +memSearch.get(i).getDept_code());
 		}
 		
@@ -302,7 +308,54 @@ public class ApprovalController {
 	}
 	
 	
+	// 휴가신청서
+	@RequestMapping("/leaveApplication")
+	public String leaveApplication(@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+		
+		return "/approval/leaveApplication";
+	}
 	
+	@RequestMapping(value="/updateLeave", method= {RequestMethod.POST})
+	public ModelAndView insertLeave(ModelAndView model, HttpServletRequest request,
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember,
+			Approval approval) {
+		
+		log.info("휴가 신청서 작성 컨트롤러 : " + approval);
+		int result = 0;
+		int result2 = 0;
+		int result3 = 0;
+		
+		approval.setAppWriterNo(loginMember.getUser_no());
+		
+		System.out.println(approval.getAppWriterNo() + "\n" + approval + "\n" + approval);
+		if(loginMember.getUser_no() == approval.getAppWriterNo()) {
+			System.out.println(loginMember.getUser_no() + " ,\n" + approval.getAppWriterNo());
+			result = service.insertApproval(approval);
+			
+			approval.setLeaveAppNo(approval.getAppNo());
+			approval.setReceiveRefAppNo(approval.getAppNo());
+			
+			System.out.println("approval.getReceiveRefAppNo() : " + approval.getReceiveRefAppNo());
+
+			result2 = service.insertLeave(approval);
+			result3 = service.insertReceive(approval);
+			
+//			System.out.println("97번줄 : " + appLeave.getLeaveAppNo());
+//			System.out.println("101 result : " + result + "\nresult2 : " + result2);
+			
+			if (result > 0 && result2 > 0 && result3 > 0) {
+				model.addObject("msg", "휴가신청서가 정상적으로 등록되었습니다.");
+				model.addObject("location", "/approval/approvalList");
+			} else {
+				model.addObject("msg", "결재서류 등록을 실패하였습니다.");
+				model.addObject("location", "/approval/leaveApplication");
+			}
+		}
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
 	
 	
 	

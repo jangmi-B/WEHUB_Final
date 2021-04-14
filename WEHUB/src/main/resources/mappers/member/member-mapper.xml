@@ -200,9 +200,7 @@
 		update member set PASSWORD = #{user_pwd} where id = #{user_id}
 	</update>
 	
-	
-	
-	
+	<!-- Free Board -->
 	<select id="selectMemberForFreeBoard" parameterType="string" resultMap="memberResultMap">
 		<include refid="selectMemberSqlForFreeBoardAndApproval"></include>
 	 	AND USER_ID = #{userId}
@@ -227,6 +225,13 @@
 	</select>
 	
 	<select id="getSearchMemberForApproval" parameterType="string" resultMap="memberResultMap">
+		SELECT M.USER_NAME, M.DEPT_CODE, M.RANK
+		FROM MEMBER M
+		WHERE USER_NAME LIKE '%'|| #{userName} ||'%'
+	</select>
+	
+	<!-- Approval 자동완성 -->
+	<select id="getSearchMemberApp" parameterType="string" resultMap="memberResultMap">
 		SELECT M.USER_NAME, M.DEPT_CODE, M.RANK
 		FROM MEMBER M
 		WHERE USER_NAME LIKE '%'|| #{userName} ||'%'

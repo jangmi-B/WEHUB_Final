@@ -36,4 +36,9 @@ public interface ApprovalDao {
 	int loaApproved2(int appNo);
 	int loaApproved3(int appNo);
 	
+	// 휴가신청서 등록
+	int insertApproval(Approval approval);
+	int insertAppLeave(Approval approval);
+	int insertReceiveRef(Approval approval);
+	
 }

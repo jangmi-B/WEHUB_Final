@@ -45,6 +45,8 @@ public interface MemberService {
 	List<Member> selectSearchedMemberForApproval(String searchData, String userId);
 
 	List<Member> getSearchMemberForApproval(String userName);
+	
+	List<Member> getSearchMemberAutoC(String userName); // Approval 자동완성
 
 }
 

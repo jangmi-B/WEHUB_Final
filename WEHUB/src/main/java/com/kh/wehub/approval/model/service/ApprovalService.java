@@ -35,5 +35,10 @@ public interface ApprovalService {
 
 	int loaApproved3(int appNo);
 	
+	// 휴가신청서 등록
+	int insertApproval(Approval approval);
+	int insertLeave(Approval approval);
+	int insertReceive(Approval approval);
+	
 
 }

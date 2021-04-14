@@ -36,5 +36,7 @@ public interface MemberDao {
 	public List<Member> selectSearchedMemberForApproval(@Param("searchData") String searchData, @Param("userId") String userId);
 
 	public List<Member> getSearchMemberForApproval(String user_name);
+	
+	List<Member> getSearchMemberApp(String user_name); // Approval 자동완성
 }
 

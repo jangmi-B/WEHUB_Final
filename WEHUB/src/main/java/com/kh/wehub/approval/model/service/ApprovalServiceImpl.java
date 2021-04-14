@@ -133,4 +133,23 @@ public class ApprovalServiceImpl implements ApprovalService {
 		
 		return result;
 	}
+
+	// 휴가신청서 등록 
+	@Override
+	public int insertApproval(Approval approval) {
+		
+		return approvalDao.insertApproval(approval);
+	}
+
+	@Override
+	public int insertLeave(Approval approval) {
+		
+		return approvalDao.insertAppLeave(approval);
+	}
+
+	@Override
+	public int insertReceive(Approval approval) {
+		
+		return approvalDao.insertReceiveRef(approval);
+	}
 }

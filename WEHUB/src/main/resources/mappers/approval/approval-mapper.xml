@@ -7,7 +7,6 @@
 	<resultMap type="Approval" id="approvalResultMap">
 		<id property="appNo" column="APP_SEQ"/>
 		<result property="appWriteDate" column="APP_WRITE_SYS"/>
-		<result property="appWriterNo" column="APP_WRITER_NO"/>		
 		<result property="firstApprover" column="FIRST_TIME_APPROVER"/>
 		<result property="interimApprover" column="INTERIM_APPROVER"/>
 		<result property="finalApprover" column="FINAL_APPROVER"/>
@@ -16,37 +15,83 @@
 		<result property="appReason" column="APP_REASON"/>
 		<result property="appOriginalFileName" column="APP_ORIFILENAME"/>
 		<result property="appRenameFileName" column="APP_REFILENAME"/>
-		<result property="userNo" column="USER_NO"/>
+		<result property="appWriterNo" column="APP_WRITER_NO"/>		
 		<result property="appKinds" column="APPROVAL_KINDS"/>
+		<result property="appPresent" column="APP_PRESENT"/>
+		
+		<result property="userNo" column="USER_NO"/>
+		<result property="deptName" column="DEPT_NAME"/>
 		<result property="userName" column="USER_NAME"/>
 		<result property="rowNum" column="ROWNUM"/>
-		<result property="deptName" column="DEPT_NAME"/>
+		<result property="rank" column="RANK"/>
+		
+		<!-- <result property="loaNo" column="LOA_SEQ"/> -->
+		<result property="loaAppNo" column="LOA_APP_SEQ"/>
 		<result property="loaTitle" column="LOA_TITLE"/>
 		<result property="loaContent" column="LOA_DETAIL"/>
-		<result property="loaAppNo" column="LOA_APP_SEQ"/>
+		
 		<result property="receiveRefAppNo" column="RECEIVE_REF_APP_SEQ"/>
 		<result property="referList" column="RECEIVE_REF_CC"/>
-		<result property="rank" column="RANK"/>
-		<result property="appPresent" column="APP_PRESENT"/>
 		<!-- <collection property="app_loa" javaType="java.util.ArrayList" resultMap="app_loa"/> -->
+	</resultMap>
+	
+	<resultMap type="Approval" id="leaveResultMap">
+		<id property="leaveNo" column="LEAVE_SEQ"/>
+		<result property="leaveAppNo" column="LEAVE_APP_SEQ"/>
+		<result property="leaveClassify" column="LEAVE_CLASSIFY"/>
+		<result property="leaveStart" column="LEAVE_START"/>
+		<result property="leaveFinish" column="LEAVE_FINISH"/>
+		<result property="leaveDetail" column="LEAVE_DETAIL"/>
+		<result property="leaveStatus" column="LEAVE_STATUS"/>
+		<result property="leavePreasent" column="LEAVE_PRESENT"/>
+		<result property="appEmergncyCall" column="APP_EMERGENCYCALL"/>
+	</resultMap>
+	
+ 	<resultMap type="Approval" id="receiveResultMap">
+		<id property="receiveRefNo" column="RECEIVE_REF_SEQ"/>
+		<result property="receiveRefAppNo" column="RECEIVE_REF_APP_SEQ"/>
+		<result property="referList" column="RECEIVE_REF_CC"/>
+	</resultMap>
+	
+	<resultMap type="Approval" id="LOAResultMap">
+		<id property="loaNo" column="LOA_SEQ"/>
+		<result property="loaAppNo" column="LOA_APP_SEQ"/>
+		<result property="loaTltle" column="LOA_TITLE"/>
+		<result property="loaDetale" column="LOA_DETAIL"/>
+		<result property="loaStatus" column="LOA_STATUS"/>
+		<result property="loaPresent" column="LOA_PRESENT"/>
+	</resultMap>
+	
+	<resultMap type="Approval" id="ErResultMap">
+		<id property="erNo" column="ER_SEQ"/>
+		<result property="erAppNo" column="ER_APP_SEQ"/>
+		<result property="erDeadline" column="ER_DEADLINE"/>
+		<result property="erSlassify" column="ER_CLASSIFY"/>
+		<result property="erTitle" column="ER_TITLE"/>
+		<result property="erDetail" column="ER_DETAIL"/>
+		<result property="erAmount" column="ER_AMOUNT"/>
+		<result property="erReference" column="ER_REFERENCE"/>
+		<result property="erStatus" column="ER_STATUS"/>
+		<result property="erPresent" column="ER_PRESENT"/>
 	</resultMap>
 
 	<select id="selectRecentList" parameterType="map" resultMap="approvalResultMap">
-		SELECT ROWNUM, B.* FROM (SELECT A.APP_SEQ,
-		     A.APP_WRITER_NO,
-		     A.APP_WRITE_SYS,
-		     A.FIRST_TIME_APPROVER,
-		     A.INTERIM_APPROVER,
-		     A.FINAL_APPROVER,
-		     A.APP_CHECK_SYSDATE,
-		     A.APP_CHECK_PROGRESS,
-		     A.APP_REASON,
-		     A.APP_ORIFILENAME,
-		     A.APP_REFILENAME,
-		     M.USER_NAME,
-		     M.RANK,
-		     A.APPROVAL_KINDS,
-		     D.DEPT_NAME
+		SELECT ROWNUM, B.* FROM (
+			SELECT A.APP_SEQ,
+			A.APP_WRITER_NO,
+			A.APP_WRITE_SYS,
+			A.FIRST_TIME_APPROVER,
+			A.INTERIM_APPROVER,
+			A.FINAL_APPROVER,
+			A.APP_CHECK_SYSDATE,
+			A.APP_CHECK_PROGRESS,
+			A.APP_REASON,
+			A.APP_ORIFILENAME,
+			A.APP_REFILENAME,
+			M.USER_NAME,
+			M.RANK,
+			A.APPROVAL_KINDS,
+			D.DEPT_NAME
 		FROM APPROVAL A 
 		JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
 		JOIN DEPARTMENT D ON (D.DEPT_CODE = M.DEPT_CODE)
@@ -245,5 +290,80 @@
 	<update id="loaApproved3" parameterType="_int">
 		UPDATE APPROVAL SET APP_PRESENT='D', APP_CHECK_PROGRESS='결재완료' WHERE APP_SEQ=#{appNo}	
 	</update>
+	
+	<!-- insert Approval -->
+ 	<insert id="insertApproval" parameterType="map"
+		useGeneratedKeys="true" keyProperty="appNo" keyColumn="APP_SEQ">
+		INSERT INTO APPROVAL(
+			APP_SEQ,
+			APP_WRITE_SYS,
+			FIRST_TIME_APPROVER,
+			INTERIM_APPROVER,
+			FINAL_APPROVER,
+			APP_CHECK_SYSDATE,
+			APP_REASON,
+			APP_ORIFILENAME,
+			APP_REFILENAME,
+			APP_WRITER_NO,
+			APP_CHECK_PROGRESS,
+			APPROVAL_KINDS
+		)
+		VALUES(
+			SEQ_APP_SEQ.NEXTVAL,
+			SYSDATE,
+			#{firstApprover},
+			#{interimApprover},
+			#{finalApprover},
+			#{appCheckSysdate},
+			#{appReason},
+			#{appOriginalFileName},
+			#{appRenameFileName},
+			#{appWriterNo},
+			DEFAULT,
+            #{appKinds}
+		)
+	</insert>
+	
+	<!-- insert Leave -->
+	<insert id="insertAppLeave" parameterType="map"
+		useGeneratedKeys="true" keyProperty="leaveNo" keyColumn="LEAVE_SEQ">
+		INSERT INTO APP_LEAVE(
+			LEAVE_SEQ,
+			LEAVE_APP_SEQ,
+			LEAVE_CLASSIFY,
+			LEAVE_START,
+			LEAVE_FINISH,
+			LEAVE_DETAIL,
+			LEAVE_STATUS,
+			LEAVE_PRESENT,
+			APP_EMERGENCYCALL
+		)
+		VALUES(
+			SEQ_LEAVE_SEQ.NEXTVAL,
+			#{leaveAppNo},
+			#{leaveClassify},
+			#{leaveStart},
+			#{leaveFinish},
+			#{leaveDetail},
+			DEFAULT,
+			DEFAULT,
+			#{appEmergncyCall}
+		)
+	</insert>
+	
+	<!-- insert Receive -->
+	<insert id="insertReceiveRef" parameterType="map"
+		useGeneratedKeys="true" keyProperty="receiveRefNo" keyColumn="RECEIVE_REF_SEQ">
+		INSERT INTO APP_RECEIVE_REF(
+			RECEIVE_REF_SEQ,
+			RECEIVE_REF_APP_SEQ,
+			RECEIVE_REF_CC
+		)
+		VALUES(
+			SEQ_RECEIVE_REF_SEQ.NEXTVAL,
+			#{receiveRefAppNo},
+			#{referList}
+		)
+	</insert>
 
 </mapper>

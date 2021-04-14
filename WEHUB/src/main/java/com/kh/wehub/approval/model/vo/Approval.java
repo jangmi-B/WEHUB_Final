@@ -12,16 +12,6 @@ import lombok.NoArgsConstructor;
 public class Approval {
    
    // Approval
-   private int userNo;
-   
-   private String deptName;
-   
-   private String userName;
-   
-   private int rowNum;
-   
-   private String rank;
-   
    private int appNo;
    
    private Date appWriteDate;
@@ -48,9 +38,21 @@ public class Approval {
    
    private String appPresent;
 
+   private int userNo;
+   
+   private String deptName;
+   
+   private String userName;
+   
+   private int rowNum;
+   
+   private String rank;
+   
    
    // App_Receive_Ref
 
+   private int receiveRefNo; // 왜????
+   
    private int receiveRefAppNo; // 수신참조 테이블 approval 시퀀스
     
    private String referList; // 수신참조내역
@@ -90,24 +92,24 @@ public class Approval {
    private String appEmergncyCall; // 비상연락망
    
    // App_ER
-   private int reNo;
+   private int erNo;
    
-   private int reAppNo;
+   private int erAppNo;
    
-   private Date reDeadline;
+   private Date erDeadline;
    
-   private String reSlassify; // 계정과목
+   private String erSlassify; // 계정과목
    
-   private String trTitle;
+   private String erTitle;
    
-   private String reDetail; // 적요
+   private String erDetail; // 적요
    
-   private String reAmount; // 금액
+   private String erAmount; // 금액
    
-   private String reReference; // 비고
+   private String erReference; // 비고
    
-   private String reStatus; // 문서상태
+   private String erStatus; // 문서상태
    
-   private String rePresent; // 결재상태
+   private String erPresent; // 결재상태
    
 }
