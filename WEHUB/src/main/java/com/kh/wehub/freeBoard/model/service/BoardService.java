@@ -1,13 +1,9 @@
-package com.kh.wehub.board.model.service;
+package com.kh.wehub.freeBoard.model.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.kh.wehub.board.model.vo.Board;
-import com.kh.wehub.board.model.vo.Reply;
-import com.kh.wehub.member.model.vo.Member;
+import com.kh.wehub.freeBoard.model.vo.Board;
+import com.kh.wehub.freeBoard.model.vo.Reply;
 
 public interface BoardService {
 

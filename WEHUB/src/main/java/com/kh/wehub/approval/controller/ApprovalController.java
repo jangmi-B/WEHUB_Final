@@ -1,12 +1,8 @@
 package com.kh.wehub.approval.controller;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,14 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.kh.wehub.approval.model.service.ApprovalService;
 import com.kh.wehub.approval.model.vo.Approval;
-import com.kh.wehub.board.model.vo.Board;
 import com.kh.wehub.common.util.PageInfo;
 import com.kh.wehub.member.model.service.MemberService;
 import com.kh.wehub.member.model.vo.Member;
@@ -138,7 +132,7 @@ public class ApprovalController {
 		
 		List<Member> memberList = null;
 		
-		memberList = service2.selectMemberAll(loginMember.getUser_id());
+		memberList = service2.selectMemberAllForApproval(loginMember.getUser_id());
 		
 		System.out.println("memberList : " + memberList);
 		
@@ -223,7 +217,7 @@ public class ApprovalController {
 
 		System.out.println("loginMember.getUser_id() : " + loginMember.getUser_id());
 		
-		memberList = service2.selectSearchedMember(searchData, loginMember.getUser_id());
+		memberList = service2.selectSearchedMemberForApproval(searchData, loginMember.getUser_id());
 		
 		
 		return memberList;
@@ -263,7 +257,7 @@ public class ApprovalController {
 	public String searchJson(@RequestParam(value="userName") String userName) {
 		System.out.println(userName);
 		
-		List<Member> memSearch = service2.getSearchMember(userName);
+		List<Member> memSearch = service2.getSearchMemberForApproval(userName);
 		
 		JsonArray array = new JsonArray();
 		for(int i=0; i < memSearch.size(); i++) {

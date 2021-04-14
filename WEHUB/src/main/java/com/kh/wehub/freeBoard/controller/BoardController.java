@@ -1,15 +1,11 @@
-package com.kh.wehub.board.controller;
+package com.kh.wehub.freeBoard.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import javax.print.attribute.standard.Media;
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,16 +16,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.kh.wehub.board.model.service.BoardService;
-import com.kh.wehub.board.model.vo.Board;
-import com.kh.wehub.board.model.vo.Reply;
+import com.kh.wehub.freeBoard.model.service.BoardService;
+import com.kh.wehub.freeBoard.model.vo.Board;
+import com.kh.wehub.freeBoard.model.vo.Reply;
 import com.kh.wehub.member.model.service.MemberService;
 import com.kh.wehub.member.model.vo.Member;
 
 @Controller
-@RequestMapping("/board")
+@RequestMapping("/freeBoard")
 @SessionAttributes("loginMember")
 public class BoardController {
 	@Autowired
@@ -178,7 +173,7 @@ public class BoardController {
 				Board board, @RequestParam("boardNo") int boardNo, @RequestParam("replyContent") String replyContent,
 					Reply reply, ModelAndView model, Member member) { 	
 		
-		member = service2.findMemberByUserId(loginMember.getUser_id());
+		member = service2.findMemberByUserIdForFreeBoard(loginMember.getUser_id());
 
 		int result = 0;
 		
@@ -219,7 +214,7 @@ public class BoardController {
 			Reply reply, ModelAndView model, Member member, @RequestParam("newReplyContent") String replyContent,
 			@RequestParam("replyNo") int replyNo) {
 		
-		member = service2.findMemberByUserId(loginMember.getUser_id());
+		member = service2.findMemberByUserIdForFreeBoard(loginMember.getUser_id());
 		
 		int result = 0;
 		
@@ -256,7 +251,9 @@ public class BoardController {
 		
 		Reply reply = service.findReplyByNo(replyNo);
 		
-		member = service2.findMemberByUserId(loginMember.getUser_id());
+		System.out.println(reply);
+		
+		member = service2.findMemberByUserIdForFreeBoard(loginMember.getUser_id());
 		
 		int result = 0;
 

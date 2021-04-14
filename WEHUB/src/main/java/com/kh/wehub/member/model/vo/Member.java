@@ -31,12 +31,11 @@ public class Member {
 	
 	private String user_status;
 	
-	private String member_image;
+	private String user_imgOriname;
+	
+	private String user_imgRename;
 	
 	private String dept_code;
-	
-	// 부서 이름 가져오기 위해서
+
 	private String dept_name;
-	
-	
 }

@@ -19,8 +19,8 @@
 					<div class="line"></div>
 					<ul>
 						<li style="color:black;">공지사항</li>
-				        <li><a href="${path}/board/board" style="color:black;">자유게시판</a></li>
-				        <li id="subword"><a style="color:black;" href="${path}/board/boardWrite">&nbsp;&nbsp;+ 글쓰기</a></li> 
+				        <li><a href="${path}/freeBoard/board" style="color:black;">자유게시판</a></li>
+				        <li id="subword"><a style="color:black;" href="${path}/freeBoard/boardWrite">&nbsp;&nbsp;+ 글쓰기</a></li> 
 					</ul>
 			    </li>
 			    <li>
@@ -34,7 +34,7 @@
 			</ul>
 		</div>
      
-		<form action='${path}/board/boardWrite' method="post" style="margin-top: -90px; margin-left: -230px;">
+		<form action='${path}/freeBoard/boardWrite' method="post" style="margin-top: -90px; margin-left: -230px;">
 		
 			<input type="hidden" name="userId" value="${loginMember.user_id}">
 		

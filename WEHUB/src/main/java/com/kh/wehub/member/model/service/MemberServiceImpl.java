@@ -17,7 +17,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Member login(String userId, String userPwd) {
 		
-		Member loginMember = this.findMemberByUserId(userId);
+		Member loginMember = this.findMemberByUserIdForFreeBoard(userId);
 		
 		if(loginMember != null) {
 			
@@ -27,30 +27,29 @@ public class MemberServiceImpl implements MemberService {
 		}
 	}
 
+	@Override
+	public Member findMemberByUserIdForFreeBoard(String userId) {
+		return memberDao.selectMemberForFreeBoard(userId);
+	}
+
+
+	@Override
+	public List<Member> selectMemberAllForApproval(String userId) {
+		
+		return memberDao.selectMemberAllForApproval(userId);
+	}
+
+
+	@Override
+	public List<Member> selectSearchedMemberForApproval(String searchData, String userId) {
+		
+		return memberDao.selectSearchedMemberForApproval(searchData, userId);
+	}
 	
 	@Override
-	public Member findMemberByUserId(String userId) {
-		return memberDao.selectMember(userId);
-	}
-
-
-	@Override
-	public List<Member> selectMemberAll(String userId) {
+	public List<Member> getSearchMemberForApproval(String user_name) {
 		
-		return memberDao.selectMemberAll(userId);
-	}
-
-
-	@Override
-	public List<Member> selectSearchedMember(String searchData, String userId) {
-		
-		return memberDao.selectSearchedMember(searchData, userId);
-	}
-	
-	@Override
-	public List<Member> getSearchMember(String user_name) {
-		
-		return memberDao.getSearchMember(user_name);
+		return memberDao.getSearchMemberForApproval(user_name);
 	}
 
 }

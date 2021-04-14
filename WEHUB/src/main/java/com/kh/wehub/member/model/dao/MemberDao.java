@@ -10,12 +10,12 @@ import com.kh.wehub.member.model.vo.Member;
 @Mapper
 public interface MemberDao {
 
-	public Member selectMember(String userId);
+	public abstract Member selectMemberForFreeBoard(String userId);
 
-	public List<Member> selectMemberAll(String userId);
+	public List<Member> selectMemberAllForApproval(String userId);
 
-	public List<Member> selectSearchedMember(@Param("searchData") String searchData, @Param("userId") String userId);
+	public List<Member> selectSearchedMemberForApproval(@Param("searchData") String searchData, @Param("userId") String userId);
 
-	public List<Member> getSearchMember(String user_name);
+	public List<Member> getSearchMemberForApproval(String user_name);
 
 }

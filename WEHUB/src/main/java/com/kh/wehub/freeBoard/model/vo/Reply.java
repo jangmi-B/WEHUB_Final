@@ -1,4 +1,4 @@
-package com.kh.wehub.board.model.vo;
+package com.kh.wehub.freeBoard.model.vo;
 
 import java.sql.Date;
 

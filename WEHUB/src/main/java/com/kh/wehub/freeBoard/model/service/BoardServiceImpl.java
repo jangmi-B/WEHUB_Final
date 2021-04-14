@@ -1,4 +1,4 @@
-package com.kh.wehub.board.model.service;
+package com.kh.wehub.freeBoard.model.service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,9 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.wehub.board.model.dao.BoardDao;
-import com.kh.wehub.board.model.vo.Board;
-import com.kh.wehub.board.model.vo.Reply;
+import com.kh.wehub.freeBoard.model.dao.BoardDao;
+import com.kh.wehub.freeBoard.model.vo.Board;
+import com.kh.wehub.freeBoard.model.vo.Reply;
 
 @Service
 public class BoardServiceImpl implements BoardService {

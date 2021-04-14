@@ -1,14 +1,13 @@
-package com.kh.wehub.board.model.dao;
+package com.kh.wehub.freeBoard.model.dao;
 
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.kh.wehub.board.model.vo.Board;
-import com.kh.wehub.board.model.vo.Reply;
+import com.kh.wehub.freeBoard.model.vo.Board;
+import com.kh.wehub.freeBoard.model.vo.Reply;
 
 @Mapper
 public interface BoardDao {

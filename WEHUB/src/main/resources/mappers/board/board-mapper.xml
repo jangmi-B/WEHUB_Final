@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.kh.wehub.board.model.dao.BoardDao">
+<mapper namespace="com.kh.wehub.freeBoard.model.dao.BoardDao">
 	<sql id="boardListSql">
 		SELECT B.BOARD_NO,
 			   M.USER_ID,
@@ -12,7 +12,7 @@
 		       B.BOARD_CREATE_DATE,
 		       B.BOARD_MODIFY_DATE,
 		       B.STATUS,
-		       M.MEMBER_IMAGE,
+		       M.USER_IMG_REFILENAME,
 		       D.DEPT_NAME
 		FROM BOARD B
 		JOIN MEMBER M ON(B.BOARD_WRITER_NO = M.USER_NO)
@@ -29,7 +29,7 @@
 		<result property="status" column="STATUS"/>
 		<result property="boardCreateDate" column="BOARD_CREATE_DATE"/>
 		<result property="boardModifyDate" column="BOARD_MODIFY_DATE"/>
-		<result property="memberImage" column="MEMBER_IMAGE"/>
+		<result property="memberImage" column="USER_IMG_REFILENAME"/>
 		<result property="dept_name" column="DEPT_NAME"/>
 	</resultMap>
 	
@@ -43,7 +43,7 @@
 		<result property="status" column="STATUS"/>
 		<result property="replyCreateDate" column="REPLY_CREATE_DATE"/>
 		<result property="replyModifyDate" column="REPLY_MODIFY_DATE"/>
-		<result property="memberImage" column="MEMBER_IMAGE"/>
+		<result property="memberImage" column="USER_IMG_REFILENAME"/>
 	</resultMap>
 	
 	<resultMap type="Board" id="boardDetailResultMap">
@@ -89,7 +89,7 @@
 	    	   R.REPLY_CONTENT, 
 	    	   R.REPLY_CREATE_DATE, 
 	    	   R.STATUS, 
-	    	   M.MEMBER_IMAGE
+	    	   M.USER_IMG_REFILENAME
 		FROM REPLY R
 		JOIN MEMBER M ON(R.REPLY_WRITER_NO = M.USER_NO)
 		JOIN BOARD B ON(R.BOARD_NO = B.BOARD_NO)
@@ -111,7 +111,7 @@
 		       R.STATUS,
 		       R.REPLY_CREATE_DATE,
 		       R.REPLY_MODIFY_DATE,
-		       M.MEMBER_IMAGE
+		       M.USER_IMG_REFILENAME
 		FROM REPLY R
 		JOIN MEMBER M ON(M.USER_NO = R.REPLY_WRITER_NO)
 		JOIN BOARD B ON(B.BOARD_NO = R.BOARD_NO)		
@@ -127,7 +127,7 @@
 		       B.BOARD_CREATE_DATE,
 		       B.BOARD_MODIFY_DATE,
 		       B.STATUS AS B_STATUS,
-		       M.MEMBER_IMAGE AS B_MEMBER_IMAGE,
+		       M.USER_IMG_REFILENAME AS B_MEMBER_IMAGE,
                D.DEPT_NAME
         FROM BOARD B
         JOIN MEMBER M ON(B.BOARD_WRITER_NO = M.USER_NO)
@@ -203,7 +203,7 @@
 		       B.BOARD_CREATE_DATE,
 		       B.BOARD_MODIFY_DATE,
 		       B.STATUS AS B_STATUS,
-		       M.MEMBER_IMAGE AS B_MEMBER_IMAGE,
+		       M.USER_IMG_REFILENAME AS B_MEMBER_IMAGE,
                D.DEPT_NAME
         FROM BOARD B
         JOIN MEMBER M ON(B.BOARD_WRITER_NO = M.USER_NO)

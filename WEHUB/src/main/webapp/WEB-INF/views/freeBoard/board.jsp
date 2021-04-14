@@ -25,14 +25,14 @@
 		    	<div class="line"></div>
 			    <ul>
 			    	<li style="color:black;">공지사항</li>
-			        <li><a href="${path}/board/board" style="color:black;">자유게시판</a></li>
-			        <li id="subword"><a style="color:black;" href="${path}/board/boardWrite?boardWriterNo=${loginMember.user_no}">&nbsp;&nbsp;+ 글쓰기</a></li> 
+			        <li><a href="${path}/freeBoard/board" style="color:black;">자유게시판</a></li>
+			        <li id="subword"><a style="color:black;" href="${path}/freeBoard/boardWrite?boardWriterNo=${loginMember.user_no}">&nbsp;&nbsp;+ 글쓰기</a></li> 
 			    </ul>
 		    </li>
 		</ul>
 	</div>
     	
-	<form action="${path}/board/board" name="formBoard" style="margin-top: -90px; margin-left: -230px; margin-bottom:200px">
+	<form action="${path}/freeBoard/board" name="formBoard" style="margin-top: -90px; margin-left: -230px; margin-bottom:200px">
 		
 		<input type="hidden" name="userId" value="${loginMember.user_id}">
 		<input type="hidden" name="boardId" value = "${board.userId}">
@@ -57,7 +57,7 @@
 					
 					console.log(keywordValue);
 					
-					location.href="${path}/board/board?keyword="+keywordValue;
+					location.href="${path}/freeBoard/board?keyword="+keywordValue;
 				}
 			</script>
 		</div>
@@ -90,8 +90,8 @@
 						        
 						        <c:if test="${ !empty loginMember && (loginMember.user_id == board.userId) }">
 							    <div style="display:inline; float:right; margin-top:25px">    
-							        <span id="update"><b><a href="${path}/board/update?boardNo=${board.boardNo}" style="color:black;">수정</a></b></span>
-							        <span id="delete"><b><a href="${path}/board/delete?boardNo=${board.boardNo}" style="color:red;">삭제</a></b></span>
+							        <span id="update"><b><a href="${path}/freeBoard/update?boardNo=${board.boardNo}" style="color:black;">수정</a></b></span>
+							        <span id="delete"><b><a href="${path}/freeBoard/delete?boardNo=${board.boardNo}" style="color:red;">삭제</a></b></span>
 							    </div>    
 						        </c:if>
 							</div>
@@ -118,7 +118,7 @@
 										
 										console.log(textArea);
 										
-										location.href = "${path}/board/replyWrite?boardNo="+c_no+"&replyContent="+textArea;	
+										location.href = "${path}/freeBoard/replyWrite?boardNo="+c_no+"&replyContent="+textArea;	
 									}
 								</script>
 
@@ -156,7 +156,7 @@
 													});
 												</script>
 												
-				                                 <span id="delete"><b><a href="${path}/board/deleteReply?replyNo=${reply.replyNo}">삭제</a></b></span>
+				                                 <span id="delete"><b><a href="${path}/freeBoard/deleteReply?replyNo=${reply.replyNo}">삭제</a></b></span>
 			                       		 	</c:if>
 			                                
 			                                <div id="replycontent" style=" margin:20px; margin-left:60px">${reply.replyContent}</div>                               
@@ -178,7 +178,7 @@
 			
 			console.log(textAreaValue);
 			console.log(rno);
-			location.href="${path}/board/updateReply?replyNo="+rno+"&newReplyContent=" + textAreaValue;
+			location.href="${path}/freeBoard/updateReply?replyNo="+rno+"&newReplyContent=" + textAreaValue;
 		}			
 	</script>
 	
