@@ -262,15 +262,14 @@ public class ApprovalController {
 	@RequestMapping(value="/search/json", method = {RequestMethod.GET})
 	public String searchJson(@RequestParam(value="userName") String userName) {
 		System.out.println(userName);
-		
-		List<Member> memSearch = service2.getSearchMemberAutoC(userName);
+		List<Member> memSearch = service2.getSearchMember(userName);
 		
 		JsonArray array = new JsonArray();
-		for(int i=0; i < memSearch.size(); i++) { // 쿼리 부서코드 테이블 dect_code로 바꿔야함
+		for(int i=0; i < memSearch.size(); i++) {
 			array.add(memSearch.get(i).getUser_name() + "_" + memSearch.get(i).getRank() + "_" +memSearch.get(i).getDept_code());
 		}
 		
-		System.out.println("JsonArray : " + array);
+		System.out.println(array);
 		
 		Gson gson = new Gson();
 	

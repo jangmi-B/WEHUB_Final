@@ -7,16 +7,11 @@
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
-<% Calendar today =  Calendar.getInstance(); %>
-
 <%@ include file="../common/header.jsp" %>
-
 <link rel="stylesheet" href="${path}/css/approvalStyle.css">
-<link rel="stylesheet" href="${path}/css/leaveApplication.css">
 <link rel="stylesheet" href="${path}/css/appAutocomplete.css">
-<script src="${path}/js/jquery-3.5.1.js"></script>
 
-<%@ include file="../approval/approvalSubMenu.jsp" %>	
+<% Calendar today =  Calendar.getInstance(); %>
 
 <style>
 	 * {font-family: 'InfinitySans-RegularA1'; }
@@ -43,8 +38,10 @@
 	.input-chek:checked + .form-chek, .input-radio:checked + .form-radio{ color: #5b18ff; }
 	.leaveDetailTextArea { font-size: 25px; }
 </style>
-	
-    <form action="${path}/approval/updateLeave" method="POST">
+
+<%@ include file="../approval/approvalSubMenu.jsp" %>	
+    
+<form action="${path}/approval/updateLeave" method="POST">
     <div class="cash-form-section" style="height: 100%; width:1000px; margin: 0 300px 0 300px;">
         <div class="cash-disbursement" style="text-align: center; margin: 80px 0px 80px 200px; border: 2px solid black;">
             <table border="2" style="width: 100%; font-size: 20px; border-collapse: collapse;">
@@ -180,9 +177,9 @@
         	<button type="reset" class="resetLeave" onclick="">취소</button>
         </div>
     </div>
-</form>
-
-	<!-- 중간 승인자 모달창  -->
+</form>    
+    
+    <!-- 중간 승인자 모달창  -->
     <div id="testForm">
 	    <div class="appModal Amodal">
 	    	<div class="appModal_content">
@@ -223,6 +220,10 @@
 	    	</div>
 	    </div>
     </div>
+    
+<script>
+	
+</script>
 
 <%@ include file="appAutocomplete.jsp" %> <!-- 자동완성 Ajax & script -->
 

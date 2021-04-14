@@ -121,9 +121,9 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<Member> getSearchMemberAutoC(String userName) {
-
-		return memberDao.getSearchMemberApp(userName);
+	public List<Member> getSearchMember(String user_name) {
+		
+		return memberDao.getSearchMemberApp(user_name);
 	}
 }
 

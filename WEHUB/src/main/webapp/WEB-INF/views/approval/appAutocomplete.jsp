@@ -35,7 +35,7 @@
 				},
 				minLength: 1,// 최소 글자수
 				autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
-				delay: 500,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
+				delay: 300,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
     		 });
     	}); 
     	
@@ -77,7 +77,7 @@
 				},
 				minLength: 1,// 최소 글자수
 				autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
-				delay: 500,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
+				delay: 300,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
 			 });
 		}); 
 		
@@ -90,7 +90,6 @@
 			$(".Amodal1").fadeOut(); 
 		}); 
 	});
-
 	/* 최종승인자 */
 	$(function(){ 
 		$("#thirdBtn").click(function(){ 
@@ -123,7 +122,7 @@
 				},
 				minLength: 1,// 최소 글자수
 				autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
-				delay: 500,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
+				delay: 300,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
 			 });
 		}); 
 		
@@ -140,6 +139,5 @@
 			$(".Amodal3").fadeOut(); 
 		}); 
 	});
-
     
 </script>
