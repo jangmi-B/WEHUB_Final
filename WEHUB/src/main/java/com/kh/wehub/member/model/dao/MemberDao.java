@@ -1,5 +1,7 @@
 package com.kh.wehub.member.model.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -26,5 +28,13 @@ public interface MemberDao {
 
 	int searchPassword(@Param("user_id")String user_id, @Param("email")String email,@Param("key") String key);// 회원 임시 비밀번호 변경 메서드
 
+	
+	public abstract Member selectMemberForFreeBoard(String userId);
+
+	public List<Member> selectMemberAllForApproval(String userId);
+
+	public List<Member> selectSearchedMemberForApproval(@Param("searchData") String searchData, @Param("userId") String userId);
+
+	public List<Member> getSearchMemberForApproval(String user_name);
 }
 

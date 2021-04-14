@@ -45,7 +45,7 @@ public class BoardController {
 			
 			if(list.isEmpty()) {
 				model.addObject("msg", "조회된 게시물이 없습니다.");
-				model.addObject("location", "/board/board");
+				model.addObject("location", "/freeBoard/board");
 				model.setViewName("common/msg");
 
 				return model;
@@ -60,7 +60,7 @@ public class BoardController {
 		System.out.println("list : " + list);
 
 		model.addObject("list", list);
-		model.setViewName("board/board");
+		model.setViewName("freeBoard/board");
 		
 		
 		return model;
@@ -75,7 +75,7 @@ public class BoardController {
 
 		model.addAttribute("serverTime", formattedDate);
 
-		return "board/boardWrite";
+		return "freeBoard/boardWrite";
 	}
 
 	@RequestMapping(value = "/boardWrite", method = { RequestMethod.POST })
@@ -90,7 +90,7 @@ public class BoardController {
 
 			if (result > 0) {
 				model.addObject("msg", "게시글이 정상적으로 등록되었습니다.");
-				model.addObject("location", "/board/board");
+				model.addObject("location", "/freeBoard/board");
 			} else {
 				model.addObject("msg", "게시글 등록에 실패하였습니다.");
 				model.addObject("location", "/");
@@ -111,7 +111,7 @@ public class BoardController {
 		Board board = service.findBoardByNo(boardNo);
 
 		model.addObject("board", board);
-		model.setViewName("board/update");
+		model.setViewName("freeBoard/update");
 
 		return model;
 	}
@@ -126,14 +126,14 @@ public class BoardController {
 
 			if (result > 0) {
 				model.addObject("msg", "게시글이 정상적으로 수정되었습니다.");
-				model.addObject("location", "/board/board");
+				model.addObject("location", "/freeBoard/board");
 			} else {
 				model.addObject("msg", "게시글 수정에 실패하였습니다.");
-				model.addObject("location", "/board/board");
+				model.addObject("location", "/freeBoard/board");
 			}
 		} else {
 			model.addObject("msg", "잘못된 접근입니다.");
-			model.addObject("location", "/board/board");
+			model.addObject("location", "/freeBoard/board");
 		}
 
 		model.setViewName("common/msg");
@@ -153,14 +153,14 @@ public class BoardController {
 
 			if (result > 0) {
 				model.addObject("msg", "정상적으로 게시글이 삭제되었습니다.");
-				model.addObject("location", "/board/board");
+				model.addObject("location", "/freeBoard/board");
 			} else {
 				model.addObject("msg", "잠시 후 다시 시도해주세요.");
-				model.addObject("location", "/board/board");
+				model.addObject("location", "/freeBoard/board");
 			}
 		} else {
 			model.addObject("msg", "잘못된 접근입니다.");
-			model.addObject("location", "/board/board");
+			model.addObject("location", "/freeBoard/board");
 		}
 
 		model.setViewName("common/msg");
@@ -191,17 +191,17 @@ public class BoardController {
 		 
 			if(result > 0) { 
 				model.addObject("msg", "댓글이 정상적으로 등록되었습니다.");
-				model.addObject("location", "/board/board"); 
+				model.addObject("location", "/freeBoard/board"); 
 			} else { 
 				model.addObject("msg", "댓글 등록에 실패하였습니다."); 
-				model.addObject("location", "/board/board"); 
+				model.addObject("location", "/freeBoard/board"); 
 			}
    
 		} else { 
 //			System.out.println("loginMember.getUser_id() : " + loginMember.getUser_id());
 //			System.out.println("board.getUserId() : " + board.getUserId());
 	    	model.addObject("msg", "잘못된 접근입니다.");
-	    	model.addObject("location", "/board/board"); 
+	    	model.addObject("location", "/freeBoard/board"); 
 		}
 	
 		model.setViewName("common/msg");
@@ -226,17 +226,17 @@ public class BoardController {
 
 			if (result > 0) {
 				model.addObject("msg", "댓글이 정상적으로 수정되었습니다.");
-				model.addObject("location", "/board/board");
+				model.addObject("location", "/freeBoard/board");
 			} else {
 				model.addObject("msg", "댓글 수정에 실패하였습니다.");
-				model.addObject("location", "/board/board");
+				model.addObject("location", "/freeBoard/board");
 			}
 		} else {
 			System.out.println(loginMember.getUser_id());
 			System.out.println(member.getUser_id());
 			
 			model.addObject("msg", "잘못된 접근입니다.");
-			model.addObject("location", "/board/board");
+			model.addObject("location", "/freeBoard/board");
 		}
 
 		model.setViewName("common/msg");
@@ -262,14 +262,14 @@ public class BoardController {
 
 			if (result > 0) {
 				model.addObject("msg", "정상적으로 댓글이 삭제되었습니다.");
-				model.addObject("location", "/board/board");
+				model.addObject("location", "/freeBoard/board");
 			} else {
 				model.addObject("msg", "정상적으로 댓글이 삭제되지 않았습니다. 다시 시도해주세요.");
-				model.addObject("location", "/board/board");
+				model.addObject("location", "/freeBoard/board");
 			}
 		} else {
 			model.addObject("msg", "잘못된 접근입니다.");
-			model.addObject("location", "/board/board");
+			model.addObject("location", "/freeBoard/board");
 		}
 
 		model.setViewName("common/msg");

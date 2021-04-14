@@ -40,19 +40,20 @@ public class Approval {
    
    private String appRenameFileName;
    
-   private int AppWriterNo; //member.getUser_no
+   private int appWriterNo; //member.getUser_no
    
    private String appCheckProgress; //APP_CHECK_PROGRESS IN ('결재대기', '결재중', '결재완료')
    
-   private String approvalKinds; // 결재 종류
+   private String appKinds; // 결재 종류
    
+   private String appPresent;
+
    
    // App_Receive_Ref
-   private int receiveRefNo;
+
+   private int receiveRefAppNo; // 수신참조 테이블 approval 시퀀스
     
-   private int refAppNo;
-    
-   private int receiveCc;
+   private String referList; // 수신참조내역
    
    
    // App_Loa
@@ -60,9 +61,9 @@ public class Approval {
     
    private int loaAppNo; // APP 시퀀스
     
-   private String loaTltle; // 제목
+   private String loaTitle; // 제목
     
-   private String loaDetale; // 상세내용
+   private String loaContent; // 상세내용
     
    private String loaStatus;
     

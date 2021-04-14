@@ -80,7 +80,7 @@
 					<div id="contentForm" class="listToChange">
    						<div id="box" class="scrolling" data-bno="${board.boardNo}">
 			        		<div class="title" >
-					            <span class="indi_info"><img src="${path}/images/${board.memberImage}" width="40px" height="40px" style="border-radius: 20px;"></span>
+					            <span class="indi_info"><img src="${path}/upload/userProfileImg/${board.memberImage}" width="40px" height="40px" style="border-radius: 20px;"></span>
 						        <span>${board.userName}</span>
 						        <span class="date">[ ${ board.dept_name } ]</span>
 						        <span class="date"><fmt:formatDate value="${board.boardCreateDate}" pattern="yyyy/MM/dd"/></span>
@@ -132,7 +132,7 @@
 		                        		 </c:if>
 		                        		 <c:if test="${reply.replyContent != null}">
 		                        		 	 <input type="hidden" id="replyUserId" name="replyUserId" value="${reply.replyUserId}">
-			                                 <span id="indi">  <img src="${path}/images/${reply.memberImage}" width="40px" height="40px" style="border-radius: 20px;"></span>
+			                                 <span id="indi">  <img src="${path}/upload/userProfileImg/${reply.memberImage}" width="40px" height="40px" style="border-radius: 20px;"></span>
 			                                 <span id="indi">${reply.userName}</span>
 			                                 <span class="date "id="indi">${reply.replyCreateDate}</span>
 			                                 
@@ -141,7 +141,7 @@
 											 
 												<div id="opModal_${reply.replyNo}" class="modal">
 				                                 	<input type="hidden" id="replyNo" name="replyNo" value="${reply.replyNo}">
-													<span id="indi">  <img src="${path}/images/${reply.memberImage}" width="40px" height="40px" style="border-radius: 20px;"></span>
+													<span id="indi">  <img src="${path}/upload/userProfileImg/${reply.memberImage}" width="40px" height="40px" style="border-radius: 20px;"></span>
 													<span id="indi">${reply.userName}</span>
 													<p></p>
 													<textarea name="newReplyContent"id="newReplyContent(${reply.replyNo})" style="width:320px; height:70px; margin:20px; margin-left:23px">${reply.replyContent}</textarea>

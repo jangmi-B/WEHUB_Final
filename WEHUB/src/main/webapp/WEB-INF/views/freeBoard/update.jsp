@@ -45,7 +45,7 @@
 		    	<div class="info_box">
 		        	<div id="box">
 		        		<div class="title">
-		        			<span class="indi_info"><img src="${path}/images/${loginMember.member_image}" width="40px" height="40px" style="border-radius: 20px; margin-top: 40px; margin-left: 15px"></span>
+		        			<span class="indi_info"><img src="${path}/upload/userProfileImg/${loginMember.user_imgRename}" width="40px" height="40px" style="border-radius: 20px; margin-top: 40px; margin-left: 15px"></span>
 		      				<span>${ loginMember.user_name }</span>
 		      				<span class="date">${ loginMember.dept_name }</span>      
 		        		</div>
