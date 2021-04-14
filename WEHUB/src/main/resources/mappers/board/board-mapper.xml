@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kh.wehub.freeBoard.model.dao.BoardDao">
+	<sql id="boardListSql">
+		SELECT B.BOARD_NO,
+			   M.USER_ID,
+			   B.BOARD_WRITER_NO,
+		       M.USER_NAME,
+		       B.BOARD_CONTENT,
+		       B.BOARD_CREATE_DATE,
+		       B.BOARD_MODIFY_DATE,
+		       B.STATUS,
+		       M.USER_IMG_REFILENAME,
+		       D.DEPT_NAME
+		FROM BOARD B
+		JOIN MEMBER M ON(B.BOARD_WRITER_NO = M.USER_NO)
+		JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)		
+		WHERE B.STATUS='Y' AND B.BOARD_NO=#{boardNo}
+	</sql>
+
+	<resultMap type="Board" id="boardResultMap">
+		<id property="boardNo" column="BOARD_NO"/>
+		<result property="boardWriterNo" column="BOARD_WRITER_NO"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="userName" column="USER_NAME"/>
+		<result property="boardContent" column="BOARD_CONTENT"/>
+		<result property="status" column="STATUS"/>
+		<result property="boardCreateDate" column="BOARD_CREATE_DATE"/>
+		<result property="boardModifyDate" column="BOARD_MODIFY_DATE"/>
+		<result property="memberImage" column="USER_IMG_REFILENAME"/>
+		<result property="dept_name" column="DEPT_NAME"/>
+	</resultMap>
+	
+	<resultMap type="Reply" id="replyResultMap">
+		<id property="replyNo" column="REPLY_NO"/>
+		<result property="boardNo" column="BOARD_NO"/>
+		<result property="replyWriterNo" column="REPLY_WRITER_NO"/>
+		<result property="replyUserId" column="USER_ID"/>
+		<result property="userName" column="USER_NAME"/>
+		<result property="replyContent" column="REPLY_CONTENT"/>
+		<result property="status" column="STATUS"/>
+		<result property="replyCreateDate" column="REPLY_CREATE_DATE"/>
+		<result property="replyModifyDate" column="REPLY_MODIFY_DATE"/>
+		<result property="memberImage" column="USER_IMG_REFILENAME"/>
+	</resultMap>
+	
+	<resultMap type="Board" id="boardDetailResultMap">
+		<id property="boardNo" column="BOARD_NO"/>
+		<result property="boardWriterNo" column="BOARD_WRITER_NO"/>
+		<result property="userId" column="B_USER_ID"/>
+		<result property="userName" column="B_USER_NAME"/>
+		<result property="boardContent" column="BOARD_CONTENT"/>
+		<result property="status" column="STATUS"/>
+		<result property="boardCreateDate" column="BOARD_CREATE_DATE"/>
+		<result property="boardModifyDate" column="BOARD_MODIFY_DATE"/>
+		<result property="memberImage" column="B_MEMBER_IMAGE"/>
+		<result property="dept_name" column="DEPT_NAME"/>		
+		<!-- <result property="replyBoardNo" column="R.BOARD_NO"/>
+		<result property="replyUserName" column="R_USER_NAME"/>
+		<result property="replyContent" column="REPLY_CONTENT"/>
+		<result property="replyStatus" column="R_STATUS"/>
+		<result property="replyCreateDate" column="REPLY_CREATE_DATE"/>
+		<result property="replyModifyDate" column="REPLY_MODIFY_DATE"/>
+		<result property="replyMemberImage" column="R_MEMBER_IMAGE"/> -->
+	 	<!-- <collection property="replies" javaType="java.util.ArrayList" resultMap="boardReplyResultMap"/> -->
+	 	<collection property="replies" javaType="java.util.ArrayList" select="selectBoardReply" column="BOARD_NO"/>
+	</resultMap>
+	
+	<resultMap type="Reply" id="boardReplyResultMap">
+		<id property="replyNo" column="REPLY_NO"/>
+		<id property="replyUserId" column="R_USER_ID"/>
+		<result property="boardNo" column="BOARD_NO"/>
+		<result property="userName" column="R_USER_NAME"/>
+		<result property="replyContent" column="REPLY_CONTENT"/>
+		<result property="status" column="R_STATUS"/>
+		<result property="replyCreateDate" column="REPLY_CREATE_DATE"/>
+		<result property="replyModifyDate" column="REPLY_MODIFY_DATE"/>
+		<result property="memberImage" column="R_MEMBER_IMAGE"/>
+	</resultMap>
+	
+	<select id="selectBoardReply" parameterType="_int" resultMap="replyResultMap">
+	    SELECT B.BOARD_NO, 
+	    	   R.REPLY_NO, 
+	    	   M.USER_ID,
+	    	   M.USER_NAME,
+	    	   R.REPLY_WRITER_NO, 
+	    	   R.REPLY_CONTENT, 
+	    	   R.REPLY_CREATE_DATE, 
+	    	   R.STATUS, 
+	    	   M.USER_IMG_REFILENAME
+		FROM REPLY R
+		JOIN MEMBER M ON(R.REPLY_WRITER_NO = M.USER_NO)
+		JOIN BOARD B ON(R.BOARD_NO = B.BOARD_NO)
+		WHERE R.STATUS = 'Y' AND B.BOARD_NO=#{boardNo}
+	</select>
+
+	<select id="selectBoardList" parameterType="map" resultMap="boardResultMap">
+		<include refid="boardListSql"></include>	
+		ORDER BY B.BOARD_CREATE_DATE DESC
+	</select>
+	
+	<select id="selectReplyList" parameterType="map" resultMap="replyResultMap">
+		SELECT R.REPLY_NO,
+			   R.BOARD_NO,
+			   R.REPLY_WRITER_NO,
+			   M.USER_ID,
+		       M.USER_NAME,
+		       R.REPLY_CONTENT,
+		       R.STATUS,
+		       R.REPLY_CREATE_DATE,
+		       R.REPLY_MODIFY_DATE,
+		       M.USER_IMG_REFILENAME
+		FROM REPLY R
+		JOIN MEMBER M ON(M.USER_NO = R.REPLY_WRITER_NO)
+		JOIN BOARD B ON(B.BOARD_NO = R.BOARD_NO)		
+		WHERE R.STATUS='Y' AND R.REPLY_NO=#{replyNo}
+	</select>
+
+	<select id="selectBoardDetail" parameterType="string" resultMap="boardDetailResultMap">
+		SELECT B.BOARD_NO,
+		       M.USER_ID AS B_USER_ID,
+		       M.USER_NAME AS B_USER_NAME,
+		       B.BOARD_WRITER_NO,
+		       B.BOARD_CONTENT,
+		       B.BOARD_CREATE_DATE,
+		       B.BOARD_MODIFY_DATE,
+		       B.STATUS AS B_STATUS,
+		       M.USER_IMG_REFILENAME AS B_MEMBER_IMAGE,
+               D.DEPT_NAME
+        FROM BOARD B
+        JOIN MEMBER M ON(B.BOARD_WRITER_NO = M.USER_NO)
+        JOIN DEPARTMENT D ON (M.DEPT_CODE = D.DEPT_CODE)
+        WHERE B.STATUS='Y'<!--  AND ROWNUM <![CDATA[ < ]]>= 2 -->
+         <if test="keyword != null">
+         AND (M.USER_NAME LIKE '%'||#{keyword}||'%' OR B.BOARD_CONTENT LIKE '%'||#{keyword}||'%')
+         </if>
+        ORDER BY B.BOARD_NO DESC
+	</select>
+	
+	<insert id="insertBoard" parameterType="map"
+  		useGeneratedKeys="true" keyProperty="boardNo" keyColumn="BOARD_NO">
+  		
+  		INSERT INTO BOARD 
+  		VALUES(
+  			SEQ_BOARD_NO.NEXTVAL,
+  			#{boardWriterNo},
+  			#{boardContent},
+  			DEFAULT,
+  			SYSDATE,
+  			SYSDATE
+ 		)
+  	</insert>
+
+	<update id="updateBoard" parameterType="Board">
+		UPDATE BOARD 
+		SET 
+			BOARD_CONTENT=#{boardContent},
+			BOARD_MODIFY_DATE=SYSDATE 
+		WHERE 
+			BOARD_NO=#{boardNo}
+	</update>	
+	
+	<update id="deleteBoard" parameterType="Board">
+		UPDATE BOARD SET STATUS='N' WHERE BOARD_NO=#{boardNo}	
+	</update>
+	
+	<insert id="insertReply" parameterType="map"
+        useGeneratedKeys="true" keyProperty="replyNo" keyColumn="REPLY_NO">
+        
+        INSERT INTO REPLY 
+        VALUES(
+           SEQ_BOARD_NO.NEXTVAL,
+           #{boardNo},
+           #{user_no},
+           #{replyContent},
+           DEFAULT,
+           SYSDATE,
+           SYSDATE
+       )
+     </insert>
+     
+     <update id="updateReply" parameterType="map">
+      UPDATE REPLY
+      SET 
+         REPLY_CONTENT=#{replyContent},
+         REPLY_MODIFY_DATE=SYSDATE 
+      WHERE 
+         REPLY_NO=#{replyNo}
+	</update>
+   
+	<update id="deleteReply" parameterType="Reply">
+		UPDATE REPLY SET STATUS='N' WHERE REPLY_NO=#{replyNo}	
+	</update>
+	
+	<select id="infiniteScrollDown" resultType="Board">
+		SELECT B.BOARD_NO,
+		       M.USER_ID AS B_USER_ID,
+		       M.USER_NAME AS B_USER_NAME,
+		       B.BOARD_WRITER_NO,
+		       B.BOARD_CONTENT,
+		       B.BOARD_CREATE_DATE,
+		       B.BOARD_MODIFY_DATE,
+		       B.STATUS AS B_STATUS,
+		       M.USER_IMG_REFILENAME AS B_MEMBER_IMAGE,
+               D.DEPT_NAME
+        FROM BOARD B
+        JOIN MEMBER M ON(B.BOARD_WRITER_NO = M.USER_NO)
+        JOIN DEPARTMENT D ON (M.DEPT_CODE = D.DEPT_CODE)
+        WHERE B.BOARD_NO <![CDATA[ < ]]>= #{board.No} AND B.BOARD_NO > #{board.No}-2
+         <if test="keyword != null">
+         AND (M.USER_NAME LIKE '%'||#{keyword}||'%' OR B.BOARD_CONTENT LIKE '%'||#{keyword}||'%')
+         </if>
+        ORDER BY B.BOARD_NO DESC
+	</select>
+	
+	
+</mapper>

@@ -35,14 +35,14 @@
         </ul>
         </div>
         <div>
-        <h2 class="h2d">오늘 결재사항<a href="#"><i class="fas fa-plus" id="con1" style="color: lightgray;"></i></a></h2>
+        <h2 class="h2d">오늘 결재사항<a href="${path}/approval/approvalMain"><i class="fas fa-plus" id="con1" style="color: lightgray;"></i></a></h2>
         <ul>
             <li>[03/09] 지출결의서_개발2팀</li>
             <li>[03/09] 지출결의서_인사행정팀</li>
         </ul>
         </div>
         <div>
-        <h2 class="h2d">오늘 일정<a href="#"><i class="fas fa-plus" id="con1" style="color: lightgray;"></i></a></h2>
+        <h2 class="h2d">오늘 일정<a href="${path}/board/board"><i class="fas fa-plus" id="con1" style="color: lightgray;"></i></a></h2>
         <ul>
             <li>09시 50분 팀 회의</li>
             <li>15시 20분 거래처 방문</li>
@@ -54,8 +54,8 @@
     
     <div class="flex-grid">
         <div>
-        <h2>Whatever :)</h2>
-        Some Content
+        <h2 class="h2d">자유게시판<a href="${path}/board/board"><i class="fas fa-plus" id="con1" style="color: lightgray;"></i></a></h2>
+        모두에게 하고 싶은 말을 공유하세요 :)
         </div>
         <div>
         <h2>Whatever :)</h2>
