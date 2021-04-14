@@ -1,5 +1,7 @@
 package com.kh.wehub.member.model.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -28,5 +30,6 @@ public interface MemberDao {
 
 	int searchPassword(@Param("user_id")String user_id, @Param("email")String email,@Param("key") String key);// 회원 임시 비밀번호 변경 메서드
 
+	List<Member> getSearchMemberApp(String user_name);
 }
 

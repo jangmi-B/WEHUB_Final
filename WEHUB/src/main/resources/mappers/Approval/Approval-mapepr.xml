@@ -4,39 +4,34 @@
 
 <mapper namespace="com.kh.wehub.approval.model.dao.ApprovalDao">
 	
-	<resultMap type="Member" id="memberResultMap">
-		<id property="user_no" column="USER_NO"/>
-		<result property="user_companyname" column="USER_COMPANYNAME"/>
-		<result property="user_id" column="USER_ID"/>
-		<result property="user_pwd" column="USER_PWD"/>
-		<result property="user_name" column="USER_NAME"/>
-		<result property="rank" column="RANK"/>
-		<result property="email" column="EMAIL"/>
-		<result property="comcall" column="COMCALL"/>
-		<result property="phone" column="PHONE"/>
-		<result property="address" column="ADDRESS"/>
-		<result property="user_status" column="USER_STATUS"/>
-		<result property="dept_code" column="DEPT_CODE"/>
-		<result property="user_imgOriname" column="USER_IMG_ORIFILENAME"/>
-		<result property="user_imgRename" column="USER_IMG_REFILENAME"/>
-	</resultMap>
-	
-	<resultMap type="Approval" id="ApprovalResultMap">
+	<resultMap type="Approval" id="approvalResultMap">
 		<id property="appNo" column="APP_SEQ"/>
 		<result property="appWriteDate" column="APP_WRITE_SYS"/>
+		<result property="appWriterNo" column="APP_WRITER_NO"/>		
 		<result property="firstApprover" column="FIRST_TIME_APPROVER"/>
 		<result property="interimApprover" column="INTERIM_APPROVER"/>
 		<result property="finalApprover" column="FINAL_APPROVER"/>
 		<result property="appCheckSysdate" column="APP_CHECK_SYSDATE"/>
+		<result property="appCheckProgress" column="APP_CHECK_PROGRESS"/>
 		<result property="appReason" column="APP_REASON"/>
 		<result property="appOriginalFileName" column="APP_ORIFILENAME"/>
 		<result property="appRenameFileName" column="APP_REFILENAME"/>
-		<result property="AppWriterNo" column="APP_WRITER_NO"/>
-		<result property="appCheckProgress" column="APP_CHECK_PROGRESS"/>
-		<result property="approvalKinds" column="APPROVAL_KINDS"/>
+		<result property="userNo" column="USER_NO"/>
+		<result property="appKinds" column="APPROVAL_KINDS"/>
+		<result property="userName" column="USER_NAME"/>
+		<result property="rowNum" column="ROWNUM"/>
+		<result property="deptName" column="DEPT_NAME"/>
+		<result property="loaTitle" column="LOA_TITLE"/>
+		<result property="loaContent" column="LOA_DETAIL"/>
+		<result property="loaAppNo" column="LOA_APP_SEQ"/>
+		<result property="receiveRefAppNo" column="RECEIVE_REF_APP_SEQ"/>
+		<result property="referList" column="RECEIVE_REF_CC"/>
+		<result property="rank" column="RANK"/>
+		<result property="appPresent" column="APP_PRESENT"/>
+		<!-- <collection property="app_loa" javaType="java.util.ArrayList" resultMap="app_loa"/> -->
 	</resultMap>
 	
-	<resultMap type="App_Leave" id="leaveResultMap">
+	<!-- <resultMap type="App_Leave" id="leaveResultMap">
 		<id property="leaveNo" column="LEAVE_SEQ"/>
 		<result property="leaveAppNo" column="LEAVE_APP_SEQ"/>
 		<result property="leaveClassify" column="LEAVE_CLASSIFY"/>
@@ -61,14 +56,8 @@
 		<result property="loaDetale" column="LOA_DETAIL"/>
 		<result property="loaStatus" column="LOA_STATUS"/>
 		<result property="loaPresent" column="LOA_PRESENT"/>
-	</resultMap>
-	
-	<!-- 자동완성 -->
-	<select id="getSearchMember" parameterType="string" resultMap="memberResultMap">
-		SELECT M.USER_NAME, M.DEPT_CODE, M.RANK
-		FROM MEMBER M
-		WHERE USER_NAME LIKE '%'|| #{userName} ||'%'
-	</select>
+	</resultMap> -->
+
 	
 	<!-- insert Approval -->
  	<insert id="insertApproval" parameterType="map"
@@ -161,6 +150,35 @@
 			#{loaAppNo},
 			#{loaTltle},
 			#{loaDetale},
+			DEFAULT,
+			DEFAULT
+		)
+	</insert>
+	
+	<!-- insert App_ER -->
+	<insert id="" parameterType="map"
+		useGeneratedKeys="true" keyProperty="reNo" keyColumn="ER_SEQ">
+		INSERT INTO APP_ER (
+			ER_SEQ,
+			ER_APP_SEQ,
+			ER_DEADLINE,
+			ER_CLASSIFY,
+			ER_TITLE,
+			ER_DETAIL,
+			ER_AMOUNT,
+			ER_REFERENCE,
+			ER_STATUS,
+			ER_PRESENT
+		)
+		VALUES(
+			SEQ_ER_SEQ.NEXTVAL,
+			#{reAppNo},
+			#{reDeadline},
+			#{reSlassify},
+			#{trTitle},
+			#{reDetail},
+			#{reAmount},
+			#{reReference},
 			DEFAULT,
 			DEFAULT
 		)

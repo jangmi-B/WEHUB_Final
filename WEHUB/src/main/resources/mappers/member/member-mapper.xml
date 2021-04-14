@@ -28,22 +28,20 @@
 		<!-- property : 자바의 인스턴스 변수 이름, column : DB에서 select 된 결과 컬럼명 -->
 		<!-- DB에서 기본키를 의미 -->
 		<id property="user_no" column="USER_NO"/>
-		<!-- DB에서 일반 컬럼들 -->
-		<id property="user_companyname" column="USER_COMPANYNAME"/>
-		<id property="user_id" column="USER_ID"/>
-		<id property="user_pwd" column="USER_PWD"/>
-		<id property="user_name" column="USER_NAME"/>
-		<id property="rank" column="RANK"/>
-		<id property="email" column="EMAIL"/>
-		<id property="comcall" column="COMCALL"/>
-		<id property="phone" column="PHONE"/>
-		<id property="address" column="ADDRESS"/>
-		<id property="user_status" column="USER_STATUS"/>
-		<id property="dept_code" column="DEPT_CODE"/>
-
-		<id property="user_imgOriname" column="USER_IMG_ORIFILENAME"/>
-		<id property="user_imgRename" column="USER_IMG_REFILENAME"/>
-
+		<result property="user_companyname" column="USER_COMPANYNAME"/>
+		<result property="user_id" column="USER_ID"/>
+		<result property="user_pwd" column="USER_PWD"/>
+		<result property="user_name" column="USER_NAME"/>
+		<result property="rank" column="RANK"/>
+		<result property="email" column="EMAIL"/>
+		<result property="comcall" column="COMCALL"/>
+		<result property="phone" column="PHONE"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="user_status" column="USER_STATUS"/>
+		<result property="dept_code" column="DEPT_CODE"/>
+		<result property="dept_name" column="DEPT_NAME"/>
+		<result property="user_imgOriname" column="USER_IMG_ORIFILENAME"/>
+		<result property="user_imgRename" column="USER_IMG_REFILENAME"/>
 	</resultMap>
 	
 	<insert id="insertMember" parameterType="Member"
@@ -178,7 +176,14 @@
 	</delete>
 	
 	<!-- 비밀번호 변경 -->
-		<update id="updatePw" >
-			update member set PASSWORD = #{user_pwd} where id = #{user_id}
-		</update>
+	<update id="updatePw" >
+		update member set PASSWORD = #{user_pwd} where id = #{user_id}
+	</update>
+		
+	<!-- Approval 자동완성 -->
+	<select id="getSearchMemberApp" parameterType="string" resultMap="memberResultMap">
+		SELECT M.USER_NAME, M.DEPT_CODE, M.RANK
+		FROM MEMBER M
+		WHERE USER_NAME LIKE '%'|| #{userName} ||'%'
+	</select>
 </mapper>

@@ -22,10 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.kh.wehub.approval.model.service.ApprovalService;
-import com.kh.wehub.approval.model.vo.App_Leave;
-import com.kh.wehub.approval.model.vo.App_Loa;
-import com.kh.wehub.approval.model.vo.App_Receive_Ref;
 import com.kh.wehub.approval.model.vo.Approval;
+import com.kh.wehub.member.model.service.MemberService;
 import com.kh.wehub.member.model.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +35,9 @@ public class ApprovalController {
 	
 	@Autowired
 	private ApprovalService service;
+	
+	@Autowired
+	private MemberService service2;
 	
 	//결재 메인
 	@RequestMapping(value = "/approval/approvalMain", method = { RequestMethod.GET })
@@ -62,7 +63,7 @@ public class ApprovalController {
 	@RequestMapping(value="/approval/insertLoa", method= {RequestMethod.POST})
 	public ModelAndView insertLOA(ModelAndView model, HttpServletRequest request,
 			@SessionAttribute(name = "loginMember", required = false) Member loginMember,
-			Approval approval, App_Loa appLoa, App_Receive_Ref appReceiveRef,
+			Approval approval,
 			@RequestParam("appFileUpload") MultipartFile upfile) {
 		
 		int resultApp = 0;
@@ -87,11 +88,11 @@ public class ApprovalController {
 			}
 			resultApp = service.insertApproval(approval);
 			
-			appReceiveRef.setRefAppNo(approval.getAppNo());
-			appLoa.setLoaAppNo(approval.getAppNo());
+			approval.setRefAppNo(approval.getAppNo());
+			approval.setLoaAppNo(approval.getAppNo());
 			
-			resultRr = service.insertLoa(appLoa);
-			resultLoa = service.insertReceive(appReceiveRef);
+			resultRr = service.insertLoa(approval);
+			resultLoa = service.insertReceive(approval);
 			
 			if (resultApp > 0 && resultRr > 0 && resultLoa > 0) {
 				model.addObject("msg", "품의서가 정상적으로 등록되었습니다.");
@@ -125,30 +126,28 @@ public class ApprovalController {
 	@RequestMapping(value="/approval/updateLeave", method= {RequestMethod.POST})
 	public ModelAndView insertLeave(ModelAndView model, HttpServletRequest request,
 			@SessionAttribute(name = "loginMember", required = false) Member loginMember,
-			Approval approval, App_Leave appLeave, App_Receive_Ref appReceiveRef) {
+			Approval approval) {
 		
 		log.info("휴가 신청서 작성 컨트롤러 : " + approval);
-		log.info("휴가 신청서 appLeave : " + appLeave);
-		log.info("휴가 신청서 appReceiveRef : " + appReceiveRef);
 		int result = 0;
 		int result2 = 0;
 		int result3 = 0;
 		
 		approval.setAppWriterNo(loginMember.getUser_no());
 		
-		System.out.println(approval.getAppWriterNo() + "\n" + approval + "\n" + appLeave);
+		System.out.println(approval.getAppWriterNo() + "\n" + approval + "\n" + approval);
 		
 		if(loginMember.getUser_no() == approval.getAppWriterNo()) {
 			System.out.println(loginMember.getUser_no() + " ,\n" + approval.getAppWriterNo());
 			result = service.insertApproval(approval);
 			
-			appLeave.setLeaveAppNo(approval.getAppNo());
-			appReceiveRef.setRefAppNo(approval.getAppNo());
+			approval.setLeaveAppNo(approval.getAppNo());
+			approval.setRefAppNo(approval.getAppNo());
 			
-			System.out.println("appReceiveRef.getRefAppNo() : " + appReceiveRef.getRefAppNo());
+			System.out.println("appReceiveRef.getRefAppNo() : " + approval.getRefAppNo());
 						
-			result2 = service.insertLeave(appLeave);
-			result3 = service.insertReceive(appReceiveRef);
+			result2 = service.insertLeave(approval);
+			result3 = service.insertReceive(approval);
 			
 //			System.out.println("97번줄 : " + appLeave.getLeaveAppNo());
 //			System.out.println("101 result : " + result + "\nresult2 : " + result2);
@@ -171,7 +170,7 @@ public class ApprovalController {
 	@RequestMapping(value="/approval/search/json", method = {RequestMethod.GET})
 	public String searchJson(@RequestParam(value="userName") String userName) {
 		System.out.println(userName);
-		List<Member> memSearch = service.getSearchMember(userName);
+		List<Member> memSearch = service2.getSearchMember(userName);
 		
 		JsonArray array = new JsonArray();
 		for(int i=0; i < memSearch.size(); i++) {
