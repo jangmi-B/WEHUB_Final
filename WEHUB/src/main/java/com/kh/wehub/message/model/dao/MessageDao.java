@@ -58,4 +58,6 @@ public interface MessageDao {
 	
 	List<Message> saveSendMsgList(RowBounds rowBounds, Map<String, Object> map); //보낸쪽지 보관함 리스트
 
+	int getUnreadCheck(int user_no);
+
 }

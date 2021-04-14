@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kh.wehub.memo.model.dao.MemoDao">
+
+	<resultMap type="Memo" id="MemoResultMap">
+		<id property="userNo" column="USER_ID"/>
+		<result property="memoContent" column="MEMO_CONTENT"/>
+	</resultMap>
+
+	<select id="getMemoList" parameterType="_int" resultMap="MemoResultMap">
+		SELECT USER_ID, MEMO_CONTENT
+		FROM MEMO
+		WHERE USER_ID=#{userNo}
+	</select>
+	
+	<update id="updateMemo" parameterType="map">
+		UPDATE MEMO
+		SET MEMO_CONTENT = #{memo}
+		WHERE USER_ID = #{userNo}
+	</update>
+	
+	<select id="getMemoCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMO
+		WHERE USER_ID = #{userNo}
+	</select>
+	
+	<insert id="insertMemo" parameterType="map">
+		INSERT INTO MEMO
+		VALUES(
+			#{userNo},
+			#{memo}
+		)
+	</insert>
+
+</mapper>

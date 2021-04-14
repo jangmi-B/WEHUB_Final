@@ -41,6 +41,7 @@ public class MessageController {
 			@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
 		
 		int msgCount = 0;
+		int unreadCheck = 0;
 		PageInfo pageInfo = null;
 		List<Message> receiveList = null;
 		
@@ -53,14 +54,17 @@ public class MessageController {
 		
 		pageInfo = new PageInfo(page, 10, msgCount, listLimit);
 		receiveList = service.getReceiveList(pageInfo, map);
+		unreadCheck = service.getUnreadCheck(loginMember.getUser_no());
 		
 		if(msgSearchList == null && msgSearchText == null) {
 			model.addObject("pageInfo",pageInfo);
 			model.addObject("receiveList", receiveList);
+			model.addObject("unreadCheck", unreadCheck);
 		}else {
 			model.addObject("map", map);
 			model.addObject("pageInfo", pageInfo);
 			model.addObject("receiveList",receiveList);
+			model.addObject("unreadCheck",unreadCheck);
 		}
 		
 		model.setViewName("message/message_list");

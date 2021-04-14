@@ -180,5 +180,14 @@ public class MessageSercviceImpl implements MessageService {
 		return MessageDao.saveSendMsgCount(map);
 	}
 
+	@Override
+	public int getUnreadCheck(int user_no) {
+		int result = 0;
+		
+		result = MessageDao.getUnreadCheck(user_no);
+		
+		return result;
+	}
+
 
 }

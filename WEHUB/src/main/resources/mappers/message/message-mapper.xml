@@ -120,6 +120,12 @@
 		    MSG_NO= #{msgNo}
 	</update>
 	
+	<select id="getUnreadCheck" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM MESSAGE
+		WHERE STATUS='Y' AND READ_STATUS='N' AND MSG_TO=#{msgNo}
+	</select>
+	
 	<!-- 안읽은쪽지 구현 -->
 	<update id="readCheckMsg" parameterType="_int">
 		UPDATE MESSAGE 

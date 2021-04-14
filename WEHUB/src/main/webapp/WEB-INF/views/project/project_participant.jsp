@@ -130,311 +130,318 @@
   </div>   
 
 <script>
-function projectView(projectNo){
-	var projectNo = projectNo;
-	
-	const open = () => {
-      document.querySelector(".proNo" + projectNo).classList.remove("fade");
-    }
-  
-    const close = () => {
-      document.querySelector(".proNo" + projectNo).classList.add("fade");
-    }
-	  
-    document.getElementById('detail('+ projectNo +')').addEventListener("click", open);
-    document.getElementById('exitBtn('+ projectNo +')').addEventListener("click", close);
-    document.querySelector(".bg").addEventListener("click", close);
-}
-
-function clickFav(proNum){
-	$.ajax({
-		type: "post",
-		url:"${path}/project/makeFav",
-		data:{
-			proNum:proNum
-		},
-		success:function(data){
-			location.reload();
-		},
-		error: function(e){
-			alert("즐겨찾기 실패");
-			console.log(e);
-		}
-	});
-}
-
-function closeProject(proNo){
-	console.log(proNo);
-	Swal.fire({
-		  title: '프로젝트를 정말 종료하시겠습니까?',
-		  icon: 'warning',
-		  showCancelButton: true,
-		  confirmButtonColor: '#3085d6',
-		  cancelButtonColor: '#d33',
-		  confirmButtonText: '네 종료하겠습니다!'
-		}).then((result) => {
-		  if (result.isConfirmed) {
-			  $.ajax({
-					type: "post",
-					url:"${path}/project/close",
-					data:{
-						proNo:proNo
-					},
-					success:function(data){
-						console.log(data)
-						
-						var closeProject = document.getElementById('projectDivNo'+ proNo);
-						closeProject.remove();
-						document.querySelector(".proNo" + proNo).classList.add("fade");
-					},
-					error: function(e){
-						Swal.fire({
-							  icon: 'error',
-							  text: '프로젝트 종료 실패! 관리자에게 문의하세요'
-							})
-						console.log(e);
-					}
-				});  
-			  
-		    Swal.fire({
-		    	icon: 'success',
-				text: '프로젝트가 성공적으로 종료되었습니다 :)'
-		    })
-		  }
-		})
-}
-
-
-function makeProject(){
-	const open = () => {
-      document.querySelector(".modal_pro").classList.remove("fade");
-    }
-  
-    const close = () => {
-      document.getElementById("memSearch").value= "";
-      document.getElementById("projectContent").value= "";
-      document.querySelector(".modal_pro").classList.add("fade");
-    }
-  
-    document.querySelector(".make_project_btn").addEventListener("click", open);
-    document.querySelector(".closeBtn").addEventListener("click", close);
-    
-    $("#projectContent").on("keyup",function(){
-        let inputLength = $(this).val().length;
-
-        $("#writeCnt").text(inputLength);
-
-        let remain = $("#writeMax").text() - inputLength;
-
-        if(remain < 0){
-          $("#writeCnt").css("color","red");
-        } else {
-          $("#writeCnt").css("color","black");
-        }
-      });
-}
-
-$(function(){
-	$("#makeBtn").on("click",function(){
-		let projectWriter = $("#projectWriter").val();
-		let participant = $("#participantDiv").text();
-		let projectContent = $("#projectContent").val();
-		let projectTitle = $("#projectTitle").val();
-		let startDate = $("#startDate").val();
-		let dueDate = $("#dueDate").val();
-		let writeCnt = parseInt($("#writeCnt").text());
-		let writeMax = parseInt($("#writeMax").text());
-		let msgContent = projectTitle + " 프로젝트에 참여되었습니다. :)" + "\n\n" + "▶ 프로젝트 내용  " + "\n" + projectContent;
+	function projectView(projectNo){
+		var projectNo = projectNo;
 		
-		if(projectTitle == ""){
-			Swal.fire({
-				  icon: 'error',
-				  text: '프로젝트명을 작성하지 않으셨습니다.!',
-				  didClose: () => {
-					  $('#projectTitle').focus();
-				  }
-				})
-		} else if(startDate == ""){
-			Swal.fire({
-				  icon: 'error',
-				  text: '프로젝트 시작기간을 작성하지 않으셨습니다.!',
-				  didClose: () => {
-					  $('#startDate').focus();
-				  }
-				})
-		} else if(dueDate == ""){
-			Swal.fire({
-				  icon: 'error',
-				  text: '프로젝트 마감기간을 작성하지 않으셨습니다.!',
-				  didClose: () => {
-					  $('#dueDate').focus();
-				  }
-				})
-		} else if(projectContent == ""){
-			Swal.fire({
-				  icon: 'error',
-				  text: '내용을 작성하지 않으셨습니다.!',
-				  didClose: () => {
-					  $('#projectContent').focus();
-				  }
-				})
-		} else if(writeCnt > 900){
-			console.log(writeCnt);
-			console.log(writeMax);
-			
-			Swal.fire({
-				  icon: 'error',
-				  text: writeMax + "자를 초과입력할 수 없습니다.!",
-				  didClose: () => {
-					  $('#projectContent').focus();
-				  }
-				})
-		} else{
-			$.ajax({
-				type: "post",
-				url:"${path}/project/make",
-				data:{
-					projectMake:projectWriter,
-					participant:participant,
-					projectContent:projectContent,
-					projectTitle:projectTitle,
-					startDate:startDate,
-					dueDate:dueDate,
-					writeCnt:writeCnt,
-					writeMax:writeMax
-				},
-				success:function(data){
-					$.ajax({
+		const open = () => {
+	      document.querySelector(".proNo" + projectNo).classList.remove("fade");
+	    }
+	  
+	    const close = () => {
+	      document.querySelector(".proNo" + projectNo).classList.add("fade");
+	    }
+		  
+	    document.getElementById('detail('+ projectNo +')').addEventListener("click", open);
+	    document.getElementById('exitBtn('+ projectNo +')').addEventListener("click", close);
+	    document.querySelector(".bg").addEventListener("click", close);
+	}
+	
+	function clickFav(proNum){
+	    var className = $('#favBtn'+ proNum).attr('class');
+	    $.ajax({
+	       type: "post",
+	       url:"${path}/project/makeFav",
+	       data:{
+	          proNum:proNum
+	       },
+	       success:function(data){
+	          if(className == 'favY'){
+	             $('#favBtn'+ proNum).attr('class','favN');
+	             $('#favBtn'+ proNum).css('color', 'white');
+	          }else {
+	             $('#favBtn'+ proNum).attr('class','favY');
+	             $('#favBtn'+ proNum).css('color', 'yellow');
+	          }
+	       },
+	       error: function(e){
+	          alert("즐겨찾기 실패");
+	          console.log(e);
+	       }
+	    });
+	 }
+	
+	function closeProject(proNo){
+		console.log(proNo);
+		Swal.fire({
+			  title: '프로젝트를 정말 종료하시겠습니까?',
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: '네 종료하겠습니다!'
+			}).then((result) => {
+			  if (result.isConfirmed) {
+				  $.ajax({
 						type: "post",
-						url:"${path}/project/message",
+						url:"${path}/project/close",
 						data:{
-							msgFrom:projectWriter,
-							userName:participant,
-							msgContent:msgContent
+							proNo:proNo
 						},
 						success:function(data){
 							console.log(data)
+							
+							var closeProject = document.getElementById('projectDivNo'+ proNo);
+							closeProject.remove();
+							document.querySelector(".proNo" + proNo).classList.add("fade");
 						},
 						error: function(e){
-							alert("프로젝트 쪽지보내기 실패");
+							Swal.fire({
+								  icon: 'error',
+								  text: '프로젝트 종료 실패! 관리자에게 문의하세요'
+								})
 							console.log(e);
 						}
-					});
-					
-					Swal.fire({
-                        icon: 'success',
-                        text: '프로젝트가 성공적으로 등록되었습니다.'
-                    });
-					
-					document.getElementById("projectTitle").value= "";
-					document.getElementById("participantDiv").innerText = "";
-					document.getElementById("startDate").value= "";
-					document.getElementById("dueDate").value= "";
-				    document.getElementById("projectContent").value= "";
-				    
-					document.querySelector(".modal_pro").classList.add("fade");
-				},
-				error: function(e){
-					alert("실패");
-					console.log(e);
-				}
-			});
-		}
-	});
-});
-
-$(document).ready(() => { 
-	 $("#memSearch").autocomplete({
-		source:function(request, response){
-			$.ajax({
-				url : "${path}/search/projectMem",
-				type : "get",
-				dataType : 'json',
-				data : {
-					userName:$("#memSearch").val()
-				},
-				success : function(data){
-					var result = data;
-					response(result);
-				},
-				error : function(e){
-					alert("ajax에러발생..!")
-				}
-			});
-		},
-       focus : function(event, ui) {    
-           return false;
-       },
-       minLength: 1,// 최소 글자수
-       autoFocus: true, 
-       delay: 300,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
-	 });
-});
-
-function addParticipant(){
-	let addPerson = $("#memSearch").val();
-	let totalPerson = $("#participantDiv").text();
-	let arr =  totalPerson.split("/ ");
-	
-	console.log(addPerson);
-	console.log(totalPerson);
-	console.log(arr);
-	
-	if(arr.includes(addPerson)){
-		Swal.fire({
-			  icon: 'error',
-			  text: '참가자가 이미 존재합니다.',
-			  didClose: () => {
-				  document.getElementById("memSearch").value= "";
-				  $('#memSearch').focus();
+					});  
+				  
+			    Swal.fire({
+			    	icon: 'success',
+					text: '프로젝트가 성공적으로 종료되었습니다 :)'
+			    })
 			  }
-		})
-	} else{
-		$("#participantDiv").append(addPerson + "/ ");
-		
-		document.getElementById("memSearch").value= "";
-		$('#memSearch').focus();
+			})
 	}
-}
-
-$(document).ready(function () {
-    $.datepicker.setDefaults($.datepicker.regional['ko']); 
-    $( "#startDate" ).datepicker({
-         changeMonth: true, 
-         changeYear: true,
-         nextText: '다음 달',
-         prevText: '이전 달', 
-         dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
-         dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'], 
-         monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-         monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-         dateFormat: "yy-mm-dd",
-         maxDate: 0,                       // 선택할수있는 최소날짜, ( 0 : 오늘 이후 날짜 선택 불가)
-         onClose: function( selectedDate ) {    
-              //시작일(startDate) datepicker가 닫힐때
-              //종료일(endDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
-             $("#dueDate").datepicker( "option", "minDate", selectedDate );
-         }    
-
-    });
-    $( "#dueDate" ).datepicker({
-         changeMonth: true, 
-         changeYear: true,
-         nextText: '다음 달',
-         prevText: '이전 달', 
-         dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
-         dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'], 
-         monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-         monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-         dateFormat: "yy-mm-dd",
-         onClose: function( selectedDate ) {    
-             // 종료일(endDate) datepicker가 닫힐때
-             // 시작일(startDate)의 선택할수있는 최대 날짜(maxDate)를 선택한 시작일로 지정
-             $("#startDate").datepicker('setDate', 'today');
-         }    
-
-    });    
-});
+	
+	
+	function makeProject(){
+		const open = () => {
+	      document.querySelector(".modal_pro").classList.remove("fade");
+	    }
+	  
+	    const close = () => {
+	      document.getElementById("memSearch").value= "";
+	      document.getElementById("projectContent").value= "";
+	      document.querySelector(".modal_pro").classList.add("fade");
+	    }
+	  
+	    document.querySelector(".make_project_btn").addEventListener("click", open);
+	    document.querySelector(".closeBtn").addEventListener("click", close);
+	    
+	    $("#projectContent").on("keyup",function(){
+	        let inputLength = $(this).val().length;
+	
+	        $("#writeCnt").text(inputLength);
+	
+	        let remain = $("#writeMax").text() - inputLength;
+	
+	        if(remain < 0){
+	          $("#writeCnt").css("color","red");
+	        } else {
+	          $("#writeCnt").css("color","black");
+	        }
+	      });
+	}
+	
+	$(function(){
+		$("#makeBtn").on("click",function(){
+			let projectWriter = $("#projectWriter").val();
+			let participant = $("#participantDiv").text();
+			let projectContent = $("#projectContent").val();
+			let projectTitle = $("#projectTitle").val();
+			let startDate = $("#startDate").val();
+			let dueDate = $("#dueDate").val();
+			let writeCnt = parseInt($("#writeCnt").text());
+			let writeMax = parseInt($("#writeMax").text());
+			let msgContent = projectTitle + " 프로젝트에 참여되었습니다. :)" + "\n\n" + "▶ 프로젝트 내용  " + "\n" + projectContent;
+			
+			if(projectTitle == ""){
+				Swal.fire({
+					  icon: 'error',
+					  text: '프로젝트명을 작성하지 않으셨습니다.!',
+					  didClose: () => {
+						  $('#projectTitle').focus();
+					  }
+					})
+			} else if(startDate == ""){
+				Swal.fire({
+					  icon: 'error',
+					  text: '프로젝트 시작기간을 작성하지 않으셨습니다.!',
+					  didClose: () => {
+						  $('#startDate').focus();
+					  }
+					})
+			} else if(dueDate == ""){
+				Swal.fire({
+					  icon: 'error',
+					  text: '프로젝트 마감기간을 작성하지 않으셨습니다.!',
+					  didClose: () => {
+						  $('#dueDate').focus();
+					  }
+					})
+			} else if(projectContent == ""){
+				Swal.fire({
+					  icon: 'error',
+					  text: '내용을 작성하지 않으셨습니다.!',
+					  didClose: () => {
+						  $('#projectContent').focus();
+					  }
+					})
+			} else if(writeCnt > 900){
+				console.log(writeCnt);
+				console.log(writeMax);
+				
+				Swal.fire({
+					  icon: 'error',
+					  text: writeMax + "자를 초과입력할 수 없습니다.!",
+					  didClose: () => {
+						  $('#projectContent').focus();
+					  }
+					})
+			} else{
+				$.ajax({
+					type: "post",
+					url:"${path}/project/make",
+					data:{
+						projectMake:projectWriter,
+						participant:participant,
+						projectContent:projectContent,
+						projectTitle:projectTitle,
+						startDate:startDate,
+						dueDate:dueDate,
+						writeCnt:writeCnt,
+						writeMax:writeMax
+					},
+					success:function(data){
+						$.ajax({
+							type: "post",
+							url:"${path}/project/message",
+							data:{
+								msgFrom:projectWriter,
+								userName:participant,
+								msgContent:msgContent
+							},
+							success:function(data){
+								console.log(data)
+							},
+							error: function(e){
+								alert("프로젝트 쪽지보내기 실패");
+								console.log(e);
+							}
+						});
+						
+						Swal.fire({
+	                        icon: 'success',
+	                        text: '프로젝트가 성공적으로 등록되었습니다.'
+	                    });
+						
+						document.getElementById("projectTitle").value= "";
+						document.getElementById("participantDiv").innerText = "";
+						document.getElementById("startDate").value= "";
+						document.getElementById("dueDate").value= "";
+					    document.getElementById("projectContent").value= "";
+					    
+						document.querySelector(".modal_pro").classList.add("fade");
+					},
+					error: function(e){
+						alert("실패");
+						console.log(e);
+					}
+				});
+			}
+		});
+	});
+	
+	$(document).ready(() => { 
+		 $("#memSearch").autocomplete({
+			source:function(request, response){
+				$.ajax({
+					url : "${path}/search/projectMem",
+					type : "get",
+					dataType : 'json',
+					data : {
+						userName:$("#memSearch").val()
+					},
+					success : function(data){
+						var result = data;
+						response(result);
+					},
+					error : function(e){
+						alert("ajax에러발생..!")
+					}
+				});
+			},
+	       focus : function(event, ui) {    
+	           return false;
+	       },
+	       minLength: 1,// 최소 글자수
+	       autoFocus: true, 
+	       delay: 300,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
+		 });
+	});
+	
+	function addParticipant(){
+		let addPerson = $("#memSearch").val();
+		let totalPerson = $("#participantDiv").text();
+		let arr =  totalPerson.split("/ ");
+		
+		console.log(addPerson);
+		console.log(totalPerson);
+		console.log(arr);
+		
+		if(arr.includes(addPerson)){
+			Swal.fire({
+				  icon: 'error',
+				  text: '참가자가 이미 존재합니다.',
+				  didClose: () => {
+					  document.getElementById("memSearch").value= "";
+					  $('#memSearch').focus();
+				  }
+			})
+		} else{
+			$("#participantDiv").append(addPerson + "/ ");
+			
+			document.getElementById("memSearch").value= "";
+			$('#memSearch').focus();
+		}
+	}
+	
+	$(document).ready(function () {
+	    $.datepicker.setDefaults($.datepicker.regional['ko']); 
+	    $( "#startDate" ).datepicker({
+	         changeMonth: true, 
+	         changeYear: true,
+	         nextText: '다음 달',
+	         prevText: '이전 달', 
+	         dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
+	         dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'], 
+	         monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	         monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	         dateFormat: "yy-mm-dd",
+	         maxDate: 0,                       // 선택할수있는 최소날짜, ( 0 : 오늘 이후 날짜 선택 불가)
+	         onClose: function( selectedDate ) {    
+	              //시작일(startDate) datepicker가 닫힐때
+	              //종료일(endDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
+	             $("#dueDate").datepicker( "option", "minDate", selectedDate );
+	         }    
+	
+	    });
+	    $( "#dueDate" ).datepicker({
+	         changeMonth: true, 
+	         changeYear: true,
+	         nextText: '다음 달',
+	         prevText: '이전 달', 
+	         dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
+	         dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'], 
+	         monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	         monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	         dateFormat: "yy-mm-dd",
+	         onClose: function( selectedDate ) {    
+	             // 종료일(endDate) datepicker가 닫힐때
+	             // 시작일(startDate)의 선택할수있는 최대 날짜(maxDate)를 선택한 시작일로 지정
+	             $("#startDate").datepicker('setDate', 'today');
+	         }    
+	
+	    });    
+	});
 
 </script>
 
