@@ -107,6 +107,32 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return result;
 	}
 
+	@Override
+	public int loaApproved1(int appNo) {
+		int result = 0;
+		
+		result = approvalDao.loaApproved1(appNo);
+		
+		return result;
+	}
+	
+	@Override
+	public int loaApproved2(int appNo) {
+		int result = 0;
+		
+		result = approvalDao.loaApproved2(appNo);
+		
+		return result;
+	}
+
+	@Override
+	public int loaApproved3(int appNo) {
+		int result = 0;
+		
+		result = approvalDao.loaApproved3(appNo);
+		
+		return result;
+	}
 	
 
 }

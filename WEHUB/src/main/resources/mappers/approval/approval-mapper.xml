@@ -27,7 +27,8 @@
 		<result property="receiveRefAppNo" column="RECEIVE_REF_APP_SEQ"/>
 		<result property="referList" column="RECEIVE_REF_CC"/>
 		<result property="rank" column="RANK"/>
-		
+		<result property="appPresent" column="APP_PRESENT"/>
+		<!-- <collection property="app_loa" javaType="java.util.ArrayList" resultMap="app_loa"/> -->
 	</resultMap>
 
 	<select id="selectRecentList" parameterType="map" resultMap="approvalResultMap">
@@ -162,16 +163,17 @@
   		VALUES(
   			SEQ_APP_SEQ.NEXTVAL,
   			SYSDATE,
-  			null,
-  			null,
-  			null,
+  			#{firstApprover},
+  			#{interimApprover},
+  			#{finalApprover},
   			null,
   			null,
   			null,
   			null,			
   			#{appWriterNo},
   			'결재대기',
-  			'품의서'
+  			'품의서',
+  			'A'
  		)
   	</insert>
   	
@@ -218,7 +220,8 @@
 		     D.DEPT_NAME,
              LOA_TITLE,
              LOA_DETAIL,
-             RECEIVE_REF_CC
+             RECEIVE_REF_CC,
+             A.APP_PRESENT
 		FROM APPROVAL A 
 		JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
 		JOIN DEPARTMENT D ON (D.DEPT_CODE = M.DEPT_CODE)
@@ -229,6 +232,18 @@
 	
 	<update id="rejectUpdate" parameterType="Approval">
 		UPDATE APPROVAL SET APP_CHECK_PROGRESS='결재반려', APP_REASON=#{appReason} WHERE APP_SEQ=#{appNo}	
+	</update>
+	
+	<update id="loaApproved1" parameterType="_int">
+		UPDATE APPROVAL SET APP_PRESENT='B', APP_CHECK_PROGRESS='결재중' WHERE APP_SEQ=#{appNo}	
+	</update>
+	
+	<update id="loaApproved2" parameterType="_int">
+		UPDATE APPROVAL SET APP_PRESENT='C', APP_CHECK_PROGRESS='결재중' WHERE APP_SEQ=#{appNo}	
+	</update>
+	
+	<update id="loaApproved3" parameterType="_int">
+		UPDATE APPROVAL SET APP_PRESENT='D', APP_CHECK_PROGRESS='결재완료' WHERE APP_SEQ=#{appNo}	
 	</update>
 
 </mapper>

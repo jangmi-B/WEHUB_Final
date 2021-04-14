@@ -29,5 +29,11 @@ public interface ApprovalService {
 	
 	int rejectUpdate(Approval approval);
 	
+	int loaApproved1(int appNo);
+	
+	int loaApproved2(int appNo);
+
+	int loaApproved3(int appNo);
+	
 
 }

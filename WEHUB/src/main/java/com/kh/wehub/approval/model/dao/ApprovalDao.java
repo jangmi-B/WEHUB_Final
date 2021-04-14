@@ -14,27 +14,26 @@ import com.kh.wehub.member.model.vo.Member;
 public interface ApprovalDao {
 
 	int approvalCount_YET(Member loginMember);
-	
 	int approvalCount_UNDER(Member loginMember);
-	
 	int approvalCount_DONE(Member loginMember);
 
-	List<Approval> selectRecentList(Member loginMember);
-	
+	List<Approval> selectRecentList(Member loginMember);	
+	List<Approval> selectRecentList1(Member loginMember);
+
 	List<Approval> selectApprovalList(RowBounds rowBounds, String searchText);
 	
 	int listCount(String searchText);
 
 	int insertLetterOfApproval(Approval approval);
-
 	int insertLetterOfApproval2(Approval approval);
-
 	int insertLetterOfApproval3(Approval approval);
 
 	Approval selectApprovalListDetail(int appNo);
 
-	List<Approval> selectRecentList1(Member loginMember);
-
 	int rejectUpdate(Approval approval);
+
+	int loaApproved1(int appNo);
+	int loaApproved2(int appNo);
+	int loaApproved3(int appNo);
 	
 }

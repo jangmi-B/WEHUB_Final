@@ -48,6 +48,8 @@ public class Approval {
 	
 	private String appKinds;
 	
+	private String appPresent;
+	
 	
 	// letterOfApproval
 	

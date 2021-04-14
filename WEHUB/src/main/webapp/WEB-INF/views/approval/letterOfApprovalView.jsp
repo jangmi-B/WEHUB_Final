@@ -22,18 +22,75 @@
         <div class="cash-disbursement" style="text-align: center; margin: 80px 0px 80px 200px; border: 2px solid black;">
             <table border="2" style="width: 100%; font-size: 20px; border-collapse: collapse;">
                 <tr>
-                    <td rowspan="2" colspan="4" style="width: 300px; height: 120px; font-size: 40px; font-weight: 600;">품 의 서</td>
-                    <td rowspan="2" style="width: 20px; padding-top: 30px; font-size: 25px;">
+                    <td rowspan="3" colspan="4" style="width: 300px; height: 150px; font-size: 40px; font-weight: 600;">품 의 서</td>
+                    <td rowspan="3" style="width: 20px; padding-top: 30px; font-size: 25px;">
                         <button style="border: none; width: 80px;">결 재</button>
                     </td>
-                    <td style="height: 30px; width: 100px;">최초승인자</td>
-                    <td style="width: 100px;">중간승인자</td>
-                    <td style="width: 100px;">최종승인자</td>
+                    <td style="height: 25px; width: 100px; font-size:17px">최초승인자</td>
+                    <td style="height: 25px; width: 100px; font-size:17px">중간승인자</td>
+                    <td style="height: 25px; width: 100px; font-size:17px">최종승인자</td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <c:choose>
+						<c:when test="${approval.appPresent eq 'A'}">
+					    	<td name="firstA" id="firstA">${approval.firstApprover}</td>
+					    	<td name="interimA" id="interimA">${approval.interimApprover}</td>
+					    	<td name="finalA" id="finalA">${approval.finalApprover}</td>
+					    </c:when>
+						<c:when test="${approval.appPresent eq 'B'}">
+					        <td name="firstA" id="firstA">${approval.firstApprover}<img src="${path}/images/approved.png" style="position:absolute; width:130px; height:130px; margin-left:-92px; margin-top:-50px" /></td>
+					        <td name="interimA" id="interimA">${approval.interimApprover}</td>
+					        <td name="finalA" id="finalA">${approval.finalApprover}</td>
+					    </c:when>
+						<c:when test="${approval.appPresent eq 'C'}">
+					        <td name="firstA" id="firstA">${approval.firstApprover}<img src="${path}/images/approved.png" style="position:absolute; width:130px; height:130px; margin-left:-92px; margin-top:-50px" /></td>
+					        <td name="interimA" id="interimA">${approval.interimApprover}<img src="${path}/images/approved.png" style="position:absolute; width:130px; height:130px; margin-left:-92px; margin-top:-50px" /></td>
+					        <td name="finalA" id="finalA">${approval.finalApprover}</td>
+					    </c:when>
+						<c:when test="${approval.appPresent eq 'D'}">
+					        <td name="firstA" id="firstA">${approval.firstApprover}<img src="${path}/images/approved.png" style="position:absolute; width:130px; height:130px; margin-left:-92px; margin-top:-50px" /></td>
+					        <td name="interimA" id="interimA">${approval.interimApprover}<img src="${path}/images/approved.png" style="position:absolute; width:130px; height:130px; margin-left:-92px; margin-top:-50px" /></td>
+					        <td name="finalA" id="finalA">${approval.finalApprover}<img src="${path}/images/approved.png" style="position:absolute; width:130px; height:130px; margin-left:-92px; margin-top:-50px" /></td>
+					    </c:when>
+						<c:otherwise>
+					        <td name="firstA" id="firstA">${approval.firstApprover}</td>
+					        <td name="interimA" id="interimA">${approval.interimApprover}</td>
+					        <td name="finalA" id="finalA">${approval.finalApprover}</td>
+						</c:otherwise>
+					</c:choose>
+                </tr>
+                <tr style="height: 30px;">
+                    <c:choose>
+	                    <c:when test="${!empty approval.appReason}">
+	                    	<td><input type="button" name="Approver1" id="Approver1" style="font-size:15px; width:70px; height:25px; border: none; text-align: center; border-radius:20px;" value="결재서명" disabled /></td>
+							<td><input type="button" name="Approver2" id="Approver2" style="font-size:15px; width:70px; height:25px; border: none; text-align: center; border-radius:20px;" value="결재서명" disabled /></td>
+							<td><input type="button" name="Approver3" id="Approver3" style="font-size:15px; width:70px; height:25px; border: none; text-align: center; border-radius:20px;" value="결재서명" disabled /></td>
+	                    </c:when>
+	                    <c:otherwise>
+	                    	<c:choose>
+								<c:when test="${loginMember.user_name eq approval.firstApprover && approval.appPresent eq 'A'}">
+							    	<td><input type="button" name="Approver1" id="Approver1" style="font-size:15px; width:70px; height:25px; border: none; text-align: center; border-radius:20px;" value="결재서명" /></td>
+							    	<td><input type="button" name="Approver2" id="Approver2" style="font-size:15px; width:70px; height:25px; border: none; text-align: center; border-radius:20px;" value="결재서명" disabled /></td>
+							    	<td><input type="button" name="Approver3" id="Approver3" style="font-size:15px; width:70px; height:25px; border: none; text-align: center; border-radius:20px;" value="결재서명" disabled /></td>
+								</c:when>
+								<c:when test="${loginMember.user_name eq approval.interimApprover && approval.appPresent eq 'B'}">
+							    	<td><input type="button" name="Approver1" id="Approver1" style="font-size:15px; width:70px; height:25px; border: none; text-align: center; border-radius:20px;" value="결재서명" disabled /></td>
+							    	<td><input type="button" name="Approver2" id="Approver2" style="font-size:15px; width:70px; height:25px; border: none; text-align: center; border-radius:20px;" value="결재서명" /></td>
+							    	<td><input type="button" name="Approver3" id="Approver3" style="font-size:15px; width:70px; height:25px; border: none; text-align: center; border-radius:20px;" value="결재서명" disabled /></td>
+								</c:when>
+								<c:when test="${loginMember.user_name eq approval.finalApprover && approval.appPresent eq 'C'}">
+				                    <td><input type="button" name="Approver1" id="Approver1" style="font-size:15px; width:70px; height:25px; border: none; text-align: center; border-radius:20px;" value="결재서명" disabled /></td>
+				                    <td><input type="button" name="Approver2" id="Approver2" style="font-size:15px; width:70px; height:25px; border: none; text-align: center; border-radius:20px;" value="결재서명" disabled /></td>
+				                    <td><input type="button" name="Approver3" id="Approver3" style="font-size:15px; width:70px; height:25px; border: none; text-align: center; border-radius:20px;" value="결재서명" /></td>
+								</c:when>
+								<c:otherwise>
+									<td><input type="button" name="Approver1" id="Approver1" style="font-size:15px; width:70px; height:25px; border: none; text-align: center; border-radius:20px;" value="결재서명" disabled /></td>
+									<td><input type="button" name="Approver2" id="Approver2" style="font-size:15px; width:70px; height:25px; border: none; text-align: center; border-radius:20px;" value="결재서명" disabled /></td>
+									<td><input type="button" name="Approver3" id="Approver3" style="font-size:15px; width:70px; height:25px; border: none; text-align: center; border-radius:20px;" value="결재서명" disabled /></td>
+								</c:otherwise>
+							</c:choose>
+	                    </c:otherwise>
+                    </c:choose>
                 </tr>
                 <tr>
                     <td colspan="2" style="height: 70px;">
@@ -91,20 +148,32 @@
         <div id="button">
         	<input type="hidden" name="appNo" value = "${approval.appNo}"/>
 	        	
-	        <c:if test="${loginMember.user_name eq approval.firstApprover || approval.interimApprover || approval.finalApprover}">
-       			<c:choose>
+	        <%-- <c:if test="${loginMember.user_name eq approval.firstApprover || approval.interimApprover || approval.finalApprover}">
+       			 --%><c:choose>
        				<c:when test="${!empty approval.appReason}">
        					<button type="button" class="openRejectionWhy">반려사유</button>
         				<input type="text" style="border: none; width: 40px;" disabled>
 	        		</c:when>
 	        		<c:otherwise>
-	        			<button type="submit">결재</button>
-       					<input type="text" style="border: none; width: 40px;"disabled >
-       					<button type="button" style="color:red" id="openRejection">반려</button>
-        				<input type="text" style="border: none; width: 40px;" disabled>
+	        			<c:choose>
+		        			<c:when test="${(loginMember.user_name eq approval.firstApprover && approval.appPresent eq 'A') || 
+		        						(loginMember.user_name eq approval.interimApprover && approval.appPresent eq 'B') ||
+		        						(loginMember.user_name eq approval.finalApprover && approval.appPresent eq 'C')}">
+			        			<button type="submit" id="approveddone">결재</button>
+		       					<input type="text" style="border: none; width: 40px;"disabled >
+		       					<button type="button" style="color:red" id="openRejection">반려</button>
+		        				<input type="text" style="border: none; width: 40px;" disabled>
+	        				</c:when>
+        					<c:otherwise>
+        						<button type="submit" id="approveddone" disabled>결재</button>
+	       						<input type="text" style="border: none; width: 40px;"disabled >
+	       						<button type="button" id="openRejection" disabled>반려</button>
+	        					<input type="text" style="border: none; width: 40px;" disabled>
+        					</c:otherwise>
+        				</c:choose>
 	        		</c:otherwise>
         		</c:choose>
-			</c:if>
+			<%-- </c:if> --%>
 			
 			<button><a href="${path}/approval/approvalMain" style="color:black">취소</a></button>
         </div>
@@ -236,6 +305,72 @@
     	});
     </script>
     
-    
+    <!-- 결재승인버튼 스크립트 -->
+    <script>
+    	$("#Approver1").one("click",function(){
+    		
+    		$.ajax({
+                type: "post",
+                url: "${path}/approval/loaApproved1?appNo="+${approval.appNo},
+                success: function(){
+           		   alert("결재서명이 완료되었습니다.");
+   				   $("#firstA").append('<img src="${path}/images/approved.png" id="checkIfApproved" style="position:absolute; width:130px; height:130px; margin-left:-92px; margin-top:-50px" />');
+         	   },
+                error: function(){ alert("잠시 후 다시 시도해주세요."); }
+    		});
+    	});
+    	
+		$("#Approver2").one("click",function(){
+    		
+    		$.ajax({
+                type: "post",
+                url: "${path}/approval/loaApproved2?appNo="+${approval.appNo},
+                success: function(){
+           		   alert("결재서명이 완료되었습니다.");
+   				   $("#interimA").append('<img src="${path}/images/approved.png" id="checkIfApproved" style="position:absolute; width:130px; height:130px; margin-left:-92px; margin-top:-50px" />');
+         	   },
+                error: function(){ alert("잠시 후 다시 시도해주세요."); }
+    		});
+    	});
+		
+		$("#Approver3").one("click",function(){
+    		
+    		$.ajax({
+                type: "post",
+                url: "${path}/approval/loaApproved3?appNo="+${approval.appNo},
+                success: function(){
+           		   alert("결재서명이 완료되었습니다.");
+   				   $("#finalA").append('<img src="${path}/images/approved.png" id="checkIfApproved" style="position:absolute; width:130px; height:130px; margin-left:-92px; margin-top:-50px" />');
+         	   },
+                error: function(){ alert("잠시 후 다시 시도해주세요."); }
+    		});
+    	});
+   	</script>
+   	
+   	<!-- 하단 결재버튼 -->
+   	<script>
+   		$("#approveddone").click(function() {
+   			if($('#checkIfApproved').length > 0) {
+   				var url = "${path}/approval/approvalMain";
+	   			alert("결재가 완료되었습니다.");
+	   	        $(location).attr('href', url);  			
+   			} else {
+   				var url = "${path}/approval/letterOfApprovalView?appNo="+${approval.appNo};
+   				alert("결재서명 후 결재를 진행해주세요.");
+   			}
+   		});
+   		
+   		/* function checkIfApproved() {
+		    if(document.getElementById('checkIfApproved')){
+		        alert("결재가 완료되었습니다.");
+		        
+				return true;
+			} else {
+		        alert("결재서명 후 결재를 진행해주세요.");
+		        
+		        return false;
+			}
+		} */
+   	</script>
 
 <%@ include file="../common/footer.jsp" %>

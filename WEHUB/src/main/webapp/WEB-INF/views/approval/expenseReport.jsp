@@ -52,16 +52,29 @@
                     <td rowspan="10" style="width: 80px;">내 역</td>
                     <td colspan="2">적 요</td>
                     <td colspan="2">금 액</td>
-                    <td colspan="3">비 고</td>
+                    <td colspan="2">비 고</td>
+                    <td colspan="1" style="font-size:17px">행 추가 삭제</td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="text"  ></td>
-                    <td colspan="2"><input type="text"  ></td>
-                    <td colspan="3"><input type="text"  ></td>
+                    <td colspan="2"><input type="text" name="briefs" id="briefs"></td>
+                    <td colspan="2"><input type="text" name="price" id="price"></td>
+                    <td colspan="2"><input type="text" name="etc" id="etc"></td>
+                    <td colspan="1">
+                    	<button type="button" style="width:45px;height:30px; font-size:15px;" name="etc" id="etc">추가</button>
+                    	<button type="button" style="width:45px;height:30px; font-size:15px;" name="etc" id="etc">삭제</button>
+                    </td>
+                    
                 </tr>
+                <script>
+                	$('.btnAdd').click (function() {
+                		var 
+                		
+                	});
+                
+                </script>
                 
                 <tr>
-                    <td colspan="8" style="text-align: left; height: 100px; border-bottom: none;">위 금액을 청구하오니 결재바랍니다.</td>
+                    <td colspan="8" style="text-align: center; height: 100px; border-bottom: none;">위 금액을 청구하오니 결재바랍니다.</td>
                 </tr>
                 <tr style="border: white;">
                     <td colspan="8" style="text-align: center; height: 100px;">

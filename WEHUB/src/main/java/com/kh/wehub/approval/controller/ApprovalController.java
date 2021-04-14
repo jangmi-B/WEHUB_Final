@@ -200,6 +200,8 @@ public class ApprovalController {
 	public ModelAndView letterOfApprovalView(@RequestParam("appNo") int appNo, ModelAndView model) {
 		Approval approval = service.findListByNo(appNo);
 		
+		System.out.println(approval);
+		
 		model.addObject("approval", approval);
 		model.setViewName("/approval/letterOfApprovalView");
 		
@@ -275,7 +277,35 @@ public class ApprovalController {
 		return gson.toJson(array);	
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/loaApproved1", method = { RequestMethod.POST })
+	public int loaApproved1(@SessionAttribute(name = "loginMember", required = false) 
+												Member loginMember, @RequestParam(value="appNo") int appNo) {
+		int result = 0;
+		result = service.loaApproved1(appNo);
+
+		return result;
+	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/loaApproved2", method = { RequestMethod.POST })
+	public int loaApproved2(@SessionAttribute(name = "loginMember", required = false) 
+												Member loginMember, @RequestParam(value="appNo") int appNo) {
+		int result = 0;
+		result = service.loaApproved2(appNo);
+
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/loaApproved3", method = { RequestMethod.POST })
+	public int loaApproved3(@SessionAttribute(name = "loginMember", required = false) 
+												Member loginMember, @RequestParam(value="appNo") int appNo) {
+		int result = 0;
+		result = service.loaApproved3(appNo);
+
+		return result;
+	}
 	
 	
 	
