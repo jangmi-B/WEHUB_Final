@@ -11,18 +11,6 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <form id="mainForm" style="margin-top: -90px; margin-left: -230px;">
-<!-- <div class="search">
-    <table>
-        <tr>
-            <td>
-                <i class="fa fa-search" aria-hidden="true"></i>
-            </td>
-            <td>
-                <input type='text' class='src' placeholder='검색어를 입력하세요.'/>
-            </td>
-        </tr>
-    </table>
-</div> -->
 <div id="contentForm">
     <div class="flex-grid" style="grid-row:1;">
         <div style="border-radius: 10px; height:270px; overflow: hidden;" >
@@ -38,10 +26,10 @@
 		        <li>
 		        	<c:forEach var="NoticeList" items="${NoticeList}" end="5" varStatus="i">
 		        		<c:if test="${NoticeList.getNoticeType() eq 'Y'}">
-		        			<a href="javaScript:mainNotice(${NoticeList.getNoticeNo()})"><p style="font-weight: 900;">[<fmt:formatDate value="${NoticeList.getNoticeCreateDate()}"  pattern="MM/dd"/>] ${NoticeList.getNoticeTitle()} <i class="fas fa-info" id="con1" style="color: red;"></i></p></a>
+		        			<a href="javaScript:mainNotice(${NoticeList.getNoticeNo()})"><p>[<fmt:formatDate value="${NoticeList.getNoticeCreateDate()}"  pattern="MM/dd"/>] ${NoticeList.getNoticeTitle()} <i class="fas fa-info" id="con1" style="color: red;"></i></p></a>
 		        		</c:if>
 		        		<c:if test="${NoticeList.getNoticeType() eq 'N'}">
-		        			<a href="javaScript:mainNotice(${NoticeList.getNoticeNo()})"><p style="font-weight: 900;">[<fmt:formatDate value="${NoticeList.getNoticeCreateDate()}"  pattern="MM/dd"/>] ${NoticeList.getNoticeTitle()}</p></a>
+		        			<a href="javaScript:mainNotice(${NoticeList.getNoticeNo()})"><p>[<fmt:formatDate value="${NoticeList.getNoticeCreateDate()}"  pattern="MM/dd"/>] ${NoticeList.getNoticeTitle()}</p></a>
 		        		</c:if>
 		        	</c:forEach>
 		        </li>
@@ -96,7 +84,7 @@
 		        <c:otherwise>
 			        <li>
 			        	<c:forEach var="communityList" items="${communityList}" end="5" varStatus="i">
-			        	<a href="javaScript:mainCommunity(${communityList.getCm_no()})"><p style="font-weight: 900;">${i.count}. ${communityList.getCm_title()}</p></a>
+			        	<a href="javaScript:mainCommunity(${communityList.getCm_no()})"><p>${i.count}. ${communityList.getCm_title()}</p></a>
 			        	</c:forEach>
 			        </li>
 		        </c:otherwise>

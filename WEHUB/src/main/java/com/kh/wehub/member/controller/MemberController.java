@@ -57,7 +57,7 @@ public class MemberController {
 	}
 	
 	//메인 화면 띄우기
-	@RequestMapping(value = "/home")
+	@RequestMapping(value = "/main")
 	public ModelAndView home(ModelAndView model,
 			@SessionAttribute("loginMember")Member loginMember) {
 		//세션유저
