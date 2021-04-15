@@ -18,10 +18,10 @@
    
    /* 휴가 구분 css */
    .form-radio{
-       display: inline-block; 
-       line-height: 20px; 
-       vertical-align: middle;
-       font-size: 14px; 
+		display: inline-block; 
+		line-height: 20px; 
+		vertical-align: middle;
+		font-size: 16px; 
    }
    .form-chek::before, .form-radio::before{
        content: ""; 
@@ -31,12 +31,30 @@
        background: #ffffff; 
        border: 1px solid #3d3d3e; 
        margin-right: 8px;
+	}
+	.form-radio::before{ border-radius: 50%; }
+	.input-chek, .input-radio{ display: none; }
+	.input-chek:checked + .form-chek::before, .input-radio:checked + .form-radio::before{ background: #5b18ff; }
+	.input-chek:checked + .form-chek, .input-radio:checked + .form-radio{ color: #5b18ff; }
+	.leaveDetailTextArea { font-size: 25px; }
+	#appFileOri {
+		font-size: 18px;
+		height: auto;
+		margin: 0%;
+		/* padding: 0 0 0 36%; */
+		vertical-align: middle;
    }
-   .form-radio::before{ border-radius: 50%; }
-   .input-chek, .input-radio{ display: none; }
-   .input-chek:checked + .form-chek::before, .input-radio:checked + .form-radio::before{ background: #5b18ff; }
-   .input-chek:checked + .form-chek, .input-radio:checked + .form-radio{ color: #5b18ff; }
-   .leaveDetailTextArea { font-size: 25px; }
+   .inputFileButton {
+		padding: 9px 27px;
+		background-color:#5b18ff;
+		border: 2px solid #5b18ff;
+		border-radius: 4px;
+		color: white;
+		cursor: pointer;
+		font-size: 18px;
+		font-weight: 100;
+	}
+	.inputFileButton:hover { background: linear-gradient(to right, #5b18ff, #8b5dff); }
 </style>
 
 <form action="${path}/approval/letterOfApproval" method="POST" name="loaWriteForm" onsubmit="return check_onclick()" enctype="multipart/form-data">
@@ -87,9 +105,13 @@
                     <td colspan="8"><input type="text" name="loaTitle" id="loaTitle"></td>
                 </tr>
                 <tr>
-                    <td colspan="8" style="height: 90px;" >
-                        <input type="file" name="appLoaFileUpload" value="파일첨부" id="appFileOri">
-                    </td>
+                    <th colspan="8" style="height: 90px;" >
+                    	<label class="inputFileButton" for="inputFile">
+					        첨부파일 업로드
+					    </label>
+					
+					    <input type="file" id="inputFile" style="display: none;" />
+                    </th>
                 </tr>
                 <tr>
                     <td colspan="8" style="height: 70px; width: 80px;">품의사유 및 상세내용</td>

@@ -181,49 +181,7 @@
         	<button type="reset" class="resetLeave" onclick="">취소</button>
         </div>
     </div>
-</form>    
-    
-    <!-- 최초 승인자 모달창  -->
-    <div id="testForm1">
-	    <div class="appModal Amodal1">
-	    	<div class="appModal_content">
-	    	<div class="appModalInputName">이름을 입력해 주세요.</div>
-	    		<div>
-	    			<input type="text" id="memSearchInput1" name="userName" class="APPLE_searchArea"> <lable class="anserMember">님이 맞으신가요?</lable>
-	    		</div>
-	    		<br><br>
-	    			<button class="modalSearchMember" type="button" id="appModalCloseFirst">확인</button>
-	    	</div>
-	    </div>
-    </div>
-    
-    <!-- 중간 승인자 모달창  -->
-    <div id="testForm">
-	    <div class="appModal Amodal">
-	    	<div class="appModal_content">
-	    	<div class="appModalInputName">이름을 입력해 주세요.</div>
-	    		<div>
-	    			<input type="text" id="memSearchInput2" name="userName" class="APPLE_searchArea"> <lable class="anserMember">님이 맞으신가요?</lable>
-	    		</div>
-	    		<br><br>
-	    			<button class="modalSearchMember" type="button" id="appModalClose2" style="">확인</button>
-	    	</div>
-	    </div>
-    </div>
-    
-    <!-- 최종 승인자 모달창  -->
-    <div id="testForm3">
-	    <div class="appModal Amodal3">
-	    	<div class="appModal_content">
-	    	<div class="appModalInputName">이름을 입력해 주세요.</div>
-	    		<div>
-	    			<input type="text" id="memSearchInput3" name="userName" class="APPLE_searchArea"> <lable class="anserMember">님이 맞으신가요?</lable>
-	    		</div>
-	    		<br><br>
-	    			<button class="modalSearchMember" type="button" id="appModalCloseThird">확인</button>
-	    	</div>
-	    </div>
-    </div>
+</form>
     
 	<!-- 서명 클릭 스크립트  -->
     

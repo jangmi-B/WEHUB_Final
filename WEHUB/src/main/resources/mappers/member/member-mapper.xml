@@ -235,8 +235,9 @@
 	
 	<!-- Approval 자동완성 -->
 	<select id="getSearchMemberApp" parameterType="string" resultMap="memberResultMap">
-		SELECT M.USER_NAME, M.DEPT_CODE, M.RANK
+		SELECT M.USER_NAME, D.DEPT_NAME, M.RANK
 		FROM MEMBER M
-		WHERE USER_NAME LIKE '%'|| #{userName} ||'%'
+		LEFT OUTER JOIN DEPARTMENT D ON (M.DEPT_CODE = D.DEPT_CODE)
+		WHERE USER_NAME LIKE '%'|| #{user_name} ||'%' AND USER_STATUS ='Y'
 	</select>
 </mapper>
