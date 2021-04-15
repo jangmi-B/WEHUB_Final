@@ -10,10 +10,13 @@
 
 <link rel="stylesheet" href="${path}/css/approvalStyle.css">
 <link rel="stylesheet" href="${path}/css/expenseReport.css">
-<script src="${path}/js/jquery-3.5.1.js"></script>
+<link rel="stylesheet" href="${path}/css/appAutocomplete.css">
+
+<% Calendar today =  Calendar.getInstance(); %>
 
 <%@ include file="../approval/approvalSubMenu.jsp" %>
 
+<form action="" method="POST"> 
     <div class="cash-form-section" style="height: 100%; margin: 0 300px 0 300px;">
         <div class="cash-disbursement" style="text-align: center; margin: 80px 0px 80px 200px; border: 2px solid black;">
             <table border="2" style="width: 100%; font-size: 20px; border-collapse: collapse;">
@@ -25,9 +28,18 @@
                     <td style="width: 100px;">최종승인자</td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                	<td style="">
+                		<input type="text" value="" id="firstApprover" name="firstApprover" readonly="readonly" class="nameView">
+                		<input type="button" value="검색" class="searchMember" id="firstBtn" name="firstApprover">
+                	</td>
+                	<td>
+                		<input type="text" value="" id="interimName" name="interimApprover" readonly="readonly" class="nameView">
+                		<input type="button" value="검색" class="searchMember" id="secondBtn" name="interimApprover">
+                	</td>
+                	<td>
+                		<input type="text" value="" id="finalApprover" name="finalApprover" readonly="readonly" class="nameView">
+                		<input type="button" value="검색" class="searchMember" id="thirdBtn" name="finalApprover">
+                	</td>
                 </tr>
                 <tr>
                     <td colspan="8" style="height: 50px;">수신참조자</td>
@@ -60,17 +72,20 @@
                     <td colspan="2"><input type="text" name="price" id="price"></td>
                     <td colspan="2"><input type="text" name="etc" id="etc"></td>
                     <td colspan="1">
-                    	<button type="button" style="width:45px;height:30px; font-size:15px;" name="etc" id="etc">추가</button>
-                    	<button type="button" style="width:45px;height:30px; font-size:15px;" name="etc" id="etc">삭제</button>
+                    	<button type="button" name="etc" id="etc" style="width:30px;height:25px; font-size:15px; border: 1px solid green;">
+                    		<i class="fas fa-plus" style="color: green;"></i>
+                    	</button> &nbsp;
+                    	<button type="button" name="etc" id="etc" style="width:30px;height:25px; font-size:15px; border: 1px solid red;">
+                    		<i class="fas fa-minus" style="color: red;"></i>
+                    	</button>
                     </td>
                     
                 </tr>
                 <script>
-                	$('.btnAdd').click (function() {
+                	/* $('.btnAdd').click (function() {
                 		var 
                 		
-                	});
-                
+                	}); */
                 </script>
                 
                 <tr>
@@ -78,9 +93,9 @@
                 </tr>
                 <tr style="border: white;">
                     <td colspan="8" style="text-align: center; height: 100px;">
-                        20 <input type="text" style="border: none; width: 40px; font-size: 20px;">년
-                        <input type="text" style="border: none; width: 40px; font-size: 20px;">월
-                        <input type="text" style="border: none; width: 40px; font-size: 20px;">일
+                        <%= today.get(java.util.Calendar.YEAR) %> 년 &nbsp;
+                        <%= today.get(java.util.Calendar.MONTH) + 1 %> 월 &nbsp;
+                        <%= today.get(java.util.Calendar.DATE) %> 일 &nbsp;
                     </td>
                 </tr>
                 <tr>
@@ -92,10 +107,59 @@
             </table>
         </div>
         <div id="button">
-        <button>등록</button>
-        <input type="text" style="border: none; width: 40px;" disabled>
-        <button>취소</button>
+	        <button type="submit">등록</button>
+	        <input type="text" style="border: none; width: 40px;" disabled>
+	        <button type="reset">취소</button>
         </div>
     </div>
+</form>
+    
+    <!-- 최초 승인자 모달창  -->
+    <div id="testForm1">
+	    <div class="appModal Amodal1">
+	    	<div class="appModal_content">
+	    	<div class="appModalInputName">이름을 입력해 주세요.</div>
+	    		<div>
+	    			<input type="text" id="memSearchInput1" name="userName" class="APPLE_searchArea"> <lable class="anserMember">님이 맞으신가요?</lable>
+	    		</div>
+	    		<br><br>
+	    			<button class="modalSearchMember" type="button" id="appModalCloseFirst">확인</button>
+	    	</div>
+	    </div>
+    </div>
+    
+    <!-- 중간 승인자 모달창  -->
+    <div id="testForm">
+	    <div class="appModal Amodal">
+	    	<div class="appModal_content">
+	    	<div class="appModalInputName">이름을 입력해 주세요.</div>
+	    		<div>
+	    			<input type="text" id="memSearchInput2" name="userName" class="APPLE_searchArea"> <lable class="anserMember">님이 맞으신가요?</lable>
+	    		</div>
+	    		<br><br>
+	    			<button class="modalSearchMember" type="button" id="appModalClose2" style="">확인</button>
+	    	</div>
+	    </div>
+    </div>
+    
+    <!-- 최종 승인자 모달창  -->
+    <div id="testForm3">
+	    <div class="appModal Amodal3">
+	    	<div class="appModal_content">
+	    	<div class="appModalInputName">이름을 입력해 주세요.</div>
+	    		<div>
+	    			<input type="text" id="memSearchInput3" name="userName" class="APPLE_searchArea"> <lable class="anserMember">님이 맞으신가요?</lable>
+	    		</div>
+	    		<br><br>
+	    			<button class="modalSearchMember" type="button" id="appModalCloseThird">확인</button>
+	    	</div>
+	    </div>
+    </div>
+    
+<script>
+	
+</script>
+    
+<%@ include file="appAutocomplete.jsp" %> <!-- 자동완성 Ajax & script -->
 
 <%@ include file="../common/footer.jsp" %>
