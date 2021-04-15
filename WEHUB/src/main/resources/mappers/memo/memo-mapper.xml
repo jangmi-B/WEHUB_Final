@@ -34,5 +34,10 @@
 			#{memo}
 		)
 	</insert>
+	
+	<delete id="clearMemo" parameterType="_int">
+		DELETE FROM MEMO
+		WHERE USER_ID = #{userNo}
+	</delete>
 
 </mapper>

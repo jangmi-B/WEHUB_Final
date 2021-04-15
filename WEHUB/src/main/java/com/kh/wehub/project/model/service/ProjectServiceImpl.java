@@ -126,4 +126,10 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectDao.closeProject(proNo);
 	}
 
+	@Override
+	public List<Project> homeProjectList(int userNo) {
+		
+		return projectDao.homeProjectList(userNo);
+	}
+
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
@@ -55,5 +56,22 @@ public class MemoController {
 		model.setViewName("/home");
 		
 		return model;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/home/memo/clear", method={RequestMethod.POST})
+	public void deleteSendMsg(@SessionAttribute("loginMember")Member loginMember) {
+		
+		int result = 0;
+		int userNo = loginMember.getUser_no();
+		
+		result = service.clearMemo(userNo);
+		
+		if(result > 0) {
+			System.out.println("변경성공");
+		}else {
+			System.out.println("변경실패");
+		}
+		
 	}
 }

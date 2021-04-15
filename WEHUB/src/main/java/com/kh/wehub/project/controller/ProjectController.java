@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.kh.wehub.common.util.PageInfo;
 import com.kh.wehub.member.model.vo.Member;
+import com.kh.wehub.message.model.service.MessageService;
 import com.kh.wehub.message.model.vo.Message;
 import com.kh.wehub.project.model.service.ProjectService;
 import com.kh.wehub.project.model.vo.Project;
@@ -34,6 +35,9 @@ public class ProjectController {
 	@Autowired
 	private ProjectService service;
 	
+	@Autowired
+	private MessageService messageService;
+	
 	@RequestMapping(value = "/project/list", method = {RequestMethod.GET})
 	public ModelAndView projectList(ModelAndView model,
 			@RequestParam(value = "searchText", required=false)String searchText,
@@ -44,6 +48,10 @@ public class ProjectController {
 		int projectCount = 0;
 		PageInfo pageInfo = null;
 		List<Project> projectList = null;
+		
+		//쪽지 아이콘 색 변하게 하는 코드
+		int unreadCheck = 0;
+		unreadCheck = messageService.getUnreadCheck(loginMember.getUser_no());
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("searchText", searchText);
@@ -65,6 +73,7 @@ public class ProjectController {
 //		System.out.println(projectNoList);	
 //		System.out.println(loginMember.getUser_no());
 		
+		model.addObject("unreadCheck", unreadCheck);
 		model.addObject("pageInfo", pageInfo);
 		model.addObject("projectList",projectList);
 		
@@ -185,6 +194,11 @@ public class ProjectController {
 		PageInfo pageInfo = null;
 		List<Project> projectList = null;
 		
+		//쪽지 아이콘 색 변하게 하는 코드
+		int unreadCheck = 0;
+		unreadCheck = messageService.getUnreadCheck(loginMember.getUser_no());
+				
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("searchText", searchText);
 		map.put("userName", loginMember.getUser_name());
@@ -203,6 +217,7 @@ public class ProjectController {
 			projectList.get(i).setProjectCount(arr.length);
 		}
 		
+		model.addObject("unreadCheck", unreadCheck);
 		model.addObject("pageInfo", pageInfo);
 		model.addObject("projectList",projectList);
 		
@@ -222,6 +237,10 @@ public class ProjectController {
 		PageInfo pageInfo = null;
 		List<Project> projectList = null;
 		
+		//쪽지 아이콘 색 변하게 하는 코드
+		int unreadCheck = 0;
+		unreadCheck = messageService.getUnreadCheck(loginMember.getUser_no());
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("searchText", searchText);
 		map.put("userNo", loginMember.getUser_no());
@@ -237,6 +256,7 @@ public class ProjectController {
 			projectList.get(i).setProjectCount(arr.length);
 		}
 		
+		model.addObject("unreadCheck", unreadCheck);
 		model.addObject("pageInfo", pageInfo);
 		model.addObject("projectList",projectList);
 		

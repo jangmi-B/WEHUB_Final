@@ -435,4 +435,26 @@
 		ORDER BY S.MSG_NO DESC
 	</select>
 	
+	<select id="getHomeReceiveList" parameterType="_int" resultMap="messageResultMap">
+		SELECT ROWNUM, A.*
+			FROM (SELECT R.MSG_NO,
+			       R.MSG_TO,
+			       R.MSG_FROM,
+			       R.MSG_CONTENT,
+			       R.CREATE_DATE, 
+			       R.DELETE_DATE,
+			       R.READ_DATE,
+			       R.READ_STATUS,
+			       R.STATUS,
+			       M.USER_NAME,
+			       M.RANK,
+			       D.DEPT_NAME
+			FROM MESSAGE R
+			JOIN MEMBER M ON(R.MSG_FROM = M.USER_NO)
+			JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
+			WHERE R.STATUS='Y' AND MSG_TO = #{msgTo}
+			ORDER BY CREATE_DATE DESC) A
+		<![CDATA[WHERE ROWNUM < 6]]>
+	</select>
+	
 </mapper>

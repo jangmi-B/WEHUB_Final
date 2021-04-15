@@ -54,6 +54,8 @@ public class MessageController {
 		
 		pageInfo = new PageInfo(page, 10, msgCount, listLimit);
 		receiveList = service.getReceiveList(pageInfo, map);
+		
+		//쪽지 아이콘 색 변하게 하는 코드
 		unreadCheck = service.getUnreadCheck(loginMember.getUser_no());
 		
 		if(msgSearchList == null && msgSearchText == null) {
@@ -167,6 +169,9 @@ public class MessageController {
 		PageInfo pageInfo = null;
 		List<Message> sendList = null;
 		
+		//쪽지 아이콘 색 변하게 하는 코드
+		int unreadCheck = service.getUnreadCheck(loginMember.getUser_no());
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("msgSearchList", msgSearchList);
 		map.put("msgSearchText", msgSearchText);
@@ -180,10 +185,13 @@ public class MessageController {
 		if(msgSearchList == null && msgSearchText == null) {
 			model.addObject("pageInfo",pageInfo);
 			model.addObject("sendList", sendList);
+			model.addObject("unreadCheck", unreadCheck);
 		}else {
 			model.addObject("map", map);
 			model.addObject("pageInfo", pageInfo);
 			model.addObject("sendList", sendList);
+			model.addObject("sendList", sendList);
+			model.addObject("unreadCheck", unreadCheck);
 		}
 		
 		model.setViewName("message/message_send");
@@ -313,6 +321,9 @@ public class MessageController {
 		PageInfo pageInfo = null;
 		List<Message> deletedList = null;
 		
+		//쪽지 아이콘 색 변하게 하는 코드
+		int unreadCheck = service.getUnreadCheck(loginMember.getUser_no());
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("msgSearchList", msgSearchList);
 		map.put("msgSearchText", msgSearchText);
@@ -325,10 +336,12 @@ public class MessageController {
 		
 		if(msgSearchList == null && msgSearchText == null) {
 			model.addObject("pageInfo",pageInfo);
+			model.addObject("unreadCheck",unreadCheck);
 			model.addObject("deletedList", deletedList);
 		}else {
 			model.addObject("map", map);
 			model.addObject("pageInfo", pageInfo);
+			model.addObject("unreadCheck", unreadCheck);
 			model.addObject("deletedList",deletedList);
 		}
 		
@@ -365,6 +378,9 @@ public class MessageController {
 		PageInfo pageInfo = null;
 		List<Message> saveMessage = null;
 		
+		//쪽지 아이콘 색 변하게 하는 코드
+		int unreadCheck = service.getUnreadCheck(loginMember.getUser_no());
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("msgSearchList", msgSearchList);
 		map.put("msgSearchText", msgSearchText);
@@ -377,10 +393,12 @@ public class MessageController {
 		
 		if(msgSearchList == null && msgSearchText == null) {
 			model.addObject("pageInfo",pageInfo);
+			model.addObject("unreadCheck",unreadCheck);
 			model.addObject("saveMessage", saveMessage);
 		}else {
 			model.addObject("map", map);
 			model.addObject("pageInfo", pageInfo);
+			model.addObject("unreadCheck", unreadCheck);
 			model.addObject("saveMessage",saveMessage);
 		}
 		
@@ -402,6 +420,9 @@ public class MessageController {
 		PageInfo pageInfo = null;
 		List<Message> saveSendMessage = null;
 		
+		//쪽지 아이콘 색 변하게 하는 코드
+		int unreadCheck = service.getUnreadCheck(loginMember.getUser_no());
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("msgSearchList", msgSearchList);
 		map.put("msgSearchText", msgSearchText);
@@ -414,10 +435,12 @@ public class MessageController {
 		
 		if(msgSearchList == null && msgSearchText == null) {
 			model.addObject("pageInfo",pageInfo);
+			model.addObject("unreadCheck",unreadCheck);
 			model.addObject("saveSendMessage", saveSendMessage);
 		}else {
 			model.addObject("map", map);
 			model.addObject("pageInfo", pageInfo);
+			model.addObject("unreadCheck", unreadCheck);
 			model.addObject("saveSendMessage", saveSendMessage);
 		}
 		

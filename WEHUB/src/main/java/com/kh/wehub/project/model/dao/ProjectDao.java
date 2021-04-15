@@ -42,4 +42,6 @@ public interface ProjectDao {
 
 	int closeProject(int proNo);
 
+	List<Project> homeProjectList(int userNo);
+
 }

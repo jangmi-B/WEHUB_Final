@@ -57,4 +57,6 @@ public interface MessageService {
 
 	int getUnreadCheck(int user_no);
 
+	List<Message> getHomeReceiveList(int msgTo); //home화면 리스트 뽑아오기
+
 }

@@ -48,4 +48,15 @@ public class MemoServiceImpl implements MemoService {
 		return result;
 	}
 
+	@Override
+	public int clearMemo(int userNo) {
+		int result = 0;
+		
+		result = memoDao.clearMemo(userNo);
+		
+		return result;
+	}
+
+
+
 }

@@ -60,4 +60,6 @@ public interface MessageDao {
 
 	int getUnreadCheck(int user_no);
 
+	List<Message> getHomeReceiveList(int msgTo); //홈화면 받은쪽지 불러오기
+
 }

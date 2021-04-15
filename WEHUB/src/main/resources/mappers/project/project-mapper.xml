@@ -263,4 +263,30 @@
 		    PROJECT_NO= #{proNum}
 	</update>
 	
+	<select id="homeProjectList" parameterType="_int" resultMap="projectResultMap">
+		SELECT ROWNUM, A.* 
+		FROM
+			(SELECT P.PROJECT_NO,
+			       P.PROJECT_MAKE,
+			       P.PARTICIPANT,
+			       P.PROJECT_TITLE,
+			       P.PROJECT_CONTENT, 
+			       P.START_DATE,
+			       P.DUE_DATE,
+			       P.STATUS,
+			       M.USER_NAME,
+			       M.RANK,
+			       D.DEPT_NAME,
+			       (SELECT COUNT(*) FROM PROJECT) AS PCOUNT,
+			       NVL2(B.USER_ID, 'Y','N') AS BOOKMARK
+			FROM PROJECT P
+			LEFT OUTER JOIN (SELECT USER_ID, PROJECT_NO FROM BOOKMARK WHERE USER_ID=#{userNo}) B
+			ON (P.PROJECT_NO = B.PROJECT_NO)
+			JOIN MEMBER M ON(P.PROJECT_MAKE = M.USER_NO)
+			JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
+			WHERE P.STATUS ='Y'
+			ORDER BY P.PROJECT_NO DESC) A
+		<![CDATA[WHERE ROWNUM < 7]]>
+	</select>
+	
 </mapper>

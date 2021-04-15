@@ -189,5 +189,11 @@ public class MessageSercviceImpl implements MessageService {
 		return result;
 	}
 
+	@Override
+	public List<Message> getHomeReceiveList(int msgTo) {
+		
+		return MessageDao.getHomeReceiveList(msgTo);
+	}
+
 
 }

@@ -40,7 +40,7 @@
       </div>
       <div class="header_userInfo">
         <ul id="header_user">
-          <li><a href="#">${ loginMember.user_name } ${ loginMember.rank }</a>
+          <li><a href="#">${ loginMember.user_name } ${ loginMember.rank } </a>
             <ul>
               <li><a href="#">Logout</a></li>
               <li><a href="#">MyPage</a></li>
@@ -55,11 +55,11 @@
       <ul>
         <li><a href="${path}/home"><i class="fas fa-home home_contents"></i></a></li>
         <li><a href="${path}/notice/list"><i class="fas fa-bullhorn home_contents"></i></a></li>
-        <c:if test="${unreadCheck == 0}">
+        <c:if test="${unreadCheck == 0 || unreadCheck == null}">
 	        <li><a href="${path}/message/list"><i class="far fa-envelope home_contents"></i></a></li>
         </c:if>
-        <c:if test="${unreadCheck != 0}">
-	        <li><a href="${path}/message/list" style="color:#82F9B7;"><i class="far fa-envelope home_contents"></i></a></li>
+        <c:if test="${unreadCheck != 0 && unreadCheck != null}">
+	        <li><a href="${path}/message/list" style="color:#a484f3;"><i class="far fa-envelope home_contents"></i></a></li>
         </c:if>
         <li><a href="${path}/memberInfo/list"><i class="fas fa-users home_contents"></i></a></li>
         <li><a href="#"><i class="far fa-calendar-alt home_contents"></i></a></li>

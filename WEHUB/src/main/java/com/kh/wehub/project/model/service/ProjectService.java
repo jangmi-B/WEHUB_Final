@@ -38,4 +38,6 @@ public interface ProjectService {
 
 	int closeProject(int proNo);
 
+	List<Project> homeProjectList(int user_no); //home화면 리스트 불러오기
+
 }

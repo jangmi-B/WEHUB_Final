@@ -18,4 +18,6 @@ public interface MemoDao {
 
 	int insertMemo(Map<String, Object> map);
 
+	int clearMemo(int userNo);
+
 }
