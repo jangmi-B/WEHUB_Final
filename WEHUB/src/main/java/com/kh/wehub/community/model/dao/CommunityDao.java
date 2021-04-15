@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import com.kh.wehub.common.util.PageInfo;
@@ -16,9 +17,9 @@ public interface CommunityDao {
 
 	int communityCount(String searchText);
 	
-	List<Community> selectList(RowBounds rowBounds, String searchText);
+	List<Community> selectList(RowBounds rowBounds, HashMap<Object, Object> map);
 	
-	Community selectView(int no);
+	Community selectView(@Param("no") int no, @Param("userNo")int userNo);
 
 	int insert(HashMap<Object, Object> map);
 
@@ -31,6 +32,16 @@ public interface CommunityDao {
 	int CountMyPage(int user_no);
 
 	List<Community> selectMyList(RowBounds rowBounds, String userId);
+
+	int insertMark(@Param("no") int no, @Param("userNo") int userNo);
+
+	int deleteMark(@Param("no") int no, @Param("userNo") int userNo);
+
+	int getCommunityCount_favPage();
+
+	List<Community> favList(RowBounds rowBounds, int user_no);
+
+	List<Community> selectMainList();
 
 
 

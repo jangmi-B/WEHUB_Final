@@ -9,9 +9,9 @@ import com.kh.wehub.member.model.vo.Member;
 
 public interface CommunityService {
 
-	List<Community> selectList(PageInfo pageInfo, String cM_searchText);
+	List<Community> selectList(PageInfo pageInfo, String cM_searchText, int userNo);
 
-	Community selectView(int no);
+	Community selectView(int no, int userNo);
 
 	int insert(String title, String text, int user_no);
 
@@ -26,6 +26,16 @@ public interface CommunityService {
 	int getCommunityCount_MyPage(int user_no);
 
 	List<Community> selectMyList(PageInfo pageInfo,Member loginMember);
+
+	int insertMark(int no, int userNo);
+
+	int deleteMark(int no, int userNo);
+
+	int getCommunityCount_favPage();
+
+	List<Community> selectFavList(PageInfo pageInfo, int user_no);
+	// main화면 리스트 불러오기
+	List<Community> selectMainList();
 
 
 }

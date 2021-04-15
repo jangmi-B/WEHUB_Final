@@ -16,8 +16,8 @@
 	        <li class="CM-form">보관함
 	            <div>
 	                <ul>
-	                    <li><a href="">-내가 작성한 목록</a></li>
-	                    <li><a href="${path}/community/myList">-즐겨찾기</a></li>
+	                    <li><a href="${path}/community/myList">-내가 작성한 목록</a></li>
+	                    <li><a href="${path}/community/favList">-즐겨찾기</a></li>
 	                </ul>
 	            </div>
 	        </li>
@@ -41,7 +41,7 @@
 			    		</c:when>
 			    		<c:when test="${ list != null}">
 		   					<c:forEach var="list" items="${list}">
-							        <tr id='tag_TR${list.cm_no}' style='cursor:pointer;' class='tag_TR' onclick="view(${list.cm_no})">
+							        <tr id='tag_TR${list.rownum}' style='cursor:pointer;' class='tag_TR' onclick="view(${list.cm_no})">
 							            <td id='listNo' style='border-right: 1px solid cornsilk;'>${list.cm_no}</td>
 							            <td style='border-right: 1px solid cornsilk;'>${list.cm_title}</td>
 							            <td style='border-right: 1px solid cornsilk;'>${list.cm_readCount}</td>
@@ -55,7 +55,7 @@
 		</form>
 		<div id="CM_Content1" style="text-align: center;">
 			<button style=" font-size: 18px; border:none; background:none; cursor:pointer;" onclick="location.href='${path}/community/myList?page=1'">처음페이지</button>
-			<button style="font-size: 18px; border:none; background:none; cursor:pointer;" onclick="location.href='${path}/community/myList?page='${pageInfo.getPrvePage()}">&lt;&lt;</button>
+			<button style="font-size: 18px; border:none; background:none; cursor:pointer;" onclick="location.href='${path}/community/myList?page=${pageInfo.getPrvePage()}'">&lt;&lt;</button>
 			<c:forEach var="page" begin="${pageInfo.getStartPage()}" end="${pageInfo.getEndPage()}">
 		    	<c:choose>
 		    		<c:when test="${page} == ${pageInfo.getCurrentPage()}">
@@ -66,8 +66,8 @@
 		    		</c:otherwise>
 		    	</c:choose>
 		    </c:forEach>
-			<button style="font-size: 18px; border:none; background:none; cursor:pointer;" onclick="location.href='${path}/community/myList?page='${pageInfo.getNextPage()}">&gt;&gt;</button>
-			<button style="font-size: 18px; border:none; background:none; cursor:pointer;" onclick="location.href='${path}/community/myList?page='${pageInfo.getMaxPage()}">마지막페이지</button>
+			<button style="font-size: 18px; border:none; background:none; cursor:pointer;" onclick="location.href='${path}/community/myList?page=${pageInfo.getNextPage()}'">&gt;&gt;</button>
+			<button style="font-size: 18px; border:none; background:none; cursor:pointer;" onclick="location.href='${path}/community/myList?page=${pageInfo.getMaxPage()}'">마지막페이지</button>
 		</div>
 	<script>
 	$(document).ready(function () {
@@ -86,11 +86,14 @@
 				success:function(data) {
 					console.log(data)
 					
-					$('#listform').remove();
-					$('#CM_Content1').remove();
-					$('#viewForm').remove();
-					$('#returnList').remove();
-					$('#searchArea').remove();
+				$('#listform').remove();
+				$('#CM_Content1').remove();
+				$('#viewForm').remove();
+				$('#returnList').remove();
+				$('#searchArea').remove();
+				$('#updateList').remove();
+				$('#deleteList').remove();
+					
 					var form = $("<form id='writeForm' action='/community/writeView' method='get' enctype='multipart/form-data'></form>").insertAfter('.CM-index_section');
 						var divFirst = $("<div style='height: 600px; margin: 100px 400px 80px 500px; font-size: 23px; border: 1px solid; border-radius: 10px;'></div>").appendTo(form);
 						$("<span style='display: block; float: left;'></span>").text("작성자 : " + data.user_name).appendTo(divFirst);
@@ -102,7 +105,7 @@
 						});
 						$("<button id='cancelBtn' style='background: none;border-radius: 8px;width: 100px;height: 30px;font-size: 20px;'>취소</button>").insertAfter(form);
 						$("<button id='insertBtn' style='margin: 0px 100px 0px 45%;background: none;border-radius: 8px;width: 100px;height: 30px;font-size: 20px;'>등록</button>").insertAfter(form);
-						
+								
 						$('#insertBtn').on('click', function() {
 							var title = $('#cm_title').val();
 							var text = CKEDITOR.instances.writeArea.getData();
@@ -160,10 +163,10 @@
 				var form = $("<form id='viewForm'></form>").insertAfter('.CM-index_section');
 				var divFirst = $("<div style='height: 600px; margin: 100px 400px 80px 500px; font-size: 23px; border: 1px solid; border-radius: 10px;'></div>").appendTo(form);
 				
-					$("<span style='display: block; float: left;'></span>").text("작성자 : " + data.view.user_name).appendTo(divFirst);
+					$("<span style='display: block; float: left; padding: 0px 0px 0px 10px; font-weight: 900;'></span>").text("작성자 : " + data.view.user_name).appendTo(divFirst);
 					$("<span style='display: block; text-align: end; border-bottom:1px solid black;'></span>").text("ID : " + data.view.user_id).appendTo(divFirst);
-					$("<label style='display: block; border-bottom: 1px solid;height: 40px;'>제목 :"+data.view.cm_title+"</label>").appendTo(divFirst);
-					$("<div class='viewArea' id='viewArea'>"+data.view.cm_content+"</div>").appendTo(divFirst);
+					$("<label style='display: block; border-bottom: 1px solid;height: 40px; padding-top: 6px; text-align: center; font-weight: 600;'>"+data.view.cm_title+"</label>").appendTo(divFirst);
+					$("<div class='viewArea' id='viewArea' style='padding: 10px; overflow: scroll; height: 500px;'>"+data.view.cm_content+"</div>").appendTo(divFirst);
 					
 					if(data.loginMember.user_no == data.view.user_no){
 						$("<button id='deleteList' style='width: 150px; cursor: pointer; border:none; background:none; font-size:25px;' type='button' >삭제</button>").insertAfter(form);
@@ -234,14 +237,18 @@
 		});
 	}
 	
-	function updateBtn(no) {
+function updateBtn(no) {
 		
 		$.ajax({
 			type:"GET",
 			url:"writeView",
+			data:{
+				no:no,
+			},
 			
 			success:function(data) {
-				console.log(data)
+				console.log(data.member);
+				console.log(data.view);
 				
 				$('#listform').remove();
 				$('#CM_Content1').remove();
@@ -253,15 +260,20 @@
 				
 				var form = $("<form id='writeForm' action='/community/writeView' method='get' enctype='multipart/form-data'></form>").insertAfter('.CM-index_section');
 					var divFirst = $("<div style='height: 600px; margin: 100px 400px 80px 500px; font-size: 23px; border: 1px solid; border-radius: 10px;'></div>").appendTo(form);
-					$("<span style='display: block; float: left;'></span>").text("작성자 : " + data.user_name).appendTo(divFirst);
-					$("<span style='display: block; text-align: end;'></span>").text("ID : " + data.user_id).appendTo(divFirst);
-					$("<label style='display: block; border: 1px solid; border-radius: 10px;height: 50px;'>제목 : <input id='cm_title' type='text' style='width: 90%;height:100%;border: none; font-size: 23px;'></label>").appendTo(divFirst);
+					$("<span style='display: block; float: left;'></span>").text("작성자 : " + data.member.user_name).appendTo(divFirst);
+					$("<span style='display: block; text-align: end;'></span>").text("ID : " + data.member.user_id).appendTo(divFirst);
+					$("<label style='display: block; border: 1px solid; border-radius: 10px;height: 50px;'>제목 : <input id='cm_title' type='text' value='"+data.view.cm_title+"' style='width: 90%;height:100%;border: none; font-size: 23px;'></label>").appendTo(divFirst);
 					$("<textarea class='writeArea' id='writeArea'></textarea>").appendTo(divFirst);
-					CKEDITOR.replace("writeArea",{
-						filebrowserUploadUrl:'${path}/community/upload'
-					});
+						CKEDITOR.replace("writeArea",{
+							filebrowserUploadUrl:'${path}/community/upload'
+						});
+						CKEDITOR.instances.writeArea.setData(data.view.cm_content);
 					$("<button id='cancelBtn' style='background: none;border-radius: 8px;width: 100px;height: 30px;font-size: 20px;'>취소</button>").insertAfter(form);
 					$("<button id='insertBtn' style='margin: 0px 100px 0px 45%;background: none;border-radius: 8px;width: 100px;height: 30px;font-size: 20px;'>등록</button>").insertAfter(form);
+					
+					$('#cancelBtn').on('click',function() {
+						location.href="${path}/community/list"
+					});
 					
 					$('#insertBtn').on('click', function() {
 						var title = $('#cm_title').val();
@@ -284,7 +296,7 @@
 									no: no,
 								},
 								success:function(data) {
-									location.href="${path}/community/myList"
+									location.href="${path}/community/list"
 								},
 								error: function(error){
 									console.log("오류오류");

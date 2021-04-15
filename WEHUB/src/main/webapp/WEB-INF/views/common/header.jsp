@@ -64,8 +64,3 @@
       </ul>
     </div>
     
-    <script>
-  
-    
-    </script>
-

@@ -135,6 +135,11 @@ public class BoardServiceImpl implements BoardService {
 		return result;
 	}
 
+	@Override
+	public List<Notice> selectList() {
+		return boardDao.selectMainList();
+	}
+
 
 
 

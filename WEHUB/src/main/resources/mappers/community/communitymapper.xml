@@ -11,7 +11,9 @@
 		<result property="cm_readCount" column="CM_READCOUNT"/>
 		<result property="cm_date" column="CM_DATE"/>
 		<result property="cm_modify_date" column="CM_MODIFY_DATE"/>
+		<result property="cm_Mark" column="CM_BOOKMARK"/>
 		<result property="cm_status" column="CM_STATUS"/>
+		
 	</resultMap>
 	
 	<resultMap type="Member" id="memberResultMap">
@@ -29,7 +31,7 @@
 		<id property="dept_code" column="DEPT_CODE"/>
 	</resultMap>
 	
-	<select id="selectList" parameterType="string" resultMap="CommunityResultMap">
+	<select id="selectList" parameterType="map" resultMap="CommunityResultMap">
 		SELECT ROWNUM, A.* FROM (
 		SELECT C.CM_NO,
 		       C.USER_NO,
@@ -39,8 +41,11 @@
                C.CM_READCOUNT,
                C.CM_DATE,
                C.CM_MODIFY_DATE,
-               C.CM_STATUS
+               C.CM_STATUS,
+               NVL2(B.USER_NO,'Y','N') AS CM_BOOKMARK
 		FROM  COMMUNITY C
+		LEFT OUTER JOIN (SELECT USER_NO, CM_NO FROM CM_BOOKMARK WHERE USER_NO=#{userNo}) B
+       	ON (C.CM_NO = B.CM_NO)
 		JOIN MEMBER M ON(C.USER_NO = M.USER_NO)
 		WHERE C.CM_STATUS = 'Y'
 		<if test="searchText != 'null'">
@@ -86,18 +91,21 @@
 
 	<select id="selectView" parameterType="_int" resultMap="CommunityResultMap">
 		SELECT C.CM_NO,
-		C.USER_NO,
-		M.USER_NAME,
-		M.USER_ID, 
-		C.CM_TITLE, 
-		C.CM_CONTENT, 
-		C.CM_READCOUNT, 
-		C.CM_DATE, 
-		C.CM_MODIFY_DATE, 
-		C.CM_STATUS
-		FROM COMMUNITY C
+			C.USER_NO,
+			M.USER_NAME,
+			M.USER_ID, 
+			C.CM_TITLE, 
+			C.CM_CONTENT, 
+			C.CM_READCOUNT, 
+			C.CM_DATE, 
+			C.CM_MODIFY_DATE, 
+			C.CM_STATUS,
+			NVL2(B.USER_NO,'Y','N') AS CM_BOOKMARK
+		FROM  COMMUNITY C
+		LEFT OUTER JOIN (SELECT USER_NO, CM_NO FROM CM_BOOKMARK WHERE USER_NO=#{userNo}) B
+       	ON (C.CM_NO = B.CM_NO)
 		JOIN MEMBER M ON (M.USER_NO = C.USER_NO)
-		WHERE CM_NO = #{no}
+		WHERE C.CM_NO = #{no}
 		ORDER BY C.CM_DATE DESC
 	</select>
 	
@@ -127,7 +135,8 @@
 		UPDATE COMMUNITY
 		SET
 			CM_TITLE = #{title},
-			CM_CONTENT = #{text}
+			CM_CONTENT = #{text},
+			CM_MODIFY_DATE = SYSDATE
 		WHERE
 			CM_NO=#{no}
 	</update>
@@ -139,5 +148,56 @@
 		WHERE
 			CM_NO =#{no}
 	</update>
+	
+	<insert id="insertMark" parameterType="_int">
+		INSERT INTO CM_BOOKMARK VALUES(
+			SEQ_BM_NO.NEXTVAL,
+			#{userNo},
+			#{no}
+		)
+	</insert>
+	
+	<delete id="deleteMark" parameterType="_int">
+		DELETE FROM CM_BOOKMARK
+		WHERE USER_NO=#{userNo} AND CM_NO=#{no}
+	</delete>
+	
+	<select id="getCommunityCount_favPage" resultType="_int">
+		SELECT COUNT(*)
+		FROM CM_BOOKMARK
+	</select>
+	
+	<select id="favList" parameterType="_int" resultMap="CommunityResultMap">
+		SELECT C.CM_NO,
+			C.USER_NO,
+			M.USER_NAME,
+			M.USER_ID, 
+			C.CM_TITLE, 
+			C.CM_CONTENT, 
+			C.CM_READCOUNT, 
+			C.CM_DATE, 
+			C.CM_MODIFY_DATE, 
+			C.CM_STATUS,
+			NVL2(B.USER_NO,'Y','N') AS CM_BOOKMARK
+		FROM  COMMUNITY C
+		LEFT OUTER JOIN (SELECT USER_NO, CM_NO FROM CM_BOOKMARK WHERE USER_NO=#{user_no}) B
+       	ON (C.CM_NO = B.CM_NO)
+		JOIN MEMBER M ON (M.USER_NO = C.USER_NO)
+        WHERE B.USER_NO = #{user_no}
+		ORDER BY C.CM_DATE DESC
+	</select>
+	
+	<select id="selectMainList" resultMap="CommunityResultMap">
+		SELECT CM_NO,
+			   USER_NO,
+			   CM_TITLE,
+			   CM_CONTENT, 
+			   CM_READCOUNT, 
+			   CM_DATE, 
+			   CM_MODIFY_DATE
+		FROM COMMUNITY
+		WHERE CM_STATUS = 'Y'
+		ORDER BY CM_DATE DESC 
+	</select>
 	
 </mapper>

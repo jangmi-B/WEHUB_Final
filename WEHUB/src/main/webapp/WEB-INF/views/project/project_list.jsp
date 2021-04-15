@@ -39,7 +39,7 @@
 	          </div>
 	          <div class="projectdivInfo pj${ status.count }">
 	            <span style=""><c:out value="${projectList.userName}"/>님 외 총 <c:out value="${projectList.projectCount}"/>명</span>
-	            <a href="javascript:clickFav(${projectList.projectNo})" id="favBtn" class="fav${projectList.bookmark}"><i class="fas fa-star"></i></a>
+	            <a href="javascript:clickFav(${projectList.projectNo})" id="favBtn" class="fav${projectList.bookmark}" style="font-size:30px;"><i class="fas fa-star"></i></a>
 	          </div>
 	        </div>
 	        <div class="modal_project fade proNo${projectList.projectNo}">
@@ -147,6 +147,8 @@
 	}
 	
 	function clickFav(proNum){
+		var className = $('#favBtn').attr('class');
+		console.log(classId);
 		$.ajax({
 			type: "post",
 			url:"${path}/project/makeFav",
@@ -154,8 +156,13 @@
 				proNum:proNum
 			},
 			success:function(data){
-				location.reload();
-				/* location.href="${path}/project/list"; */
+				if(className == 'favY'){
+					$('#favBtn').attr('class','favN');
+					$('#favBtn').css('color', 'white');
+				}else {
+					$('#favBtn').attr('class','favY');
+					$('#favBtn').css('color', 'yellow');
+				}
 			},
 			error: function(e){
 				alert("즐겨찾기 실패");

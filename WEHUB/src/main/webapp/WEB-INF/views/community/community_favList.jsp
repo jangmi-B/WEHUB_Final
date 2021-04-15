@@ -18,15 +18,13 @@
 	            <div>
 	                <ul>
 	                    <li><a href="${path}/community/myList">-내가 작성한 목록</a></li>
-	                    <li><a href="${path}/community/favList">-즐겨찾기</a></li>
+	                    <li><a href="">-즐겨찾기</a></li>
 	                </ul>
 	            </div>
 	        </li>
 	    </div>
 		<form id="listform" method="get" action="${path}/community/list">
-	    <div id="searchArea">
-	 		<input type="text" name="CM_searchText" placeholder="검색" style="border-radius: 18px; width: 450px; height: 39px; text-align: center; margin: 40px 0px 0px 36%">	
-	        <button type="submit" style='border: none; background: none;' ><i class="fas fa-search" style='font-size: 25px;cursor: pointer;'></i></button>	    
+	    <div id="searchArea" style="margin: 40px 0px 0px 65%;">
 	    </div>
 			<table id="CM-table" style=" margin: 30px 0px 30px 470px; border-radius: 10px;	border:1px solid darkblue; line-height : 4;">
 				<thead style="text-align: center;">
@@ -57,7 +55,6 @@
 			</table>
 		</form>
 		<div id="CM_Content1" style="text-align: center;">
-		<c:if test="${CM_searchText == null}">
 			<button style=" font-size: 18px; border:none; background:none; cursor:pointer;" onclick="location.href='${path}/community/list?page=1'">처음페이지</button>
 			<button style="font-size: 18px; border:none; background:none; cursor:pointer;" onclick="location.href='${path}/community/list?page=${pageInfo.getPrvePage()}'">&lt;&lt;</button>
 			<c:forEach var="page" begin="${pageInfo.getStartPage()}" end="${pageInfo.getEndPage()}">
@@ -72,21 +69,6 @@
 		    </c:forEach>
 			<button style="font-size: 18px; border:none; background:none; cursor:pointer;" onclick="location.href='${path}/community/list?page=${pageInfo.getNextPage()}'">&gt;&gt;</button>
 			<button style="font-size: 18px; border:none; background:none; cursor:pointer;" onclick="location.href='${path}/community/list?page=${pageInfo.getMaxPage()}'">마지막페이지</button>
-		</c:if>
-		<c:if test="${CM_searchText != null}">
-			<button style=" font-size: 18px; border:none; background:none; cursor:pointer;" onclick="location.href='${path}/community/list?CM_searchText=${CM_searchText}&page=1'">처음페이지</button>
-			<button style="font-size: 18px; border:none; background:none; cursor:pointer;" onclick="location.href='${path}/community/list?CM_searchText=${CM_searchText}&page=${pageInfo.getPrvePage()}'">&lt;&lt;</button>
-			<c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
-		    		<c:if test="${status.current == pageInfo.currentPage}">
-		    			<button style="font-size: 18px; border:none; background:none; cursor:pointer;" disabled><c:out value="${status.current}"/></button>
-		    		</c:if>
-		    		<c:if test="${status.current != pageInfo.currentPage}">
-					    <button style="font-size: 18px; border:none; background:none; cursor:pointer;" onclick="location.href='${path}/community/list?CM_searchText=${CM_searchText}&page=${status.current}'"><c:out value="${status.current}"/></button>
-					</c:if>
-		    </c:forEach>
-			<button style="font-size: 18px; border:none; background:none; cursor:pointer;" onclick="location.href='${path}/community/list?CM_searchText=${CM_searchText}&page=${pageInfo.getNextPage()}'">&gt;&gt;</button>
-			<button style="font-size: 18px; border:none; background:none; cursor:pointer;" onclick="location.href='${path}/community/list?CM_searchText=${CM_searchText}&page=${pageInfo.getMaxPage()}'">마지막페이지</button>
-		</c:if>
 		</div>
 		
 		<div class="modal fade">
@@ -282,7 +264,7 @@
 				});
 				
 				$('#returnList').on('click', function() {
-					location.href="${path}/community/list"
+					location.href="${path}/community/favList"
 				});
 				
 				$('#updateList').on('click', function() {
@@ -341,7 +323,7 @@
 		});
 	}
 	
-	function updateBtn(no) {
+function updateBtn(no) {
 		
 		$.ajax({
 			type:"GET",

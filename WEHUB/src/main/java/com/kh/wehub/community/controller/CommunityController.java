@@ -32,6 +32,8 @@ import com.kh.wehub.community.model.dao.CommunityDao;
 import com.kh.wehub.community.model.service.CommunityService;
 import com.kh.wehub.community.model.vo.Community;
 import com.kh.wehub.member.model.vo.Member;
+import com.kh.wehub.message.model.service.MessageService;
+import com.kh.wehub.message.model.vo.Message;
 
 @Controller
 @SessionAttributes("loginMember")
@@ -42,6 +44,8 @@ public class CommunityController {
 	
 	@Autowired
 	private CommunityDao dao;
+	
+	@Autowired MessageService MsgService;
 
 	@RequestMapping(value="community/list", method= {RequestMethod.GET})
 	public ModelAndView communityList(@SessionAttribute("loginMember") Member loginMember,
@@ -53,11 +57,13 @@ public class CommunityController {
 		
 		PageInfo pageInfo = new PageInfo(page, 10, communityCount, listLimit);
 		
-		List<Community> list = service.selectList(pageInfo, CM_searchText);
+		List<Community> list = service.selectList(pageInfo, CM_searchText, loginMember.getUser_no());
 		
 		if(CM_searchText != null) {
 			model.addObject("CM_searchText",CM_searchText);
 		}
+		
+		System.out.println(list);
 		
 		model.addObject("list", list);
 		model.addObject("pageInfo", pageInfo);
@@ -103,7 +109,7 @@ public class CommunityController {
 				resp.addCookie(cookie);
 			}
 		
-		Community view = service.selectView(no);
+		Community view = service.selectView(no, loginMember.getUser_no());
 		
 		if(!hasRead) {
 			// DB저장로직 작성하기
@@ -130,9 +136,16 @@ public class CommunityController {
 	
 	@RequestMapping(value="community/writeView", method= {RequestMethod.GET})
 	@ResponseBody
-	public Member loginMember(@SessionAttribute("loginMember") Member member) {
+	public HashMap<Object, Object> loginMember(@SessionAttribute("loginMember") Member member, @RequestParam("no") int no) {
 		
-		return member;
+		Community view = service.selectView(no, member.getUser_no());
+		
+		HashMap<Object, Object> map = new HashMap<Object, Object>();
+		
+		map.put("view", view);
+		map.put("member", member);
+		
+		return map;
 	}
 	
 	@RequestMapping(value="community/write", method= {RequestMethod.POST})
@@ -188,6 +201,67 @@ public class CommunityController {
 		model.addObject("list", list);
 		model.addObject("pageInfo", pageInfo);
 		model.setViewName("/community/community_myList");
+		
+		return model;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/community/Msgsend", method = {RequestMethod.POST})
+	public void noticeWrite(
+			@SessionAttribute(name="loginMember", required=false) Member loginMember, 
+			Message Message) { 
+		
+		int result = 0;
+		
+		result = MsgService.sendMsg(Message);
+
+		if(result > 0) {
+			System.out.println("전송완료");
+		} else {
+			System.out.println("전송실패");
+		}
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="/community/bookmark", method= {RequestMethod.POST})
+	public void CM_bookMark(@RequestParam("no") int no, @RequestParam("userNo") int userNo) {
+		
+		int result = 0;
+		
+		System.out.println(userNo);
+		
+		result = service.insertMark(no, userNo);
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/community/deleteMark", method= {RequestMethod.POST})
+	public void CM_deleteMark(@RequestParam("no") int no, @RequestParam("userNo") int userNo) {
+		
+		int result = 0;
+		
+		System.out.println(userNo);
+		
+		result = service.deleteMark(no, userNo);
+		
+	}
+	
+	@RequestMapping(value="community/favList", method= {RequestMethod.GET})
+	public ModelAndView favList(@SessionAttribute("loginMember") Member loginMember,
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+			@RequestParam(value = "listLimit", required = false, defaultValue = "10") int listLimit,
+			ModelAndView model) {
+		
+		int communityFavCount = service.getCommunityCount_favPage();
+		
+		PageInfo pageInfo = new PageInfo(page, 10, communityFavCount, listLimit);
+		
+		List<Community> list = service.selectFavList(pageInfo, loginMember.getUser_no());
+		
+		model.addObject("list", list);
+		model.addObject("pageInfo", pageInfo);
+		model.setViewName("/community/community_favList");
 		
 		return model;
 	}

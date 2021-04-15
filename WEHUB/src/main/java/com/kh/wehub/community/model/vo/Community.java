@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 
 public class Community {
 
+	private int rownum;
+	
 	private int cm_no;
 	
 	private int user_no;
@@ -33,6 +35,8 @@ public class Community {
 	
 //	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	private Date cm_modify_date;
+	
+	private String cm_Mark;
 	
 	private String cm_status;
 	

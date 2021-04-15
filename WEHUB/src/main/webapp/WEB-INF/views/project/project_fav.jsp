@@ -147,6 +147,7 @@ function projectView(projectNo){
 }
 
 function clickFav(proNum){
+	
 	$.ajax({
 		type: "post",
 		url:"${path}/project/makeFav",

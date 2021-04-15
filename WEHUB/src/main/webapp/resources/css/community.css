@@ -61,7 +61,7 @@ section > .CM-index_section {
 }
 
 .tag_TR:hover{
-	box-shadow: 1px 2px 7px black;
+	box-shadow: 1px 2px 7px slategrey;
 }
 
 a:visited {color:black};
@@ -89,6 +89,12 @@ a:visited {color:black};
 #deleteList:hover {
 	box-shadow: 1px 2px 7px rebeccapurple;
 }
+
+#cm_mark:hover{
+	cursor:pointer;
+    box-shadow: 0px 4px 8px cornflowerblue;
+}
+
 
 .swal-footer{
 	text-align:center;

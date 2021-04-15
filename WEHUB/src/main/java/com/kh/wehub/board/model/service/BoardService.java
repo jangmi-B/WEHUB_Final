@@ -37,4 +37,7 @@ public interface BoardService {
 	// 댓글 삭제
 	int deleteComments(int commentsNo);
 
+	//메인화면에 불러오기
+	List<Notice> selectList();
+
 }

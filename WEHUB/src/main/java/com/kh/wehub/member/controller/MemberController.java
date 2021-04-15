@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.wehub.board.model.service.BoardService;
+import com.kh.wehub.board.model.vo.Notice;
+import com.kh.wehub.community.model.service.CommunityService;
+import com.kh.wehub.community.model.vo.Community;
 import com.kh.wehub.member.model.service.MemberService;
 import com.kh.wehub.member.model.vo.Member;
 import com.kh.wehub.schedule.model.service.ScheduleService;
@@ -26,6 +30,12 @@ public class MemberController {
 	
 	@Autowired
 	private ScheduleService ScheduleService;
+	
+	@Autowired
+	private CommunityService communityService;
+	
+	@Autowired
+	private BoardService boardService;
 	
 	@RequestMapping(value="/login", method={RequestMethod.POST})
 	public ModelAndView login(ModelAndView model, @RequestParam("userId") String userId, 
@@ -50,18 +60,29 @@ public class MemberController {
 	@RequestMapping(value = "/home")
 	public ModelAndView home(ModelAndView model,
 			@SessionAttribute("loginMember")Member loginMember) {
-			
+		//세션유저
+		model.addObject("loginMember",loginMember);
+		
+		//오늘 일정 Section
 		DateTime dt = new DateTime();
 		String today = dt.toString("yyyy M d");
 		String[] arr = today.split(" ");
 		
-		
 		List<DateData> todaySchedule = ScheduleService.todaySchedule(loginMember, arr);
 		
-		
 		model.addObject("todaySchedule",todaySchedule);
-		model.addObject("loginMember",loginMember);
 		model.setViewName("/home");
+		//---------------------------------------------------------------------------------
+		//커뮤니티 Section
+		List<Community> communityList = communityService.selectMainList();
+		
+		model.addObject("communityList", communityList);
+		//---------------------------------------------------------------------------------
+		//공지사항 Section
+		List<Notice> NoticeList = boardService.selectList(); 
+		System.out.println(NoticeList);
+		model.addObject("NoticeList", NoticeList);
+		
 		
 		return model;
 	}
