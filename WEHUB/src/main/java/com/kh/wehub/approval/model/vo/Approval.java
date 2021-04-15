@@ -100,6 +100,8 @@ public class Approval {
    
    private String erSlassify; // 계정과목
    
+   private String allAmount;
+   
    private String erTitle;
    
    private String erDetail; // 적요

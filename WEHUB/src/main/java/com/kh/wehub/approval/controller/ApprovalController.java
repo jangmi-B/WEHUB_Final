@@ -124,6 +124,8 @@ public class ApprovalController {
 	public ModelAndView letterOfApproval(@SessionAttribute(name = "loginMember", required = false) 
 												Member loginMember, ModelAndView model, Member member) {
 		
+		System.out.println("loginMember : " + loginMember);
+		
 		Date date = new Date();
 		//DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, locale);
 
@@ -356,36 +358,68 @@ public class ApprovalController {
 		return model;
 	}
 	
+	/** 수신참조자 모달 내 멤버 리스트 불러오기 (leaveApplication) */
 	
+	@RequestMapping(value = "/leaveApplication", method = { RequestMethod.GET })
+	public ModelAndView leaveApplication(@SessionAttribute(name = "loginMember", required = false) 
+												Member loginMember, ModelAndView model, Member member) {
+		
+		System.out.println("loginMember : " + loginMember);
+		
+		List<Member> memberList = null;
+		
+		memberList = service2.selectMemberAllForApproval(loginMember.getUser_id());
+		
+		System.out.println("memberList : " + memberList);
+		
+		model.addObject("memberList", memberList);
+		model.setViewName("approval/leaveApplication");
+		
+		return model;
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/** 수신참조자 모달 내 멤버 리스트 불러오기 (expenseReport) */
 	
 	@RequestMapping(value = "/expenseReport", method = { RequestMethod.GET })
-	public String expenseReport(@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+	public ModelAndView expenseReport(@SessionAttribute(name = "loginMember", required = false) 
+												Member loginMember, ModelAndView model, Member member) {
 		
-		return "/approval/expenseReport";
+		System.out.println("loginMember : " + loginMember);
+		
+		List<Member> memberList = null;
+		
+		memberList = service2.selectMemberAllForApproval(loginMember.getUser_id());
+		
+		System.out.println("memberList : " + memberList);
+		
+		model.addObject("memberList", memberList);
+		model.setViewName("approval/expenseReport");
+		
+		return model;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 	
 	@RequestMapping(value = "/expenseReportView", method = { RequestMethod.GET })
 	public String expenseReportView(@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
