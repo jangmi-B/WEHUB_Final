@@ -67,16 +67,18 @@
                 	</td>
                 </tr>
                 <tr>
-                    <td colspan="8" style="height: 50px;">수신참조자</td>
-                </tr>
-                <tr>
-                	<td colspan="8" style="height: 50px;"></td>
+                    <td colspan="2" style="height: 70px;">
+                        <button class="send-open" type="button">수신참조자 +</button>
+                    </td>
+                    <td colspan="6" style="height: 70px;">
+                    	<textArea readonly name="referList" id="referList" style="border:none;margin-bottom:-12px; font-size:19px; width:600px; height:60px; text-align: center; resize: none;"></textArea>
+                    </td>	
                 </tr>
                 <tr>
                     <td style="height: 70px; width: 80px; font-family: 'InfinitySans-RegularA1'; font-size: 15px;">성 명</td>
-                    <td><input type="text" name="" value="${ loginMember.user_name }" readonly></td>
+                    <td><input type="text" name="writerName" value="${ loginMember.user_name }" readonly></td>
                     <td style="width: 80px; font-family: 'InfinitySans-RegularA1'; font-size: 15px;">부 서</td>
-                    <td><input type="text" value="${ loginMember.dept_code }" readonly></td>
+                    <td><input type="text" value="${ loginMember.dept_name }" readonly></td>
                     <td style="width: 80px; font-family: 'InfinitySans-RegularA1'; font-size: 15px;">직 급</td>
                     <td colspan="3"><input type="text" value="${ loginMember.rank }" readonly></td>
                 </tr>
@@ -164,7 +166,9 @@
                 </tr>
                 <tr>
                     <td colspan="8" style="text-align: right; height: 100px; padding-right: 50px;">
-                        신청자 : <input type="text" style=" width:200px; border: none; text-align: center;" maxlength="4" value="${ loginMember.user_name }" readonly="readonly">
+                        <input type="button" name="proposer" id="proposer" style="font-size:15px; width:70px; height:30px; border: none; text-align: center; border-radius:20px; margin-right:10px" value="서명" />
+                        신청자 : 
+                        <textArea name="proposerText" id="proposerText" style="width:130px; border: none; text-align: center; resize: none; font-size:24px; margin-bottom:-42px"></textArea>
                         (인)
                     </td>
                 </tr>
@@ -221,10 +225,16 @@
 	    </div>
     </div>
     
-<script>
-	
-</script>
-
+	<!-- 서명 클릭 스크립트  -->
+    
+    <script>
+    	$("#proposer").one("click",function(){
+     		var proposerValue = $("input[name='writerName']").val();
+     	
+     		$("#proposerText").append(proposerValue);
+    	});
+    </script>
+<%@ include file="../approval/selectReferList.jsp" %>
 <%@ include file="appAutocomplete.jsp" %> <!-- 자동완성 Ajax & script -->
 
 <%@ include file="../common/footer.jsp" %>

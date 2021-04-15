@@ -16,10 +16,12 @@
 	         	PHONE,
 	         	ADDRESS,
 		        USER_STATUS,
-		        DEPT_CODE,
+		        M.DEPT_CODE,
+		        D.DEPT_NAME,
 		        USER_IMG_ORIFILENAME,
 		        USER_IMG_REFILENAME
-			FROM MEMBER
+			FROM MEMBER M
+			JOIN DEPARTMENT D ON D.DEPT_CODE = M.DEPT_CODE
 			WHERE USER_STATUS ='Y'
 	</sql>
 	
@@ -59,6 +61,7 @@
 		<result property="address" column="ADDRESS"/>
 		<result property="user_status" column="USER_STATUS"/>
 		<result property="dept_code" column="DEPT_CODE"/>		
+		<result property="dept_name" column="DEPT_NAME"/>		
 		<result property="user_imgOriname" column="USER_IMG_ORIFILENAME"/>
 		<result property="user_imgRename" column="USER_IMG_REFILENAME"/>
 
