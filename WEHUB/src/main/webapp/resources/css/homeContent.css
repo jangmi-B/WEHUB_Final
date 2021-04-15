@@ -10,22 +10,29 @@
   
   .flex-grid > div {
     flex: 1;
-    margin: 0 20px 20px 0;
+    margin: 0 20px 0px 0;
     padding: 15px;
     border: 1px solid #ddd;
     background: #fff;
-    border-radius: 20px;
+    border-radius: 10px;
+    box-shadow:1px 1px 2px lightgrey;
+    overflow: auto;
   }
   
   .flex-grid > div:last-child {
     margin-right: 0;
   }
   
+  .memoDiv{
+  	overflow: auto;
+  }
+  
+  
   .flex-grid h2 {
     margin: -15px -15px 15px -15px;
     padding: 12px 15px;
-    font-size: 14px;
-    font-weight: 400;
+    font-size: 16px;
+    font-weight: 600;
     border-bottom: 1px solid #ddd;
   }
   
@@ -47,20 +54,21 @@
   }
   
   #contentForm {
-      margin-top: 161px;
-      margin-left: 200px;
+      margin-top: 120px;
+      margin-left: 230px;
   }
   
-  #con1 {
+  .con1 {
       margin-left: 6px;
       margin-bottom: 1px;
-  }
+  }  
   
   .h2d>a {
       float: right;
       margin-right: 10px;
+      
   }
-  
+
   .search {
     width: 230px;
     margin-top:125px;
@@ -71,7 +79,7 @@
     padding-bottom: -3px;
     border-radius: 15px;
     color: lightgray;
-    border: 1px solid #5b18ff;
+    border: 2px solid #5b18ff;
     margin-bottom: -133px;
   }
   
@@ -101,3 +109,4 @@
     font-size: 13px;
     font-weight: 480;
   }
+  

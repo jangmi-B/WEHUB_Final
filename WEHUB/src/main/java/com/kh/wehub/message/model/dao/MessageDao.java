@@ -8,8 +8,6 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.kh.wehub.member.model.vo.Member;
 import com.kh.wehub.message.model.vo.Message;
-import com.kh.wehub.message.model.vo.ReceiveMessage;
-import com.kh.wehub.message.model.vo.SendMessage;
 
 @Mapper
 public interface MessageDao {
@@ -59,5 +57,9 @@ public interface MessageDao {
 	int saveSendMsgCount(Map<String, Object> map); // 보낸쪽지 보관함 카운트
 	
 	List<Message> saveSendMsgList(RowBounds rowBounds, Map<String, Object> map); //보낸쪽지 보관함 리스트
+
+	int getUnreadCheck(int user_no);
+
+	List<Message> getHomeReceiveList(int msgTo); //홈화면 받은쪽지 불러오기
 
 }

@@ -8,13 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kh.wehub.board.model.dao.BoardDao;
 import com.kh.wehub.common.util.PageInfo;
 import com.kh.wehub.member.model.vo.Member;
 import com.kh.wehub.message.model.dao.MessageDao;
 import com.kh.wehub.message.model.vo.Message;
-import com.kh.wehub.message.model.vo.ReceiveMessage;
-import com.kh.wehub.message.model.vo.SendMessage;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -181,6 +178,21 @@ public class MessageSercviceImpl implements MessageService {
 	public int saveSendMsgCount(Map<String, Object> map) {
 		
 		return MessageDao.saveSendMsgCount(map);
+	}
+
+	@Override
+	public int getUnreadCheck(int user_no) {
+		int result = 0;
+		
+		result = MessageDao.getUnreadCheck(user_no);
+		
+		return result;
+	}
+
+	@Override
+	public List<Message> getHomeReceiveList(int msgTo) {
+		
+		return MessageDao.getHomeReceiveList(msgTo);
 	}
 
 

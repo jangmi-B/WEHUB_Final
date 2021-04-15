@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.wehub.common.util.PageInfo;
 import com.kh.wehub.member.model.vo.Member;
 import com.kh.wehub.memberInfo.model.service.MemberInfoService;
+import com.kh.wehub.message.model.service.MessageService;
 
 @Controller
 @SessionAttributes("loginMember")
@@ -24,6 +25,9 @@ public class MemberInfoController {
 
 	@Autowired
 	private MemberInfoService service;
+	
+	@Autowired
+	private MessageService messageService;
 	
 	// 인명관리 화면 띄우기
 	@RequestMapping(value="memberInfo/list", method= {RequestMethod.GET})
@@ -38,6 +42,10 @@ public class MemberInfoController {
 		int count = 0;
 		int searchCount = 0;
 		
+		//쪽지 아이콘 색 변하게 하는 코드
+		int unreadCheck = 0;
+		unreadCheck = messageService.getUnreadCheck(memberInfo.getUser_no());
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("searchList", searchList);
 		map.put("searchText", searchText);
@@ -46,12 +54,14 @@ public class MemberInfoController {
 			count = service.infoCount();
 			PageInfo info = new PageInfo(page, 10, count, 10);
 			model.addObject("info", info);
+			model.addObject("unreadCheck", unreadCheck);
 			model.addObject("SearchList", service.SearchList(info,searchList,searchText));
 		}else {
 			searchCount = service.infoSearchCount(searchList, searchText);
 			PageInfo info = new PageInfo(page, 10, searchCount, 10);
 			model.addObject("map", map);
 			model.addObject("info", info);
+			model.addObject("unreadCheck", unreadCheck);
 			model.addObject("SearchList", service.SearchList(info,searchList,searchText));
 		}
 		

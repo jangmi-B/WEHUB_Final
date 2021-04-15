@@ -37,6 +37,7 @@ public class HomeController {
 		System.out.println("홈 콘트롤러 보내는척");
 
 		return "/member/login";
+//		return "/project/project_list";
 	}
 	
 }

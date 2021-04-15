@@ -6,8 +6,6 @@ import java.util.Map;
 import com.kh.wehub.common.util.PageInfo;
 import com.kh.wehub.member.model.vo.Member;
 import com.kh.wehub.message.model.vo.Message;
-import com.kh.wehub.message.model.vo.ReceiveMessage;
-import com.kh.wehub.message.model.vo.SendMessage;
 
 public interface MessageService {
 
@@ -56,5 +54,9 @@ public interface MessageService {
 	int saveSendMsgCount(Map<String, Object> map); //보낸메세지 보관함 카운트
 	
 	List<Message> getSaveSendList(PageInfo pageInfo, Map<String, Object> map); //보낸쪽지 보관함 리스트
+
+	int getUnreadCheck(int user_no);
+
+	List<Message> getHomeReceiveList(int msgTo); //home화면 리스트 뽑아오기
 
 }

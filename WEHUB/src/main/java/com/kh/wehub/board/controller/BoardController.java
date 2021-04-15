@@ -37,6 +37,7 @@ import com.kh.wehub.board.model.vo.Comments;
 import com.kh.wehub.board.model.vo.Notice;
 import com.kh.wehub.common.util.PageInfo;
 import com.kh.wehub.member.model.vo.Member;
+import com.kh.wehub.message.model.service.MessageService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,6 +52,9 @@ public class BoardController {
 	@Autowired
 	private ResourceLoader resourceLoader;
 	
+	@Autowired
+	private MessageService messageService;
+	
 	@RequestMapping(value = "/notice/list", method = {RequestMethod.GET})
 	public ModelAndView noticeList(
 			ModelAndView model,
@@ -62,6 +66,10 @@ public class BoardController {
 		List<Notice> list = null;
 		List<Notice> staticList = null; //필독
 		
+		//쪽지 아이콘 색 변하게 하는 코드
+		int unreadCheck = 0;
+		unreadCheck = messageService.getUnreadCheck(loginMember.getUser_no());
+
 		int noticeCount = service.getBoardCount(searchText);
 		
 		PageInfo pageInfo = new PageInfo(page, 10, noticeCount, listLimit);
@@ -82,6 +90,7 @@ public class BoardController {
 		model.addObject("list", list);
 		model.addObject("staticList", staticList);
 		model.addObject("pageInfo", pageInfo);
+		model.addObject("unreadCheck",unreadCheck);
 		
 		model.setViewName("/board/board_notice_list");
 		
@@ -114,6 +123,10 @@ public class BoardController {
 			notice.setNoticeType("Y");
 		}
 		
+		//쪽지 아이콘 색 변하게 하는 코드
+		int unreadCheck = 0;
+		unreadCheck = messageService.getUnreadCheck(loginMember.getUser_no());
+		
 		int result = 0;
 		
 		if(loginMember.getUser_id().equals(notice.getUserId())) {
@@ -140,9 +153,11 @@ public class BoardController {
 			if(result > 0) {
 				model.addObject("msg", "게시글이 정상적으로 등록되었습니다.");
 				model.addObject("location", "/notice/list");
+				model.addObject("unreadCheck",unreadCheck);
 			} else {
 				model.addObject("msg", "게시글 등록에 실패하였습니다.");
 				model.addObject("location", "/notice/list");
+				model.addObject("unreadCheck",unreadCheck);
 			}
 			
 		} else {
@@ -173,9 +188,9 @@ public class BoardController {
 			@RequestParam("reloadFile") MultipartFile reloadFile, HttpServletRequest request,
 			Notice notice, ModelAndView model){
 		
-		
-		System.out.println(notice.getNoticeType());
-		System.out.println(notice);
+		//쪽지 아이콘 색 변하게 하는 코드
+		int unreadCheck = 0;
+		unreadCheck = messageService.getUnreadCheck(loginMember.getUser_no());
 		
 		if(notice.getNoticeType() == null) {
 			notice.setNoticeType("N");
@@ -214,6 +229,7 @@ public class BoardController {
 			model.addObject("location", "/notice/list");
 		}
 		
+		model.addObject("unreadCheck",unreadCheck);
 		model.setViewName("common/msg");
 		
 		return model;
@@ -341,6 +357,10 @@ public class BoardController {
 		Notice notice = service.findNoticeByNo(noticeNo);
 //		System.out.println("전" + notice);
 		
+		//쪽지 아이콘 색 변하게 하는 코드
+		int unreadCheck = 0;
+		unreadCheck = messageService.getUnreadCheck(loginMember.getUser_no());
+		
 		if(!hasRead) {
 			// DB저장로직 작성하기
 			
@@ -366,6 +386,8 @@ public class BoardController {
 			
 			comments.get(i).setUserName(name.get(i).getUser_name());
 		}
+		
+		model.addObject("unreadCheck", unreadCheck);
 		model.addObject("loginMember", loginMember);
 		model.addObject("comments", comments);
 		model.addObject("notice", notice);
