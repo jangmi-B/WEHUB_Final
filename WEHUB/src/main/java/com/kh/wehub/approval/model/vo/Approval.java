@@ -98,7 +98,7 @@ public class Approval {
    
    private Date erDeadline;
    
-   private String erSlassify; // 계정과목
+   private String erClassify; // 계정과목
    
    private String allAmount;
    
@@ -113,5 +113,7 @@ public class Approval {
    private String erStatus; // 문서상태
    
    private String erPresent; // 결재상태
+   
+   private String monetaryUnit; // 화폐단위
    
 }

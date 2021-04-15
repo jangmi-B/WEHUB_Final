@@ -108,28 +108,28 @@ public class ApprovalServiceImpl implements ApprovalService {
 	}
 
 	@Override
-	public int loaApproved1(int appNo) {
+	public int approved1(int appNo) {
 		int result = 0;
 		
-		result = approvalDao.loaApproved1(appNo);
+		result = approvalDao.approved1(appNo);
 		
 		return result;
 	}
 	
 	@Override
-	public int loaApproved2(int appNo) {
+	public int approved2(int appNo) {
 		int result = 0;
 		
-		result = approvalDao.loaApproved2(appNo);
+		result = approvalDao.approved2(appNo);
 		
 		return result;
 	}
 
 	@Override
-	public int loaApproved3(int appNo) {
+	public int approved3(int appNo) {
 		int result = 0;
 		
-		result = approvalDao.loaApproved3(appNo);
+		result = approvalDao.approved3(appNo);
 		
 		return result;
 	}
@@ -151,5 +151,38 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public int insertReceive(Approval approval) {
 		
 		return approvalDao.insertReceiveRef(approval);
+	}
+
+	@Override
+	public int saveExpenseReport(Approval approval) {
+		int result = 0;
+		
+		result = approvalDao.insertExpenseReport(approval);
+		
+		return result;
+	}
+
+	@Override
+	public int saveExpenseReport2(Approval approval) {
+		int result = 0;
+		
+		result = approvalDao.insertExpenseReport2(approval);
+		
+		return result;
+	}
+
+	@Override
+	public int saveExpenseReport3(Approval approval) {
+		int result = 0;
+		
+		result = approvalDao.insertExpenseReport3(approval);
+		
+		return result;
+	}
+
+	@Override
+	public Approval findExpenseReportListByNo(int appNo) {
+		
+		return approvalDao.selectExpenseReportListDetail(appNo);
 	}
 }

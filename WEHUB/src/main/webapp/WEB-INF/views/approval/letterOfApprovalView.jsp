@@ -22,10 +22,8 @@
         <div class="cash-disbursement" style="text-align: center; margin: 80px 0px 80px 200px; border: 2px solid black;">
             <table border="2" style="width: 100%; font-size: 20px; border-collapse: collapse;">
                 <tr>
-                    <td rowspan="3" colspan="4" style="width: 300px; height: 150px; font-size: 40px; font-weight: 600;">품 의 서</td>
-                    <td rowspan="3" style="width: 20px; padding-top: 30px; font-size: 25px;">
-                        <button style="border: none; width: 80px;">결 재</button>
-                    </td>
+                    <td rowspan="3" colspan="4" style="width: 300px; height: 140px; font-size: 40px; font-weight: 600;">품 의 서</td>
+                    <td rowspan="3" style="width: 20px; padding-top: 30px; font-size: 25px;">결 재</td>
                     <td style="height: 25px; width: 100px; font-size:17px">최초승인자</td>
                     <td style="height: 25px; width: 100px; font-size:17px">중간승인자</td>
                     <td style="height: 25px; width: 100px; font-size:17px">최종승인자</td>

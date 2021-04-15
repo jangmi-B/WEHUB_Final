@@ -29,16 +29,21 @@ public interface ApprovalService {
 	
 	int rejectUpdate(Approval approval);
 	
-	int loaApproved1(int appNo);
-	
-	int loaApproved2(int appNo);
-
-	int loaApproved3(int appNo);
+	// 결재상태 갱신
+	int approved1(int appNo);
+	int approved2(int appNo);
+	int approved3(int appNo);
 	
 	// 휴가신청서 등록
 	int insertApproval(Approval approval);
 	int insertLeave(Approval approval);
 	int insertReceive(Approval approval);
+	
+	int saveExpenseReport(Approval approval);
+	int saveExpenseReport2(Approval approval);
+	int saveExpenseReport3(Approval approval);
+	
+	Approval findExpenseReportListByNo(int appNo);
 	
 
 }

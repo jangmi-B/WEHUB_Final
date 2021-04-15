@@ -1,8 +1,11 @@
 package com.kh.wehub.approval.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -283,7 +286,7 @@ public class ApprovalController {
 	public int loaApproved1(@SessionAttribute(name = "loginMember", required = false) 
 												Member loginMember, @RequestParam(value="appNo") int appNo) {
 		int result = 0;
-		result = service.loaApproved1(appNo);
+		result = service.approved1(appNo);
 
 		return result;
 	}
@@ -293,7 +296,7 @@ public class ApprovalController {
 	public int loaApproved2(@SessionAttribute(name = "loginMember", required = false) 
 												Member loginMember, @RequestParam(value="appNo") int appNo) {
 		int result = 0;
-		result = service.loaApproved2(appNo);
+		result = service.approved2(appNo);
 
 		return result;
 	}
@@ -303,7 +306,7 @@ public class ApprovalController {
 	public int loaApproved3(@SessionAttribute(name = "loginMember", required = false) 
 												Member loginMember, @RequestParam(value="appNo") int appNo) {
 		int result = 0;
-		result = service.loaApproved3(appNo);
+		result = service.approved3(appNo);
 
 		return result;
 	}
@@ -398,34 +401,94 @@ public class ApprovalController {
 		return model;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
-	@RequestMapping(value = "/expenseReportView", method = { RequestMethod.GET })
-	public String expenseReportView(@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+	@RequestMapping(value = "/expenseReport", method = { RequestMethod.POST })
+	public ModelAndView expenseReportWrite(@SessionAttribute(name = "loginMember", required = false) Member loginMember,
+											Approval approval, ModelAndView model) {
+		int result = 0;
+		int result2 = 0;
+		int result3 = 0;
 		
-		return "/approval/expenseReportView";
+		approval.setAppWriterNo(loginMember.getUser_no());
+
+		result = service.saveExpenseReport(approval);
+		
+		approval.setErAppNo(approval.getAppNo());
+		
+		result2 = service.saveExpenseReport2(approval);
+		
+		approval.setReceiveRefAppNo(approval.getAppNo());
+		
+		result3 = service.saveExpenseReport3(approval);
+		
+		if (result > 0 && result2 > 0 && result3 > 0) {
+			model.addObject("msg", "지출결의서가 정상적으로 등록되었습니다.");
+			model.addObject("location", "/approval/approvalList");
+		} else {
+			model.addObject("msg", "지출결의서 등록에 실패하였습니다.");
+			model.addObject("location", "/");
+		}
+
+		model.setViewName("common/msg");
+
+		return model;
 	}
+	
+	@RequestMapping(value="/expenseReportView", method={RequestMethod.GET})
+	public ModelAndView expenseReportView(@RequestParam("appNo") int appNo, ModelAndView model) {
+		
+		Approval approval = service.findExpenseReportListByNo(appNo);
+		System.out.println("expenseReportView : " + approval);
+		
+		
+		/*
+		 * String erDetailStr = approval.getErDetail();
+		 * System.out.println("erDetailStr : " + erDetailStr);
+		 * 
+		 * String erReferenceStr = approval.getErReference();
+		 * System.out.println("erReferenceStr : " + erReferenceStr);
+		 * 
+		 * String erAmountStr = approval.getErAmount();
+		 * System.out.println("erAmountStr : " + erAmountStr);
+		 * 
+		 * List<Map> erList = new ArrayList<Map>(); erList.clear();
+		 * 
+		 * HashMap<String, Object> map = new HashMap<String, Object>();
+		 * 
+		 * map.put("approval", approval);
+		 * 
+		 * erList.add(map);
+		 * 
+		 * model.addObject("erList",erList);
+		 */
+		
+
+		model.addObject("approval", approval);	
+		model.setViewName("/approval/expenseReportView");
+		
+		return model;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	@RequestMapping(value = "/leaveApplicationView", method = { RequestMethod.GET })
 	public String leaveApplicationView(@SessionAttribute(name = "loginMember", required = false) Member loginMember) {

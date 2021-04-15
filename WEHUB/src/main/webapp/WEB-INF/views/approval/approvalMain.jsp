@@ -61,10 +61,10 @@
 			                    <c:when test="${list.appKinds eq '품의서'}">
 			                    	<td><a href="${path}/approval/letterOfApprovalView?appNo=${list.appNo}">${list.appKinds}</a></td>
 			                    </c:when>
-			                    <c:when test="${list.appKinds eq '지출결의서'}">
+			                    <c:when test="${list.appKinds eq '휴가신청서'}">
 			                    	<td><a href="${path}/approval/leaveApplicationView?appNo=${list.appNo}">${list.appKinds}</a></td>
 			                    </c:when>
-			                    <c:when test="${list.appKinds eq '휴가신청서'}">
+			                    <c:when test="${list.appKinds eq '지출결의서'}">
 			                    	<td><a href="${path}/approval/expenseReportView?appNo=${list.appNo}">${list.appKinds}</a></td>
 			                    </c:when>
 		                    </c:choose>
@@ -107,10 +107,10 @@
 			                    <c:when test="${list1.appKinds eq '품의서'}">
 			                    	<td><a href="${path}/approval/letterOfApprovalView?appNo=${list1.appNo}">${list1.appKinds}</a></td>
 			                    </c:when>
-			                    <c:when test="${list1.appKinds eq '지출결의서'}">
+			                    <c:when test="${list1.appKinds eq '휴가신청서'}">
 			                    	<td><a href="${path}/approval/leaveApplicationView?appNo=${list1.appNo}">${list1.appKinds}</a></td>
 			                    </c:when>
-			                    <c:when test="${list1.appKinds eq '휴가신청서'}">
+			                    <c:when test="${list1.appKinds eq '지출결의서'}">
 			                    	<td><a href="${path}/approval/expenseReportView?appNo=${list1.appNo}">${list1.appKinds}</a></td>
 			                    </c:when>
 		                    </c:choose>
