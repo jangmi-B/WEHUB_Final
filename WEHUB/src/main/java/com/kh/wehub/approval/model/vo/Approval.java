@@ -112,4 +112,8 @@ public class Approval {
    
    private String erPresent; // 결재상태
    
+   private String allamount; // 지출금액
+   
+   private String monetaryUnit; // 화폐단위
+   
 }

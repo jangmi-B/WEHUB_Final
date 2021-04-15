@@ -1,19 +1,32 @@
 package com.kh.wehub.approval.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
@@ -36,6 +49,9 @@ public class ApprovalController {
 	
 	@Autowired
 	private MemberService service2;
+	
+	@Autowired
+	private ResourceLoader resourceLoader;
 	
 	/** 메인화면 */
 	
@@ -148,29 +164,30 @@ public class ApprovalController {
 	}
 	
 	@RequestMapping(value = "/letterOfApproval", method = { RequestMethod.POST })
-	public ModelAndView letterOfApprovalWrite(@SessionAttribute(name = "loginMember", required = false) Member loginMember,
-											Approval approval, ModelAndView model
-											/*HttpServletRequest request, @RequestParam("") MultipartFile upfile*/) {
+	public ModelAndView letterOfApprovalWrite(Approval approval, ModelAndView model,  HttpServletRequest request,
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember,
+			@RequestParam("appLoaFileUpload") MultipartFile upfile) {
+		
 		int result = 0;
 		int result2 = 0;
 		int result3 = 0;
 		
-//		System.out.println(upfile.getOriginalFilename());
-//		
-//		if(upfile != null && !upfile.isEmpty()) {
-//			String renameFileName = saveFile(upfile, request);
-//			
-//			System.out.println(renameFileName);
-//			
-//			if(renameFileName != null) {
-//				member.setUser_imgOriname(upfile.getOriginalFilename());
-//				member.setUser_imgRename(renameFileName);
-//				
-//				System.out.println(", imgOriname : " + member.getUser_imgOriname() + " / imgRename : " + member.getUser_imgRename());
-//			}
-//		}
-		
 		approval.setAppWriterNo(loginMember.getUser_no());
+		
+		// 품의서 파일업로드
+		if(upfile != null && !upfile.isEmpty()) {
+			
+			String renameFileName = saveAppFile(upfile, request);
+			
+			System.out.println("renameFileName : " + renameFileName);
+			
+			if(renameFileName != null) {
+				approval.setAppOriginalFileName(upfile.getOriginalFilename());
+				approval.setAppRenameFileName(renameFileName);
+				
+				System.out.println("imgOriname : " + approval.getAppOriginalFileName() + " / imgRename : " + approval.getAppRenameFileName());
+			}
+		}
 
 		result = service.saveLetterOfApproval(approval);
 		
@@ -199,7 +216,7 @@ public class ApprovalController {
 	public ModelAndView letterOfApprovalView(@RequestParam("appNo") int appNo, ModelAndView model) {
 		Approval approval = service.findListByNo(appNo);
 		
-		System.out.println(approval);
+		System.out.println("letterOfApprovalView : " + approval);
 		
 		model.addObject("approval", approval);
 		model.setViewName("/approval/letterOfApprovalView");
@@ -209,7 +226,6 @@ public class ApprovalController {
 	
 	
 	/** 수신참조자 모달 내 검색 */
-	
 	@ResponseBody
 	@RequestMapping(value = "/searchMemberInModal", method = { RequestMethod.GET })
 	public List<Member> searchMemberInModal(@SessionAttribute(name = "loginMember", required = false) 
@@ -230,10 +246,11 @@ public class ApprovalController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/letterOfApprovalUpdate", method = { RequestMethod.POST })
-	public int letterOfApprovalUpdate(@SessionAttribute(name = "loginMember", required = false) 
-												Member loginMember, Approval approval,
-												@RequestParam(value="rejectReasonText") String rejectReasonText,
-												@RequestParam(value="appNo") int appNo) {
+	public int letterOfApprovalUpdate(Approval approval,
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember, 
+			@RequestParam(value="rejectReasonText") String rejectReasonText,
+			@RequestParam(value="appNo") int appNo) {
+		
 		int result = 0;
 		
 		approval.setAppNo(appNo);
@@ -243,6 +260,7 @@ public class ApprovalController {
 		System.out.println("rejectReasonText : " + rejectReasonText);
 		System.out.println("approval.getAppNo() : " + approval.getAppNo());
 		System.out.println("approval.getAppReason() : " + approval.getAppReason());
+		
 		
 		
 		if(rejectReasonText != null) {
@@ -397,6 +415,69 @@ public class ApprovalController {
 	public String leaveApplicationView(@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
 		
 		return "/approval/leaveApplicationView";
+	}
+	
+	// 파일첨부 관련
+	private String saveAppFile(MultipartFile file, HttpServletRequest request) {
+		String renamePath = null; 
+		String originalFileName = null;
+		String renameFileName = null;
+		String rootPath = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = rootPath + "/upload/approvalFile";				
+		
+		log.info("Root Path : " + rootPath);
+		log.info("Save Path : " + savePath);
+		
+		File folder = new File(savePath); // Save Path가 실제로 존재하지 않으면 폴더를 생성하는 로직
+		
+		if(!folder.exists()) {
+			folder.mkdirs();
+		}
+		
+		originalFileName = file.getOriginalFilename();
+		renameFileName = 
+				LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmssSSS")) + 
+				originalFileName.substring(originalFileName.lastIndexOf("."));
+		renamePath = savePath + "/" + renameFileName;
+		
+		try {
+			file.transferTo(new File(renamePath)); // 업로드 한 파일 데이터를 지정한 파일에 저장한다.
+		}catch (IOException e) {
+			System.out.println("파일 전송 에러 : " + e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return renameFileName;
+	}
+	
+	@RequestMapping(value="/appFileDown", method = { RequestMethod.GET })
+	public ResponseEntity<Resource> fileDown(
+		@RequestParam("oriname") String oriname, @RequestParam("rename") String rename,
+		@RequestHeader(name="user-agent") String header) {
+		
+		try {
+			Resource resource = resourceLoader.getResource("resources/upload/approvalFile/" + rename);
+			File file = resource.getFile();
+			boolean isMSIE = header.indexOf("Trident")!=-1||header.indexOf("MSIE")!=-1;
+			String encodeRename = "";
+			
+			if(isMSIE) {
+				encodeRename = URLEncoder.encode(oriname, "UTF-8");
+				encodeRename = encodeRename.replaceAll("\\+", "%20");
+			}else {
+				encodeRename = new String(oriname.getBytes("UTF-8"),"ISO-8859-1");
+			}
+			
+			return ResponseEntity.ok()
+					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=\"" + encodeRename + "\"")
+					.header(HttpHeaders.CONTENT_LENGTH, String.valueOf(file.length()))
+					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM.toString())
+					.body(resource);
+		} catch (IOException e) {
+			e.printStackTrace();
+			
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 	
 }

@@ -56,8 +56,8 @@
 	<resultMap type="Approval" id="LOAResultMap">
 		<id property="loaNo" column="LOA_SEQ"/>
 		<result property="loaAppNo" column="LOA_APP_SEQ"/>
-		<result property="loaTltle" column="LOA_TITLE"/>
-		<result property="loaDetale" column="LOA_DETAIL"/>
+		<result property="loaTitle" column="LOA_TITLE"/>
+		<result property="loaContent" column="LOA_DETAIL"/>
 		<result property="loaStatus" column="LOA_STATUS"/>
 		<result property="loaPresent" column="LOA_PRESENT"/>
 	</resultMap>
@@ -73,6 +73,8 @@
 		<result property="erReference" column="ER_REFERENCE"/>
 		<result property="erStatus" column="ER_STATUS"/>
 		<result property="erPresent" column="ER_PRESENT"/>
+		<result property="allamount" column="ER_ALLAMOUNT"/>
+		<result property="monetaryUnit" column="ER_MONETARYUNIT"/>
 	</resultMap>
 
 	<select id="selectRecentList" parameterType="map" resultMap="approvalResultMap">
@@ -204,44 +206,68 @@
 	<insert id="insertLetterOfApproval" parameterType="map"
   		useGeneratedKeys="true" keyProperty="appNo" keyColumn="APP_SEQ">
   		
-  		INSERT INTO APPROVAL
+  		INSERT INTO APPROVAL(
+  			APP_SEQ,
+  			APP_WRITE_SYS,
+  			FIRST_TIME_APPROVER,
+  			INTERIM_APPROVER,
+  			FINAL_APPROVER,
+  			APP_CHECK_SYSDATE,
+  			APP_REASON,
+  			APP_ORIFILENAME,
+  			APP_REFILENAME,
+  			APP_WRITER_NO,
+  			APP_CHECK_PROGRESS,
+  			APPROVAL_KINDS,
+  			APP_PRESENT
+  		)
   		VALUES(
   			SEQ_APP_SEQ.NEXTVAL,
   			SYSDATE,
   			#{firstApprover},
   			#{interimApprover},
   			#{finalApprover},
-  			null,
-  			null,
-  			null,
-  			null,			
+  			#{appCheckSysdate},
+			#{appReason},
+			#{appOriginalFileName},
+			#{appRenameFileName},			
   			#{appWriterNo},
-  			'결재대기',
-  			'품의서',
-  			'A'
+  			DEFAULT,
+  			#{appKinds},
+  			DEFAULT
  		)
   	</insert>
   	
   	<insert id="insertLetterOfApproval2" parameterType="map"
   		useGeneratedKeys="true" keyProperty="loaAppNo" keyColumn="LOA_SEQ">
-  		
-  		INSERT INTO APP_LOA
-  		VALUES(
-  			SEQ_LOA_SEQ.NEXTVAL,
-  			#{loaAppNo},
-  			#{loaTitle},
-  			#{loaContent},
-  			DEFAULT,
-  			DEFAULT
- 		)
+  		INSERT INTO APP_LOA (
+			LOA_SEQ,
+			LOA_APP_SEQ,
+			LOA_TITLE,
+			LOA_DETAIL,
+			LOA_STATUS,
+			LOA_PRESENT
+		)
+		VALUES(
+			SEQ_LOA_SEQ.NEXTVAL,
+			#{loaAppNo},
+			#{loaTitle},
+			#{loaContent},
+			DEFAULT,
+			DEFAULT
+		)
   	</insert>
   	
   	<insert id="insertLetterOfApproval3" parameterType="map"
   		useGeneratedKeys="true" keyProperty="receiveRefAppNo" keyColumn="RECEIVE_REF_SEQ">
   		
-  		INSERT INTO APP_RECEIVE_REF
+  		INSERT INTO APP_RECEIVE_REF(
+  			RECEIVE_REF_SEQ,
+  			RECEIVE_REF_APP_SEQ,
+  			RECEIVE_REF_CC
+  		)
   		VALUES(
-  			SEQ_LOA_SEQ.NEXTVAL,
+  			SEQ_RECEIVE_REF_SEQ.NEXTVAL,
   			#{receiveRefAppNo},
   			#{referList}
  		)
