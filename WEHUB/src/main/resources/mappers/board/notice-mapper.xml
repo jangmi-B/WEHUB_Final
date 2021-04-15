@@ -13,7 +13,8 @@
 		       N.NOTICE_READCOUNT,
 		       N.NOTICE_CREATE_DATE,
 		       N.NOTICE_MODIFY_DATE,
-		       N.STATUS
+		       N.STATUS,
+		       N.NOTICE_TYPE
 		FROM NOTICE N
 		JOIN MEMBER M ON(N.NOTICE_WRITER_NO = M.USER_NO)
 		WHERE N.STATUS='Y'	
@@ -279,6 +280,11 @@
 		    COMMENT_MODIFY_DATE=SYSDATE
 		WHERE COMMENT_NO = #{commentsNo}
 	</update>
-	 		
+	
+	<!-- 메인화면에 불러와지는 리스트  -->
+	<select id="selectMainList" resultMap="noticeResultMap">
+		<include refid="noticeListSql"></include>
+		ORDER BY N.NOTICE_TYPE DESC, N.NOTICE_CREATE_DATE DESC
+	</select>
 	 
 </mapper>

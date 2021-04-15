@@ -42,4 +42,6 @@ public interface BoardDao {
 
 	int deleteComments(int commentsNo);
 
+	List<Notice> selectMainList();
+
 }

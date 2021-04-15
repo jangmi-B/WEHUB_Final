@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="${path}/css/board_notice_list.css">
   <link rel="stylesheet" href="${path}/css/board_notice_detail.css">
   <link rel="stylesheet" href="${path}/css/modal.css">
+  <link rel="stylesheet" href="${path}/css/community.css">
   <link rel="stylesheet" href="${path}/css/message_list.css">
   <link rel="stylesheet" href="${path}/css/project_list.css">
   <title>WEHUB</title>
@@ -62,7 +63,8 @@
 	        <li><a href="${path}/message/list" style="color:#a484f3;"><i class="far fa-envelope home_contents"></i></a></li>
         </c:if>
         <li><a href="${path}/memberInfo/list"><i class="fas fa-users home_contents"></i></a></li>
-        <li><a href="#"><i class="far fa-calendar-alt home_contents"></i></a></li>
+        <li><a href="${path}/calendar/view"><i class="far fa-calendar-alt home_contents"></i></a></li>
         <li><a href="${path}/project/list"><i class="fas fa-project-diagram"></i></a></li>
+        <li><a href="${path}/community/list"><i class="fas fa-shopping-cart home_contents"></i></a></li>
       </ul>
     </div>

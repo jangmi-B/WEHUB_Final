@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kh.wehub.community.model.dao.CommunityDao">
+	<resultMap type="Community" id="CommunityResultMap">
+		<id property="cm_no" column="CM_NO"/>
+		<result property="user_no" column="USER_NO"/>
+		<result property="cm_title" column="CM_TITLE"/>
+		<result property="cm_content" column="CM_CONTENT"/>
+		<result property="cm_readCount" column="CM_READCOUNT"/>
+		<result property="cm_date" column="CM_DATE"/>
+		<result property="cm_modify_date" column="CM_MODIFY_DATE"/>
+		<result property="cm_Mark" column="CM_BOOKMARK"/>
+		<result property="cm_status" column="CM_STATUS"/>
+		
+	</resultMap>
+	
+	<resultMap type="Member" id="memberResultMap">
+		<id property="user_no" column="USER_NO"/>
+		<id property="user_companyname" column="USER_COMPANYNAME"/>
+		<id property="user_id" column="USER_ID"/>
+		<id property="user_pwd" column="USER_PWD"/>
+		<id property="user_name" column="USER_NAME"/>
+		<id property="rank" column="RANK"/>
+		<id property="email" column="EMAIL"/>
+		<id property="comcall" column="COMCALL"/>
+		<id property="phone" column="PHONE"/>
+		<id property="address" column="ADDRESS"/>
+		<id property="user_status" column="USER_STATUS"/>
+		<id property="dept_code" column="DEPT_CODE"/>
+	</resultMap>
+	
+	<select id="selectList" parameterType="map" resultMap="CommunityResultMap">
+		SELECT ROWNUM, A.* FROM (
+		SELECT C.CM_NO,
+		       C.USER_NO,
+               M.USER_ID,
+               C.CM_TITLE,
+               C.CM_CONTENT,
+               C.CM_READCOUNT,
+               C.CM_DATE,
+               C.CM_MODIFY_DATE,
+               C.CM_STATUS,
+               NVL2(B.USER_NO,'Y','N') AS CM_BOOKMARK
+		FROM  COMMUNITY C
+		LEFT OUTER JOIN (SELECT USER_NO, CM_NO FROM CM_BOOKMARK WHERE USER_NO=#{userNo}) B
+       	ON (C.CM_NO = B.CM_NO)
+		JOIN MEMBER M ON(C.USER_NO = M.USER_NO)
+		WHERE C.CM_STATUS = 'Y'
+		<if test="searchText != 'null'">
+			AND (C.CM_TITLE LIKE '%'|| #{searchText} ||'%'
+			OR C.CM_CONTENT LIKE '%'|| #{searchText} ||'%')
+		</if>
+        ORDER BY CM_NO DESC)A
+	</select>
+	
+	<select id="selectMyList" parameterType="string" resultMap="CommunityResultMap">
+		SELECT ROWNUM, A.* FROM (
+			SELECT C.CM_NO,
+			       C.USER_NO,
+	               M.USER_ID,
+	               C.CM_TITLE,
+	               C.CM_CONTENT,
+	               C.CM_READCOUNT,
+	               C.CM_DATE,
+	               C.CM_MODIFY_DATE,
+	               C.CM_STATUS
+			FROM  COMMUNITY C
+			JOIN MEMBER M ON(C.USER_NO = M.USER_NO)
+			WHERE C.CM_STATUS = 'Y' AND M.USER_ID = #{userId} 
+        ORDER BY CM_NO DESC)A
+	</select>
+	
+	<select id="communityCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM COMMUNITY C
+		WHERE CM_STATUS='Y'
+		<if test="searchText != 'null'">
+			AND (C.CM_TITLE LIKE '%'|| #{searchText} ||'%'
+			OR C.CM_CONTENT LIKE '%'|| #{searchText} ||'%')
+		</if>
+	</select>
+	
+	<select id="CountMyPage" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM COMMUNITY C
+		WHERE CM_STATUS='Y' AND USER_NO =#{user_no}
+	</select>
+	
+
+	<select id="selectView" parameterType="_int" resultMap="CommunityResultMap">
+		SELECT C.CM_NO,
+			C.USER_NO,
+			M.USER_NAME,
+			M.USER_ID, 
+			C.CM_TITLE, 
+			C.CM_CONTENT, 
+			C.CM_READCOUNT, 
+			C.CM_DATE, 
+			C.CM_MODIFY_DATE, 
+			C.CM_STATUS,
+			NVL2(B.USER_NO,'Y','N') AS CM_BOOKMARK
+		FROM  COMMUNITY C
+		LEFT OUTER JOIN (SELECT USER_NO, CM_NO FROM CM_BOOKMARK WHERE USER_NO=#{userNo}) B
+       	ON (C.CM_NO = B.CM_NO)
+		JOIN MEMBER M ON (M.USER_NO = C.USER_NO)
+		WHERE C.CM_NO = #{no}
+		ORDER BY C.CM_DATE DESC
+	</select>
+	
+	<insert id="insert" parameterType="map"
+	useGeneratedKeys="true" keyProperty="cm_no" keyColumn="CM_NO">
+		INSERT INTO COMMUNITY VALUES(
+			SEQ_CM_NO.NEXTVAL,
+			#{user_no},
+			#{title},
+			#{text},
+			0,
+			SYSDATE,
+			SYSDATE,
+			DEFAULT
+		)
+	</insert>
+	
+	<update id="updateReadCount" parameterType="Community">
+		UPDATE COMMUNITY 
+		SET 
+			CM_READCOUNT=#{CommunityReadCount}
+		WHERE 
+			CM_NO=#{no}
+	</update>
+	
+	<update id="updateList" parameterType="map">
+		UPDATE COMMUNITY
+		SET
+			CM_TITLE = #{title},
+			CM_CONTENT = #{text},
+			CM_MODIFY_DATE = SYSDATE
+		WHERE
+			CM_NO=#{no}
+	</update>
+
+	<update id="deleteList" parameterType="_int">
+		UPDATE COMMUNITY
+		SET
+			CM_STATUS = 'N'
+		WHERE
+			CM_NO =#{no}
+	</update>
+	
+	<insert id="insertMark" parameterType="_int">
+		INSERT INTO CM_BOOKMARK VALUES(
+			SEQ_BM_NO.NEXTVAL,
+			#{userNo},
+			#{no}
+		)
+	</insert>
+	
+	<delete id="deleteMark" parameterType="_int">
+		DELETE FROM CM_BOOKMARK
+		WHERE USER_NO=#{userNo} AND CM_NO=#{no}
+	</delete>
+	
+	<select id="getCommunityCount_favPage" resultType="_int">
+		SELECT COUNT(*)
+		FROM CM_BOOKMARK
+	</select>
+	
+	<select id="favList" parameterType="_int" resultMap="CommunityResultMap">
+		SELECT C.CM_NO,
+			C.USER_NO,
+			M.USER_NAME,
+			M.USER_ID, 
+			C.CM_TITLE, 
+			C.CM_CONTENT, 
+			C.CM_READCOUNT, 
+			C.CM_DATE, 
+			C.CM_MODIFY_DATE, 
+			C.CM_STATUS,
+			NVL2(B.USER_NO,'Y','N') AS CM_BOOKMARK
+		FROM  COMMUNITY C
+		LEFT OUTER JOIN (SELECT USER_NO, CM_NO FROM CM_BOOKMARK WHERE USER_NO=#{user_no}) B
+       	ON (C.CM_NO = B.CM_NO)
+		JOIN MEMBER M ON (M.USER_NO = C.USER_NO)
+        WHERE B.USER_NO = #{user_no}
+		ORDER BY C.CM_DATE DESC
+	</select>
+	
+	<select id="selectMainList" resultMap="CommunityResultMap">
+		SELECT CM_NO,
+			   USER_NO,
+			   CM_TITLE,
+			   CM_CONTENT, 
+			   CM_READCOUNT, 
+			   CM_DATE, 
+			   CM_MODIFY_DATE
+		FROM COMMUNITY
+		WHERE CM_STATUS = 'Y'
+		ORDER BY CM_DATE DESC 
+	</select>
+	
+</mapper>

@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,6 +25,10 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.wehub.board.model.service.BoardService;
+import com.kh.wehub.board.model.vo.Notice;
+import com.kh.wehub.community.model.service.CommunityService;
+import com.kh.wehub.community.model.vo.Community;
 import com.kh.wehub.member.model.service.MemberService;
 import com.kh.wehub.member.model.service.UserMailSendService;
 import com.kh.wehub.member.model.vo.Member;
@@ -33,6 +38,8 @@ import com.kh.wehub.message.model.service.MessageService;
 import com.kh.wehub.message.model.vo.Message;
 import com.kh.wehub.project.model.service.ProjectService;
 import com.kh.wehub.project.model.vo.Project;
+import com.kh.wehub.schedule.model.service.ScheduleService;
+import com.kh.wehub.schedule.model.vo.DateData;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,6 +59,15 @@ public class MemberController {
 	
 	@Autowired
 	private ProjectService projectService;
+	
+	@Autowired
+	private ScheduleService ScheduleService;
+	
+	@Autowired
+	private CommunityService communityService;
+	
+	@Autowired
+	private BoardService boardService;
 	
 	@RequestMapping(value="/login", method={RequestMethod.POST})
 	public ModelAndView login(ModelAndView model, @RequestParam("userId") String userId, 
@@ -79,7 +95,7 @@ public class MemberController {
 	public ModelAndView mainPage(ModelAndView model,
 			@SessionAttribute("loginMember")Member loginMember) {
 		
-		// project리스트 가져오기
+				// project리스트 가져오기
 				List<Project> projectList = null;
 				
 				projectList = projectService.homeProjectList(loginMember.getUser_no());
@@ -119,7 +135,23 @@ public class MemberController {
 						memoContent.add(array[i]);
 					}
 				} 
+				//오늘 일정 Section
+				DateTime dt = new DateTime();
+				String today = dt.toString("yyyy M d");
+				String[] arr = today.split(" ");
 				
+				List<DateData> todaySchedule = ScheduleService.todaySchedule(loginMember, arr);
+				
+				//커뮤니티 Section
+				List<Community> communityList = communityService.selectMainList();
+				
+				//공지사항 Section
+				List<Notice> NoticeList = boardService.selectList(); 
+				
+				
+				model.addObject("todaySchedule",todaySchedule);
+				model.addObject("communityList", communityList);
+				model.addObject("NoticeList", NoticeList);
 				model.addObject("projectList",projectList);
 				model.addObject("receiveList",receiveList);
 				model.addObject("unreadCheck",unreadCheck);

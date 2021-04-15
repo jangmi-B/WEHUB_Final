@@ -11,20 +11,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <script src="js/jquery-3.5.1.js"></script>
-
-    <title>WEHUB</title>
-
-    <link rel="stylesheet" href="${path}/css/LoginForm.css">
-	</head>
-	<body>
-    	<div class="wrapper">
+    <script src="${path}/js/jquery-3.5.1.js"></script>
+    <title>LogInForm</title>
+    <link rel="stylesheet" href="${path}/css/LogInForm.css">
+</head>
+<body>
+    <div class="wrapper">
         <div class="container">
-
-            <img src="${path}/images/wehub(white).png"/>
-
-            <form class="form" action="login" method="POST" id="loginForm" onsubmit="loginForm();">
+            <img src="resources/images/wehub(white).png"/>
+            <form class="form" action="login" method="POST" id="loginForm">
                 <input type="text" name="userId" placeholder="Username ">
                 <input type="password" name="userPwd" placeholder="Password">
                 <button type="submit" id="login-button">Log in</button>
@@ -39,27 +34,17 @@
 </body>
 
 <script>
-/*  	$("#login-button").click(function(event){
-	
+	$("#login-button").click(function(event){
+		
 		$('form').fadeOut(300);
 		$('.wrapper').addClass('form-success');
-  	setTimeout(function() {
+		setTimeout(function() {
 		}, 2800);
 	      
 		return;
 		
 		$('#loginForm').submit();
-	}); */
-	
-	function loginForm() {
-		
-	}
-     
-     /* $("#login-button").click(function(event){ 2800
-    	 alert("Request method 'GET' not supported/nreturn location.href=\"${path}/main\";이라고 쓰면 비밀번호를 입력하지 않아도 main화면으로 넘어감.");
-    	  
-        return submit();
-     }); */
+	});
 </script>
 
 </html>

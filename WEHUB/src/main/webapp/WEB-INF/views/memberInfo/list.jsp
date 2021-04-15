@@ -9,25 +9,17 @@
 
     <div class="index_section">
       <ul>
-        <li>인명관리
+        <li><h1>인명관리</h1>
           <ul>
             <li>사원 조회</li>
-            <!-- <li>example</li> -->
-          </ul>
-        </li>
-        
-        <div class="line"></div>
-        <li>업체
-          <ul>
-            <li>연락처 조회</li>
             <!-- <li>example</li> -->
           </ul>
         </li>
       </ul>
     </div>
 
-<form class="HM_Area" action="${path}/memberInfo/list" method="get">
 
+<form class="HM_Area" action="${path}/memberInfo/list" method="get">
   <div>
     <!-- SearchBar -->
     <div class="HM_Department_Sel">
@@ -43,7 +35,7 @@
         
     </div>
   </div>
-
+<div id="printArea">
   <table class="HM_TableArea checkbox_group" cellpadding="0" cellspacing="0" border="0">
     <thead class="HMtbody">
         <tr class="header_th">
@@ -79,6 +71,7 @@
         </c:choose>
     </tbody>
   </table>
+</div>
 </form>
 
   <!-- 하단 페이징 -->

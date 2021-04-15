@@ -72,7 +72,7 @@
 				  </c:forEach>
 			  </c:if>
 			  <c:if test="${list != null}">
-				<c:forEach var="notice" items="${list}">
+				<c:forEach var="notice" items="${list}" varStatus="i" >
 					<tr>
 						<td><c:out value="${notice.rownum}"/></td>
 						<td>
@@ -116,8 +116,8 @@
               <c:if test="${notice_search != null}">
 	              	<li><button type="button" class="notice_page_first" onclick="location.href='${path}/notice/list?notice_search=${notice_search}&page=1'">처음페이지</button></li>
 		            <li><button type="button" class="notice_arrow_left" onclick="location.href='${path}/notice/list?notice_search=${notice_search}&page=${pageInfo.prvePage}'">&lt;&lt;</button></li>
-		                <c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
-							<c:if test="${status.current == pageInfo.currentPage}">
+	                <c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
+						<c:if test="${status.current == pageInfo.currentPage}">
 							<li><button disabled><c:out value="${status.current}"/></button></li>
 		   				</c:if>
 						<c:if test="${status.current != pageInfo.currentPage}">

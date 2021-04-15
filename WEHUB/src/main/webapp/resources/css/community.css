@@ -1,0 +1,101 @@
+@charset "UTF-8";
+
+
+section > .CM-index_section {
+  margin-left: 70px;
+  border: 1px solid transparent;
+  width: 200px;
+  float: left;
+  font-size: 20px;
+  position: fixed;
+  height: 100%;
+  background: white;
+  border-right: 2.5px solid rgb(88, 107, 141);
+}
+
+.CM-index_section li {
+  cursor: pointer;
+  padding-left: 20px;
+  padding-top: 20px;
+}
+
+.CM-index_section li>ul {
+  position: absolute;
+  width: 200px;
+  padding: 0;
+  display: none;
+  margin: 0;
+}
+
+.CM-index_section li>div {
+  display: none;
+  font-size: 15px;
+}
+
+.CM-index_section {
+  padding-left: 10px;
+  background-color: lightgray;
+  line-height: 30px;
+}
+
+.CM-index_section > ul > li {
+  padding-bottom: 20px;
+  padding-top: 10px;
+}
+
+
+
+#CM_write_Btn{
+	width: 170px;
+    height: 50px;
+    border-radius: 9px;
+    font-size: 25px;
+    color: darkblue;
+    border: 1px solid white;
+    background: white;
+    cursor:pointer;
+}
+
+#CM_write_Btn:hover{
+	box-shadow: 1px 2px 7px rebeccapurple;
+}
+
+.tag_TR:hover{
+	box-shadow: 1px 2px 7px slategrey;
+}
+
+a:visited {color:black};
+
+
+
+#returnList{
+	margin: 0px 0px 0px 47%;
+	width: 200px; 
+	cursor: pointer; 
+	border:none; 
+	background:none; 
+	font-size:25px; 
+	width:200px
+}
+
+#returnList:hover {
+	box-shadow: 1px 2px 7px rebeccapurple;
+}
+
+#updateList:hover {
+	box-shadow: 1px 2px 7px rebeccapurple;
+}
+
+#deleteList:hover {
+	box-shadow: 1px 2px 7px rebeccapurple;
+}
+
+#cm_mark:hover{
+	cursor:pointer;
+    box-shadow: 0px 4px 8px cornflowerblue;
+}
+
+
+.swal-footer{
+	text-align:center;
+}

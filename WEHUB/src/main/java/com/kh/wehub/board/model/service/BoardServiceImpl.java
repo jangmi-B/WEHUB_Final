@@ -75,7 +75,6 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int updateReadCount(Map<String, Object> map) {
 		
-		
 		return boardDao.updateReadCount(map);
 	}
 
@@ -119,8 +118,6 @@ public class BoardServiceImpl implements BoardService {
 		
 		map.put("comments", comments);
 		map.put("commentsNo", commentsNo);
-		System.out.println(comments);
-		System.out.println(commentsNo);
 		
 		
 		result = boardDao.updateComments(map);
@@ -136,6 +133,11 @@ public class BoardServiceImpl implements BoardService {
 		result = boardDao.deleteComments(commentsNo);
 		
 		return result;
+	}
+
+	@Override
+	public List<Notice> selectList() {
+		return boardDao.selectMainList();
 	}
 
 
