@@ -24,7 +24,7 @@
 
             <img src="${path}/images/wehub(white).png"/>
 
-            <form class="form" action="loginn" method="POST" id="loginForm" onsubmit="loginForm();">
+            <form class="form" action="login" method="POST" id="loginForm" onsubmit="loginForm();">
                 <input type="text" name="userId" placeholder="Username ">
                 <input type="password" name="userPwd" placeholder="Password">
                 <button type="submit" id="login-button">Log in</button>

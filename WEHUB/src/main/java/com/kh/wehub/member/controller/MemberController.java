@@ -75,7 +75,7 @@ public class MemberController {
 	}
 
 	//메인 화면 띄우기
-	@RequestMapping(value="main")
+	@RequestMapping(value="/main")
 	public ModelAndView mainPage(ModelAndView model,
 			@SessionAttribute("loginMember")Member loginMember) {
 		
@@ -125,7 +125,7 @@ public class MemberController {
 				model.addObject("unreadCheck",unreadCheck);
 				model.addObject("memoContent",memoContent);
 				model.addObject("loginMember",loginMember);
-				model.setViewName("/home");
+				model.setViewName("/main");
 				
 				return model;
 		
