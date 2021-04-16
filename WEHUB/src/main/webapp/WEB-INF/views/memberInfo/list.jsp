@@ -101,21 +101,22 @@
     </c:forEach>
     <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="location.href='${path}/memberInfo/list?page=${info.getNextPage()}&searchText=${map.searchText}&searchList=${map.searchList}'">&gt;&gt;</button>&nbsp;&nbsp;
     <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="location.href='${path}/memberInfo/list?page=${info.getMaxPage()}&searchText=${map.searchText}&searchList=${map.searchList}'">마지막페이지</button>
-  </div>
-  		<div class="modal fade">
-		    <div class="bg"></div>
-		    <div class="modalNewMember" style="position: absolute; background-color: #fff; width: 400px; height: 200px; padding: 15px;">
-		    	<div class="newMemberInfo" style="text-align: center;">
-		    		<label style="display: block;">이름 : <input type="text" id="NewName" name="NewName" maxlength="6" style="width: 70%;margin-bottom: 20px; border-radius: 8px; border: 1px solid; font-size: 15px; text-align: center;"></label>
-		    		<label style="display: block;">직급 : <input type="text" id="NewRank" name="NewRank" maxlength="10" style="width: 70%;margin-bottom: 20px; border-radius: 8px; border: 1px solid; font-size: 15px; text-align: center;"></label>
-		    		<label>부서 : <input type="text" id="NewDept" name="NewDept" maxlength="10" style="width: 70%;margin-bottom: 20px; border-radius: 8px; border: 1px solid; font-size: 15px; text-align: center;"></label>
-		    	</div>
-		        <div class ="write_form">
-			        <button type="button" onclick="sendBtn()" id="sendBtn" class ="sendBtn" style="background: none; border-radius: 13px; width: 80px; margin: 0px 30px 0px 10px; font-size: 20px;">등록</button>
-			        <button type="button" class ="closeBtn" style="background: none; border-radius: 13px; width: 80px; font-size: 20px;">취소</button>
-		        </div>
-		    </div>
-		</div>
+  	</div>
+  	
+  	<div class="modal fade">
+	    <div class="bg"></div>
+	    <div class="modalNewMember" style="position: absolute; background-color: #fff; width: 400px; height: 200px; padding: 15px;">
+	    	<div class="newMemberInfo" style="text-align: center;">
+	    		<label style="display: block;">이름 : <input type="text" id="NewName" name="NewName" maxlength="6" style="width: 70%;margin-bottom: 20px; border-radius: 8px; border: 1px solid; font-size: 15px; text-align: center;"></label>
+	    		<label style="display: block;">직급 : <input type="text" id="NewRank" name="NewRank" maxlength="10" style="width: 70%;margin-bottom: 20px; border-radius: 8px; border: 1px solid; font-size: 15px; text-align: center;"></label>
+	    		<label>부서 : <input type="text" id="NewDept" name="NewDept" maxlength="10" style="width: 70%;margin-bottom: 20px; border-radius: 8px; border: 1px solid; font-size: 15px; text-align: center;"></label>
+	    	</div>
+	        <div class ="write_form">
+		        <button type="button" onclick="sendBtn()" id="sendBtn" class ="sendBtn" style="background: none; border-radius: 13px; width: 80px; margin: 0px 30px 0px 10px; font-size: 20px;">등록</button>
+		        <button type="button" class ="closeBtn" style="background: none; border-radius: 13px; width: 80px; font-size: 20px;">취소</button>
+	        </div>
+	    </div>
+ 	</div>
   
   <script>
   

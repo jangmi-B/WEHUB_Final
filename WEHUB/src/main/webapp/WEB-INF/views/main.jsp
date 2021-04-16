@@ -15,7 +15,7 @@
 <div id="contentForm">
     <div class="flex-grid" style="grid-row:1;">
         <div style="border-radius: 10px; height:270px; overflow: hidden;" >
-        <h2 class="h2d">최근 공지사항<a href="#"><i class="fas fa-plus con1" style="color: lightgray;"></i></a></h2>
+        <h2 class="h2d">최근 공지사항<a href="#"><i class="fas fa-plus con1" style="color: #5b18ff;"></i></a></h2>
         <ul>
         <c:choose>
         	<c:when test="${NoticeList.size() == 0}">
@@ -39,14 +39,14 @@
         </ul>
         </div>
         <div style="border-radius: 10px;">
-        <h2 class="h2d">오늘 결재사항<a href="#"><i class="fas fa-plus con1" style="color: lightgray;"></i></a></h2>
+        <h2 class="h2d">오늘 결재사항<a href="#"><i class="fas fa-plus con1" style="color: #5b18ff;"></i></a></h2>
         <ul>
             <li>[03/09] 지출결의서_개발2팀</li>
             <li>[03/09] 지출결의서_인사행정팀</li>
         </ul>
         </div>
         <div style="border-radius: 10px;">
-	    <h2 class="h2d">오늘 일정<a href="${path}/calendar/view"><i class="fas fa-plus" id="con1" style="color: lightgray;"></i></a></h2>
+	    <h2 class="h2d">오늘 일정<a href="${path}/calendar/view"><i class="fas fa-plus" id="con1" style="color: #5b18ff;"></i></a></h2>
 	        <ul>
 	        <c:choose>
 	        	<c:when test="${todaySchedule.size() == 0}">
@@ -163,7 +163,7 @@
         </c:forEach>
         </div>
          <div style="border-radius: 10px; grid-row: 6 / 9; overflow: hidden;">
-        	<h2 class="h2d">Community <i class="fas fa-shopping-cart"></i><a href="${path}/community/list"><i class="fas fa-plus con1" style="color: lightgray;"></i></a></h2>
+        	<h2 class="h2d">Community <i class="fas fa-shopping-cart"></i><a href="${path}/community/list"><i class="fas fa-plus con1" style="color: #5b18ff;"></i></a></h2>
            	<ul>
 			<c:choose>
 	        	<c:when test="${communityList.size() == 0}">

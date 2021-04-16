@@ -17,6 +17,8 @@
 	        M.ADDRESS,
 	        M.USER_STATUS,
 	        M.DEPT_CODE,
+	        M.USER_IMG_ORIFILENAME,
+		    M.USER_IMG_REFILENAME,
 	        D.DEPT_NAME
 	    FROM MEMBER M 
 	    JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
@@ -39,6 +41,8 @@
 		<id property="address" column="ADDRESS"/>
 		<id property="user_status" column="USER_STATUS"/>
 		<id property="dept_code" column="DEPT_CODE"/>
+		<id property="user_imgOriname" column="USER_IMG_ORIFILENAME"/>
+		<id property="user_imgRename" column="USER_IMG_REFILENAME"/>
 	</resultMap>
 	
 	
