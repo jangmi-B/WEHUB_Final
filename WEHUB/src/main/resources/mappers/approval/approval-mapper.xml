@@ -332,81 +332,81 @@
 	</update>
 	
 	<!-- insert Approval -->
- 	<insert id="insertApproval" parameterType="map"
-		useGeneratedKeys="true" keyProperty="appNo" keyColumn="APP_SEQ">
-		INSERT INTO APPROVAL(
-			APP_SEQ,
-			APP_WRITE_SYS,
-			FIRST_TIME_APPROVER,
-			INTERIM_APPROVER,
-			FINAL_APPROVER,
-			APP_CHECK_SYSDATE,
-			APP_REASON,
-			APP_ORIFILENAME,
-			APP_REFILENAME,
-			APP_WRITER_NO,
-			APP_CHECK_PROGRESS,
-			APPROVAL_KINDS,
-			APP_PRESENT
-		)
-		VALUES(
-			SEQ_APP_SEQ.NEXTVAL,
-			SYSDATE,
-			#{firstApprover},
-			#{interimApprover},
-			#{finalApprover},
-			#{appCheckSysdate},
-			#{appReason},
-			#{appOriginalFileName},
-			#{appRenameFileName},
-			#{appWriterNo},
-			DEFAULT,
-            #{appKinds},
-            DEFAULT
-		)
-	</insert>
-	
-	<!-- insert Leave -->
-	<insert id="insertAppLeave" parameterType="map"
-		useGeneratedKeys="true" keyProperty="leaveNo" keyColumn="LEAVE_SEQ">
-		INSERT INTO APP_LEAVE(
-			LEAVE_SEQ,
-			LEAVE_APP_SEQ,
-			LEAVE_CLASSIFY,
-			LEAVE_START,
-			LEAVE_FINISH,
-			LEAVE_DETAIL,
-			LEAVE_STATUS,
-			LEAVE_PRESENT,
-			APP_EMERGENCYCALL
-		)
-		VALUES(
-			SEQ_LEAVE_SEQ.NEXTVAL,
-			#{leaveAppNo},
-			#{leaveClassify},
-			#{leaveStart},
-			#{leaveFinish},
-			#{leaveDetail},
-			DEFAULT,
-			DEFAULT,
-			#{appEmergncyCall}
-		)
-	</insert>
-	
-	<!-- insert Receive -->
-	<insert id="insertReceiveRef" parameterType="map"
-		useGeneratedKeys="true" keyProperty="receiveRefNo" keyColumn="RECEIVE_REF_SEQ">
-		INSERT INTO APP_RECEIVE_REF(
-			RECEIVE_REF_SEQ,
-			RECEIVE_REF_APP_SEQ,
-			RECEIVE_REF_CC
-		)
-		VALUES(
-			SEQ_RECEIVE_REF_SEQ.NEXTVAL,
-			#{receiveRefAppNo},
-			#{referList}
-		)
-	</insert>
+    <insert id="insertApproval" parameterType="map"
+      useGeneratedKeys="true" keyProperty="appNo" keyColumn="APP_SEQ">
+      INSERT INTO APPROVAL(
+         APP_SEQ,
+         APP_WRITE_SYS,
+         FIRST_TIME_APPROVER,
+         INTERIM_APPROVER,
+         FINAL_APPROVER,
+         APP_CHECK_SYSDATE,
+         APP_REASON,
+         APP_ORIFILENAME,
+         APP_REFILENAME,
+         APP_WRITER_NO,
+         APP_CHECK_PROGRESS,
+         APPROVAL_KINDS,
+         APP_PRESENT
+      )
+      VALUES(
+         SEQ_APP_SEQ.NEXTVAL,
+         SYSDATE,
+         #{firstApprover},
+         #{interimApprover},
+         #{finalApprover},
+         #{appCheckSysdate},
+         #{appReason},
+         #{appOriginalFileName},
+         #{appRenameFileName},
+         #{appWriterNo},
+         DEFAULT,
+         #{appKinds},
+         DEFAULT
+      )
+   </insert>
+   
+   <!-- insert Leave -->
+   <insert id="insertAppLeave" parameterType="map"
+      useGeneratedKeys="true" keyProperty="leaveNo" keyColumn="LEAVE_SEQ">
+      INSERT INTO APP_LEAVE(
+         LEAVE_SEQ,
+         LEAVE_APP_SEQ,
+         LEAVE_CLASSIFY,
+         LEAVE_START,
+         LEAVE_FINISH,
+         LEAVE_DETAIL,
+         LEAVE_STATUS,
+         LEAVE_PRESENT,
+         APP_EMERGENCYCALL
+      )
+      VALUES(
+         SEQ_LEAVE_SEQ.NEXTVAL,
+         #{leaveAppNo},
+         #{leaveClassify},
+         #{leaveStart},
+         #{leaveFinish},
+         #{leaveDetail},
+         DEFAULT,
+         DEFAULT,
+         #{appEmergncyCall}
+      )
+   </insert>
+   
+   <!-- insert Receive -->
+   <insert id="insertReceiveRef" parameterType="map"
+      useGeneratedKeys="true" keyProperty="receiveRefNo" keyColumn="RECEIVE_REF_SEQ">
+      INSERT INTO APP_RECEIVE_REF(
+         RECEIVE_REF_SEQ,
+         RECEIVE_REF_APP_SEQ,
+         RECEIVE_REF_CC
+      )
+      VALUES(
+         SEQ_RECEIVE_REF_SEQ.NEXTVAL,
+         #{receiveRefAppNo},
+         #{referList}
+      )
+   </insert>
 
 	<!-- 지출결의서 등록 -->
 	<insert id="insertExpenseReport" parameterType="map"

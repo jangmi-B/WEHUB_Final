@@ -282,10 +282,9 @@ public class ApprovalController {
 		List<Member> memSearch = service2.getSearchMember(userName);
 
 		JsonArray array = new JsonArray();
-		for (int i = 0; i < memSearch.size(); i++) {
-			array.add(memSearch.get(i).getUser_name() + "_" + memSearch.get(i).getRank() + "_"
-					+ memSearch.get(i).getDept_code());
-		}
+		for(int i=0; i < memSearch.size(); i++) {
+	         array.add(memSearch.get(i).getUser_name() + "_" + memSearch.get(i).getRank() + "_" +memSearch.get(i).getDept_name());
+	      }
 
 		System.out.println(array);
 
