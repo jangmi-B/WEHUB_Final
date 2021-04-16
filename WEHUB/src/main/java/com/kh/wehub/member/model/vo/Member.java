@@ -39,6 +39,8 @@ public class Member {
 	
 	private String user_imgRename;
 	
+	private String userNewPwd; // 비빌번호 변경
+	
 	
 
   

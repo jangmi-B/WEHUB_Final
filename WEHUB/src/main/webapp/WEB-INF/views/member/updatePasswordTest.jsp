@@ -87,7 +87,7 @@
     }
     
 </style>
-	
+<form method="post">	
 	<div class="withDrawal">
 		<table> <!-- border="1px soild black;" -->
 			<tr>
@@ -105,12 +105,12 @@
 			<tr>
 				<td><div class="updateInfo">현재 비밀번호</div></td>
 				<td>&nbsp;&nbsp;&nbsp;</td>
-				<td><input type="password" id="nowPass" class="passInput"/></td>
+				<td><input type="password" id="user_pwd" class="passInput" name="user_pwd"/></td>
 			</tr>
 			<tr>
 				<td><div class="updateInfo" id="updatePass">변경할 비밀번호</div></td>
 				<td>&nbsp;</td>
-				<td><input type="password" id="newPass" class="passInput"  name="user_pwd" /></td>
+				<td><input type="password" id="userNewPwd" class="passInput"  name="userNewPwd" /></td>
 			</tr>
 			<tr>
 				<td><div class="updateInfo" id="updatePassChk">비밀번호 확인</div></td>
@@ -120,41 +120,33 @@
 			<tr>
 				<th colspan="3"><br><br>
 					<input type="button" id="notupdatePassBtn" onclick="location.href='${path}/main'" value="홈으로">
-					<input type="button" id="goUpdatePassBtn" onclick="location.href='${path}/member/updatePassword'" value="비밀번호 변경">
+					<input type="button" id="goUpdatePassBtn"  value="비밀번호 변경"><!-- onclick="location.href='${path}/member/updatePassword'" -->
 				</th>
 			</tr>
 		</table>
 	</div>
-	
+</form>	
 <script>
-	    var pageLink = '${path}/member/delete?user_id=${ loginMember.user_id }';
-	    
 	
 	$(document).ready(() => {
-		$("#id_Check_Btn").on("click", () => {
-			let nowPass = $("#nowPass").val().trim();
-			var idReg = /^[a-z][a-z0-9]{3,10}$/g;/* 패스워드 유효성 찾아보기 */
-			
-			if(!idReg.test(user_id)) {
-				alert("아이디는 영문 소문자와 숫자를 4~12자리로 입력하세요.");
-				
-				return;
-			}
+		$("#goUpdatePassBtn").on("click", () => {
+			let user_pwd = $("#user_pwd").val().trim();
 			
 			$.ajax({
 				type: "post",
-				url: "${path}/member/idCheck",
+				url: "${path}/member/pwdCheck",
 				dataType: "json",
 				data: {
-					user_id: nowPass // 파라미터_키값: value값
+					user_pwd: user_pwd // 파라미터_키값: value값
 				},
 				success: function(data) {
 					console.log(data);
 					
-					if(data.validate !== true) {
-						alert("사용 가능한 아이디 입니다.");
+					if(data.validatePwd !== true) {
+						alert("마즘");	
+						
 					} else {
-						alert("이미 사용중인 아이디 입니다. 다시 입력하여 주십시오.");						
+						alert("현재 비밀번호와 일치하지 않습니다. 다시 입력하여 주십시오.");						
 					}
 				},
 				error: function(e) {

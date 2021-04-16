@@ -13,7 +13,9 @@ public interface MemberDao {
 
 	//String selectMember(String userId);
 	Member selectMember(@Param("user_id") String user_id) ;
-
+	
+	Member selectMemberPwd(@Param("user_pwd") String user_pwd) ;// 현재 비밀번호 체크
+	
 	String findID(Member member);
 
 	String findPWD(Member member);

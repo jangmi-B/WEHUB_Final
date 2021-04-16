@@ -261,6 +261,23 @@ public class MemberController {
 		return map;
 	}
 	
+	// 현재 비밀번호 체크
+//	@RequestMapping("member/pwdCheck")
+//	@ResponseBody
+//	public Object pwdCheck(@RequestParam("user_pwd")String user_pwd, 
+//			@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+//		
+//		log.info("컨트롤러에 찍히나..user_pwd : {}", user_pwd);
+//		
+//		Map<String, Object> map = new HashMap<>();
+//		
+//		map.put("validate", service.validatePwd(user_pwd, loginMember));
+//		
+//		System.out.println(map);
+//		
+//		return map;
+//	}
+	
 	// 회원 수정
 	@RequestMapping(value="member/memModify", method = {RequestMethod.GET})
 	public String memModify() {

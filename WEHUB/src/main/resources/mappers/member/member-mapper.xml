@@ -93,6 +93,13 @@
 	 	AND USER_ID = #{user_id}
 	</select>
 	
+	<!-- 현재비밀번호 체크 -->
+ 	<select id="selectMemberPwd" parameterType="string" resultMap="memberResultMap">
+		<include refid="selectMemberSql"></include>
+	 	AND USER_ID = #{user_id}
+	 	AND USER_PWD = #{user_pwd}
+	</select>
+	
 	<select id="findID" parameterType="Member" resultType="String" >
 		SELECT  USER_ID 	FROM MEMBER 
 		WHERE USER_STATUS ='Y' AND  
