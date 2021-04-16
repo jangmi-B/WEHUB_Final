@@ -10,18 +10,6 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 
 <form style="margin-top: -90px; margin-left: -230px;">
-<!-- <div class="search">
-    <table>
-        <tr>
-            <td>
-                <i class="fa fa-search" aria-hidden="true"></i>
-            </td>
-            <td>
-                <input type='text' class='src' placeholder='검색어를 입력하세요.'/>
-            </td>
-        </tr>
-    </table>
-</div> -->
 <div id="contentForm">
     <div class="flex-grid" style="grid-row:1;">
         <div style="border-radius: 10px; height:270px;" >

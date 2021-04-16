@@ -24,29 +24,26 @@
                 <input type="password" name="userPwd" placeholder="Password">
                 <button type="submit" id="login-button">Log in</button>
                 <p id="findPwdAndSignUp">
-                    <a href="" id="fpas1">Forgot ID / Password?</a>
-                    <a href="" id="fpas2">Sign Up</a>
+                    <a onclick="location.href='${path}/member/findIDorPwd'" id="fpas1">Forgot ID / Password?</a>
+
+                    <a href="${path}/member/BeforeSignUp" id="fpas2">Sign Up</a>
                 </p>
             </form>
         </div>
     </div>
 </body>
+
 <script>
-     /* $("#login-button").click(function(event){
-		event.preventDefault();
-	 
-	    $('form').fadeOut(500);
-	    $('.wrapper').addClass('form-success');
-
-        setTimeout(function() {
-        location.href="${path}/home";
-        }, 2800);
-
-     }); */
-
-    //  $("#fpas1").click(function() {
-
-    //     alert();
-    //  })
+	$("#login-button").click(function(event){
+		
+		$('form').fadeOut(300);
+		$('.wrapper').addClass('form-success');
+		setTimeout(function() {
+		}, 2800);
+	      
+		return;
+		
+		$('#loginForm').submit();
+	});
 </script>
 </html>
