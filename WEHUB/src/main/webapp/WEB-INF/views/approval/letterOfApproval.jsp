@@ -106,11 +106,14 @@
                 </tr>
                 <tr>
                     <th colspan="8" style="height: 90px;" >
-                    	<label class="inputFileButton" for="inputFile">
+                    
+                    	<!-- <label class="inputFileButton" for="inputFile">
 					        첨부파일 업로드
 					    </label>
 					
-					    <input type="file" id="inputFile" style="display: none;" />
+					    <input type="file" id="inputFile" style="display: none;" /> -->
+					    
+					    <input type="file" id="inputFile"/>
                     </th>
                 </tr>
                 <tr>
