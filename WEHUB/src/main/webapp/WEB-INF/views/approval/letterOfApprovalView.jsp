@@ -5,6 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+<%-- <c:out value="${approval}"></c:out> --%>
 
 <%@ include file="../common/header.jsp" %>
 
@@ -119,7 +120,28 @@
                         <h3>파일첨부</h3>
                     </td>
                     <td colspan="6" style="height: 70px;">
-                    	<span id="referList"></span>
+                    	<span id="referList"><i class="far fa-save" style="color: #5b18ff;"></i></span>
+                    	
+                    	<c:if test="${ !empty approval.appOriginalFileName }">
+							<a href="javascript:fileDownload('${approval.appOriginalFileName}', '${approval.appRenameFileName}');" style="color: #5b18ff;">		
+								<%-- <img src="${path}/images/file.png" width="20" height="20"> --%>
+								<c:out value="${approval.appOriginalFileName}" />
+							</a>
+							<script>
+								function fileDownload(oriname, rename) {
+									const url="${path}/approval/appFileDown";
+									
+									let oName = encodeURIComponent(oriname);
+									let rName = encodeURIComponent(rename);
+									
+									location.assign(url + "?oriname=" + oName + "&rename=" + rName);
+								}
+							</script>
+						</c:if>
+						<c:if test="${ empty approval.appOriginalFileName }">			
+							<span style="color: gray;"> - </span>
+						</c:if>
+						
                     </td>
                 </tr>
                 <tr>
@@ -127,7 +149,7 @@
                 </tr>
                 <tr>
                     <td colspan="8">
-                        <textarea name="" id="" cols="151px" rows="11px" style="width: 100%; height: 100%; border: none; resize: none; overflow: hidden; font-size: 25px;" readonly>${approval.loaContent}</textarea>
+                        <textarea name="" id="" cols="151px" rows="11px" style="width: 100%; height: 100%; border: none; resize: none; overflow: hidden; font-size: 25px; padding: 20px;" readonly>${approval.loaContent}</textarea>
                     </td>
                 </tr>
                 <tr>
