@@ -61,7 +61,14 @@
     		<c:when test="${ SearchList != null}">
    				<c:forEach var="list" items="${SearchList}">
 			        <tr>
-			            <td class="HM_tdTag HM_UserImgTd"><img class="HM_userProfileBox" src="${path}/image/프로필이미지.png"></td>
+			            <td class="HM_tdTag HM_UserImgTd">
+			            	<c:if test="${list.user_imgRename == null}">
+				            	<img class="HM_userProfileBox" src="${path}/upload/userProfileImg/20210401_012704011.PNG">
+			            	</c:if>
+			            	<c:if test="${list.user_imgRename != null}">
+				            	<img class="HM_userProfileBox" src="${path}/upload/userProfileImg/${list.user_imgRename}">
+			            	</c:if>
+			            </td>
 			            <td class="HM_tdTag HM_NameTd">${list.user_name}</td>
 			            <td class="HM_tdTag HM_RankTd">${list.rank}</td>
 			            <td class="HM_tdTag HM_DepartmentTd">${list.dept_name}</td>

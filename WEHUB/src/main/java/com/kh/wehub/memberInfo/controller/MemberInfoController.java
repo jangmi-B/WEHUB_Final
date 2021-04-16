@@ -57,6 +57,7 @@ public class MemberInfoController {
 			model.addObject("info", info);
 			model.addObject("unreadCheck", unreadCheck);
 			model.addObject("SearchList", service.SearchList(info,searchList,searchText));
+			System.out.println(service.SearchList(info,searchList,searchText));
 		}else {
 			searchCount = service.infoSearchCount(searchList, searchText);
 			PageInfo info = new PageInfo(page, 10, searchCount, 10);
