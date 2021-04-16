@@ -219,7 +219,21 @@
 	<insert id="insertLetterOfApproval" parameterType="map"
   		useGeneratedKeys="true" keyProperty="appNo" keyColumn="APP_SEQ">
   		
-  		INSERT INTO APPROVAL
+  		INSERT INTO APPROVAL(
+  			APP_SEQ,
+  			APP_WRITE_SYS,
+  			FIRST_TIME_APPROVER,
+  			INTERIM_APPROVER,
+  			FINAL_APPROVER,
+  			APP_CHECK_SYSDATE,
+  			APP_REASON,
+  			APP_ORIFILENAME,
+  			APP_REFILENAME,
+  			APP_WRITER_NO,
+  			APP_CHECK_PROGRESS,
+  			APPROVAL_KINDS,
+  			APP_PRESENT
+  		)
   		VALUES(
   			SEQ_APP_SEQ.NEXTVAL,
   			SYSDATE,
@@ -232,7 +246,7 @@
 			#{appRenameFileName},
 			#{appWriterNo},
 			DEFAULT,
-  			'품의서',
+  			#{appKinds},
   			DEFAULT
  		)
   	</insert>
@@ -240,21 +254,32 @@
   	<insert id="insertLetterOfApproval2" parameterType="map"
   		useGeneratedKeys="true" keyProperty="loaAppNo" keyColumn="LOA_APP_SEQ">
   		
-  		INSERT INTO APP_LOA
-  		VALUES(
-  			SEQ_LOA_SEQ.NEXTVAL,
-  			#{loaAppNo},
-  			#{loaTitle},
-  			#{loaContent},
-  			DEFAULT,
-  			DEFAULT
- 		)
+  		INSERT INTO APP_LOA (
+			LOA_SEQ,
+			LOA_APP_SEQ,
+			LOA_TITLE,
+			LOA_DETAIL,
+			LOA_STATUS,
+			LOA_PRESENT
+		)
+		VALUES(
+			SEQ_LOA_SEQ.NEXTVAL,
+			#{loaAppNo},
+			#{loaTitle},
+			#{loaContent},
+			DEFAULT,
+			DEFAULT
+		)
   	</insert>
   	
   	<insert id="insertLetterOfApproval3" parameterType="map"
   		useGeneratedKeys="true" keyProperty="receiveRefAppNo" keyColumn="RECEIVE_REF_SEQ">
   		
-  		INSERT INTO APP_RECEIVE_REF
+  		INSERT INTO APP_RECEIVE_REF(
+			RECEIVE_REF_SEQ,
+  			RECEIVE_REF_APP_SEQ,
+  			RECEIVE_REF_CC
+  		)
   		VALUES(
   			SEQ_LOA_SEQ.NEXTVAL,
   			#{receiveRefAppNo},
@@ -382,7 +407,6 @@
 	</insert>
 
 	<!-- 지출결의서 등록 -->
-	
 	<insert id="insertExpenseReport" parameterType="map"
   		useGeneratedKeys="true" keyProperty="appNo" keyColumn="APP_SEQ">
   		
@@ -427,7 +451,11 @@
   	<insert id="insertExpenseReport3" parameterType="map"
   		useGeneratedKeys="true" keyProperty="receiveRefAppNo" keyColumn="RECEIVE_REF_SEQ">
   		
-  		INSERT INTO APP_RECEIVE_REF
+  		INSERT INTO APP_RECEIVE_REF(
+  			RECEIVE_REF_SEQ,
+			RECEIVE_REF_APP_SEQ,
+			RECEIVE_REF_CC
+  		)
   		VALUES(
   			SEQ_RECEIVE_REF_SEQ.NEXTVAL,
   			#{receiveRefAppNo},
