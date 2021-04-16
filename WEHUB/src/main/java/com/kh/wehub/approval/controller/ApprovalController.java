@@ -176,7 +176,7 @@ public class ApprovalController {
 		
 		approval.setAppWriterNo(loginMember.getUser_no());
 		
-		// 품의서 파일업로드
+		// 품의서 파일업로드 // 살아야한다...
 		if(upfile != null && !upfile.isEmpty()) {
 			
 			String renameFileName = saveAppFile(upfile, request);
