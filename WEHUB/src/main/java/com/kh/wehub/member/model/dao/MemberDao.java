@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.kh.wehub.member.model.vo.Member;
+import com.kh.wehub.memberInfo.model.vo.InsertNewMember;
 
 @Mapper
 public interface MemberDao {
@@ -25,6 +26,8 @@ public interface MemberDao {
 	int GetKey(String user_id, String user_key); // 유저 인증키 생성 메서드
 
 	int searchPassword(@Param("user_id")String user_id, @Param("email")String email,@Param("key") String key);// 회원 임시 비밀번호 변경 메서드
+	
+	InsertNewMember getNewMember(String userNo); //임시멤버 찾아옴
 
 }
 

@@ -40,10 +40,15 @@
 		<id property="address" column="ADDRESS"/>
 		<id property="user_status" column="USER_STATUS"/>
 		<id property="dept_code" column="DEPT_CODE"/>
-
 		<id property="user_imgOriname" column="USER_IMG_ORIFILENAME"/>
 		<id property="user_imgRename" column="USER_IMG_REFILENAME"/>
-
+	</resultMap>
+	
+	<resultMap type="InsertNewMember" id="newMemberResultMap">
+		<id property="new_no" column="NEW_NO"/>
+		<result property="new_name" column="NEW_NAME"/>
+		<result property="new_rank" column="NEW_RANK"/>
+		<result property="new_dept" column="NEW_DEPT"/>
 	</resultMap>
 	
 	<insert id="insertMember" parameterType="Member"
@@ -178,7 +183,14 @@
 	</delete>
 	
 	<!-- 비밀번호 변경 -->
-		<update id="updatePw" >
-			update member set PASSWORD = #{user_pwd} where id = #{user_id}
-		</update>
+	<update id="updatePw" >
+		update member set PASSWORD = #{user_pwd} where id = #{user_id}
+	</update>
+		
+	<!-- 임시회원 찾아오는 쿼리 -->
+	<select id="getNewMember" parameterType="string" resultMap="newMemberResultMap">
+		SELECT N.NEW_NO, N.NEW_NAME, N.NEW_RANK, N.NEW_DEPT
+		FROM NEWMEMBER N
+		WHERE NEW_NO = #{userNo}
+	</select>
 </mapper>
