@@ -113,13 +113,20 @@
 							value: value
 						},
 						success: function(data) {
-							document.getElementById('user_no').value = data.member.new_no;
-							document.getElementById('user_name').value = data.member.new_name;
-							document.getElementById('rank').value = data.member.new_rank;
-							document.getElementById('dept_code').value = data.member.new_dept;
+							if(data.member != 0){
+								document.getElementById('user_no').value = data.member.new_no;
+								document.getElementById('user_name').value = data.member.new_name;
+								document.getElementById('rank').value = data.member.new_rank;
+								document.getElementById('dept_code').value = data.member.new_dept;
+							} else{
+								Swal.fire({
+									  icon: 'error',
+									  text: "유효하지 않은 사번입니다.!",
+									})
+							}
 						},
 						error: function(e) {
-							console.log(e);
+							 
 						}				
 					});
 				  
@@ -128,10 +135,6 @@
 			    }
 			  }
 			});
-
-			if (userNo) {
-			  Swal.fire(`Your IP address is ${userNo}`)
-			}
 	}
 	
 
