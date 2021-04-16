@@ -49,6 +49,16 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		return memberInfoDao.SearchCount(map);
 	}
 
+	@Override
+	public int insertMember(String newName, String newRank, String newDept) {
+
+		int result = 0;
+		
+		result = memberInfoDao.insertMember(newName, newRank, newDept);
+		
+		return result;
+	}
+
 
 	
 

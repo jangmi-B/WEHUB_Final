@@ -17,4 +17,6 @@ public interface MemberInfoDao {
 	public List<Member> SearchList(RowBounds rowBounds, Map<String, Object> map);
 
 	public int SearchCount(Map<String, Object> map);
+
+	public int insertMember(@Param("newName") String newName, @Param("newRank") String newRank,@Param("newDept") String newDept);
 }

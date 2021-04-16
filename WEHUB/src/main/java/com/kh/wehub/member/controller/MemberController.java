@@ -536,4 +536,9 @@ public class MemberController {
 			file.delete();
 		}	
 	}
+	
+	
+	
+	
+	
 }

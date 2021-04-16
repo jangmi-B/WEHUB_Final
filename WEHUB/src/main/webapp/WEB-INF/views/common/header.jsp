@@ -37,7 +37,7 @@
     </div>
     <div class="header_user_wrap">
       <div class="header_profile">
-        <i class="far fa-user-circle"></i>
+        <img alt="x" src="${path}/upload/userProfileImg/${loginMember.user_imgRename}" style="width: 40px; border-radius: 30px;">
       </div>
       <div class="header_userInfo">
         <ul id="header_user">

@@ -6,13 +6,16 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 <%@ include file="../common/header.jsp" %>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <div class="index_section">
       <ul>
         <li><h1>인명관리</h1>
           <ul>
             <li>사원 조회</li>
-            <!-- <li>example</li> -->
+            <c:if test="${loginMember.user_id eq 'admin'}">
+            	<li onclick='insertMember()'>사원 등록</li>
+            </c:if>
           </ul>
         </li>
       </ul>
@@ -29,14 +32,14 @@
             <option value="user_name"<c:out value="${map.searchList == 'user_name'?'selected':''}"/>>이름</option>
             <option value="rank"<c:out value="${map.searchList == 'rank'?'selected':''}"/>>직급</option>
         </select>&nbsp;
-        <input type="text" class="HM_searchArea" name="searchText" placeholder="검색">
+        <input type="text" class="HM_searchArea" name="searchText">
         <button type="submit" class="HM_searchBox"><i class="fas fa-search"></i></button>
         <!-- <input type="text" class="search form-control" placeholder="검색어를 입력해주세요"> -->
         
     </div>
   </div>
 <div id="printArea">
-  <table class="HM_TableArea checkbox_group" cellpadding="0" cellspacing="0" border="0">
+  <table class="HM_TableArea checkbox_group" cellpadding="0" cellspacing="0" border="0" style="width: 80%;">
     <thead class="HMtbody">
         <tr class="header_th">
             <th class="HM_trTag HM_NameTr" colspan="2">이름</th>
@@ -92,5 +95,70 @@
     <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="location.href='${path}/memberInfo/list?page=${info.getNextPage()}&searchText=${map.searchText}&searchList=${map.searchList}'">&gt;&gt;</button>&nbsp;&nbsp;
     <button class="HM_pagingBtn" id="HM_pagingBtnId" onclick="location.href='${path}/memberInfo/list?page=${info.getMaxPage()}&searchText=${map.searchText}&searchList=${map.searchList}'">마지막페이지</button>
   </div>
+  		<div class="modal fade">
+		    <div class="bg"></div>
+		    <div class="modalNewMember" style="position: absolute; background-color: #fff; width: 400px; height: 200px; padding: 15px;">
+		    	<div class="newMemberInfo" style="text-align: center;">
+		    		<label style="display: block;">이름 : <input type="text" id="NewName" name="NewName" maxlength="6" style="width: 70%;margin-bottom: 20px; border-radius: 8px; border: 1px solid; font-size: 15px; text-align: center;"></label>
+		    		<label style="display: block;">직급 : <input type="text" id="NewRank" name="NewRank" maxlength="10" style="width: 70%;margin-bottom: 20px; border-radius: 8px; border: 1px solid; font-size: 15px; text-align: center;"></label>
+		    		<label>부서 : <input type="text" id="NewDept" name="NewDept" maxlength="10" style="width: 70%;margin-bottom: 20px; border-radius: 8px; border: 1px solid; font-size: 15px; text-align: center;"></label>
+		    	</div>
+		        <div class ="write_form">
+			        <button type="button" onclick="sendBtn()" id="sendBtn" class ="sendBtn" style="background: none; border-radius: 13px; width: 80px; margin: 0px 30px 0px 10px; font-size: 20px;">등록</button>
+			        <button type="button" class ="closeBtn" style="background: none; border-radius: 13px; width: 80px; font-size: 20px;">취소</button>
+		        </div>
+		    </div>
+		</div>
+  
+  <script>
+  
+  function insertMember() {
+	
+	      document.querySelector(".modal").classList.remove("fade");
+	  
+	    const close = () => {
+	      document.querySelector(".modal").classList.add("fade");
+	    }
+		  
+	    document.querySelector('.closeBtn').addEventListener("click", close);
+	    document.querySelector('.sendBtn').addEventListener("click", close);
+	    document.querySelector(".bg").addEventListener("click", close);
+  }
+  
+  function sendBtn() {
+	  var newName = document.getElementById('NewName').value;
+	  var newRank = document.getElementById('NewRank').value;
+	  var newDept = document.getElementById('NewDept').value;
+	  
+	  console.log(newName);
+	  console.log(newRank);
+	  console.log(newDept);
+	  
+	  
+	  $.ajax({
+		  	url:"${path}/insertNewMember",
+		  	type:"post",
+		  	data:{
+		  		newName : newName,
+		  		newRank : newRank,
+		  		newDept : newDept,
+		  	},
+		  	success:function(data){
+		  		swal("등록되었습니다.");
+		  		
+		  	},
+		  	
+		  	error: function(e){
+				alert("실패");
+				console.log(e);
+			}
+	  });  
+  }
+  
+  
+  
+  
+  </script>
+  
   
  <%@ include file ="../common/footer.jsp" %>

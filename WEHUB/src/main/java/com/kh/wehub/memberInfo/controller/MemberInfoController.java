@@ -3,20 +3,21 @@ package com.kh.wehub.memberInfo.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.wehub.common.util.PageInfo;
+import com.kh.wehub.member.model.service.MemberService;
 import com.kh.wehub.member.model.vo.Member;
 import com.kh.wehub.memberInfo.model.service.MemberInfoService;
+import com.kh.wehub.memberInfo.model.vo.InsertNewMember;
 import com.kh.wehub.message.model.service.MessageService;
 
 @Controller
@@ -68,5 +69,25 @@ public class MemberInfoController {
 		return model;
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping(value ="/insertNewMember", method= {RequestMethod.POST})
+	public InsertNewMember insertMember(
+			@RequestParam("newName") String newName,
+			@RequestParam("newRank") String newRank,
+			@RequestParam("newDept") String newDept) {
+		
+		System.out.println(newName);
+		System.out.println(newRank);
+		System.out.println(newDept);
+		
+		int result = service.insertMember(newName, newRank, newDept);
+		
+		if(result > 0) {
+			System.out.println("신규맴버 등록성공");
+		}else {
+			System.out.println("실패");
+		}
+		
+		return null;
+	}
 }
