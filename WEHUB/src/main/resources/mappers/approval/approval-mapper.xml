@@ -346,7 +346,8 @@
 			APP_REFILENAME,
 			APP_WRITER_NO,
 			APP_CHECK_PROGRESS,
-			APPROVAL_KINDS
+			APPROVAL_KINDS,
+			APP_PRESENT
 		)
 		VALUES(
 			SEQ_APP_SEQ.NEXTVAL,
@@ -360,7 +361,8 @@
 			#{appRenameFileName},
 			#{appWriterNo},
 			DEFAULT,
-            #{appKinds}
+            #{appKinds},
+            DEFAULT
 		)
 	</insert>
 	
