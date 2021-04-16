@@ -46,9 +46,9 @@
                 <input type="hidden" id="user_no" name="new_no">
                 <!-- <input type="text" name="user_companyname"  placeholder="킆릭하여 프로필 이미지 선택하기" style="font-size: 13px;" readonly="readonly"> -->
                 <!-- <input type="button" name="user_companyname_btn"  value="회사 확인" onclick="" style="font-size: 13px;"> -->
+                <input type="text" id="user_name"  name="user_name" placeholder="이름  UserName" style="font-size: 13px;" readonly>
                 <input type="text" id="rank" name="rank" placeholder="직급  Rank" style="font-size: 13px;" readonly>
                 <!-- <input type="text" name="employeeNum" placeholder="사번  employee Number" style="font-size: 13px;"> -->
-                <input type="text" id="user_name"  name="user_name" placeholder="이름  UserName" style="font-size: 13px;" readonly>
                 <input type="text" id="dept_code"  name="dept_code" placeholder="부서이름  DepartmentName" style="font-size: 13px;" readonly>
                 <input type="email" name="email" placeholder="이메일  E-Mail" style="font-size: 13px;">
                 <br><br>
@@ -74,21 +74,6 @@
                 </p>
                 
             </form>
-            <!-- 사번검색 modal -->
-	   	 <div class="modal_signUp fade">
-	          <div class="bg"></div>
-	          <div class="modalNewMember" style="position: absolute; background-color: #fff; width: 400px; height: 200px; padding: 15px;">
-	             <div class="newMemberInfo" style="text-align: center;">
-	                <label style="display: block;">이름 : <input type="text" id="NewName" name="NewName" maxlength="6" style="width: 70%;margin-bottom: 20px; border-radius: 8px; border: 1px solid; font-size: 15px; text-align: center;"></label>
-	                <label style="display: block;">직급 : <input type="text" id="NewRank" name="NewRank" maxlength="10" style="width: 70%;margin-bottom: 20px; border-radius: 8px; border: 1px solid; font-size: 15px; text-align: center;"></label>
-	                <label>부서 : <input type="text" id="NewDept" name="NewDept" maxlength="10" style="width: 70%;margin-bottom: 20px; border-radius: 8px; border: 1px solid; font-size: 15px; text-align: center;"></label>
-	             </div>
-	              <div class ="write_form">
-	                 <button type="button" onclick="sendBtn()" id="sendBtn" class ="sendBtn" style="background: none; border-radius: 13px; width: 80px; margin: 0px 30px 0px 10px; font-size: 20px;">등록</button>
-	                 <button type="button" class ="closeBtn" style="background: none; border-radius: 13px; width: 80px; font-size: 20px;">취소</button>
-	              </div>
-	          </div>
-	      </div>
       </div>
   </div>
 </body>
@@ -112,13 +97,25 @@
 							value: value
 						},
 						success: function(data) {
-							document.getElementById('user_no').value = data.member.new_no;
-							document.getElementById('user_name').value = data.member.new_name;
-							document.getElementById('rank').value = data.member.new_rank;
-							document.getElementById('dept_code').value = data.member.new_dept;
+							if(data.member != 0){
+								$("#user_name").attr('class','newMemInput');
+								$("#rank").attr('class','newMemInput');
+								$("#dept_code").attr('class','newMemInput');
+								
+								document.getElementById('user_no').value = data.member.new_no;
+								document.getElementById('user_name').value = data.member.new_name;
+								document.getElementById('rank').value = data.member.new_rank;
+								document.getElementById('dept_code').value = data.member.new_dept;
+								
+							} else{
+								Swal.fire({
+									  icon: 'error',
+									  text: "유효하지 않은 사번입니다.!",
+									})
+							}
 						},
 						error: function(e) {
-							console.log(e);
+							 
 						}				
 					});
 				  
@@ -127,9 +124,6 @@
 			    }
 			  }
 			});
-			if (userNo) {
-			  Swal.fire(`Your IP address is ${userNo}`)
-			}
 	}
 	
 	function dataCheck() {

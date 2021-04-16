@@ -497,17 +497,17 @@ public class MemberController {
 	@ResponseBody
 	public Object findNewMem(@RequestParam("value")String userNo) {
 		
-		System.out.println(userNo);
-		
 		InsertNewMember member = service.getNewMember(userNo);
 		
-		System.out.println(member);
-		
 		Map<String, Object> map = new HashMap<>();
-		map.put("member", member);
+		
+		if(member != null) {
+			map.put("member", member);
+		} else {
+			map.put("member", 0);
+		}
 		
 		return map;
-		
 	}
 	
 	private String saveFile(MultipartFile file, HttpServletRequest request) {
