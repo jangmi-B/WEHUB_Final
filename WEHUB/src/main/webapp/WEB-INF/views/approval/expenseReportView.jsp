@@ -13,6 +13,10 @@
 <script src="${path}/js/jquery-3.5.1.js"></script>
 
 <%@ include file="../approval/approvalSubMenu.jsp" %>
+<style>
+    * {font-family: 'InfinitySans-RegularA1'; }
+</style>
+
 	<c:if test="${!empty approval.appReason}">
 		<div style="position:absolute; margin-left:400px; margin-top:30px">
 			<img src="${path}/images/rejected.png" style="width:200px; height:200px" />
@@ -108,7 +112,7 @@
                 </tr>
                 <tr>                    
                     <td colspan="1">마감일</td>
-                    <td colspan="1"><input type="date" name="erDeadline" id="erDeadline" style="font-size:20px;" readonly value="${approval.erDeadline}" ></td>
+                    <td colspan="1"><input type="date" name="erDeadline" id="erDeadline" style="background:none;margin-left:35px;font-size:30px;" readonly value="${approval.erDeadline}" ></td>
                     <td colspan="1" style="height: 70px; width: 80px;">지출금액</td>
                     <td colspan="3" ><input type="text" name="allAmount" id="allAmount" readonly value="${approval.allAmount}"/></td>
                     <td colspan="2" style="border:0px"><input type="text" name="monetaryUnit" id="monetaryUnit" readonly value="${approval.monetaryUnit}"/></td>
@@ -124,18 +128,25 @@
                     <td colspan="3">비 고</td>
                 </tr>
                 
-	            <%-- <c:forEach begin="1" end="${fn:length(nameList)}"> --%>
-	            
-	                <c:forTokens var="erD" items="${approval.erDetail}" delims=",">
-	            		<c:set var="list1" value="${erD}"/>
-	            		
-		                <tr>
-				        	<td colspan="2"><input type="text" value="${list1}" readonly ></td>
-						    <td colspan="2"><input type="text" value="${approval.erAmount}" readonly ></td>
-			                <td colspan="3"><input type="text" value="${approval.erReference}" readonly ></td>
-		                </tr>
-	            	</c:forTokens>
-	            <%-- </c:forEach> --%>
+                <!-- 적요 -->
+                <c:set var="erDetailArr" value="${ approval.erDetail }"></c:set>
+				<c:set var="erDeArr" value="${fn:split(erDetailArr,',')}"/> 
+				
+				<!-- 금액  -->
+				<c:set var="erAmountArr" value="${ approval.erAmount }"></c:set>
+				<c:set var="eAArr" value="${fn:split(erAmountArr,',')}"/>
+				
+				<!-- 비고  -->
+				<c:set var="erReferenceArr" value="${ approval.erReference }"></c:set>
+				<c:set var="eRFArr" value="${fn:split(erReferenceArr,',')}"/>
+
+                <c:forEach begin="0" end="${fn:length(eRFArr)-1}" varStatus="status">
+	                <tr>
+				        <td colspan="2"><input type="text" style="font-size:20px; height:55px" value="${erDeArr[status.index]}" readonly ></td>
+					    <td colspan="2"><input type="text" style="font-size:20px; height:55px" value="${eAArr[status.index]}" readonly ></td>
+		                <td colspan="3"><input type="text" style="font-size:20px; height:55px" value="${eRFArr[status.index]}" readonly ></td>
+	                </tr>
+            	</c:forEach>
                 <tr>
                     <td colspan="8" style="text-align: center; height: 100px; border-bottom: none;">위 금액을 청구하오니 결재바랍니다.</td>
                 </tr>

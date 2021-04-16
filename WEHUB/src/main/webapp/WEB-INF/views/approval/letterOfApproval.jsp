@@ -15,32 +15,10 @@
 <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style>
     * {font-family: 'InfinitySans-RegularA1'; }
-   
-   /* 휴가 구분 css */
-   .form-radio{
-       display: inline-block; 
-       line-height: 20px; 
-       vertical-align: middle;
-       font-size: 14px; 
-   }
-   .form-chek::before, .form-radio::before{
-       content: ""; 
-       display: inline-block; 
-       width: 10px; 
-       height: 10px; 
-       background: #ffffff; 
-       border: 1px solid #3d3d3e; 
-       margin-right: 8px;
-   }
-   .form-radio::before{ border-radius: 50%; }
-   .input-chek, .input-radio{ display: none; }
-   .input-chek:checked + .form-chek::before, .input-radio:checked + .form-radio::before{ background: #5b18ff; }
-   .input-chek:checked + .form-chek, .input-radio:checked + .form-radio{ color: #5b18ff; }
-   .leaveDetailTextArea { font-size: 25px; }
 </style>
 
 <form action="${path}/approval/letterOfApproval" method="POST" name="loaWriteForm" onsubmit="return check_onclick()">
-    <div class="cash-form-section" style="height: 100%; margin: 0 300px 0 300px;">
+    <div class="cash-form-section" style="height: 100%; width:68%; margin: 0 300px 0 300px;">
         <div class="cash-disbursement" style="text-align: center; margin: 80px 0px 80px 200px; border: 2px solid black;">
             <table border="2" style="width: 100%; font-size: 20px; border-collapse: collapse;">
                 <tr>

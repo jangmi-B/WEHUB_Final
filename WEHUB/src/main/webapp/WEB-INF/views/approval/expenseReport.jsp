@@ -15,9 +15,12 @@
 <% Calendar today =  Calendar.getInstance(); %>
 
 <%@ include file="../approval/approvalSubMenu.jsp" %>
+<style>
+    * {font-family: 'InfinitySans-RegularA1'; }
+</style>
 
 <form action="${path}/approval/expenseReport" method="POST" name="erWriteForm" onsubmit="return check_onclick()"> 
-    <div class="cash-form-section" style="height: 100%; margin: 0 300px 0 300px;">
+    <div class="cash-form-section" style="height: 100%; width:68%; margin: 0 300px 0 300px;">
         <div class="cash-disbursement" style="text-align: center; margin: 80px 0px 80px 200px; border: 2px solid black;">
             <table border="2" style="width: 100%; font-size: 20px; border-collapse: collapse;">
                 <tr>
@@ -92,8 +95,22 @@
                 <tr id="putContents">
                     <td colspan="2"><input type="text" name="erDetail" id="erDetail"></td>
                     <td colspan="2"><input type="text" name="erAmount" id="erAmount"></td>
-                    <td colspan="3"><input type="text" name="erReference" id="erReference"></td> 
-                </tr>                
+                    <td colspan="3"><input type="text" name="erReference" id="erReference" value="-"></td> 
+                </tr> 
+                
+                <script>
+                // name이 같아서 비교 불가
+                /* $(document).ready(function() {
+                	$('#erBtn').click(function() {
+                		var hey = "-";
+                		
+                		if($('#erReference') == null || $('#erReference') == "") {
+                			$('#erReference').val(hey);
+                		}
+                	});
+                }); */
+                </script>
+                
                 <tr>
                     <td colspan="8" style="text-align: center; height: 100px; border-bottom: none;">위 금액을 청구하오니 결재바랍니다.</td>
                 </tr>
@@ -115,7 +132,7 @@
             </table>
         </div>
         <div id="button">
-	        <button type="submit">등록</button>
+	        <button type="submit" id="erBtn">등록</button>
 	        <input type="text" style="border: none; width: 40px;" disabled>
 	        <button type="reset">취소</button>
         </div>
@@ -250,7 +267,7 @@
     			 '<tr id="putContents">'
                 +'<td colspan="2"><input type="text" name="erDetail" id="erDetail"></td>'
                 +'<td colspan="2"><input type="text" name="erAmount" id="erAmount"></td>'
-                +'<td colspan="3"><input type="text" name="erReference" id="erReference"></td>'
+                +'<td colspan="3"><input type="text" name="erReference" id="erReference" value="-"></td>'
             	+'</tr> '
             	/* +'<script>$(document).ready(function(){$("#price").bind("keyup keydown",function(){inputNumberFormat(this);});function inputNumberFormat(obj) {obj.value = comma(uncomma(obj.value));}function comma(str) {str = String(str);return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,");}function uncomma(str) {str = String(str);return str.replace(/[^\d]+/g, "");}function cf_getNumberOnly (str) {var len= str.length;var sReturn  = "";for (var i=0; i<len; i++){if ( (str.charAt(i) >= "0") && (str.charAt(i) <= "9") ){sReturn += str.charAt(i);}}return sReturn;}});<\/script>' 
              */);

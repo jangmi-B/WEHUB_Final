@@ -12,6 +12,9 @@
 <script src="${path}/js/jquery-3.5.1.js"></script>
 
 <%@ include file="../approval/approvalSubMenu.jsp" %>
+<style>
+    * {font-family: 'InfinitySans-RegularA1'; }
+</style>
 
     <div class="index_section2">
         <form action="">

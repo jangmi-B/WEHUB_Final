@@ -13,6 +13,10 @@
 
 <%@ include file="../approval/approvalSubMenu.jsp" %>
 
+<style>
+    * {font-family: 'InfinitySans-RegularA1'; }
+</style>
+
 	<c:if test="${!empty approval.appReason}">
 		<div style="position:absolute; margin-left:400px; margin-top:30px">
 			<img src="${path}/images/rejected.png" style="width:200px; height:200px" />

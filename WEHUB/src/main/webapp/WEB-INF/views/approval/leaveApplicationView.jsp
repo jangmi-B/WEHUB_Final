@@ -13,6 +13,9 @@
 <script src="${path}/js/jquery-3.5.1.js"></script>
 
 <%@ include file="../approval/approvalSubMenu.jsp" %>	
+<style>
+    * {font-family: 'InfinitySans-RegularA1'; }
+</style>
 	
     <form action="${path}/approval/leaveApplication" method="post">
 	    <div class="cash-form-section" style="height: 100%; margin: 0 300px 0 300px;">
