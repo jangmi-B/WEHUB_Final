@@ -18,7 +18,7 @@
 	            <div>
 	                <ul>
 	                    <li><a href="${path}/community/myList">-내가 작성한 목록</a></li>
-	                    <li><a href="">-즐겨찾기</a></li>
+	                    <li><a href="${path}/community/favList">-즐겨찾기</a></li>
 	                </ul>
 	            </div>
 	        </li>
@@ -327,7 +327,7 @@ function updateBtn(no) {
 		
 		$.ajax({
 			type:"GET",
-			url:"writeView",
+			url:"updateView",
 			data:{
 				no:no,
 			},
@@ -344,7 +344,7 @@ function updateBtn(no) {
 				$('#updateList').remove();
 				$('#deleteList').remove();
 				
-				var form = $("<form id='writeForm' action='/community/writeView' method='get' enctype='multipart/form-data'></form>").insertAfter('.CM-index_section');
+				var form = $("<form id='writeForm' action='/community/updateView' method='get' enctype='multipart/form-data'></form>").insertAfter('.CM-index_section');
 					var divFirst = $("<div style='height: 600px; margin: 100px 400px 80px 500px; font-size: 23px; border: 1px solid; border-radius: 10px;'></div>").appendTo(form);
 					$("<span style='display: block; float: left;'></span>").text("작성자 : " + data.member.user_name).appendTo(divFirst);
 					$("<span style='display: block; text-align: end;'></span>").text("ID : " + data.member.user_id).appendTo(divFirst);

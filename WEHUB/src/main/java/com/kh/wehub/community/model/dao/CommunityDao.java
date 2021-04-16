@@ -19,7 +19,7 @@ public interface CommunityDao {
 	
 	List<Community> selectList(RowBounds rowBounds, HashMap<Object, Object> map);
 	
-	Community selectView(@Param("no") int no, @Param("userNo")int userNo);
+	Community selectView(@Param("no") int no, @Param("userNo") int userNo);
 
 	int insert(HashMap<Object, Object> map);
 
@@ -42,6 +42,8 @@ public interface CommunityDao {
 	List<Community> favList(RowBounds rowBounds, int user_no);
 
 	List<Community> selectMainList();
+
+	Community updateView(@Param("no") int no, @Param("userNo")int userNo);
 
 
 

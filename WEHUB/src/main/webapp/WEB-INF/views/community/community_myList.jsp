@@ -12,6 +12,7 @@
 	
 	    <div class="CM-index_section">
 	        <h1>커뮤니티</h1>
+	        <div class="line"></div>
 	        <button id="CM_write_Btn">게시글 작성</button>
 	        <li class="CM-form">보관함
 	            <div>
@@ -25,13 +26,13 @@
 		<form id="listform" method="get" action="${path}/community/list">
 	    <div id="searchArea" style="margin: 40px 0px 0px 65%;">
 	    </div>
-			<table id="CM-table" style="background: lavender; margin: 30px 0px 30px 470px; border-radius: 10px;	border:1px solid darkblue; line-height : 4;">
+			<table id="CM-table" style=" margin: 30px 0px 30px 470px; border-radius: 10px;	border:1px solid darkblue; line-height : 4;">
 				<thead style="text-align: center;">
-					<tr style="height:50px;">
-						<td style="width:120px; border-right: 1px solid cornsilk; border-bottom: 1px dashed beige;">번호</td>
-						<td style="width:600px; border-right: 1px solid cornsilk; border-bottom: 1px dashed beige;">제목</td>
-						<td style="width:120px; border-right: 1px solid cornsilk; border-bottom: 1px dashed beige;">조회수</td>
-						<td style="width:120px; border-bottom: 1px dashed beige;">날짜</td>
+					<tr style="height:50px; background: lavender;">
+						<td style="width:120px;">번호</td>
+						<td style="width:600px;">제목</td>
+						<td style="width:120px;">조회수</td>
+						<td style="width:120px;">날짜</td>
 					</tr>
 				</thead>
 				<tbody id="CM_Content" style="text-align: center;">
@@ -41,11 +42,11 @@
 			    		</c:when>
 			    		<c:when test="${ list != null}">
 		   					<c:forEach var="list" items="${list}">
-							        <tr id='tag_TR${list.rownum}' style='cursor:pointer;' class='tag_TR' onclick="view(${list.cm_no})">
-							            <td id='listNo' style='border-right: 1px solid cornsilk;'>${list.cm_no}</td>
-							            <td style='border-right: 1px solid cornsilk;'>${list.cm_title}</td>
-							            <td style='border-right: 1px solid cornsilk;'>${list.cm_readCount}</td>
-							            <td style='border-right: 1px solid cornsilk;'><fmt:formatDate type="date" value="${list.cm_date}"/></td>
+							        <tr id='tag_TR${list.cm_no}' style='cursor:pointer;' class='tag_TR' onclick="view(${list.cm_no})">
+							            <td id='listNo'>${list.rownum}</td>
+							            <td>${list.cm_title}</td>
+							            <td>${list.cm_readCount}</td>
+							            <td><fmt:formatDate type="date" value="${list.cm_date}"/></td>
 							        </tr>
 					        </c:forEach>
 			        	</c:when>
@@ -241,7 +242,7 @@ function updateBtn(no) {
 		
 		$.ajax({
 			type:"GET",
-			url:"writeView",
+			url:"updateView",
 			data:{
 				no:no,
 			},

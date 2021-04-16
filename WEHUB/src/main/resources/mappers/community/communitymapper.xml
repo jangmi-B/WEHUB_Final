@@ -140,6 +140,26 @@
 		WHERE
 			CM_NO=#{no}
 	</update>
+	
+	<select id="updateView" parameterType="_int" resultMap="CommunityResultMap">
+		SELECT C.CM_NO,
+			C.USER_NO,
+			M.USER_NAME,
+			M.USER_ID, 
+			C.CM_TITLE, 
+			C.CM_CONTENT, 
+			C.CM_READCOUNT, 
+			C.CM_DATE, 
+			C.CM_MODIFY_DATE, 
+			C.CM_STATUS,
+			NVL2(B.USER_NO,'Y','N') AS CM_BOOKMARK
+		FROM  COMMUNITY C
+		LEFT OUTER JOIN (SELECT USER_NO, CM_NO FROM CM_BOOKMARK WHERE USER_NO=#{userNo}) B
+       	ON (C.CM_NO = B.CM_NO)
+		JOIN MEMBER M ON (M.USER_NO = C.USER_NO)
+		WHERE C.CM_NO = #{no}
+		ORDER BY C.CM_DATE DESC
+	</select>
 
 	<update id="deleteList" parameterType="_int">
 		UPDATE COMMUNITY

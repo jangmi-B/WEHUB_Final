@@ -136,16 +136,9 @@ public class CommunityController {
 	
 	@RequestMapping(value="community/writeView", method= {RequestMethod.GET})
 	@ResponseBody
-	public HashMap<Object, Object> loginMember(@SessionAttribute("loginMember") Member member, @RequestParam("no") int no) {
+	public Member loginMember(@SessionAttribute("loginMember") Member member) {
 		
-		Community view = service.selectView(no, member.getUser_no());
-		
-		HashMap<Object, Object> map = new HashMap<Object, Object>();
-		
-		map.put("view", view);
-		map.put("member", member);
-		
-		return map;
+		return member;
 	}
 	
 	@RequestMapping(value="community/write", method= {RequestMethod.POST})
@@ -171,6 +164,21 @@ public class CommunityController {
 		result = service.update(title, text, no);
 		
 		return "/community/community_list";
+	}
+	
+	@RequestMapping(value="community/updateView", method= {RequestMethod.GET})
+	@ResponseBody
+	public HashMap<Object, Object> updateView(@SessionAttribute("loginMember") Member member,
+			@RequestParam(value="no") int no) {
+		
+		Community view = service.updateView(no, member.getUser_no());
+		
+		HashMap<Object, Object> map = new HashMap<Object, Object>();
+		
+		map.put("view", view);
+		map.put("member", member);
+		
+		return map;
 	}
 	
 	@RequestMapping(value="community/delete", method= {RequestMethod.POST})

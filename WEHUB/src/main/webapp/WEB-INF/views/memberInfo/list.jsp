@@ -12,7 +12,7 @@
       <ul>
         <li><h1>인명관리</h1>
           <ul>
-            <li>사원 조회</li>
+            <li onclick="location.href='${path}/memberInfo/list'">사원 조회</li>
             <c:if test="${loginMember.user_id eq 'admin'}">
             	<li onclick='insertMember()'>사원 등록</li>
             </c:if>

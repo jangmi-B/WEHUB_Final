@@ -11,7 +11,7 @@ public interface CommunityService {
 
 	List<Community> selectList(PageInfo pageInfo, String cM_searchText, int userNo);
 
-	Community selectView(int no, int userNo);
+	Community selectView(int userNo, int no);
 
 	int insert(String title, String text, int user_no);
 
@@ -36,6 +36,8 @@ public interface CommunityService {
 	List<Community> selectFavList(PageInfo pageInfo, int user_no);
 	// main화면 리스트 불러오기
 	List<Community> selectMainList();
+
+	Community updateView(int no, int user_no);
 
 
 }

@@ -131,6 +131,11 @@ public class CommunityServiceImpl implements CommunityService {
 		return dao.selectMainList();
 	}
 
+	@Override
+	public Community updateView(@Param("no")int no,@Param("user_no") int user_no) {
+		return dao.updateView(no,user_no);
+	}
+
 
 
 }

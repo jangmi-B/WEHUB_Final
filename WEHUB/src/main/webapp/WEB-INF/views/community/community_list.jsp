@@ -345,14 +345,12 @@
 		
 		$.ajax({
 			type:"GET",
-			url:"writeView",
+			url:"updateView",
 			data:{
 				no:no,
 			},
 			
 			success:function(data) {
-				console.log(data.member);
-				console.log(data.view);
 				
 				$('#listform').remove();
 				$('#CM_Content1').remove();
@@ -362,7 +360,7 @@
 				$('#updateList').remove();
 				$('#deleteList').remove();
 				
-				var form = $("<form id='writeForm' action='/community/writeView' method='get' enctype='multipart/form-data'></form>").insertAfter('.CM-index_section');
+				var form = $("<form id='writeForm' action='/community/updateView' method='get' enctype='multipart/form-data'></form>").insertAfter('.CM-index_section');
 					var divFirst = $("<div style='height: 600px; margin: 100px 400px 80px 500px; font-size: 23px; border: 1px solid; border-radius: 10px;'></div>").appendTo(form);
 					$("<span style='display: block; float: left;'></span>").text("작성자 : " + data.member.user_name).appendTo(divFirst);
 					$("<span style='display: block; text-align: end;'></span>").text("ID : " + data.member.user_id).appendTo(divFirst);

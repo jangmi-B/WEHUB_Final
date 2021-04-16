@@ -568,7 +568,7 @@
 			
 			$.ajax({
 				type:"GET",
-				url:"writeView",
+				url:"updateView",
 				data:{
 					no:no,
 				},
