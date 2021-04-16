@@ -66,8 +66,13 @@
                 </tr>
                 <tr>
                     <td colspan="8" style="height: 90px;" >
-                        <button type="button">파일첨부 +</button>
-                        파일이름.img
+                        <!-- <label class="inputFileButton" for="inputFile">
+                       첨부파일 업로드
+                   		</label>
+               
+                   		<input type="file" id="inputFile" style="display: none;" /> -->
+                   
+                   		<input type="file" id="inputFile" name="appLoaFileUpload"/>
                     </td>
                 </tr>
                 <tr>
