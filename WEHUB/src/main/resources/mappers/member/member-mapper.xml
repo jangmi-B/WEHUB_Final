@@ -42,6 +42,7 @@
 		<id property="dept_code" column="DEPT_CODE"/>
 		<id property="user_imgOriname" column="USER_IMG_ORIFILENAME"/>
 		<id property="user_imgRename" column="USER_IMG_REFILENAME"/>
+		<id property="newUserNo" column="NEW_USER_NO"/>
 	</resultMap>
 	
 	<resultMap type="InsertNewMember" id="newMemberResultMap">
@@ -67,7 +68,8 @@
 			USER_STATUS,
 			DEPT_CODE,
 			USER_IMG_ORIFILENAME,
-			USER_IMG_REFILENAME
+			USER_IMG_REFILENAME,
+			NEW_USER_NO
 
 		)
 		VALUES(
@@ -84,7 +86,8 @@
 			DEFAULT, 
 			#{dept_code},
 			#{user_imgOriname},
-			#{user_imgRename}
+			#{user_imgRename},
+			#{newUserNo}
 
 		)
 	</insert>
@@ -192,5 +195,13 @@
 		SELECT N.NEW_NO, N.NEW_NAME, N.NEW_RANK, N.NEW_DEPT
 		FROM NEWMEMBER N
 		WHERE NEW_NO = #{userNo}
+	</select>
+	
+	<select id="checkNewMem" parameterType="string" resultMap="memberResultMap">
+		SELECT M.USER_NO,
+		        M.USER_NAME,
+		        M.NEW_USER_NO
+		FROM MEMBER M
+		WHERE USER_STATUS ='Y' AND NEW_USER_NO = #{userNo}
 	</select>
 </mapper>

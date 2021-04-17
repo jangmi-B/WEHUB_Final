@@ -29,5 +29,7 @@ public interface MemberDao {
 	
 	InsertNewMember getNewMember(String userNo); //임시멤버 찾아옴
 
+	Member checkNewMem(String userNo); //임시멤버 멤버에 있는지 찾아옴
+
 }
 

@@ -39,5 +39,7 @@ public interface MemberService {
 	
 	InsertNewMember getNewMember(String userNo); //임시회원 찾아오기
 
+	Member checkNewMem(String userNo);
+
 }
 

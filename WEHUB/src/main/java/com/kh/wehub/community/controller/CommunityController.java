@@ -43,6 +43,9 @@ public class CommunityController {
 	private CommunityService service;
 	
 	@Autowired
+	private MessageService messageService;
+	
+	@Autowired
 	private CommunityDao dao;
 	
 	@Autowired MessageService MsgService;
@@ -59,6 +62,14 @@ public class CommunityController {
 		
 		List<Community> list = service.selectList(pageInfo, CM_searchText, loginMember.getUser_no());
 		
+		//쪽지 리스트 가져오기
+		List<Message> receiveList = null;
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("msgTo", loginMember.getUser_no());
+		
+		receiveList = messageService.getHomeReceiveList(loginMember.getUser_no());
+		
 		if(CM_searchText != null) {
 			model.addObject("CM_searchText",CM_searchText);
 		}
@@ -67,6 +78,7 @@ public class CommunityController {
 		
 		model.addObject("list", list);
 		model.addObject("pageInfo", pageInfo);
+		model.addObject("receiveList",receiveList);
 		model.setViewName("/community/community_list");
 		
 		return model;
@@ -77,7 +89,7 @@ public class CommunityController {
 	public HashMap<Object, Object> View(@RequestParam("no") int no, ModelAndView model,
 			HttpServletRequest req, HttpServletResponse resp, @SessionAttribute("loginMember") Member loginMember) {
 		
-		//조회수 로직
+				//조회수 로직
 				Cookie[] cookies = req.getCookies();
 				String boardHistory = "";
 				boolean hasRead = false;

@@ -98,6 +98,12 @@ public class MemberServiceImpl implements MemberService {
 		
 		return memberDao.getNewMember(userNo);
 	}
+
+	@Override
+	public Member checkNewMem(String userNo) {
+		
+		return memberDao.checkNewMem(userNo);
+	}
 	
 }
 

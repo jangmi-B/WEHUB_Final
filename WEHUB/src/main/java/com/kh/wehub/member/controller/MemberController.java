@@ -498,15 +498,17 @@ public class MemberController {
 	public Object findNewMem(@RequestParam("value")String userNo) {
 		
 		InsertNewMember member = service.getNewMember(userNo);
+		Member memberfind = service.checkNewMem(userNo);
 		
 		Map<String, Object> map = new HashMap<>();
 		
-		if(member != null) {
+		if(member != null && memberfind == null) {
 			map.put("member", member);
-		} else {
+		} else if(member == null && memberfind == null) {
 			map.put("member", 0);
+		}  else if(member != null && memberfind != null) {
+			map.put("member", 1);
 		}
-		
 		return map;
 	}
 	

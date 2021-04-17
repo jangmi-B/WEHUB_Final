@@ -43,7 +43,7 @@
                 
                 <input type="file" name="user_img" id="user_imgOri" style="padding: 6px 35px; font-size: 13px;" accept=".gif, .jpg, .png">
                 
-                <input type="hidden" id="user_no" name="new_no">
+                <input type="hidden" id="newUserNo" name="newUserNo">
                 <!-- <input type="text" name="user_companyname"  placeholder="킆릭하여 프로필 이미지 선택하기" style="font-size: 13px;" readonly="readonly"> -->
                 <!-- <input type="button" name="user_companyname_btn"  value="회사 확인" onclick="" style="font-size: 13px;"> -->
                 <input type="text" id="user_name"  name="user_name" placeholder="이름  UserName" style="font-size: 13px;" readonly>
@@ -97,20 +97,35 @@
 							value: value
 						},
 						success: function(data) {
-							if(data.member != 0){
+							if(data.member != 0 && data.member != 1){
 								$("#user_name").attr('class','newMemInput');
 								$("#rank").attr('class','newMemInput');
 								$("#dept_code").attr('class','newMemInput');
 								
-								document.getElementById('user_no').value = data.member.new_no;
+								document.getElementById('newUserNo').value = data.member.new_no;
 								document.getElementById('user_name').value = data.member.new_name;
 								document.getElementById('rank').value = data.member.new_rank;
 								document.getElementById('dept_code').value = data.member.new_dept;
 								
-							} else{
+							} else if(data.member == 0){
+								document.getElementById('newUserNo').value = "";
+								document.getElementById('user_name').value = "";
+								document.getElementById('rank').value = "";
+								document.getElementById('dept_code').value = "";
+								
 								Swal.fire({
 									  icon: 'error',
 									  text: "유효하지 않은 사번입니다.!",
+									})
+							} else if(data.member == 1){
+								document.getElementById('newUserNo').value = "";
+								document.getElementById('user_name').value = "";
+								document.getElementById('rank').value = "";
+								document.getElementById('dept_code').value = "";
+								
+								Swal.fire({
+									  icon: 'error',
+									  text: "이미 가입된 사번입니다.!",
 									})
 							}
 						},
