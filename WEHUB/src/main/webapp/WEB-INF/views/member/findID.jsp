@@ -11,7 +11,8 @@
 <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="js/jquery-3.5.1.js"></script>
+    <script src="${path}/js/jquery-3.5.1.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <title>Document</title>
     <link rel="stylesheet" href="${path}/css/FindID.css">
 </head>
@@ -25,30 +26,21 @@
             <form class="form" action="${path}/member/findID" method="post">
                 <input type="text" name="user_name"  placeholder="User Name ">
                 <input type="email"name="email" placeholder="E-mail">
-                <input type="tel"name="phone" placeholder="Phone">
-                <button type="submit" id="login-button">Find</button>
+                <input type="tel"name="phone" placeholder="-를 무조건 포함해주세요" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" title="형식 010-0000-0000">
+            <!--    <input type="tel" name="phone" placeholder="Phone -를 무조건 포함해주세요"> -->
+                <button type="submit" id="login-button" >Find</button>
             </form>
         </div>
     </div>
 </body>
-<!--  -->
-<script>
-    $("#login-button").click(function(event){
-		event.preventDefault();
-		alert("당신의 아이디는${sessionScope.userID}입니다.");
-	    $('.form').fadeOut(500);
-	    $('.wrapper').addClass('form-success');
-
-        setTimeout(function() {
-        alert("입력하신 회원정보의 ID는 "+"'나도 잘 모르겠다' 입니다.");
-        location.href="file:///C:/Users/User/Desktop/Coding/FinalProjectHTML/LogInForm.html";
-    }, 3000);
-    });
-    </script>
-    
-   
-    
-
-		
+<!--  <script>
+	 	$(document).on("keyup",  "phone", function() { 
 	
+		$(this).val( $(this).val()
+				.replace(/[^0-9]/g, "")
+				.replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3")
+				.replace("--", "-") 
+					); 
+	});	
+  </script> -->
 </html>

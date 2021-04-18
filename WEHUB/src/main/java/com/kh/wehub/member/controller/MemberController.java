@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import javax.servlet.http.HttpServletRequest;
 
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MimeType;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -103,7 +105,7 @@ public class MemberController {
 		
 		return "member/findID";
 	}
-
+	
 	@RequestMapping(value="member/findID", method={RequestMethod.POST})
 	public ModelAndView findID(ModelAndView model,@ModelAttribute Member member) {
 		
@@ -124,22 +126,6 @@ public class MemberController {
 		return model;
 	}
 	
-//	@RequestMapping(value="member/findPwd",method={RequestMethod.POST})
-//	public ModelAndView findPWD(ModelAndView model,@ModelAttribute Member member) {
-//		
-//		String findPWD =service.findPWD(member);
-//		if(findPWD!=null) {
-//		//model.addObject("userPwd" , findPWD);
-//		log.info("찾은 pwd");
-//		model.addObject("msg","찾은 pwd는"+ findPWD);
-//		}else {
-//			model.addObject("msg", "찾은 비밀번호는 존재하지 않습니다");
-//		}
-//		model.setViewName("common/msg");
-//		//model.setViewName("redirect:/");
-//	return model;
-//	}
-	
 	/* 비밀번호 찾기 */
 	@RequestMapping(value="member/findPwd")
 	public String findPWD() {
@@ -150,37 +136,20 @@ public class MemberController {
 
     @Autowired
     private UserMailSendService mailsender;
-
-//    .@responseBody는 리턴 값을 http 몸체로 변환하는데 사용하는데 , Ajax 처리할 시 
-//    @responseBody 어노테이션을 붙여줬음.
-
-//
-//	 @RequestMapping(value = "member/findPwd", method = RequestMethod.POST)
-//	  
-//	  @ResponseBody public String
-//	  findPwd(@RequestParam(value="user_id",required=false)String user_id,
-//			  @RequestParam(value="email" ,required = false)String email,
-//			  									HttpServletRequest request )
-//	 
-//	 { 	log.info("wanna go findPwd");
-//	 	log.info("in controller email, user_id : "+email+" "+user_id);
-//	 	mailsender.mailSendWithPassword(user_id, email, request);
-//	
-//	  	return "member/findPwd"; }
     
 	 @RequestMapping(value = "member/findPwd", method = RequestMethod.POST)
-	 
-	 @ResponseBody public String
-	 findPwd(@RequestParam(value="user_id",required=false)String user_id,
+	 @ResponseBody public String findPwd(@RequestParam(value="user_id",required=false)String user_id,
 			 @RequestParam(value="email" ,required = false)String email,
 			 HttpServletRequest request )
 	 
 	 { 	
 		 log.info("wanna go findPwd");
 		 log.info("in controller email, user_id : "+email+" "+user_id);
-	 mailsender.mailSendWithPassword(user_id, email, request);
-	 
-	 return "member/findPwd"; }
+	    mailsender.mailSendWithPassword(user_id, email, request);
+	     String alert="메일을 확인해주시요. 메일이 안왔다면 이메일을 확인하시고 다시 시도하세요";
+		 // String alert="check for email plz";
+		 
+	 return alert; }
 	 
     
     // 회원가입
@@ -202,7 +171,7 @@ public class MemberController {
 	public void enrollViewUpfile() {
 		log.info("회원가입 작성 페이지 요청");
 		
-//		return "member/signUpForm";
+		//return "member/signUpForm";
 	}
 	
 	@RequestMapping(value = "/member/signUpForm", method = {RequestMethod.POST})

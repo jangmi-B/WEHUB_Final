@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.kh.wehub.member.model.vo.Member;
 import com.kh.wehub.schedule.model.dao.ScheduleDao;
 import com.kh.wehub.schedule.model.vo.DateData;
+import com.kh.wehub.schedule.model.vo.DeptData;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
@@ -24,6 +25,16 @@ public class ScheduleServiceImpl implements ScheduleService {
 		
 		map.put("userNo", loginMember.getUser_no());
 		return scheduleDao.selectCalendar(map);
+	}
+	@Override
+	public List<DeptData> selectDeptCalendar(Member loginMember) {
+		
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		System.out.println("selectDeptCalendar");
+		map.put("dept_code", loginMember.getDept_code());
+		System.out.println("서비스 인포 ㅉ기힙닏????"+scheduleDao.selectDeptCalendar(map));
+		
+		return scheduleDao.selectDeptCalendar(map);
 	}
 
 	@Override
@@ -50,6 +61,17 @@ public class ScheduleServiceImpl implements ScheduleService {
 		}
 		
 		return result;
+	}
+	@Override
+	public List<DeptData> selectAppCalendar(Member loginMember) {
+		// TODO Auto-generated method stub
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		System.out.println("selectAppCalendar");
+		map.put("dept_code", loginMember.getDept_code());
+		System.out.println("selectAppCalendar dept_code"+loginMember.getDept_code());
+		System.out.println("selectAppCalendar????"+scheduleDao.selectAppCalendar(map));
+		
+		return scheduleDao.selectAppCalendar(map);
 	}
 
 }

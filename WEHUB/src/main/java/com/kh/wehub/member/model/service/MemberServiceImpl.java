@@ -44,7 +44,9 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public String findID(Member member) {
 		// TODO Auto-generated method stub
+		System.out.println(memberDao.findID(member));
 		return memberDao.findID(member);
+		
 	}
 
 	@Override

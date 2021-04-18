@@ -12,7 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="js/jquery-3.5.1.js"></script>
+   <script src="${path}/js/jquery-3.5.1.js"></script>
 
     <title>WEHUB</title>
 
@@ -39,7 +39,7 @@
 </body>
 
 <script>
-/*  	$("#login-button").click(function(event){
+  	$("#login-button").click(function(event){
 	
 		$('form').fadeOut(300);
 		$('.wrapper').addClass('form-success');
@@ -49,17 +49,8 @@
 		return;
 		
 		$('#loginForm').submit();
-	}); */
-	
-	function loginForm() {
-		
-	}
-     
-     /* $("#login-button").click(function(event){ 2800
-    	 alert("Request method 'GET' not supported/nreturn location.href=\"${path}/main\";이라고 쓰면 비밀번호를 입력하지 않아도 main화면으로 넘어감.");
-    	  
-        return submit();
-     }); */
+	}); 
+
 </script>
 
 

@@ -40,7 +40,6 @@
 		<id property="address" column="ADDRESS"/>
 		<id property="user_status" column="USER_STATUS"/>
 		<id property="dept_code" column="DEPT_CODE"/>
-
 		<id property="user_imgOriname" column="USER_IMG_ORIFILENAME"/>
 		<id property="user_imgRename" column="USER_IMG_REFILENAME"/>
 
@@ -99,9 +98,7 @@
 		SELECT  USER_ID 	FROM MEMBER 
 		WHERE USER_STATUS ='Y' AND  
 				USER_NAME= #{user_name} AND
-		        
 	         	EMAIL= #{email} AND
-	    
 	         	PHONE =#{phone}
 	</select>
 	
@@ -110,10 +107,8 @@
 		WHERE USER_STATUS ='Y' AND  
 				USER_NAME= #{user_name} AND
 				USER_ID= #{user_id} AND
-		        
 	         	EMAIL= #{email} AND
-	    
-	         	PHONE =#{phone}
+	         	 USER_PWD =#{user_pwd}
 	</select>
 	
 	<update id="updateMember" parameterType="Member">
