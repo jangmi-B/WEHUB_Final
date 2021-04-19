@@ -45,6 +45,16 @@
 		<result property="erPresent" column="ER_PRESENT"/>
 		<result property="allAmount" column="ER_ALLAMOUNT"/>
 		<result property="monetaryUnit" column="ER_MONETARYUNIT"/>
+		
+		<result property="leaveNo" column="LEAVE_SEQ"/>
+		<result property="leaveAppNo" column="LEAVE_APP_SEQ"/>
+		<result property="leaveClassify" column="LEAVE_CLASSIFY"/>
+		<result property="leaveStart" column="LEAVE_START"/>
+		<result property="leaveFinish" column="LEAVE_FINISH"/>
+		<result property="leaveDetail" column="LEAVE_DETAIL"/>
+		<result property="leaveStatus" column="LEAVE_STATUS"/>
+		<result property="leavePreasent" column="LEAVE_PRESENT"/>
+		<result property="appEmergncyCall" column="APP_EMERGENCYCALL"/>
 		<!-- <collection property="app_loa" javaType="java.util.ArrayList" resultMap="app_loa"/> -->
 	</resultMap>
 	
@@ -315,6 +325,39 @@
         WHERE A.APP_SEQ = #{appNo}
 	</select>
 	
+	<select id="viewAppLeaveList" parameterType="_int" resultMap="approvalResultMap">
+		SELECT A.APP_SEQ,
+		        A.APP_WRITER_NO,
+		        A.APP_WRITE_SYS,
+		        A.FIRST_TIME_APPROVER,
+		        A.INTERIM_APPROVER,
+		        A.FINAL_APPROVER,
+		        A.APP_CHECK_SYSDATE,
+		        A.APP_CHECK_PROGRESS,
+		        A.APP_REASON,
+		        A.APP_ORIFILENAME,
+		        A.APP_REFILENAME,
+		        M.USER_NAME,
+		        M.RANK,
+		        A.APPROVAL_KINDS,
+		        D.DEPT_NAME,
+		        R.RECEIVE_REF_CC,
+		        R.RECEIVE_REF_APP_SEQ,
+		        A.APP_PRESENT,
+		        L.LEAVE_APP_SEQ,
+		        L.LEAVE_CLASSIFY,
+		        L.LEAVE_START,
+		        L.LEAVE_FINISH,
+		        L.LEAVE_DETAIL,
+		        L.APP_EMERGENCYCALL
+		FROM APPROVAL A 
+		JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
+		JOIN DEPARTMENT D ON (D.DEPT_CODE = M.DEPT_CODE)
+		JOIN APP_RECEIVE_REF R ON (A.APP_SEQ = R.RECEIVE_REF_APP_SEQ)
+		JOIN APP_LEAVE L ON (A.APP_SEQ = L.LEAVE_APP_SEQ)
+		WHERE A.APP_SEQ = #{appNo}
+	</select>
+	
 	<update id="rejectUpdate" parameterType="Approval">
 		UPDATE APPROVAL SET APP_CHECK_PROGRESS='결재반려', APP_REASON=#{appReason} WHERE APP_SEQ=#{appNo}	
 	</update>
@@ -497,6 +540,5 @@
         JOIN APP_RECEIVE_REF R ON (A.APP_SEQ = R.RECEIVE_REF_APP_SEQ)
         WHERE A.APP_SEQ = #{appNo}
 	</select>
-
 
 </mapper>

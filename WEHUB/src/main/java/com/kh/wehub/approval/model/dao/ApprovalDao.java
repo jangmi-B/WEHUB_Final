@@ -28,9 +28,7 @@ public interface ApprovalDao {
 	int insertLetterOfApproval(Approval approval);
 	int insertLetterOfApproval2(Approval approval);
 	int insertLetterOfApproval3(Approval approval);
-
-	Approval selectApprovalListDetail(int appNo);
-
+	
 	int rejectUpdate(Approval approval);
 
 	int approved1(int appNo);
@@ -42,11 +40,16 @@ public interface ApprovalDao {
 	int insertAppLeave(Approval approval);
 	int insertReceiveRef(Approval approval);
 	
+	// ApprovalDetailView
+	Approval selectApprovalListDetail(int appNo); // APP_LOA
+	Approval selectExpenseReportListDetail(int appNo); // APP_ER
+	Approval viewAppLeaveList(int appNo); //APP_LEAVE
+	int LeaveDay(int leaveDay);
+	
 	// 지출결의서 등록
 	int insertExpenseReport(Approval approval);
 	int insertExpenseReport2(Approval approval);
 	int insertExpenseReport3(Approval approval);
 	
-	Approval selectExpenseReportListDetail(int appNo);
 	
 }

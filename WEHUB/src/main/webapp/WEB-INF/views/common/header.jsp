@@ -26,7 +26,7 @@
 <body>
 	  <nav id="navbar">
     <div class="header_logo">
-      <a href="header.html"><img src="${path}/images/logo.png"></a>
+      <a href="${path}/main"><img src="${path}/images/logo.png"></a>
     </div>
     <div class="header_user_wrap">
       <div class="header_profile">
@@ -48,11 +48,11 @@
   <section>
     <div class="common_section">
       <ul>
-        <li><a href="#"><i class="fas fa-home" ></i></a></li>
+        <li><a href="${path}/"><i class="fas fa-home" ></i></a></li>
         <li><a href="#"><i class="fas fa-bullhorn"></i></a></li>
-        <li><a href="#"><i class="far fa-address-card" ></i></a></li>
+        <li><a href="${path}/member/memModify"><i class="far fa-address-card" ></i></a></li>
         <li><a href="#"><i class="far fa-envelope"></i></a></li>
-        <li><a href="${path}/member/memModify"><i class="fas fa-users"></i></a></li>
+        <li><a href="#"><i class="fas fa-users"></i></a></li>
         <li><a href="#"><i class="far fa-calendar-alt"></i></a></li>
         <li><a href="${path}/approval/approvalMain"><i class="far fa-file-alt"></i></a></li>
       </ul>

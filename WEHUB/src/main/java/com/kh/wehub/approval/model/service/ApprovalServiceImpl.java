@@ -185,4 +185,12 @@ public class ApprovalServiceImpl implements ApprovalService {
 		
 		return approvalDao.selectExpenseReportListDetail(appNo);
 	}
+
+	// 휴가신청서 상세보기
+	@Override
+	public Approval findListByLeaveNo(int appNo) {
+		System.out.println(appNo);
+		
+		return approvalDao.viewAppLeaveList(appNo);
+	}
 }

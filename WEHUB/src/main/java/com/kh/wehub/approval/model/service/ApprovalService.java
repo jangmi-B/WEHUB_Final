@@ -45,5 +45,8 @@ public interface ApprovalService {
 	
 	Approval findExpenseReportListByNo(int appNo);
 	
+	// 휴가신청서 상세보기
+	Approval findListByLeaveNo(int appNo);
+	
 
 }

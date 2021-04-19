@@ -493,11 +493,27 @@ public class ApprovalController {
 		return model;
 	}
 
+//	@RequestMapping(value = "/leaveApplicationView", method = { RequestMethod.GET })
+//	public String leaveApplicationView(@SessionAttribute(name = "loginMember", required = false) Member loginMember,
+//			@SessionAttribute(name = "approval", required = false) Approval approval) {
+//
+//		return "/approval/leaveApplicationView";
+//	}
+	
 	@RequestMapping(value = "/leaveApplicationView", method = { RequestMethod.GET })
-	public String leaveApplicationView(@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+	public ModelAndView leaveApplicationView(@RequestParam("appNo") int appNo, ModelAndView model) {
+		
+		Approval approval = service.findListByLeaveNo(appNo);
 
-		return "/approval/leaveApplicationView";
+		System.out.println("507번줄 : " + approval);
+
+		model.addObject("approval", approval);
+		model.setViewName("/approval/leaveApplicationView");
+
+		return model;
 	}
+	
+	
 	
 	// 파일첨부 관련
 	private String saveAppFile(MultipartFile file, HttpServletRequest request) {
