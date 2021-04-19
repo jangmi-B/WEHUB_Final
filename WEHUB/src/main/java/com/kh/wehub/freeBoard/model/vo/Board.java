@@ -32,4 +32,6 @@ public class Board {
 	private String memberImage;
 	
 	private String dept_name;
+	
+	private int rownum;
 }

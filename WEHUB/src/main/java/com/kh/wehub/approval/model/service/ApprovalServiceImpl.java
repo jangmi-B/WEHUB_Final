@@ -49,6 +49,12 @@ public class ApprovalServiceImpl implements ApprovalService {
 		
 		return approvalDao.selectRecentList1(loginMember);
 	}
+	
+	@Override
+	public List<Approval> getRecentList2(Member loginMember) {
+		
+		return approvalDao.selectRecentList2(loginMember);
+	}
 
 	@Override
 	public List<Approval> getApprovalList(PageInfo pageInfo, String searchText) {
@@ -185,4 +191,12 @@ public class ApprovalServiceImpl implements ApprovalService {
 		
 		return approvalDao.selectExpenseReportListDetail(appNo);
 	}
+	
+	// 휴가신청서 상세보기
+    @Override
+    public Approval findListByLeaveNo(int appNo) {
+       System.out.println(appNo);
+      
+       return approvalDao.viewAppLeaveList(appNo);
+    }
 }

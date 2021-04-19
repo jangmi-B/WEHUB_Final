@@ -30,6 +30,7 @@
                 <tr>
                     <th>번호</th>
                     <th>종류</th>
+                    <th>제목</th>
                     <th>기안자</th>
                     <th>부서</th>
                     <th>기안일</th>
@@ -56,6 +57,17 @@
 			                    </c:when>
 			                    <c:when test="${list.appKinds eq '지출결의서'}">
 			                    	<td><a href="${path}/approval/expenseReportView?appNo=${list.appNo}">${list.appKinds}</a></td>
+			                    </c:when>
+		                    </c:choose>
+		                    <c:choose>
+			                    <c:when test="${list.appKinds eq '품의서'}">
+			                    	<td><a style="color:black" href="${path}/approval/letterOfApprovalView?appNo=${list.appNo}">${list.loaTitle}</a></td>
+			                    </c:when>
+			                    <c:when test="${list.appKinds eq '휴가신청서'}">
+			                    	<td><a style="color:black" href="${path}/approval/leaveApplicationView?appNo=${list.appNo}">${list.leaveClassify}</a></td>
+			                    </c:when>
+			                    <c:when test="${list.appKinds eq '지출결의서'}">
+			                    	<td><a style="color:black" href="${path}/approval/expenseReportView?appNo=${list.appNo}">${list.erTitle}</a></td>
 			                    </c:when>
 		                    </c:choose>
 		                    <td>${list.userName}</td>
