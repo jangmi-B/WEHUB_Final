@@ -15,7 +15,7 @@
 <div id="contentForm">
     <div class="flex-grid" style="grid-row:1;">
         <div style="border-radius: 10px; height:270px; overflow: hidden;" >
-        <h2 class="h2d">최근 공지사항<a href="#"><i class="fas fa-plus con1" style="color: #5b18ff;"></i></a></h2>
+        <h2 class="h2d">최근 공지사항<a href="${path}/notice/list"><i class="fas fa-plus con1" style="color: #5b18ff;"></i></a></h2>
         <ul>
         <c:choose>
         	<c:when test="${NoticeList.size() == 0}">
