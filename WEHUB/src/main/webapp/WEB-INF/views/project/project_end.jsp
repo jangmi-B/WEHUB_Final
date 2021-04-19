@@ -24,7 +24,7 @@
 
     <div class="projectWrap">
       <div class="project_search">
-      <form action="${path}/project/participant" method="get">
+      <form action="${path}/project/endList" method="get">
         <input id="pInput" type="search" placeholder="Search Project" name="searchText">
         <button id="pBtn" type="submit">Go</button>
       </form>
@@ -40,7 +40,6 @@
 	          </div>
 	          <div class="projectdivInfo pj${ status.count }">
 	            <span style=""><c:out value="${projectList.userName}"/>님 외 총 <c:out value="${projectList.projectCount}"/>명</span>
-	            <a href="javascript:clickFav(${projectList.projectNo})" id="favBtn" class="fav${projectList.bookmark}"><i class="fas fa-star"></i></a>
 	          </div>
 	        </div>
 	        <div class="modal_project fade proNo${projectList.projectNo}">
@@ -78,7 +77,7 @@
 		        <div class="project_btns">
 		        <c:if test="${ !empty loginMember && (loginMember.user_no == projectList.projectMake)}">
 	        	 <button style="width:100px; background:" type="button" id="deleteBtn(${projectList.projectNo})" class="pj${ status.count }" onclick="closeProject(${projectList.projectNo});">프로젝트종료</button>
-	        	</c:if> 
+	        	</c:if>
 	       		 <button type="button" id="exitBtn(${projectList.projectNo})">닫기</button>
 		        </div>
 		    </div>
@@ -150,28 +149,57 @@
 	}
 	
 	function clickFav(proNum){
-	    var className = $('#favBtn'+ proNum).attr('class');
-	    $.ajax({
-	       type: "post",
-	       url:"${path}/project/makeFav",
-	       data:{
-	          proNum:proNum
-	       },
-	       success:function(data){
-	          if(className == 'favY'){
-	             $('#favBtn'+ proNum).attr('class','favN');
-	             $('#favBtn'+ proNum).css('color', 'white');
-	          }else {
-	             $('#favBtn'+ proNum).attr('class','favY');
-	             $('#favBtn'+ proNum).css('color', 'yellow');
-	          }
-	       },
-	       error: function(e){
-	          alert("즐겨찾기 실패");
-	          console.log(e);
-	       }
-	    });
-	 }
+	      var className = $('#favBtn'+ proNum).attr('class');
+	      $.ajax({
+	         type: "post",
+	         url:"${path}/project/makeFav",
+	         data:{
+	            proNum:proNum
+	         },
+	         success:function(data){
+	            if(className == 'favY'){
+	               $('#favBtn'+ proNum).attr('class','favN');
+	               $('#favBtn'+ proNum).css('color', 'white');
+	            }else {
+	               $('#favBtn'+ proNum).attr('class','favY');
+	               $('#favBtn'+ proNum).css('color', 'yellow');
+	            }
+	         },
+	         error: function(e){
+	            alert("즐겨찾기 실패");
+	            console.log(e);
+	         }
+	      });
+	   }
+	
+	function makeProject(){
+		const open = () => {
+	      document.querySelector(".modal_pro").classList.remove("fade");
+	    }
+	  
+	    const close = () => {
+	      document.getElementById("memSearch").value= "";
+	      document.getElementById("projectContent").value= "";
+	      document.querySelector(".modal_pro").classList.add("fade");
+	    }
+	  
+	    document.querySelector(".make_project_btn").addEventListener("click", open);
+	    document.querySelector(".closeBtn").addEventListener("click", close);
+	    
+	    $("#projectContent").on("keyup",function(){
+	        let inputLength = $(this).val().length;
+	
+	        $("#writeCnt").text(inputLength);
+	
+	        let remain = $("#writeMax").text() - inputLength;
+	
+	        if(remain < 0){
+	          $("#writeCnt").css("color","red");
+	        } else {
+	          $("#writeCnt").css("color","black");
+	        }
+	      });
+	}
 	
 	function closeProject(proNo){
 		console.log(proNo);
@@ -212,36 +240,6 @@
 			    })
 			  }
 			})
-	}
-	
-	
-	function makeProject(){
-		const open = () => {
-	      document.querySelector(".modal_pro").classList.remove("fade");
-	    }
-	  
-	    const close = () => {
-	      document.getElementById("memSearch").value= "";
-	      document.getElementById("projectContent").value= "";
-	      document.querySelector(".modal_pro").classList.add("fade");
-	    }
-	  
-	    document.querySelector(".make_project_btn").addEventListener("click", open);
-	    document.querySelector(".closeBtn").addEventListener("click", close);
-	    
-	    $("#projectContent").on("keyup",function(){
-	        let inputLength = $(this).val().length;
-	
-	        $("#writeCnt").text(inputLength);
-	
-	        let remain = $("#writeMax").text() - inputLength;
-	
-	        if(remain < 0){
-	          $("#writeCnt").css("color","red");
-	        } else {
-	          $("#writeCnt").css("color","black");
-	        }
-	      });
 	}
 	
 	$(function(){

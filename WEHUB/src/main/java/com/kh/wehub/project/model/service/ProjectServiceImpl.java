@@ -132,4 +132,18 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectDao.homeProjectList(userNo);
 	}
 
+	@Override
+	public int getEndProjectCount(Map<String, Object> map) {
+		
+		return projectDao.getEndProjectCount(map);
+	}
+
+	@Override
+	public List<Project> getEndProjectList(PageInfo pageInfo, Map<String, Object> map) {
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
+		
+		return projectDao.getEndProjectList(rowBounds, map);
+	}
+
 }

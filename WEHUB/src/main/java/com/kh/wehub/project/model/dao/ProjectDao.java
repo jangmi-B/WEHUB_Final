@@ -44,4 +44,8 @@ public interface ProjectDao {
 
 	List<Project> homeProjectList(int userNo);
 
+	int getEndProjectCount(Map<String, Object> map);
+
+	List<Project> getEndProjectList(RowBounds rowBounds, Map<String, Object> map);
+
 }

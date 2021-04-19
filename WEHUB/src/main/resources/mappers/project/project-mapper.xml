@@ -289,4 +289,46 @@
 		<![CDATA[WHERE ROWNUM < 7]]>
 	</select>
 	
+	<select id="getEndProjectCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM PROJECT P
+		JOIN MEMBER M ON(P.PROJECT_MAKE = M.USER_NO)
+		WHERE STATUS ='N'
+		<if test="searchText != 'null'">
+			AND (P.PROJECT_CONTENT LIKE '%'||#{searchText}||'%'
+			OR P.PROJECT_TITLE LIKE '%'||#{searchText}||'%'
+			OR P.PARTICIPANT LIKE '%'||#{searchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{searchText}||'%')
+		</if>
+	</select>
+	
+	<select id="getEndProjectList" parameterType="map" resultMap="projectResultMap">
+		SELECT P.PROJECT_NO,
+		       P.PROJECT_MAKE,
+		       P.PARTICIPANT,
+		       P.PROJECT_TITLE,
+		       P.PROJECT_CONTENT, 
+		       P.START_DATE,
+		       P.DUE_DATE,
+		       P.STATUS,
+		       M.USER_NAME,
+		       M.RANK,
+		       D.DEPT_NAME,
+		       (SELECT COUNT(*) FROM PROJECT) AS PCOUNT,
+               NVL2(B.USER_ID, 'Y','N') AS BOOKMARK
+		FROM PROJECT P
+		LEFT OUTER JOIN (SELECT USER_ID, PROJECT_NO FROM BOOKMARK WHERE USER_ID=#{userNo}) B
+		ON (P.PROJECT_NO = B.PROJECT_NO)
+		JOIN MEMBER M ON(P.PROJECT_MAKE = M.USER_NO)
+		JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
+		WHERE P.STATUS ='N'
+		<if test="searchText != 'null'">
+			AND (P.PROJECT_CONTENT LIKE '%'||#{searchText}||'%'
+			OR P.PROJECT_TITLE LIKE '%'||#{searchText}||'%'
+			OR P.PARTICIPANT LIKE '%'||#{searchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{searchText}||'%')
+		</if>
+		ORDER BY P.PROJECT_NO DESC
+	</select>
+	
 </mapper>
