@@ -16,11 +16,12 @@
 	         	PHONE,
 	         	ADDRESS,
 		        USER_STATUS,
-		        DEPT_CODE,
+		        M.DEPT_CODE,
+		        D.DEPT_NAME,
 		        USER_IMG_ORIFILENAME,
 		        USER_IMG_REFILENAME
-
-			FROM MEMBER
+			FROM MEMBER M
+			JOIN DEPARTMENT D ON D.DEPT_CODE = M.DEPT_CODE
 			WHERE USER_STATUS ='Y'
 	</sql>
 	

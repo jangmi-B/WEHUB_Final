@@ -262,21 +262,26 @@ public class MemberController {
 	}
 	
 	// 현재 비밀번호 체크
-//	@RequestMapping("member/pwdCheck")
-//	@ResponseBody
-//	public Object pwdCheck(@RequestParam("user_pwd")String user_pwd, 
-//			@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
-//		
-//		log.info("컨트롤러에 찍히나..user_pwd : {}", user_pwd);
-//		
-//		Map<String, Object> map = new HashMap<>();
-//		
-//		map.put("validate", service.validatePwd(user_pwd, loginMember));
-//		
-//		System.out.println(map);
-//		
-//		return map;
-//	}
+	@RequestMapping("member/pwdCheck")
+	@ResponseBody
+	public Object pwdCheck(@RequestParam("user_pwd")String user_pwd,
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+		
+		String nowId = "";
+		nowId = loginMember.getUser_id();
+		
+		log.info("컨트롤러에 찍히나..user_pwd : {}", user_pwd + "\nnowId : " + nowId);
+		
+		Map<String, Object> map = new HashMap<>();
+		
+//		map.put("validatePwd", service.validate(user_pwd));
+//		map.put("validateNowId", service.validate(nowId));
+		
+		System.out.println(map);
+		
+		return map;
+	}
+	
 	
 	// 회원 수정
 	@RequestMapping(value="member/memModify", method = {RequestMethod.GET})
@@ -368,14 +373,6 @@ public class MemberController {
 		return model;
 	}
 	
-	// 회원 비밀번호 변경 테스트
-	@RequestMapping("/member/updatePassword")
-	public String memAdress() {
-		log.info("회원 비밀번호 변경 페이지 요청");
-		
-		return "/member/updatePassword";
-	}
-	
 	@RequestMapping("/member/updatePass")
 	public ModelAndView updateUserPass(@ModelAttribute Member member, ModelAndView model,
 			@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
@@ -405,11 +402,11 @@ public class MemberController {
 			if(result > 0) {
 				System.out.println(loginMember.getUser_id().equals(member.getUser_id()) + ",  result : " + result);
 				model.addObject("loginMember", service.findMemberByUserId(loginMember.getUser_id()));
-				model.addObject("msg", "회원정보 수정을 완료했습니다.");
-				model.addObject("location", "/member/updatePassword");				
+				model.addObject("msg", "비밀번호 수정을 완료했습니다.");
+				model.addObject("location", "/main");				
 			} else {
-				model.addObject("msg", "회원정보 수정에 실패 했습니다.");
-				model.addObject("location", "/member/updatePassword");
+				model.addObject("msg", "비밀번호 수정에 실패 했습니다.");
+				model.addObject("location", "/member/newUpdatePassword");
 			}
 		} else {
 			model.addObject("msg", "잘못된 접근입니다.");
@@ -467,20 +464,20 @@ public class MemberController {
 		}	
 	}
 	
-	/* 회원탈퇴 관련 뻘짓 */
+	/* 회원탈퇴 단독 페이지 */
 	@RequestMapping(value="member/DeactivateAccount", method = {RequestMethod.GET})
 	public String DeactivateAccount_1() {
-		log.info("회원 탈퇴 약관동의 페이지 요청");
+		log.info("회원 탈퇴 약관동의 new 페이지 요청");
 		
 		return "member/DeactivateAccount";
 	}
 	
-	// 회원 비밀번호 변경 관련 뻘짓
-	@RequestMapping("/member/updatePasswordTest")
+	// 회원 비밀번호 변경 단독페이지
+	@RequestMapping("/member/newUpdatePassword")
 	public String updatePassword() {
-		log.info("뻘짓회원 비밀번호 변경 페이지 요청");
+		log.info("회원 비밀번호 변경 new 페이지 요청");
 		
-		return "/member/updatePasswordTest";
+		return "/member/newUpdatePassword";
 	}
 	
 }

@@ -85,9 +85,23 @@
     	border-color: #5b18ff;
     	box-shadow: 0 0 8px 0 #5b18ff;
     }
-    
+    #checkPwd { font-family: 'InfinitySans-RegularA1'; color : red; }
 </style>
-<form method="post">	
+
+<div class="EPay-index_section">
+    <h2 style="margin-left:19px;"><a style="color:black; font-family: 'InfinitySans-RegularA1';">마이페이지</a></h2>
+    <li class="memDA EPay-form">
+        <a href="${path}/member/memModify" style="color:black; font-family: 'InfinitySans-RegularA1';">회원 수정</a>
+    </li>
+    <li class="memDA EPay-list">
+        <a href="${path}/member/newUpdatePassword" style="color:black; font-family: 'InfinitySans-RegularA1';">비밀번호 수정</a>
+    </li>
+    <li class="memDA EPay-box">
+        <a href="${path}/member/DeactivateAccount" style="color:black; font-family: 'InfinitySans-RegularA1';">회원 탈퇴</a>
+    </li>
+</div>
+
+<form method="post" action="${path}/member/updatePass" name="formUpdatePass">
 	<div class="withDrawal">
 		<table> <!-- border="1px soild black;" -->
 			<tr>
@@ -96,65 +110,87 @@
 			<tr>
 				<td colspan="3">
 					<div id="haeder_side">
-						비밀번호는 대문자, 소문자, 숫자, 특수문자 중 2종류 이상을 조합하여 최소 10자리 이상 또는<br>
-						3종류 이상을 조합하여 최소 7자리 이상만 사용할 수 있습니다. 
+						비밀번호는 7~15자리의 대문자, 소문자, 숫자, 특수문자 중 2종류 이상 조합하여 사용해야 합니다.<br>
+						또한, 동일한 숫자 또는 문자를 3번 연속 사용할 수 없으며 아이디와 일치할 수 없습니다.
 						<br><br><br>
 					</div>
 				</td>
 			</tr>
-			<tr>
+			<!-- <tr>
 				<td><div class="updateInfo">현재 비밀번호</div></td>
 				<td>&nbsp;&nbsp;&nbsp;</td>
 				<td><input type="password" id="user_pwd" class="passInput" name="user_pwd"/></td>
-			</tr>
+			</tr> -->
 			<tr>
+				<input type="hidden" id="loginId" value="${ loginMember.user_id }">
 				<td><div class="updateInfo" id="updatePass">변경할 비밀번호</div></td>
 				<td>&nbsp;</td>
-				<td><input type="password" id="userNewPwd" class="passInput"  name="userNewPwd" /></td>
+				<td><input type="password" id="user_pwd" class="passInput"  name="user_pwd" /></td>
 			</tr>
 			<tr>
 				<td><div class="updateInfo" id="updatePassChk">비밀번호 확인</div></td>
 				<td>&nbsp;</td>
-				<td><input type="password" id="newPassChk" class="passInput" /></td>
+				<td>
+					<input type="password" name="newPassChk" id="newPassChk" class="passInput"  onkeyup="checkPwd()"/>
+					<div id="checkPwd">동일한 암호를 입력하세요.</div>					
+				</td>
 			</tr>
 			<tr>
 				<th colspan="3"><br><br>
 					<input type="button" id="notupdatePassBtn" onclick="location.href='${path}/main'" value="홈으로">
-					<input type="button" id="goUpdatePassBtn"  value="비밀번호 변경"><!-- onclick="location.href='${path}/member/updatePassword'" -->
+					<input type="button" id="goUpdatePassBtn" onclick="javascript:chekPassword();" value="비밀번호 변경">
 				</th>
 			</tr>
 		</table>
 	</div>
 </form>	
+
 <script>
+	// 안내 멘트
+	function checkPwd(){
+		var f1 = document.forms[0];
+		var pw1 = f1.user_pwd.value;
+		var pw2 = f1.newPassChk.value;
+		  
+		if(pw1!=pw2){
+			document.getElementById('checkPwd').style.color = "red";
+			document.getElementById('checkPwd').innerHTML = "동일한 암호를 입력하세요.";
+		} else {
+			document.getElementById('checkPwd').style.color = "#32CD32";
+			document.getElementById('checkPwd').innerHTML = "암호가 확인되었습니다.";
+		}
+	}
 	
-	$(document).ready(() => {
-		$("#goUpdatePassBtn").on("click", () => {
-			let user_pwd = $("#user_pwd").val().trim();
-			
-			$.ajax({
-				type: "post",
-				url: "${path}/member/pwdCheck",
-				dataType: "json",
-				data: {
-					user_pwd: user_pwd // 파라미터_키값: value값
-				},
-				success: function(data) {
-					console.log(data);
-					
-					if(data.validatePwd !== true) {
-						alert("마즘");	
-						
-					} else {
-						alert("현재 비밀번호와 일치하지 않습니다. 다시 입력하여 주십시오.");						
-					}
-				},
-				error: function(e) {
-					console.log(e);
-				}				
-			});
-		});
-	});
+	// 가입 넘어가기전 alert 경고
+	function chekPassword(){
+		var mbrId = $("#loginId").val();   // id 값 입력
+		var mbrPwd = $("#user_pwd").val();  // pw 입력
+		var check1 = /^(?=.*[a-zA-Z])(?=.*[0-9]).{7,15}$/.test(mbrPwd);   //영문,숫자
+		var check2 = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{7,15}$/.test(mbrPwd);  //영문,특수문자
+		var check3 = /^(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{7,15}$/.test(mbrPwd);  //특수문자, 숫자
+		var updateForm = document.formUpdatePass;
+	
+		if(!(check1||check2||check3)){
+			alert("사용할 수 없은 조합입니다.\n패스워드 설정안내를 확인해 주세요.");
+	
+			return false;
+		}
+	
+		if(/(\w)\1\1/.test(mbrPwd)){
+			alert('같은 문자를 3번 이상 사용하실 수 없습니다.\n패스워드 설정안내를 확인해 주세요.');
+	
+			return false;
+		}
+	
+		if(mbrPwd.search(mbrId)>-1){
+			alert("비밀번호에 아이디가 포함되었습니다.\n패스워드 설정안내를 확인해 주세요.");
+	
+			return false;
+		}
+		
+		updateForm.submit();
+	}
+	
 </script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

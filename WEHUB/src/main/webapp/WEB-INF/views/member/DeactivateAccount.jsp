@@ -13,20 +13,21 @@
 	    font-style: normal;
 	}
 	
-	h1 { font-family: 'InfinitySans-RegularA1'; font-size: 40px; }
+	h1 { font-family: 'InfinitySans-RegularA1'; font-size: 45px; }
 	
 	.withDrawal {
 		margin-top: 3%;
 		display: flex;
 		justify-content: center;
 		height: 800px;
+		padding-left: 200px;
 	}
 	
-	#haeder { color: #5b18ff; font-family: 'InfinitySans-RegularA1'; font-size: 22px; }
+	#haeder { color: #5b18ff; font-family: 'InfinitySans-RegularA1'; font-size: 25px; }
 	
 	#haeder_side {
 		font-family: 'InfinitySans-RegularA1';
-		font-size: 13px;
+		font-size: 15px;
 		color: gray;
 	}
 	
@@ -34,34 +35,36 @@
 	
 	#contentOne  { 
 		font-family: 'InfinitySans-RegularA1';
-		font-size: 14px;
+		font-size: 16px;
 		padding: 10px 30px 10px 15px;
 		line-height: 1.7em;
 		background-color: #EEE7F8;
+		letter-spacing: -0.03em;
 	}
 	
-	#header_2 { color: #5b18ff; font-family: 'InfinitySans-RegularA1'; font-size: 22px; height: 25px; }
+	#header_2 { color: #5b18ff; font-family: 'InfinitySans-RegularA1'; font-size: 25px; height: 25px; }
 	
 	#contentTwo { 
 		font-family: 'InfinitySans-RegularA1';
-		font-size: 14px;
+		font-size: 16px;
 		line-height: 1.7em;
 		padding: 10px 30px 10px 15px;
 		background-color: #F3F3F3;
+		letter-spacing: -0.03em;
 	}
 	
-	#chkment{ font-size: 14px; font-family: 'InfinitySans-RegularA1'; }
+	#chkment{ font-size: 16px; font-family: 'InfinitySans-RegularA1'; }
 	
 	#byeBtn {
 		font-family: 'InfinitySans-RegularA1';
-		font-size: 18px;
+		font-size: 20px;
 		margin-top: 35px;
 		border: 1px solid #5b18ff;
 		border-radius: 3px;
 		background-color: #5b18ff;
 		color: #fff;
-		width: 120px;
-		height: 48px;
+		width: 130px;
+		height: 53px;
 	}
 	#byeBtn:hover { 
 		border: 1px solid #5b18ff;
@@ -71,14 +74,14 @@
     
     #notByeBtn {
     	font-family: 'InfinitySans-RegularA1';
-		font-size: 18px;
+		font-size: 20px;
 		margin-top: 35px;
 		border: 1px solid #5b18ff;
 		border-radius: 3px;
 		background-color: #fff;
 		color: #5b18ff;
-		width: 120px;
-		height: 48px;
+		width: 130px;
+		height: 53px;
     }
     #notByeBtn:hover { 
 		border: 1px solid #5b18ff;
@@ -86,6 +89,19 @@
 	    color: #5b18ff; 
     }
 </style>
+
+	<div class="EPay-index_section">
+	    <h2 style="margin-left:19px;"><a style="color:black; font-family: 'InfinitySans-RegularA1';">마이페이지</a></h2>
+	    <li class="memDA EPay-form">
+	        <a href="${path}/member/memModify" style="color:black; font-family: 'InfinitySans-RegularA1';">회원 수정</a>
+	    </li>
+	    <li class="memDA EPay-list">
+	        <a href="${path}/member/updatePasswordTest" style="color:black; font-family: 'InfinitySans-RegularA1';">비밀번호 수정</a>
+	    </li>
+	    <li class="memDA EPay-box">
+	        <a href="${path}/member/DeactivateAccount" style="color:black; font-family: 'InfinitySans-RegularA1';">회원 탈퇴</a>
+	    </li>
+	</div>
 	
 	<div class="withDrawal">
 		<table>

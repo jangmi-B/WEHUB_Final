@@ -10,13 +10,30 @@
 	<c:set var="adressArr" value="${ loginMember.address }"></c:set>
 	<c:set var="arr" value="${fn:split(adressArr,',')}"/>
 	
+	<style>
+		@font-face {
+		    font-family: 'InfinitySans-RegularA1';
+		    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-RegularA1.woff') format('woff');
+		    font-weight: normal;
+		    font-style: normal;
+		}
+		.UserModifyImg {
+			  display: inline-flex;
+			  width: 40px;
+			  height: 40px;
+			  border-radius: 50%;
+			  overflow: hidden;
+			  object-fit: cover;
+		}
+	</style>
+	
 	<div class="EPay-index_section">
 	    <h2 style="margin-left:19px;"><a style="color:black; font-family: 'InfinitySans-RegularA1';">마이페이지</a></h2>
 	    <li class="memDA EPay-form">
 	        <a href="${path}/member/memModify" style="color:black; font-family: 'InfinitySans-RegularA1';">회원 수정</a>
 	    </li>
 	    <li class="memDA EPay-list">
-	        <a href="${path}/member/newUpdatePassword" style="color:black; font-family: 'InfinitySans-RegularA1';">비밀번호 수정</a>
+	        <a href="${path}/member/updatePasswordTest" style="color:black; font-family: 'InfinitySans-RegularA1';">비밀번호 수정</a>
 	    </li>
 	    <li class="memDA EPay-box">
 	        <a href="${path}/member/DeactivateAccount" style="color:black; font-family: 'InfinitySans-RegularA1';">회원 탈퇴</a>
@@ -26,26 +43,15 @@
 	<div class="member__modify">
       <div id="member__modify__form">
         <form action="${path}/member/update" method="post" enctype="multipart/form-data">
-		
-			<table class="updateTable">
+		<span id="modify_name">회원정보수정</span>
+			<table>
 				<tr>
-					<td colspan="2">
-						<h1 id="modify_name">회원정보수정</h1>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="modify_img">프로필 사진</label>
-					</td>
-					<th style="height: 100px;">						
+				    <td><label for="modify_img">프로필 사진</label></td>
+				    <td id="imgTd">
 					    <img class="UserModifyImg" src="${path}/upload/userProfileImg/${loginMember.user_imgRename}">
-					</th>
-				</tr>
-				<tr>
-				    <td></td>
-				    <td id="imgTd" >
 					    <input type="file" id="modify_img" type="text" name="user_img" value="" style="">
 					</td>
+				    <td>
 			    		<%-- <c:set var="userImgChk" value="${path}/upload/userProfileImg/${loginMember.user_imgRename}">
 							<c:choose>
 								<c:when test="${ empty userImgChk }">
@@ -56,10 +62,12 @@
 								</c:when>		
 							</c:choose>
 						</c:set> --%>
+				    </td>
 				</tr>
 				<tr>
 				    <td><label for="modify_id">아이디</label></td>
 				    <td><input id="modify_id" type="text" name="user_id" value="${ loginMember.user_id }" readonly></td>
+				    <td></td>
 				</tr>
 				<%-- <tr>
 				    <td><label for="modify_password">비밀번호</label></td>
@@ -69,61 +77,74 @@
 				<tr>
 				    <td><label for="modify_company">회사명</label></td>
 				    <td><input id="modify_company" name="user_companyname" type="text" value="${ loginMember.user_companyname }" readonly></td>
+				    <td></td>
 				</tr>
 				<tr>
 				    <td><label for="modify_userNo">사번</label></td>
 				    <td><input id="modify_userNo" name="userNo" type="text" value="${ loginMember.user_no }" readonly></td>
+				    <td></td>
 				</tr>
 				<tr>
 				    <td><label for="modify_userName">사원명</label></td>
 				    <td><input id="modify_userName" name="user_name" type="text" value="${ loginMember.user_name }" readonly></td>
+				    <td></td>
 				</tr>
 				<tr>
 				    <td><label for="modify_Grade">직급</label></td>
 				    <td><input id="modify_Grade" name="rank" type="text" value="${ loginMember.rank }" readonly></td>
+				    <td></td>
 				</tr>
 				<tr>
 				    <td><label for="modify_email">이메일</label></td>
 				    <td><input class="modify_input" name="email" id="modify_email" type="email" value="${ loginMember.email }"></td>
+				    <td></td>
 				</tr>
 				<tr>
 				    <td><label for="modify_phone">내선전화</label></td>
 				    <td><input class="modify_input" name="comcall" class="modify_phone" type="tel" value="${ loginMember.comcall }"></td>
+				    <td></td>
 				</tr>
 				<tr>
 				    <td><label for="modify_cellPhone">휴대전화</label></td>
 				    <td><input class="modify_input" name="phone" class="modify_cellPhone" type="tel" value="${ loginMember.phone }"></td>
+				    <td></td>
 				</tr>
 				<tr>
-				    <td>
-				    	<!-- <label for="modify_address">주소</label> -->
-				    	<button class="btn" id="modify_btn_addr" type="button" onclick="sample6_execDaumPostcode();">주소찾기</button>
-				    </td>
+				    <td><label for="modify_address">주소</label></td>
 				    <td><input class="modify_input" name="address" id="kakao_postcode" type="text" value="${arr[0]}" readonly="readonly"></td>
+				    <td><button class="btn" id="modify_btn_addr" type="button" onclick="sample6_execDaumPostcode();">주소찾기</button></td>
 				</tr>
 				<tr>
 				    <td></td>
 				    <td><input class="modify_input" name="address" id="kakao_address" type="text" value="${arr[1]}" readonly="readonly"></td>
+				    <td></td>
 				</tr>
 				<tr>
 				    <td></td>
 				    <td><input class="modify_input" name="address" id="kakao_detailAddress" type="text" value="${arr[2]}"></td>
+				    <td></td>
 				</tr>
 				<tr>
 				    <td></td>
 				    <td><input class="modify_input" name="address" id="kakao_extraAddress" type="text" value="${arr[3]}" readonly="readonly"></td>
+				    <td></td>
 				</tr>
 			</table>
           <div id="modify_button">
-            <button class="btn" id="notModify_btn" type="button" onclick="location.href='${path}/main'">홈으로</button>
             <button class="btn" id="modify_btn" type="submit" onclick="location.href='${path}/member/update'">회원정보수정</button>
-          </div> 
-        	<%-- <button class="btn" id="pass_btn" type="button" onclick="location.href='${path}/member/updatePassword'">비밀번호수정</button> --%>
+            <button class="btn" id="modify_btn_b" type="button" onclick="javascript:deleteMember();">회원탈퇴</button>
+        </div> 
+        <button class="btn" id="pass_btn" type="button" onclick="location.href='${path}/member/updatePassword'">비밀번호수정</button>
         </form>
       </div>  
     </div>
     
 <script>
+	function deleteMember() {
+		if(confirm("정말로 탈퇴하시겠습니까?")) {
+			location.replace("${path}/member/delete?user_id=${ loginMember.user_id }")
+		}
+	}
 	
 	// kakao 주소찾기 api
 	function sample6_execDaumPostcode() {

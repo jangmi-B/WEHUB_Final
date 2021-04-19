@@ -25,8 +25,6 @@ public interface MemberService {
 	Member login(String userId, String userPwd);
 
 	Member findMemberByUserId(String userId);
-	
-	Member findMemberByUserPwd(String userPwd);
 
 	String findID(Member member);
 
@@ -41,8 +39,6 @@ public interface MemberService {
 	boolean validate(String userId);
 	
 	List<Member> getSearchMember(String userName);
-
-	boolean validatePwd(String user_pwd);
 
 }
 

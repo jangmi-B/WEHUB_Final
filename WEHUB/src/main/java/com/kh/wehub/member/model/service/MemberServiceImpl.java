@@ -187,23 +187,5 @@ public class MemberServiceImpl implements MemberService {
 		
 		return memberDao.getSearchMemberApp(user_name);
 	}
-
-	// 현재 비밀번호 체크
-	@Override
-	public Member findMemberByUserPwd(String userPwd) {
-		
-		return memberDao.selectMemberPwd(userPwd);
-	}
-	
-	@Override
-	public boolean validatePwd(String user_pwd) {
-		Member member = new Member();
-		
-		member.setUser_pwd(passwordEncoder.encode(member.getUser_pwd()));
-		
-		member = this.findMemberByUserPwd(user_pwd);
-		
-		return member != null;
-	}
 	
 }
