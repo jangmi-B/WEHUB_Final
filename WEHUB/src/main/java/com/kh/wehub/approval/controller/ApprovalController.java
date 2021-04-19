@@ -505,7 +505,7 @@ public class ApprovalController {
 		
 		Approval approval = service.findListByLeaveNo(appNo);
 
-		System.out.println("507번줄 : " + approval);
+//		System.out.println("507번줄 : " + approval);
 
 		model.addObject("approval", approval);
 		model.setViewName("/approval/leaveApplicationView");

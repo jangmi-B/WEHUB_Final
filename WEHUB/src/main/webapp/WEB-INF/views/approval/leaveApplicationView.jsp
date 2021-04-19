@@ -49,7 +49,7 @@
 	        <div class="cash-disbursement" style="text-align: center; margin: 80px 0px 80px 200px; border: 2px solid black;">
 	            <table border="2px" style="width: 100%; font-size: 20px; border-collapse: collapse;">
 	                <tr>
-	                    <td rowspan="3" colspan="4" style="width: 300px; height: 120px; font-size: 40px; font-weight: 600;">휴 가 신 청 서</td>
+	                    <td rowspan="3" colspan="4" style="width: 300px; height: 140px; font-size: 40px; font-weight: 600;">휴 가 신 청 서</td>
 	                    <td rowspan="3" style="width: 20px; padding-top: 30px; font-size: 25px;">결 재</td>
 	                    <td style="height: 30px; width: 100px;">최초승인자</td>
 	                    <td style="width: 100px;">중간승인자</td>
@@ -180,41 +180,41 @@
 	                </tr>
 	            </table>
 	        </div>
-	        
-	        <div id="button">
-        	<input type="hidden" name="appNo" value = "${approval.appNo}"/>
-	        	
-	        <%-- <c:if test="${loginMember.user_name eq approval.firstApprover || approval.interimApprover || approval.finalApprover}">
-       			 --%><c:choose>
-       				<c:when test="${!empty approval.appReason}">
-       					<button type="button" class="openRejectionWhy">반려사유</button>
-        				<input type="text" style="border: none; width: 40px;" disabled>
-	        		</c:when>
-	        		<c:otherwise>
-	        			<c:choose>
-		        			<c:when test="${(loginMember.user_name eq approval.firstApprover && approval.appPresent eq 'A') || 
-		        						(loginMember.user_name eq approval.interimApprover && approval.appPresent eq 'B') ||
-		        						(loginMember.user_name eq approval.finalApprover && approval.appPresent eq 'C')}">
-			        			<button type="submit" id="approveddone">결재</button>
-		       					<input type="text" style="border: none; width: 40px;"disabled >
-		       					<button type="button" style="color:red" id="openRejection">반려</button>
-		        				<input type="text" style="border: none; width: 40px;" disabled>
-	        				</c:when>
-        					<c:otherwise>
-        						<button type="submit" id="approveddone" disabled>결재</button>
-	       						<input type="text" style="border: none; width: 40px;"disabled >
-	       						<button type="button" id="openRejection" disabled>반려</button>
-	        					<input type="text" style="border: none; width: 40px;" disabled>
-        					</c:otherwise>
-        				</c:choose>
-	        		</c:otherwise>
-        		</c:choose>
-			<%-- </c:if> --%>
-			
-			<button><a href="${path}/approval/approvalMain" style="color:black">취소</a></button>
-        </div>
-	    </div>
 	</form>
+	        <div id="button">
+	        	<input type="hidden" name="appNo" value = "${approval.appNo}"/>
+		        	
+		        <%-- <c:if test="${loginMember.user_name eq approval.firstApprover || approval.interimApprover || approval.finalApprover}">
+	       			 --%><c:choose>
+	       				<c:when test="${!empty approval.appReason}">
+	       					<button type="button" class="openRejectionWhy">반려사유</button>
+	        				<input type="text" style="border: none; width: 40px;" disabled>
+		        		</c:when>
+		        		
+		        		<c:otherwise>
+		        			<c:choose>
+			        			<c:when test="${(loginMember.user_name eq approval.firstApprover && approval.appPresent eq 'A') || 
+			        						(loginMember.user_name eq approval.interimApprover && approval.appPresent eq 'B') ||
+			        						(loginMember.user_name eq approval.finalApprover && approval.appPresent eq 'C')}">
+				        			<button type="button" id="approveddone">결재</button>
+			       					<input type="text" style="border: none; width: 40px;"disabled >
+			       					<button type="button" style="color:red" id="openRejection">반려</button>
+			        				<input type="text" style="border: none; width: 40px;" disabled>
+		        				</c:when>
+	        					<c:otherwise>
+	        						<button type="button" id="approveddone" disabled>결재</button>
+		       						<input type="text" style="border: none; width: 40px;"disabled >
+		       						<button type="button" id="openRejection" disabled>반려</button>
+		        					<input type="text" style="border: none; width: 40px;" disabled>
+	        					</c:otherwise>
+	        				</c:choose>
+		        		</c:otherwise>
+	        		</c:choose>
+				<%-- </c:if> --%>
+				
+				<button><a href="${path}/approval/approvalMain" style="color:black">취소</a></button>
+	        </div>
+	    </div>
 	
 <!-- 모달 테이블(반려 확인) -->
     
@@ -269,18 +269,17 @@
     </div>
     
     <script>
-    /* 반려사유 확인 모달 */
-	const open3 = () => {
-    	document.querySelector(".modal3").classList.remove("hidden");
-    }
-
-    const close3 = () => {
-        document.querySelector(".modal3").classList.add("hidden");
-    }
+	    /* 반려사유 확인 모달 */
+		const open3 = () => {
+	    	document.querySelector(".modal3").classList.remove("hidden");
+	    }
 	
-    document.querySelector(".openRejectionWhy").addEventListener("click", open3);
-    document.querySelector(".closeBtn-in3").addEventListener("click", close3);
-	
+	    const close3 = () => {
+	        document.querySelector(".modal3").classList.add("hidden");
+	    }
+		
+	    document.querySelector(".openRejectionWhy").addEventListener("click", open3);
+	    document.querySelector(".closeBtn-in3").addEventListener("click", close3);
     </script>
     
     <!-- 모달 스크립트 -->
@@ -390,7 +389,10 @@
    			if($('#checkIfApproved').length > 0) {
    				var url = "${path}/approval/approvalMain";
 	   			alert("결재가 완료되었습니다.");
-	   	        $(location).attr('href', url);  			
+	   			
+	   			console.log(location);
+	   			
+	   	        location.href="${path}/approval/approvalMain";
    			} else {
    				var url = "${path}/approval/letterOfApprovalView?appNo="+${approval.appNo};
    				alert("결재서명 후 결재를 진행해주세요.");
