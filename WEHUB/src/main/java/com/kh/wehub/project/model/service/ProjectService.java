@@ -40,4 +40,8 @@ public interface ProjectService {
 
 	List<Project> homeProjectList(int user_no); //home화면 리스트 불러오기
 
+	int getEndProjectCount(Map<String, Object> map); // 종료된 프로젝트
+
+	List<Project> getEndProjectList(PageInfo pageInfo, Map<String, Object> map);
+
 }

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.wehub.member.model.dao.MemberDao;
 import com.kh.wehub.member.model.vo.Member;
+import com.kh.wehub.memberInfo.model.vo.InsertNewMember;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -90,6 +91,18 @@ public class MemberServiceImpl implements MemberService {
 		result = memberDao.updateMemberPass(member);
 		
 		return result;
+	}
+	
+	@Override
+	public InsertNewMember getNewMember(String userNo) {
+		
+		return memberDao.getNewMember(userNo);
+	}
+
+	@Override
+	public Member checkNewMem(String userNo) {
+		
+		return memberDao.checkNewMem(userNo);
 	}
 	
 }

@@ -17,6 +17,7 @@
 package com.kh.wehub.member.model.service;
 
 import com.kh.wehub.member.model.vo.Member;
+import com.kh.wehub.memberInfo.model.vo.InsertNewMember;
 
 public interface MemberService {
 
@@ -35,6 +36,10 @@ public interface MemberService {
 	int deleteMember(String userId);
 	
 	boolean validate(String userId);
+	
+	InsertNewMember getNewMember(String userNo); //임시회원 찾아오기
+
+	Member checkNewMem(String userNo);
 
 }
 

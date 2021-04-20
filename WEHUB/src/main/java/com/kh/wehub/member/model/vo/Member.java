@@ -39,5 +39,7 @@ public class Member {
 	
 	private String user_imgRename;
 	
+	private int newUserNo; // 임시테이블 사번
+	
 }
 

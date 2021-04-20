@@ -32,6 +32,7 @@ import com.kh.wehub.community.model.vo.Community;
 import com.kh.wehub.member.model.service.MemberService;
 import com.kh.wehub.member.model.service.UserMailSendService;
 import com.kh.wehub.member.model.vo.Member;
+import com.kh.wehub.memberInfo.model.vo.InsertNewMember;
 import com.kh.wehub.memo.model.service.MemoService;
 import com.kh.wehub.memo.model.vo.Memo;
 import com.kh.wehub.message.model.service.MessageService;
@@ -489,6 +490,26 @@ public class MemberController {
 		model.setViewName("common/msg");
 		
 		return model;
+	}
+	
+	// 회원가입할 때 사번으로 임시회원을 조회해오는 코드입니다
+	@RequestMapping("member/findNewMem")
+	@ResponseBody
+	public Object findNewMem(@RequestParam("value")String userNo) {
+		
+		InsertNewMember member = service.getNewMember(userNo);
+		Member memberfind = service.checkNewMem(userNo);
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		if(member != null && memberfind == null) {
+			map.put("member", member);
+		} else if(member == null && memberfind == null) {
+			map.put("member", 0);
+		}  else if(member != null && memberfind != null) {
+			map.put("member", 1);
+		}
+		return map;
 	}
 	
 	private String saveFile(MultipartFile file, HttpServletRequest request) {

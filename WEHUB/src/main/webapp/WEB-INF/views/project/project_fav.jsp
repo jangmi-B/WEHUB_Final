@@ -15,6 +15,7 @@
             <li><button type="button" class="make_project_btn" onclick="makeProject();"> Make Project </button></li>
             <li><a href="${path}/project/list">전체프로젝트</a></li>
             <li><a href="${path}/project/participant">참여중인 프로젝트</a></li>
+            <li><a href="${path}/project/endList">종료된 프로젝트</a></li>
             <li><a href="${path}/project/favorite">즐겨찾기</a></li>
           </ul>
         </li>
@@ -75,7 +76,9 @@
 			        </div>
 		        </div>
 		        <div class="project_btns">
+		        <c:if test="${ !empty loginMember && (loginMember.user_no == projectList.projectMake)}">
 	        	 <button style="width:100px; background:" type="button" id="deleteBtn(${projectList.projectNo})" class="pj${ status.count }" onclick="closeProject(${projectList.projectNo});">프로젝트종료</button>
+	        	</c:if>
 	       		 <button type="button" id="exitBtn(${projectList.projectNo})">닫기</button>
 		        </div>
 		    </div>

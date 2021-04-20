@@ -281,4 +281,48 @@ public class ProjectController {
 		}
 	}
 	
+	@RequestMapping(value = "/project/endList", method = {RequestMethod.GET})
+	public ModelAndView projectEndList(ModelAndView model,
+			@RequestParam(value = "searchText", required=false)String searchText,
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+			@RequestParam(value = "listLimit", required = false, defaultValue = "12") int listLimit,
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+		
+		int projectCount = 0;
+		PageInfo pageInfo = null;
+		List<Project> projectList = null;
+		
+		//쪽지 아이콘 색 변하게 하는 코드
+		int unreadCheck = 0;
+		unreadCheck = messageService.getUnreadCheck(loginMember.getUser_no());
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("searchText", searchText);
+		map.put("userNo", loginMember.getUser_no());
+		
+		projectCount = service.getEndProjectCount(map);
+		
+		pageInfo = new PageInfo(page, 10, projectCount, listLimit);
+		projectList = service.getEndProjectList(pageInfo, map);
+		
+		for(int i = 0; i < projectList.size(); i++) {
+			String[] arr = projectList.get(i).getParticipant().split("/ ");
+			
+			projectList.get(i).setProjectCount(arr.length);
+		}
+		
+		List<Integer> projectNoList = projectList.stream().map(project -> project.getProjectNo()).collect(Collectors.toList());
+		
+//		System.out.println(projectNoList);	
+//		System.out.println(loginMember.getUser_no());
+		
+		model.addObject("unreadCheck", unreadCheck);
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("projectList",projectList);
+		
+		model.setViewName("project/project_end");
+		
+		return model;
+	}
+	
 }
