@@ -43,8 +43,8 @@
         <ul id="header_user">
           <li><a href="#">${ loginMember.user_name } ${ loginMember.rank } </a>
             <ul>
-              <li><a onclick="location.replace('${path}/logout')"">Logout</a></li>
-              <li><a href="#">MyPage</a></li>
+              <li><a onclick="location.replace('${path}/logout')">Logout</a></li>
+              <li><a href="${path}/member/memModify">MyPage</a></li>
             </ul>
           </li>
         </ul>
@@ -67,6 +67,6 @@
         <li><a href="${path}/calendar/view"><i class="far fa-calendar-alt home_contents"></i></a></li>
         <li><a href="${path}/project/list"><i class="fas fa-project-diagram"></i></a></li>
         <li><a href="${path}/community/list"><i class="fas fa-shopping-cart home_contents"></i></a></li>
-
+		<li><a href="${path}/approval/approvalMain"><i class="far fa-file-alt"></i></a></li>
       </ul>
     </div>

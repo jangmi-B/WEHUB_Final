@@ -1,0 +1,625 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kh.wehub.approval.model.dao.ApprovalDao">
+
+	<resultMap type="Approval" id="approvalResultMap">
+		<id property="appNo" column="APP_SEQ"/>
+		<result property="appWriteDate" column="APP_WRITE_SYS"/>
+		<result property="firstApprover" column="FIRST_TIME_APPROVER"/>
+		<result property="interimApprover" column="INTERIM_APPROVER"/>
+		<result property="finalApprover" column="FINAL_APPROVER"/>
+		<result property="appCheckSysdate" column="APP_CHECK_SYSDATE"/>
+		<result property="appCheckProgress" column="APP_CHECK_PROGRESS"/>
+		<result property="appReason" column="APP_REASON"/>
+		<result property="appOriginalFileName" column="APP_ORIFILENAME"/>
+		<result property="appRenameFileName" column="APP_REFILENAME"/>
+		<result property="appWriterNo" column="APP_WRITER_NO"/>		
+		<result property="appKinds" column="APPROVAL_KINDS"/>
+		<result property="appPresent" column="APP_PRESENT"/>
+		
+		<result property="userNo" column="USER_NO"/>
+		<result property="deptName" column="DEPT_NAME"/>
+		<result property="userName" column="USER_NAME"/>
+		<result property="rowNum" column="ROWNUM"/>
+		<result property="rank" column="RANK"/>
+		
+		<!-- <result property="loaNo" column="LOA_SEQ"/> -->
+		<result property="loaAppNo" column="LOA_APP_SEQ"/>
+		<result property="loaTitle" column="LOA_TITLE"/>
+		<result property="loaContent" column="LOA_DETAIL"/>
+		
+		<result property="receiveRefAppNo" column="RECEIVE_REF_APP_SEQ"/>
+		<result property="referList" column="RECEIVE_REF_CC"/>
+		
+		<result property="erNo" column="ER_SEQ"/>
+		<result property="erAppNo" column="ER_APP_SEQ"/>
+		<result property="erDeadline" column="ER_DEADLINE"/>
+		<result property="erClassify" column="ER_CLASSIFY"/>
+		<result property="erTitle" column="ER_TITLE"/>
+		<result property="erDetail" column="ER_DETAIL"/>
+		<result property="erAmount" column="ER_AMOUNT"/>
+		<result property="erReference" column="ER_REFERENCE"/>
+		<result property="erStatus" column="ER_STATUS"/>
+		<result property="erPresent" column="ER_PRESENT"/>
+		<result property="allAmount" column="ER_ALLAMOUNT"/>
+		<result property="monetaryUnit" column="ER_MONETARYUNIT"/>
+
+		<result property="leaveNo" column="LEAVE_SEQ"/>
+      	<result property="leaveAppNo" column="LEAVE_APP_SEQ"/>
+      	<result property="leaveClassify" column="LEAVE_CLASSIFY"/>
+     	<result property="leaveStart" column="LEAVE_START"/>
+	    <result property="leaveFinish" column="LEAVE_FINISH"/>
+	    <result property="leaveDetail" column="LEAVE_DETAIL"/>
+	    <result property="leaveStatus" column="LEAVE_STATUS"/>
+	    <result property="leavePreasent" column="LEAVE_PRESENT"/>
+	    <result property="appEmergncyCall" column="APP_EMERGENCYCALL"/>
+		<!-- <collection property="app_loa" javaType="java.util.ArrayList" resultMap="app_loa"/> -->
+	</resultMap>
+	
+	<resultMap type="Approval" id="leaveResultMap">
+		<id property="leaveNo" column="LEAVE_SEQ"/>
+		<result property="leaveAppNo" column="LEAVE_APP_SEQ"/>
+		<result property="leaveClassify" column="LEAVE_CLASSIFY"/>
+		<result property="leaveStart" column="LEAVE_START"/>
+		<result property="leaveFinish" column="LEAVE_FINISH"/>
+		<result property="leaveDetail" column="LEAVE_DETAIL"/>
+		<result property="leaveStatus" column="LEAVE_STATUS"/>
+		<result property="leavePreasent" column="LEAVE_PRESENT"/>
+		<result property="appEmergncyCall" column="APP_EMERGENCYCALL"/>
+	</resultMap>
+	
+ 	<resultMap type="Approval" id="receiveResultMap">
+		<id property="receiveRefNo" column="RECEIVE_REF_SEQ"/>
+		<result property="receiveRefAppNo" column="RECEIVE_REF_APP_SEQ"/>
+		<result property="referList" column="RECEIVE_REF_CC"/>
+	</resultMap>
+	
+	<resultMap type="Approval" id="LOAResultMap">
+		<id property="loaNo" column="LOA_SEQ"/>
+		<result property="loaAppNo" column="LOA_APP_SEQ"/>
+		<result property="loaTltle" column="LOA_TITLE"/>
+		<result property="loaDetale" column="LOA_DETAIL"/>
+		<result property="loaStatus" column="LOA_STATUS"/>
+		<result property="loaPresent" column="LOA_PRESENT"/>
+	</resultMap>
+	
+	<resultMap type="Approval" id="ErResultMap">
+		<id property="erNo" column="ER_SEQ"/>
+		<result property="erAppNo" column="ER_APP_SEQ"/>
+		<result property="erDeadline" column="ER_DEADLINE"/>
+		<result property="erClassify" column="ER_CLASSIFY"/>
+		<result property="erTitle" column="ER_TITLE"/>
+		<result property="erDetail" column="ER_DETAIL"/>
+		<result property="erAmount" column="ER_AMOUNT"/>
+		<result property="erReference" column="ER_REFERENCE"/>
+		<result property="erStatus" column="ER_STATUS"/>
+		<result property="erPresent" column="ER_PRESENT"/>
+		<result property="allAmount" column="ER_ALLAMOUNT"/>
+		<result property="monetaryUnit" column="ER_MONETARYUNIT"/>
+	</resultMap>
+	
+	
+
+	<select id="selectRecentList" parameterType="map" resultMap="approvalResultMap">
+		SELECT ROWNUM, B.* FROM (
+			SELECT A.APP_SEQ,
+			A.APP_WRITER_NO,
+			A.APP_WRITE_SYS,
+			A.FIRST_TIME_APPROVER,
+			A.INTERIM_APPROVER,
+			A.FINAL_APPROVER,
+			A.APP_CHECK_SYSDATE,
+			A.APP_CHECK_PROGRESS,
+			A.APP_REASON,
+			A.APP_ORIFILENAME,
+			A.APP_REFILENAME,
+			M.USER_NAME,
+			M.RANK,
+			A.APPROVAL_KINDS,
+			D.DEPT_NAME,
+			L.LOA_TITLE,
+			LEA.LEAVE_CLASSIFY,
+			ER.ER_TITLE
+		FROM APPROVAL A 
+		JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
+		JOIN DEPARTMENT D ON (D.DEPT_CODE = M.DEPT_CODE)
+		LEFT JOIN APP_LOA L ON (A.APP_SEQ = L.LOA_APP_SEQ)
+		LEFT JOIN APP_LEAVE LEA ON (A.APP_SEQ = LEA.LEAVE_APP_SEQ)
+		LEFT JOIN APP_ER ER ON (A.APP_SEQ = ER.ER_APP_SEQ)
+		WHERE ROWNUM <![CDATA[ < ]]>= 6 AND ((#{user_name} = A.FIRST_TIME_APPROVER) OR 
+			                                  (#{user_name} = A.INTERIM_APPROVER) OR 
+			                                  (#{user_name} = A.FINAL_APPROVER)) 
+		ORDER BY A.APP_SEQ DESC) B
+		ORDER BY ROWNUM
+	</select>
+	
+	<select id="selectRecentList1" parameterType="map" resultMap="approvalResultMap">
+		SELECT ROWNUM, B.* FROM (SELECT A.APP_SEQ,
+		     A.APP_WRITER_NO,
+		     A.APP_WRITE_SYS,
+		     A.FIRST_TIME_APPROVER,
+		     A.INTERIM_APPROVER,
+		     A.FINAL_APPROVER,
+		     A.APP_CHECK_SYSDATE,
+		     A.APP_CHECK_PROGRESS,
+		     A.APP_REASON,
+		     A.APP_ORIFILENAME,
+		     A.APP_REFILENAME,
+		     M.USER_NAME,
+		     M.RANK,
+		     A.APPROVAL_KINDS,
+		     D.DEPT_NAME,
+			 L.LOA_TITLE,
+			 LEA.LEAVE_CLASSIFY,
+			 ER.ER_TITLE
+		FROM APPROVAL A 
+		JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
+		JOIN DEPARTMENT D ON (D.DEPT_CODE = M.DEPT_CODE)
+		LEFT JOIN APP_LOA L ON (A.APP_SEQ = L.LOA_APP_SEQ)
+		LEFT JOIN APP_LEAVE LEA ON (A.APP_SEQ = LEA.LEAVE_APP_SEQ)
+		LEFT JOIN APP_ER ER ON (A.APP_SEQ = ER.ER_APP_SEQ)
+		WHERE ROWNUM <![CDATA[ < ]]>= 6 AND (#{user_no} = A.APP_WRITER_NO)
+		ORDER BY A.APP_SEQ DESC) B
+		ORDER BY ROWNUM
+	</select>
+	
+	<select id="selectRecentList2" parameterType="map" resultMap="approvalResultMap">
+		SELECT ROWNUM, B.* FROM (SELECT A.APP_SEQ,
+		     A.APP_WRITER_NO,
+		     A.APP_WRITE_SYS,
+		     A.FIRST_TIME_APPROVER,
+		     A.INTERIM_APPROVER,
+		     A.FINAL_APPROVER,
+		     A.APP_CHECK_SYSDATE,
+		     A.APP_CHECK_PROGRESS,
+		     A.APP_REASON,
+		     A.APP_ORIFILENAME,
+		     A.APP_REFILENAME,
+		     M.USER_NAME,
+		     M.RANK,
+		     A.APPROVAL_KINDS,
+		     D.DEPT_NAME,
+			 L.LOA_TITLE,
+			 LEA.LEAVE_CLASSIFY,
+			 ER.ER_TITLE
+		FROM APPROVAL A 
+		JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
+		JOIN DEPARTMENT D ON (D.DEPT_CODE = M.DEPT_CODE)
+		LEFT JOIN APP_LOA L ON (A.APP_SEQ = L.LOA_APP_SEQ)
+		LEFT JOIN APP_LEAVE LEA ON (A.APP_SEQ = LEA.LEAVE_APP_SEQ)
+		LEFT JOIN APP_ER ER ON (A.APP_SEQ = ER.ER_APP_SEQ)
+		LEFT JOIN app_receive_ref arr ON (A.APP_SEQ = arr.RECEIVE_REF_APP_SEQ)
+		WHERE ROWNUM <![CDATA[ < ]]>= 6 AND arr.RECEIVE_REF_CC LIKE '%'|| #{user_name} ||'%'
+		ORDER BY A.APP_SEQ DESC) B
+		ORDER BY ROWNUM
+	</select>
+	
+	<select id="approvalCount_YET" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM APPROVAL A
+		LEFT JOIN app_receive_ref arr ON (A.APP_SEQ = arr.RECEIVE_REF_APP_SEQ)
+		WHERE arr.RECEIVE_REF_CC LIKE '%'|| #{user_name} ||'%' AND APP_CHECK_PROGRESS = '결재대기' <!-- AND (((#{user_name} = A.FIRST_TIME_APPROVER) OR 
+			                                  (#{user_name} = A.INTERIM_APPROVER) OR 
+			                                  (#{user_name} = A.FINAL_APPROVER)) OR 
+			                                  (#{user_no} = A.APP_WRITER_NO)) -->
+	</select>
+
+	<select id="approvalCount_UNDER" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM APPROVAL A
+		LEFT JOIN app_receive_ref arr ON (A.APP_SEQ = arr.RECEIVE_REF_APP_SEQ)
+		WHERE arr.RECEIVE_REF_CC LIKE '%'|| #{user_name} ||'%' AND APP_CHECK_PROGRESS = '결재중' <!-- AND (((#{user_name} = A.FIRST_TIME_APPROVER) OR 
+			                                  (#{user_name} = A.INTERIM_APPROVER) OR 
+			                                  (#{user_name} = A.FINAL_APPROVER)) OR 
+			                                  (#{user_no} = A.APP_WRITER_NO)) -->
+	</select>
+
+	<select id="approvalCount_DONE" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM APPROVAL A
+		LEFT JOIN app_receive_ref arr ON (A.APP_SEQ = arr.RECEIVE_REF_APP_SEQ)
+		WHERE arr.RECEIVE_REF_CC LIKE '%'|| #{user_name} ||'%' AND APP_CHECK_PROGRESS = '결재완료' <!-- AND (((#{user_name} = A.FIRST_TIME_APPROVER) OR 
+			                                  (#{user_name} = A.INTERIM_APPROVER) OR 
+			                                  (#{user_name} = A.FINAL_APPROVER)) OR 
+			                                  (#{user_no} = A.APP_WRITER_NO)) -->
+	</select>
+
+	<select id="selectApprovalList" parameterType="map" resultMap="approvalResultMap">
+		SELECT ROWNUM, B.* FROM(SELECT A.APP_SEQ,
+		     A.APP_WRITER_NO,
+		     A.APP_WRITE_SYS,
+		     A.FIRST_TIME_APPROVER,
+		     A.INTERIM_APPROVER,
+		     A.FINAL_APPROVER,
+		     A.APP_CHECK_SYSDATE,
+		     A.APP_CHECK_PROGRESS,
+		     A.APP_REASON,
+		     A.APP_ORIFILENAME,
+		     A.APP_REFILENAME,
+		     M.USER_NAME,
+		     M.RANK,
+		     A.APPROVAL_KINDS,
+		     D.DEPT_NAME,
+			 L.LOA_TITLE,
+			 LEA.LEAVE_CLASSIFY,
+			 ER.ER_TITLE
+		FROM APPROVAL A 
+		JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
+		JOIN DEPARTMENT D ON (D.DEPT_CODE = M.DEPT_CODE)
+		LEFT JOIN APP_LOA L ON (A.APP_SEQ = L.LOA_APP_SEQ)
+		LEFT JOIN APP_LEAVE LEA ON (A.APP_SEQ = LEA.LEAVE_APP_SEQ)
+		LEFT JOIN app_receive_ref arr ON (A.APP_SEQ = arr.RECEIVE_REF_APP_SEQ)
+		LEFT JOIN APP_ER ER ON (A.APP_SEQ = ER.ER_APP_SEQ)
+        WHERE arr.RECEIVE_REF_CC LIKE '%'|| #{user_name} ||'%'
+        <if test="searchText != 'null'">
+			AND	M.USER_NAME LIKE '%'|| #{searchText} ||'%'
+				OR A.APPROVAL_KINDS LIKE '%'|| #{searchText} ||'%'
+				OR A.APP_CHECK_PROGRESS LIKE '%'|| #{searchText} ||'%'
+				OR D.DEPT_NAME LIKE '%'|| #{searchText} ||'%'
+		</if>
+		ORDER BY A.APP_WRITE_SYS DESC) B
+        ORDER BY ROWNUM ASC
+	</select>
+	
+	<select id="listCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM APPROVAL A
+		JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
+		JOIN DEPARTMENT D ON (D.DEPT_CODE = M.DEPT_CODE)
+		<where>
+			<choose>
+				<when test="searchList != 'null'">
+					M.USER_NAME LIKE '%'|| #{searchText} ||'%'
+					OR A.APPROVAL_KINDS LIKE '%'|| #{searchText} ||'%'
+					OR A.APP_CHECK_PROGRESS LIKE '%'|| #{searchText} ||'%'
+					OR D.DEPT_NAME LIKE '%'|| #{searchText} ||'%'
+				</when>
+			</choose>
+		</where>
+	</select>
+	
+	<insert id="insertLetterOfApproval" parameterType="map"
+  		useGeneratedKeys="true" keyProperty="appNo" keyColumn="APP_SEQ">
+  		
+  		INSERT INTO APPROVAL(
+  			APP_SEQ,
+  			APP_WRITE_SYS,
+  			FIRST_TIME_APPROVER,
+  			INTERIM_APPROVER,
+  			FINAL_APPROVER,
+  			APP_CHECK_SYSDATE,
+  			APP_REASON,
+  			APP_ORIFILENAME,
+  			APP_REFILENAME,
+  			APP_WRITER_NO,
+  			APP_CHECK_PROGRESS,
+  			APPROVAL_KINDS,
+  			APP_PRESENT
+  		)
+  		VALUES(
+  			SEQ_APP_SEQ.NEXTVAL,
+  			SYSDATE,
+  			#{firstApprover},
+			#{interimApprover},
+			#{finalApprover},
+			#{appCheckSysdate},
+			#{appReason},
+			#{appOriginalFileName},
+			#{appRenameFileName},
+			#{appWriterNo},
+			DEFAULT,
+  			#{appKinds},
+  			DEFAULT
+ 		)
+  	</insert>
+  	
+  	<insert id="insertLetterOfApproval2" parameterType="map"
+  		useGeneratedKeys="true" keyProperty="loaAppNo" keyColumn="LOA_APP_SEQ">
+  		
+  		INSERT INTO APP_LOA (
+			LOA_SEQ,
+			LOA_APP_SEQ,
+			LOA_TITLE,
+			LOA_DETAIL,
+			LOA_STATUS,
+			LOA_PRESENT
+		)
+		VALUES(
+			SEQ_LOA_SEQ.NEXTVAL,
+			#{loaAppNo},
+			#{loaTitle},
+			#{loaContent},
+			DEFAULT,
+			DEFAULT
+		)
+  	</insert>
+  	
+  	<insert id="insertLetterOfApproval3" parameterType="map"
+  		useGeneratedKeys="true" keyProperty="receiveRefAppNo" keyColumn="RECEIVE_REF_SEQ">
+  		
+  		INSERT INTO APP_RECEIVE_REF(
+			RECEIVE_REF_SEQ,
+  			RECEIVE_REF_APP_SEQ,
+  			RECEIVE_REF_CC
+  		)
+  		VALUES(
+  			SEQ_RECEIVE_REF_SEQ.NEXTVAL,
+  			#{receiveRefAppNo},
+  			#{referList}
+ 		)
+  	</insert>
+  	
+  	<select id="selectApprovalListDetail" parameterType="_int" resultMap="approvalResultMap">
+		SELECT A.APP_SEQ,
+		     A.APP_WRITER_NO,
+		     A.APP_WRITE_SYS,
+		     A.FIRST_TIME_APPROVER,
+		     A.INTERIM_APPROVER,
+		     A.FINAL_APPROVER,
+		     A.APP_CHECK_SYSDATE,
+		     A.APP_CHECK_PROGRESS,
+		     A.APP_REASON,
+		     A.APP_ORIFILENAME,
+		     A.APP_REFILENAME,
+		     M.USER_NAME,
+		     M.RANK,
+		     A.APPROVAL_KINDS,
+		     D.DEPT_NAME,
+             LOA_TITLE,
+             LOA_DETAIL,
+             RECEIVE_REF_CC,
+             A.APP_PRESENT
+		FROM APPROVAL A 
+		JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
+		JOIN DEPARTMENT D ON (D.DEPT_CODE = M.DEPT_CODE)
+        JOIN APP_LOA L ON (A.APP_SEQ = L.LOA_APP_SEQ)
+        JOIN APP_RECEIVE_REF R ON (A.APP_SEQ = R.RECEIVE_REF_APP_SEQ)
+        WHERE A.APP_SEQ = #{appNo}
+	</select>
+	
+	<update id="rejectUpdate" parameterType="Approval">
+		UPDATE APPROVAL SET APP_CHECK_PROGRESS='결재반려', APP_REASON=#{appReason} WHERE APP_SEQ=#{appNo}	
+	</update>
+	
+	<update id="approved1" parameterType="_int">
+		UPDATE APPROVAL SET APP_PRESENT='B', APP_CHECK_PROGRESS='결재중' WHERE APP_SEQ=#{appNo}	
+	</update>
+	
+	<update id="approved2" parameterType="_int">
+		UPDATE APPROVAL SET APP_PRESENT='C', APP_CHECK_PROGRESS='결재중' WHERE APP_SEQ=#{appNo}	
+	</update>
+	
+	<update id="approved3" parameterType="_int">
+		UPDATE APPROVAL SET APP_PRESENT='D', APP_CHECK_PROGRESS='결재완료' WHERE APP_SEQ=#{appNo}	
+	</update>
+	
+	<!-- insert Approval -->
+    <insert id="insertApproval" parameterType="map"
+      useGeneratedKeys="true" keyProperty="appNo" keyColumn="APP_SEQ">
+      INSERT INTO APPROVAL(
+         APP_SEQ,
+         APP_WRITE_SYS,
+         FIRST_TIME_APPROVER,
+         INTERIM_APPROVER,
+         FINAL_APPROVER,
+         APP_CHECK_SYSDATE,
+         APP_REASON,
+         APP_ORIFILENAME,
+         APP_REFILENAME,
+         APP_WRITER_NO,
+         APP_CHECK_PROGRESS,
+         APPROVAL_KINDS,
+         APP_PRESENT
+      )
+      VALUES(
+         SEQ_APP_SEQ.NEXTVAL,
+         SYSDATE,
+         #{firstApprover},
+         #{interimApprover},
+         #{finalApprover},
+         #{appCheckSysdate},
+         #{appReason},
+         #{appOriginalFileName},
+         #{appRenameFileName},
+         #{appWriterNo},
+         DEFAULT,
+         #{appKinds},
+         DEFAULT
+      )
+   </insert>
+   
+   <!-- insert Leave -->
+   <insert id="insertAppLeave" parameterType="map"
+      useGeneratedKeys="true" keyProperty="leaveNo" keyColumn="LEAVE_SEQ">
+      INSERT INTO APP_LEAVE(
+         LEAVE_SEQ,
+         LEAVE_APP_SEQ,
+         LEAVE_CLASSIFY,
+         LEAVE_START,
+         LEAVE_FINISH,
+         LEAVE_DETAIL,
+         LEAVE_STATUS,
+         LEAVE_PRESENT,
+         APP_EMERGENCYCALL
+      )
+      VALUES(
+         SEQ_LEAVE_SEQ.NEXTVAL,
+         #{leaveAppNo},
+         #{leaveClassify},
+         #{leaveStart},
+         #{leaveFinish},
+         #{leaveDetail},
+         DEFAULT,
+         DEFAULT,
+         #{appEmergncyCall}
+      )
+   </insert>
+   
+   <!-- insert Receive -->
+   <insert id="insertReceiveRef" parameterType="map"
+      useGeneratedKeys="true" keyProperty="receiveRefNo" keyColumn="RECEIVE_REF_SEQ">
+      INSERT INTO APP_RECEIVE_REF(
+         RECEIVE_REF_SEQ,
+         RECEIVE_REF_APP_SEQ,
+         RECEIVE_REF_CC
+      )
+      VALUES(
+         SEQ_RECEIVE_REF_SEQ.NEXTVAL,
+         #{receiveRefAppNo},
+         #{referList}
+      )
+   </insert>
+
+	<!-- 지출결의서 등록 -->
+	<insert id="insertExpenseReport" parameterType="map"
+  		useGeneratedKeys="true" keyProperty="appNo" keyColumn="APP_SEQ">
+  		
+  		INSERT INTO APPROVAL(
+  			APP_SEQ,
+  			APP_WRITE_SYS,
+  			FIRST_TIME_APPROVER,
+  			INTERIM_APPROVER,
+  			FINAL_APPROVER,
+  			APP_CHECK_SYSDATE,
+  			APP_REASON,
+  			APP_ORIFILENAME,
+  			APP_REFILENAME,
+  			APP_WRITER_NO,
+  			APP_CHECK_PROGRESS,
+  			APPROVAL_KINDS,
+  			APP_PRESENT
+  		)
+  		VALUES(
+  			SEQ_APP_SEQ.NEXTVAL,
+  			SYSDATE,
+  			#{firstApprover},
+			#{interimApprover},
+			#{finalApprover},
+			#{appCheckSysdate},
+			#{appReason},
+			#{appOriginalFileName},
+			#{appRenameFileName},
+			#{appWriterNo},
+			DEFAULT,
+  			'지출결의서',
+  			DEFAULT
+ 		)
+  	</insert>
+  	
+  	<insert id="insertExpenseReport2" parameterType="map"
+  		useGeneratedKeys="true" keyProperty="erAppNo" keyColumn="ER_APP_SEQ">
+  		
+  		INSERT INTO APP_ER(
+			ER_SEQ,
+  			ER_APP_SEQ,
+  			ER_DEADLINE,
+  			ER_CLASSIFY,
+  			ER_TITLE,
+  			ER_DETAIL,
+  			ER_AMOUNT,
+  			ER_REFERENCE,
+  			ER_STATUS,
+  			ER_PRESENT,
+  			ER_ALLAMOUNT,
+  			ER_MONETARYUNIT
+  		)
+  		VALUES(
+  			SEQ_ER_SEQ.NEXTVAL,
+  			#{erAppNo},
+  			#{erDeadline},
+  			#{erClassify},
+  			#{erTitle},
+  			#{erDetail},
+  			#{erAmount},
+  			#{erReference},
+  			DEFAULT,
+  			DEFAULT,
+  			#{allAmount},
+  			#{monetaryUnit}
+ 		)
+  	</insert>
+  	
+  	<insert id="insertExpenseReport3" parameterType="map"
+  		useGeneratedKeys="true" keyProperty="receiveRefAppNo" keyColumn="RECEIVE_REF_SEQ">
+  		
+  		INSERT INTO APP_RECEIVE_REF(
+  			RECEIVE_REF_SEQ,
+			RECEIVE_REF_APP_SEQ,
+			RECEIVE_REF_CC
+  		)
+  		VALUES(
+  			SEQ_RECEIVE_REF_SEQ.NEXTVAL,
+  			#{receiveRefAppNo},
+  			#{referList}
+ 		)
+  	</insert>
+
+	<select id="selectExpenseReportListDetail" parameterType="_int" resultMap="approvalResultMap">
+		SELECT A.APP_SEQ,
+		     A.APP_WRITER_NO,
+		     A.APP_WRITE_SYS,
+		     A.FIRST_TIME_APPROVER,
+		     A.INTERIM_APPROVER,
+		     A.FINAL_APPROVER,
+		     A.APP_CHECK_SYSDATE,
+		     A.APP_CHECK_PROGRESS,
+		     A.APP_REASON,
+		     A.APP_ORIFILENAME,
+		     A.APP_REFILENAME,
+		     M.USER_NAME,
+		     M.RANK,
+		     A.APPROVAL_KINDS,
+		     D.DEPT_NAME,
+             RECEIVE_REF_CC,
+             A.APP_PRESENT,
+             E.ER_DEADLINE,
+             E.ER_TITLE,
+             E.ER_DETAIL,
+             E.ER_AMOUNT,
+             E.ER_REFERENCE,
+             E.ER_ALLAMOUNT,
+             E.ER_MONETARYUNIT
+		FROM APPROVAL A 
+		JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
+		JOIN DEPARTMENT D ON (D.DEPT_CODE = M.DEPT_CODE)
+        JOIN APP_ER E ON (A.APP_SEQ = E.ER_APP_SEQ)
+        JOIN APP_RECEIVE_REF R ON (A.APP_SEQ = R.RECEIVE_REF_APP_SEQ)
+        WHERE A.APP_SEQ = #{appNo}
+	</select>
+
+	<select id="viewAppLeaveList" parameterType="_int" resultMap="approvalResultMap">
+      SELECT A.APP_SEQ,
+              A.APP_WRITER_NO,
+              A.APP_WRITE_SYS,
+              A.FIRST_TIME_APPROVER,
+              A.INTERIM_APPROVER,
+              A.FINAL_APPROVER,
+              A.APP_CHECK_SYSDATE,
+              A.APP_CHECK_PROGRESS,
+              A.APP_REASON,
+              A.APP_ORIFILENAME,
+              A.APP_REFILENAME,
+              M.USER_NAME,
+              M.RANK,
+              A.APPROVAL_KINDS,
+              D.DEPT_NAME,
+              R.RECEIVE_REF_CC,
+              R.RECEIVE_REF_APP_SEQ,
+              A.APP_PRESENT,
+              L.LEAVE_APP_SEQ,
+              L.LEAVE_CLASSIFY,
+              L.LEAVE_START,
+              L.LEAVE_FINISH,
+              L.LEAVE_DETAIL,
+              L.APP_EMERGENCYCALL
+      FROM APPROVAL A 
+      JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
+      JOIN DEPARTMENT D ON (D.DEPT_CODE = M.DEPT_CODE)
+      JOIN APP_RECEIVE_REF R ON (A.APP_SEQ = R.RECEIVE_REF_APP_SEQ)
+      JOIN APP_LEAVE L ON (A.APP_SEQ = L.LEAVE_APP_SEQ)
+      WHERE A.APP_SEQ = #{appNo}
+   </select>
+
+</mapper>

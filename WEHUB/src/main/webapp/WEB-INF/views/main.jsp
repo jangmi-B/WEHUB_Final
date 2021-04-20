@@ -46,8 +46,7 @@
         </div>
         <div style="border-radius: 10px;">
 
-        <h2 class="h2d">오늘 결재사항<a href="#"><i class="fas fa-plus con1" style="color: #5b18ff;"></i></a></h2>
-
+        <h2 class="h2d">오늘 결재사항<a href="${path}/approval/approvalMain"><i class="fas fa-plus con1" style="color: #5b18ff;"></i></a></h2>
         <ul>
             <li>[03/09] 지출결의서_개발2팀</li>
             <li>[03/09] 지출결의서_인사행정팀</li>
@@ -118,6 +117,7 @@
 	        </c:forEach>
         </table>
         </div>
+        
         <div style="border-radius: 10px;">
         <h2 class="h2d">진행중인 프로젝트<a href="${path}/project/list"><i class="fas fa-plus con1" style="color: #5b18ff;"></i></a></h2>
         <c:forEach var="projectList" items="${projectList}" varStatus="status">

@@ -84,7 +84,7 @@ public class PageInfo {
 	
 	/**
 	 * @return 이전 페이지
-	 */ 
+	 */
 	public int getPrvePage() {
 		int prevPage = this.getCurrentPage() - 1;
 		

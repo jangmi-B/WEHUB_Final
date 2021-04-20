@@ -1,5 +1,7 @@
 package com.kh.wehub.member.model.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -31,5 +33,15 @@ public interface MemberDao {
 
 	Member checkNewMem(String userNo); //임시멤버 멤버에 있는지 찾아옴
 
+	
+	public abstract Member selectMemberForFreeBoard(String userId);
+
+	public List<Member> selectMemberAllForApproval(String userId);
+
+	public List<Member> selectSearchedMemberForApproval(@Param("searchData") String searchData, @Param("userId") String userId);
+
+	public List<Member> getSearchMemberForApproval(String user_name);
+	
+	List<Member> getSearchMemberApp(String user_name); // Approval 자동완성
 }
 

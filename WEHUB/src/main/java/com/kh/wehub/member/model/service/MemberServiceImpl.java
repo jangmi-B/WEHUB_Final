@@ -1,5 +1,7 @@
 package com.kh.wehub.member.model.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -107,6 +109,36 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.checkNewMem(userNo);
 	}
 	
+	@Override
+	public Member findMemberByUserIdForFreeBoard(String userId) {
+		return memberDao.selectMemberForFreeBoard(userId);
+	}
+
+
+	@Override
+	public List<Member> selectMemberAllForApproval(String userId) {
+		
+		return memberDao.selectMemberAllForApproval(userId);
+	}
+
+
+	@Override
+	public List<Member> selectSearchedMemberForApproval(String searchData, String userId) {
+		
+		return memberDao.selectSearchedMemberForApproval(searchData, userId);
+	}
+	
+	@Override
+	public List<Member> getSearchMemberForApproval(String user_name) {
+		
+		return memberDao.getSearchMemberForApproval(user_name);
+	}
+
+	@Override
+	public List<Member> getSearchMember(String user_name) {
+		
+		return memberDao.getSearchMemberApp(user_name);
+	}
 }
 
 

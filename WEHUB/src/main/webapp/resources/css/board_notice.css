@@ -1,5 +1,4 @@
 @charset "UTF-8";
-
 /* notice 바 부분 */
 
 section > #notice_bar {
@@ -23,13 +22,11 @@ section > #notice_bar {
 #notice_bar > ul > li {
   padding-bottom: 25px;
   padding-top: 10px;
- 
 }
 
 #notice_bar li a{
   color:black;
 }
-
 
 #notice_bar > ul > li span {
   font-size: 22px;

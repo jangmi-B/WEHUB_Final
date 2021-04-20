@@ -18,11 +18,32 @@
 	         	PHONE,
 	         	ADDRESS,
 		        USER_STATUS,
-		        DEPT_CODE,
+		        M.DEPT_CODE,
+		        D.DEPT_NAME,
 		        USER_IMG_ORIFILENAME,
 		        USER_IMG_REFILENAME
-
-			FROM MEMBER
+			FROM MEMBER M
+			JOIN DEPARTMENT D ON D.DEPT_CODE = M.DEPT_CODE
+			WHERE USER_STATUS ='Y'
+	</sql>
+	
+	<sql id="selectMemberSqlForFreeBoardAndApproval">
+		 SELECT USER_NO,
+		 		USER_COMPANYNAME,
+		        USER_ID,
+		        USER_PWD,
+		        USER_NAME,
+		        RANK,
+	         	EMAIL,
+	         	COMCALL,
+	         	PHONE,
+	         	ADDRESS,
+		        USER_STATUS,
+		        M.DEPT_CODE,
+		        D.DEPT_NAME,
+		        USER_IMG_REFILENAME
+			FROM MEMBER M
+			JOIN DEPARTMENT D ON D.DEPT_CODE = M.DEPT_CODE
 			WHERE USER_STATUS ='Y'
 	</sql>
 	
@@ -31,21 +52,21 @@
 		<!-- DB에서 기본키를 의미 -->
 		<id property="user_no" column="USER_NO"/>
 		<!-- DB에서 일반 컬럼들 -->
-		<id property="newUserNo" column="NEW_USER_NO"/>
-		<id property="user_companyname" column="USER_COMPANYNAME"/>
-		<id property="user_id" column="USER_ID"/>
-		<id property="user_pwd" column="USER_PWD"/>
-		<id property="user_name" column="USER_NAME"/>
-		<id property="rank" column="RANK"/>
-		<id property="email" column="EMAIL"/>
-		<id property="comcall" column="COMCALL"/>
-		<id property="phone" column="PHONE"/>
-		<id property="address" column="ADDRESS"/>
-		<id property="user_status" column="USER_STATUS"/>
-		<id property="dept_code" column="DEPT_CODE"/>
-		<id property="user_imgOriname" column="USER_IMG_ORIFILENAME"/>
-		<id property="user_imgRename" column="USER_IMG_REFILENAME"/>
-		<id property="newUserNo" column="NEW_USER_NO"/>
+		<result property="newUserNo" column="NEW_USER_NO"/>
+		<result property="user_companyname" column="USER_COMPANYNAME"/>
+		<result property="user_id" column="USER_ID"/>
+		<result property="user_pwd" column="USER_PWD"/>
+		<result property="user_name" column="USER_NAME"/>
+		<result property="rank" column="RANK"/>
+		<result property="email" column="EMAIL"/>
+		<result property="comcall" column="COMCALL"/>
+		<result property="phone" column="PHONE"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="user_status" column="USER_STATUS"/>
+		<result property="dept_code" column="DEPT_CODE"/>
+		<result property="user_imgOriname" column="USER_IMG_ORIFILENAME"/>
+		<result property="user_imgRename" column="USER_IMG_REFILENAME"/>
+		<result property="newUserNo" column="NEW_USER_NO"/>
 	</resultMap>
 	
 	<resultMap type="InsertNewMember" id="newMemberResultMap">
@@ -174,7 +195,6 @@
 		WHERE
 		    USER_NO=#{user_no}
 	</update> -->
-
 	
 	<delete id="deleteMember" parameterType="string">
 		UPDATE MEMBER 
@@ -202,5 +222,43 @@
 		        M.NEW_USER_NO
 		FROM MEMBER M
 		WHERE USER_STATUS ='Y' AND NEW_USER_NO = #{userNo}
+	</select>
+	
+	<!-- Free Board -->
+	<select id="selectMemberForFreeBoard" parameterType="string" resultMap="memberResultMap">
+		<include refid="selectMemberSqlForFreeBoardAndApproval"></include>
+	 	AND USER_ID = #{userId}
+	</select>
+	
+	<select id="selectMemberAllForApproval" parameterType="string" resultMap="memberResultMap">
+		<include refid="selectMemberSqlForFreeBoardAndApproval"></include>
+		AND USER_ID != #{userId}
+	</select>
+	
+	<select id="selectSearchedMemberForApproval" parameterType="map" resultMap="memberResultMap">
+		SELECT M.USER_NO,
+		        M.USER_NAME,
+		        M.RANK,
+		        D.DEPT_NAME
+		FROM MEMBER M
+        JOIN DEPARTMENT D ON (M.DEPT_CODE = D.DEPT_CODE)
+        WHERE M.USER_STATUS='Y' AND (M.USER_NAME LIKE '%'||#{searchData}||'%' OR
+        							 M.RANK LIKE '%'||#{searchData}||'%' OR 
+        							 D.DEPT_NAME LIKE '%'||#{searchData}||'%')		
+		AND USER_ID != #{userId}		 
+	</select>
+	
+	<select id="getSearchMemberForApproval" parameterType="string" resultMap="memberResultMap">
+		SELECT M.USER_NAME, M.DEPT_CODE, M.RANK
+		FROM MEMBER M
+		WHERE USER_NAME LIKE '%'|| #{userName} ||'%'
+	</select>
+	
+	<!-- Approval 자동완성 -->
+	<select id="getSearchMemberApp" parameterType="string" resultMap="memberResultMap">
+		SELECT M.USER_NAME, D.DEPT_NAME, M.RANK
+		FROM MEMBER M
+		LEFT OUTER JOIN DEPARTMENT D ON (M.DEPT_CODE = D.DEPT_CODE)
+		WHERE USER_NAME LIKE '%'|| #{user_name} ||'%' AND USER_STATUS ='Y'
 	</select>
 </mapper>
