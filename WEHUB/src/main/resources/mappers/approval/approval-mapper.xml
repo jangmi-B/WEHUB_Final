@@ -345,7 +345,7 @@
   			RECEIVE_REF_CC
   		)
   		VALUES(
-  			SEQ_LOA_SEQ.NEXTVAL,
+  			SEQ_RECEIVE_REF_SEQ.NEXTVAL,
   			#{receiveRefAppNo},
   			#{referList}
  		)
@@ -476,7 +476,21 @@
 	<insert id="insertExpenseReport" parameterType="map"
   		useGeneratedKeys="true" keyProperty="appNo" keyColumn="APP_SEQ">
   		
-  		INSERT INTO APPROVAL
+  		INSERT INTO APPROVAL(
+  			APP_SEQ,
+  			APP_WRITE_SYS,
+  			FIRST_TIME_APPROVER,
+  			INTERIM_APPROVER,
+  			FINAL_APPROVER,
+  			APP_CHECK_SYSDATE,
+  			APP_REASON,
+  			APP_ORIFILENAME,
+  			APP_REFILENAME,
+  			APP_WRITER_NO,
+  			APP_CHECK_PROGRESS,
+  			APPROVAL_KINDS,
+  			APP_PRESENT
+  		)
   		VALUES(
   			SEQ_APP_SEQ.NEXTVAL,
   			SYSDATE,
@@ -497,7 +511,20 @@
   	<insert id="insertExpenseReport2" parameterType="map"
   		useGeneratedKeys="true" keyProperty="erAppNo" keyColumn="ER_APP_SEQ">
   		
-  		INSERT INTO APP_ER
+  		INSERT INTO APP_ER(
+			ER_SEQ,
+  			ER_APP_SEQ,
+  			ER_DEADLINE,
+  			ER_CLASSIFY,
+  			ER_TITLE,
+  			ER_DETAIL,
+  			ER_AMOUNT,
+  			ER_REFERENCE,
+  			ER_STATUS,
+  			ER_PRESENT,
+  			ER_ALLAMOUNT,
+  			ER_MONETARYUNIT
+  		)
   		VALUES(
   			SEQ_ER_SEQ.NEXTVAL,
   			#{erAppNo},
