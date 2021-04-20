@@ -15,7 +15,7 @@
 <div id="contentForm">
     <div class="flex-grid" style="grid-row:1;">
         <div style="border-radius: 10px; height:270px; overflow: hidden;" >
-        <h2 class="h2d">최근 공지사항<a href="#"><i class="fas fa-plus con1" style="color: #5b18ff;"></i></a></h2>
+        <h2 class="h2d">최근 공지사항<a href="${path}/notice/list"><i class="fas fa-plus con1" style="color: #5b18ff;"></i></a></h2>
         <ul>
         <c:choose>
         	<c:when test="${NoticeList.size() == 0}">
@@ -25,10 +25,12 @@
 	        </c:when>
 	        <c:otherwise>
 		        <li>
-		        	<c:forEach var="NoticeList" items="${NoticeList}" end="5" varStatus="i">
+		        	<c:forEach var="NoticeList" items="${NoticeList}" end="2" varStatus="i">
 		        		<c:if test="${NoticeList.getNoticeType() eq 'Y'}">
 		        			<a href="javaScript:mainNotice(${NoticeList.getNoticeNo()})"><p>[<fmt:formatDate value="${NoticeList.getNoticeCreateDate()}"  pattern="MM/dd"/>] ${NoticeList.getNoticeTitle()} <i class="fas fa-info" id="con1" style="color: red;"></i></p></a>
 		        		</c:if>
+		        	</c:forEach>
+		        	<c:forEach var="NoticeList" items="${NoticeList}" end="6" varStatus="i">
 		        		<c:if test="${NoticeList.getNoticeType() eq 'N'}">
 		        			<a href="javaScript:mainNotice(${NoticeList.getNoticeNo()})"><p>[<fmt:formatDate value="${NoticeList.getNoticeCreateDate()}"  pattern="MM/dd"/>] ${NoticeList.getNoticeTitle()}</p></a>
 		        		</c:if>
