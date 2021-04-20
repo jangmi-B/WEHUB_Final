@@ -21,6 +21,7 @@
 		    	//확인을 눌렀을 때 수행할 일
 		    	location.replace('${pageContext.request.contextPath}${location}');	
 		      })
+
 	</script>
 </body>
 </html>

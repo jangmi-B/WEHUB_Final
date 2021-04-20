@@ -13,30 +13,6 @@ ALTER TABLE calendar ADD CONSTRAINT PK_CALENDAR PRIMARY KEY (
 );
 
 CREATE SEQUENCE SEQ_CAL_NO;
-
-INSERT INTO CALENDAR VALUES(
-    SEQ_CAL_NO.NEXTVAL,
-    21,
-    2021,
-    3,
-    28,
-    '데이터일요일',
-    SYSDATE
-);
-
-SELECT M.USER_NO, C.CAL_CONTENT, C.CAL_DATE
-FROM CALENDAR C
-JOIN MEMBER M ON(M.USER_NO = C.USER_NO)
-WHERE M.USER_NO = 21;
-
-commit;
-
-UPDATE CALENDAR
-		SET
-			CAL_CONTENT='일요일데이터2',
-			CAL_DATE=SYSDATE
-		WHERE
-			CAL_NO = 8;
 ------------------------------------------------------------
 
 --커뮤니티 테이블 생성
@@ -63,41 +39,8 @@ REFERENCES MEMBER (
 	USER_NO
 );
 
-INSERT INTO COMMUNITY VALUES(
-    SEQ_CM_NO.NEXTVAL,
-    22,
-    '제주 항공권 00월 00일 반값에..',
-    '안녕하세요',
-    4,
-    '21/04/08',
-    '21/04/08',
-    'Y'
-);
-
-COMMIT;
-
-SELECT C.CM_NO, M.USER_ID, C.USER_NO, C.CM_TITLE, C.CM_CONTENT, C.CM_READCOUNT, C.CM_DATE, C.CM_MODIFY_DATE, C.CM_STATUS
-FROM COMMUNITY C
-JOIN MEMBER M ON (M.USER_NO = C.USER_NO)
-ORDER BY CM_DATE DESC;
-
-SELECT C.CM_NO,
-		C.USER_NO,
-		M.USER_NAME, 
-		C.CM_TITLE, 
-		C.CM_CONTENT, 
-		C.CM_READCOUNT, 
-		C.CM_DATE, 
-		C.CM_MODIFY_DATE, 
-		C.CM_STATUS
-		FROM COMMUNITY C
-		JOIN MEMBER M ON (M.USER_NO = C.USER_NO)
-        WHERE CM_NO = 46
-		ORDER BY C.CM_DATE DESC;
-        
-        COMMIT;
-        
-        
+---------------------------------------------------------------------------
+--커뮤니티 즐겨찾기
 CREATE TABLE CM_BOOKMARK (
 	CM_BM_NO	NUMBER	NOT NULL,
 	USER_NO	NUMBER	NOT NULL,

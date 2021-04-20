@@ -58,11 +58,10 @@
 	 	<interceptor>
 	 	  <mapping path="/main"/>
 	 	  <mapping path="/member/memModify"/>
-	 
-	 	<mapping path="/board/**"/>
+	 	  <mapping path="/board/**"/>
 	 	
-	 		<exclude-mapping path="/member/findIDorPwd"/>
-	 		<exclude-mapping path="/member/signUpForm"/>
+ 		  <exclude-mapping path="/member/findIDorPwd"/>
+ 		  <exclude-mapping path="/member/signUpForm"/>
 	 		
 	 	<beans:bean id="loginCheckInterceptor" class="com.kh.wehub.common.interceptor.LoginCheckInterceptor"/>
 	 	</interceptor>
