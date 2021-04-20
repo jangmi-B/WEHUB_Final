@@ -8,6 +8,7 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+
 <script type="text/javascript" src="${path}/ckeditor/ckeditor.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
@@ -16,6 +17,9 @@
     <div class="flex-grid" style="grid-row:1;">
         <div style="border-radius: 10px; height:270px; overflow: hidden;" >
         <h2 class="h2d">최근 공지사항<a href="${path}/notice/list"><i class="fas fa-plus con1" style="color: #5b18ff;"></i></a></h2>
+
+<script async src="https://cse.google.com/cse.js?cx=bb240407067c892a4"></script>
+
         <ul>
         <c:choose>
         	<c:when test="${NoticeList.size() == 0}">
@@ -39,7 +43,9 @@
         </ul>
         </div>
         <div style="border-radius: 10px;">
+
         <h2 class="h2d">오늘 결재사항<a href="#"><i class="fas fa-plus con1" style="color: #5b18ff;"></i></a></h2>
+
         <ul>
             <li>[03/09] 지출결의서_개발2팀</li>
             <li>[03/09] 지출결의서_인사행정팀</li>
@@ -66,6 +72,7 @@
     
     <div class="flex-grid" style="height:270px;">
         <div style="border-radius: 10px;">
+
         <h2 class="h2d">받은 쪽지함<a href="${path}/message/list"><i class="fas fa-plus con1" style="color: #5b18ff;"></i></a></h2>
         <table id="homeMessage" style="width:460px; max-height:180px; table-layout: fixed">
         	<colgroup>
@@ -180,26 +187,28 @@
 		        </c:otherwise>
 		    </c:choose>	           		
            	</ul>
+
         </div>
     </div>
     <div class="flex-grid" style="height:210px; ">
       <div style="border-radius: 10px;">
-      <h2>임직원 소식 <i class="far fa-newspaper"></i></h2>
-         신입사원 or 생일 등등 나오는칸
+
+      <h2>빠른 검색창 <i class="far fa-newspaper"></i></h2>
+            <div class="gcse-search"></div>
       </div>
       <div style="border-radius: 10px;">
       <h2>MEMO <i class="fas fa-check"></i><br>
-      	<input type="text" id="todoWrite" style="margin-top:10px; height:25px; width:55%; border:2px solid #5b18ff; border-radius:5px; margin-left:20px;">
-  		<button type="button" onclick="addButton();" id="addBtn" style="height:25px; width:50px; border: 1px solid lightgrey; border-radius:5px;">add</button>
-  		<button type="button" onclick="saveButton();" id="saveBtn" style="height:25px; width:50px; border: 1px solid lightgrey; border-radius:5px;">save</button>
-  		<button type="button" onclick="clearButton();" id="removeBtn" style="height:25px; width:50px; border: 1px solid lightgrey; border-radius:5px;">Clear</button>
+         <input type="text" id="todoWrite" style="margin-top:10px; height:25px; width:55%; border:1px solid #5b18ff; border-radius:5px; margin-left:20px;">
+        <button type="button" onclick="addButton();" id="addBtn" style="height:25px; width:50px; border: 1px solid lightgrey; border-radius:5px;">add</button>
+        <button type="button" onclick="saveButton();" id="saveBtn" style="height:25px; width:50px; border: 1px solid lightgrey; border-radius:5px;">save</button>
+        <button type="button" onclick="clearButton();" id="removeBtn" style="height:25px; width:50px; border: 1px solid lightgrey; border-radius:5px;">Clear</button>
       </h2>
         <div id="memoDiv" style="overflow: auto;">
-	        <ul id="todoList">
-		        <c:forEach var="memo" items="${memoContent}">
-		        	<li><c:out value="${memo}"/></li>
-		        </c:forEach>
-	        </ul>
+           <ul id="todoList">
+              <c:forEach var="memo" items="${memoContent}">
+                 <li><c:out value="${memo}"/></li>
+              </c:forEach>
+           </ul>
         </div>
       </div>
      </div>
@@ -787,3 +796,4 @@
 </script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
+

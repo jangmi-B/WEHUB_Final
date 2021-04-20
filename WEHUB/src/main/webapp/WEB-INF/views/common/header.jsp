@@ -43,7 +43,7 @@
         <ul id="header_user">
           <li><a href="#">${ loginMember.user_name } ${ loginMember.rank } </a>
             <ul>
-              <li><a href="#">Logout</a></li>
+              <li><a onclick="location.replace('${path}/logout')"">Logout</a></li>
               <li><a href="#">MyPage</a></li>
             </ul>
           </li>
@@ -54,6 +54,7 @@
   <section>
     <div class="common_section">
       <ul>
+
         <li><a href="${path}/main"><i class="fas fa-home home_contents"></i></a></li>
         <li><a href="${path}/notice/list"><i class="fas fa-bullhorn home_contents"></i></a></li>
         <c:if test="${unreadCheck == 0 || unreadCheck == null}">
@@ -66,5 +67,6 @@
         <li><a href="${path}/calendar/view"><i class="far fa-calendar-alt home_contents"></i></a></li>
         <li><a href="${path}/project/list"><i class="fas fa-project-diagram"></i></a></li>
         <li><a href="${path}/community/list"><i class="fas fa-shopping-cart home_contents"></i></a></li>
+
       </ul>
     </div>

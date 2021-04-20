@@ -16,6 +16,7 @@
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 </head>
 <body>
     <div class="wrapper">
@@ -40,7 +41,7 @@
                 <input type="tel"name="phone"  placeholder="Phone">
                 -->
                 <input type="button" onclick="findNewMem();" class="openBtn" value="사번입력 click!" style="background:#B7A4EE; border-radius:20px; font-size: 13px;"/>
-                
+
                 <input type="file" name="user_img" id="user_imgOri" style="padding: 6px 35px; font-size: 13px;" accept=".gif, .jpg, .png">
                 
                 <input type="hidden" id="newUserNo" name="newUserNo">
@@ -272,6 +273,6 @@
 	          }
 	    }
 	});
-	
 </script>
+
 </html>

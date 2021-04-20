@@ -45,7 +45,7 @@ tinymce.init({
             <div class="line"></div>
             <ul>
               <li><a href="${path}/calendar/view">개인 스캐줄관리</a></li>
-              <li>부서별 스캐줄관리</li>
+              <li><a href="${path}/dept/view">부서별 스캐줄관리</a></li>
             </ul>
           </li>
           <li>

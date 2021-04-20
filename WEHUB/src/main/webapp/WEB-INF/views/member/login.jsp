@@ -11,15 +11,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="${path}/js/jquery-3.5.1.js"></script>
-    <title>LogInForm</title>
-    <link rel="stylesheet" href="${path}/css/LogInForm.css">
-</head>
-<body>
-    <div class="wrapper">
+
+   <script src="${path}/js/jquery-3.5.1.js"></script>
+
+    <title>WEHUB</title>
+
+    <link rel="stylesheet" href="${path}/css/LoginForm.css">
+	</head>
+	<body>
+    	<div class="wrapper">
         <div class="container">
-            <img src="resources/images/wehub(white).png"/>
-            <form class="form" action="login" method="POST" id="loginForm">
+
+            <img src="${path}/images/wehub(white).png"/>
+
+            <form class="form" action="login" method="POST" id="loginForm" onsubmit="loginForm();">
+
                 <input type="text" name="userId" placeholder="Username ">
                 <input type="password" name="userPwd" placeholder="Password">
                 <button type="submit" id="login-button">Log in</button>
@@ -34,8 +40,10 @@
 </body>
 
 <script>
-	$("#login-button").click(function(event){
-		
+
+  	$("#login-button").click(function(event){
+	
+
 		$('form').fadeOut(300);
 		$('.wrapper').addClass('form-success');
 		setTimeout(function() {
@@ -44,7 +52,7 @@
 		return;
 		
 		$('#loginForm').submit();
-	});
-</script>
+	}); 
 
+</script>
 </html>
