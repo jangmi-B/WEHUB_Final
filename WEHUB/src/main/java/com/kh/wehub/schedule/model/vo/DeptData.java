@@ -18,10 +18,6 @@ import lombok.NoArgsConstructor;
 public class DeptData {
 
 	/*
-	 * private int d_cal_no; private int user_no; private String dept_code="";
-	 * private String d_deptname = ""; private String d_year = ""; private String
-	 * d_month = ""; private Date d_date; private String d_schedule_content = "";
-	 * 
 	 * @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd") private Date
 	 * d_schedule_date ;
 	 * 

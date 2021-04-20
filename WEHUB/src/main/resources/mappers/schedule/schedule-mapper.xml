@@ -14,19 +14,7 @@
 		<result property="schedule_content" column="CAL_CONTENT"/>
 		<result property="schedule_date" column="CAL_DATE"/>
 	</resultMap>
-<!-- 	<resultMap type="DeptData1" id="DeptScheduleResultMap">
-		<id property="d_cal_no" column="D_CAL_NO"/>
-		<result property="user_no" column="USER_NO"/>
-		<result property="dept_code" column="DEPT_CODE"/>
-		<result property="deptname" column="DEPT_NAME"/>
-		<result property="d_year" column="D_CAL_YEAR"/>
-		<result property="d_month" column="D_CAL_MONTH"/>
-		<result property="d_date" column="D_CAL_DAY"/>
-		<result property="d_schedule_content" column="D_CAL_CONTENT"/>
-		<result property="startday" column="STARTDAY"/>
-		<result property="endday" column="ENDDAY"/>
-		<result property="d_schedule_date" column="D_CAL_DATE"/>
-	</resultMap> -->
+
 	<resultMap type="DeptData" id="DeptScheduleResultMapApproval">
 		<id property="leave_start" column="LEAVE_START"/>
 		<result property="leave_finish" column="LEAVE_FINISH"/>
@@ -48,21 +36,14 @@
 		JOIN MEMBER M ON(M.USER_NO = C.USER_NO)
 		WHERE M.USER_NO = #{userNo}
 	</select>
-<!-- 	<select id="selectDeptCalendar" parameterType="map" resultMap="DeptScheduleResultMap">
-		SELECT M.USER_NO,M.DEPT_CODE,  D.D_CAL_NO, D.D_CAL_CONTENT, 
-			  D.D_CAL_YEAR, D.D_CAL_MONTH,D.STARTDAY,D.ENDDAY,D.D_CAL_DATE
-		FROM DEPTCALENDAR D
-	 	JOIN MEMBER M ON(M.DEPT_CODE = D.DEPT_NAME)
-		WHERE M.DEPT_CODE = #{dept_code} 
-	</select>  -->
+
 	<select id="selectDeptCalendar" parameterType="map" resultMap="DeptScheduleResultMapApproval">
 
-		select TO_CHAR(LEAVE_START,'YYYY-MM-DD')LEAVE_START,TO_CHAR(LEAVE_FINISH,'YYYY-MM-DD')LEAVE_FINISH,LEAVE_CLASSIFY, m.user_name,m.user_no,m.dept_code
-        from member m 
-        join approval a on a.app_writer_no= m.user_no
-        join app_leave ap on a.APP_SEQ= ap.leave_app_seq
-        join member m on a.app_writer_no=m.user_no
-        JOIN department d ON(M.DEPT_CODE = D.DEPT_NAME)
+		SELECT TO_CHAR(LEAVE_START,'YYYY-MM-DD')LEAVE_START,TO_CHAR(LEAVE_FINISH,'YYYY-MM-DD')LEAVE_FINISH,LEAVE_CLASSIFY, M.USER_NAME,M.USER_NO,M.DEPT_CODE
+        FROM MEMBER M 
+        JOIN APPROVAL A ON A.APP_WRITER_NO= M.USER_NO
+        JOIN APP_LEAVE AP ON A.APP_SEQ= AP.LEAVE_APP_SEQ
+        JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_NAME)
 		WHERE M.DEPT_CODE = #{dept_code} 
 	</select> 
 
@@ -89,14 +70,12 @@
 	</update>
 
 	<select id="selectAppCalendar" parameterType="map" resultMap="DeptScheduleResultMapApproval">
-
 		SELECT TO_CHAR(ER_DEADLINE,'YYYY-MM-DD')ER_DEADLINE,ER_TITLE, M.USER_NAME,M.USER_NO,M.DEPT_CODE           
         FROM MEMBER M
         JOIN APPROVAL A ON (A.APP_WRITER_NO = M.USER_NO)
         JOIN APP_ER ER ON (A.APP_SEQ = ER.ER_APP_SEQ)
-        JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
         JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_NAME)
-		WHERE M.DEPT_CODE = #{dept_code} and ER.ER_PRESENT='A'
+		WHERE M.DEPT_CODE = #{dept_code} AND ER.ER_PRESENT='A'
 	</select> 
 
 </mapper>

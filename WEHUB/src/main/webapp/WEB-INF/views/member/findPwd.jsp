@@ -12,6 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <script src="${path}/js/jquery-3.5.1.js"></script>
+	 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <title>Document</title>
     <link rel="stylesheet" href="${path}/css/FindPwd.css">
 </head>
@@ -31,8 +32,8 @@
     </div>
     <div class="wrap-loading display-none">
 
-    <div><img src="${path}/images/loadingmark.gif" /></div>
-
+  <%--   <div><img src="${path}/images/loadingmark.gif" /></div> --%>
+	<div><img src="${path}/images/ajax_loader6.gif" /></div>
 </div>    
 
 
@@ -48,23 +49,31 @@
 				user_id : $("#user_id").val(),
 				email : $("#email").val()
 			},
-			success : function(result) {
-				alert("메일 발송!메일이 안왔다면 이메일을 확인하시고 다시 시도하세요");
-				location.href ="${path}/";
+			success : function(result) {				
+				swal.fire({
+					text:"메일 발송!메일이 안왔다면 이메일을 확인하시고 다시 시도하세요",
+					confirmButtonText: '확인',	
+			  	  }).then((result) => {
+			    	//확인을 눌렀을 때 수행할 일
+			    	location.replace("${path}/");	
+			      })
 			}
 			, beforeSend: function () {
 				
 				 $('.wrap-loading').removeClass('display-none');
-
 	           }
 		   , complete: function () {
 			   $('.wrap-loading').addClass('display-none');
-
                },
 			error:function(xhr) {
 				console.log(xhr)
-				alert("이이디가 확실한가요?");
-				location.href ="${path}/";
+				swal.fire({
+					text:"이이디가 확실한가요?",
+					confirmButtonText: '확인',	
+			   }).then((result) => {
+			    	//확인을 눌렀을 때 수행할 일
+			    	location.replace("${path}/");	
+			      })
 			    }
 		})
 	});

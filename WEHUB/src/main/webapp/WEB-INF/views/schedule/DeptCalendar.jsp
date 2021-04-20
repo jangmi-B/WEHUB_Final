@@ -51,7 +51,7 @@
 									   title : dept.user_name+" "+dept.er_title,								
 									   start : dept.er_deadline,
 									   end : dept.er_deadline+" 20:00:00",
-									   color:'purple'
+									   color:'pink'
 								       }) //push		
 									     console.log(dept);
 							           })

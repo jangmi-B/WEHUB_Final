@@ -32,7 +32,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		System.out.println("selectDeptCalendar");
 		map.put("dept_code", loginMember.getDept_code());
-		System.out.println("서비스 인포 ㅉ기힙닏????"+scheduleDao.selectDeptCalendar(map));
 		
 		return scheduleDao.selectDeptCalendar(map);
 	}
@@ -52,8 +51,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 		map.put("calNo", calNo);
 		
 		System.out.println("calNo : " + calNo);
-		
-		
+				
 		if(calNo != 0) {
 			result = scheduleDao.updateCalendar(map);
 		}else {
@@ -64,12 +62,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 	}
 	@Override
 	public List<DeptData> selectAppCalendar(Member loginMember) {
-		// TODO Auto-generated method stub
+		
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		System.out.println("selectAppCalendar");
 		map.put("dept_code", loginMember.getDept_code());
-		System.out.println("selectAppCalendar dept_code"+loginMember.getDept_code());
-		System.out.println("selectAppCalendar????"+scheduleDao.selectAppCalendar(map));
+		//System.out.println("selectAppCalendar dept_code"+loginMember.getDept_code());
+		//System.out.println("selectAppCalendar????"+scheduleDao.selectAppCalendar(map));
 		
 		return scheduleDao.selectAppCalendar(map);
 	}

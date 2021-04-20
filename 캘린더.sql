@@ -2,9 +2,17 @@
         FROM MEMBER M
         JOIN APPROVAL A ON (A.APP_WRITER_NO = M.USER_NO)
         JOIN APP_LEAVE AP ON (A.APP_SEQ = AP.LEAVE_APP_SEQ)
-        JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
+     --   JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
         JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_NAME)
 		WHERE M.DEPT_CODE = '»∏∞Ë∆¿' and a.app_present='A'; 
+        
+        select TO_CHAR(LEAVE_START,'YYYY-MM-DD')LEAVE_START,TO_CHAR(LEAVE_FINISH,'YYYY-MM-DD')LEAVE_FINISH,LEAVE_CLASSIFY, m.user_name,m.user_no,m.dept_code
+        from member m 
+        join approval a on a.app_writer_no= m.user_no
+        join app_leave ap on a.APP_SEQ= ap.leave_app_seq
+        join member m on a.app_writer_no=m.user_no
+        JOIN department d ON(M.DEPT_CODE = D.DEPT_NAME)
+		WHERE M.DEPT_CODE = #{dept_code} 
         
         	    select LEAVE_START,LEAVE_FINISH ,LEAVE_CLASSIFY, M.USER_NAME,M.USER_NO,M.DEPT_CODE           
         FROM MEMBER M
@@ -133,7 +141,7 @@ COMMENT ON COLUMN app_er.ER_MONETARYUNIT IS '»≠∆Û¥‹¿ß';
         FROM MEMBER M
         JOIN APPROVAL A ON (A.APP_WRITER_NO = M.USER_NO)
         JOIN APP_ER ER ON (A.APP_SEQ = ER.ER_APP_SEQ)
-        JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
+       -- JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
         JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_NAME)
 		WHERE M.DEPT_CODE = '»∏∞Ë∆¿' and ER.ER_PRESENT='A'; 
     
