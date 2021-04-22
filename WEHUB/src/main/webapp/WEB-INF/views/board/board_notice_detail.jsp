@@ -112,11 +112,15 @@
       		<c:forEach var="comments" items="${comments}">
       		<tbody id="commentsArea(${comments.commentNo})">
 	            <tr>
-	            						<!--  이미지파일ㄱ  -->
-	              <td rowspan="2"><i class="far fa-user-circle"></i></td>
+	            <c:if test="${comments.user_imgRename == null}">
+	              <td><i class="far fa-user-circle"></i></td>
+	            </c:if>
+	            <c:if test="${comments.user_imgRename != null}">
+	              <td><img src="${path}/upload/userProfileImg/${comments.user_imgRename}" style="width: 40px;height: 45px;border-radius: 30px;"></td>
+	            </c:if>
 	              <td><span class="comment_name" id="c_name(${comments.commentNo})">${comments.userName}</span></td>
 	              <td colspan="3"><span class="comment_sub">${comments.commentModifyDate}</span></td>
-	              <td colspan="2"> 
+	              <td colspan="2" style="padding-bottom: 6px;"> 
 	              <c:if test="${comments.commentWriterNo == loginMember.user_no}">
 	              		<a href="javascript:updateComments(${comments.commentNo});" id="update(${comments.commentNo})"> 수정</a>
                         <button id="modifyBtn(${comments.commentNo})" type="submit" onclick="modifyComments(${comments.commentNo})" style=display:none>수정</button>

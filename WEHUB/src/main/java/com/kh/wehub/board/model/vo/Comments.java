@@ -27,6 +27,8 @@ public class Comments {
 	
 	private Date commentModifyDate;
 	
+	private String user_imgRename;
+	
 	private String status;
 
 }

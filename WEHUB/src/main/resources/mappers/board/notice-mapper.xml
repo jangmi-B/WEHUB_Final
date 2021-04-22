@@ -78,6 +78,8 @@
 		<id property="address" column="ADDRESS"/>
 		<id property="user_status" column="USER_STATUS"/>
 		<id property="dept_code" column="DEPT_CODE"/>
+		<id property="user_imgOriname" column="USER_IMG_ORIFILENAME"/>
+		<id property="user_imgRename" column="USER_IMG_REFILENAME"/>
 	</resultMap>
 	
 	
@@ -245,7 +247,7 @@
 	
 	<!-- 번호도 가지고와서 set해주기 -->
 	<select id="selectComments" parameterType="_int" resultMap="noticeCommentResultMap">
-		 SELECT M.USER_NAME, c.comment_content, c.comment_create_date, c.comment_notice_no, c.comment_writer_no, c.comment_no
+		 SELECT M.USER_NAME, M.USER_IMG_REFILENAME, c.comment_content, c.comment_create_date, c.comment_notice_no, c.comment_writer_no, c.comment_no
 			 FROM MEMBER M
 			 JOIN COMMENTS C ON (C.COMMENT_WRITER_NO = M.USER_NO)
 			 JOIN NOTICE N ON (c.comment_notice_no = n.notice_no)
@@ -260,7 +262,7 @@
 	</select>
 	
 	<select id="findCommentsName" parameterType="_int" resultMap="memberResultMap">
-		SELECT M.USER_NAME
+		SELECT M.USER_NAME, M.USER_IMG_REFILENAME
 		FROM MEMBER M
 		JOIN COMMENTS C ON(C.COMMENT_WRITER_NO = M.USER_NO)
 		WHERE C.COMMENT_NOTICE_NO = #{noticeNo} AND C.STATUS = 'Y'

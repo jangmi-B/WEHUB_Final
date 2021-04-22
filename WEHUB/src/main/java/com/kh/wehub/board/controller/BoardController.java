@@ -380,7 +380,11 @@ public class BoardController {
 			List<Member> name = service.findCommentName(noticeNo);
 			
 			comments.get(i).setUserName(name.get(i).getUser_name());
+			comments.get(i).setUser_imgRename(name.get(i).getUser_imgRename());
+			System.out.println("name : " + name);
+			System.out.println(name.get(i).getUser_imgRename());
 		}
+		System.out.println(comments);
 		
 		model.addObject("unreadCheck", unreadCheck);
 		model.addObject("loginMember", loginMember);

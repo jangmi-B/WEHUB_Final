@@ -35,7 +35,6 @@
         <input type="text" class="HM_searchArea" name="searchText">
         <button type="submit" class="HM_searchBox"><i class="fas fa-search"></i></button>
         <!-- <input type="text" class="search form-control" placeholder="검색어를 입력해주세요"> -->
-        
     </div>
   </div>
 <div id="printArea">
@@ -137,11 +136,6 @@
 	  var newName = document.getElementById('NewName').value;
 	  var newRank = document.getElementById('NewRank').value;
 	  var newDept = document.getElementById('NewDept').value;
-	  
-	  console.log(newName);
-	  console.log(newRank);
-	  console.log(newDept);
-	  
 	  
 	  $.ajax({
 		  	url:"${path}/insertNewMember",
