@@ -95,7 +95,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<Board> infiniteScrollDown(Integer bnoToStart) {
+	public List<Board> infiniteScrollDown(int bnoToStart) {
 		
 		return boardDao.infiniteScrollDown(bnoToStart);
 	}

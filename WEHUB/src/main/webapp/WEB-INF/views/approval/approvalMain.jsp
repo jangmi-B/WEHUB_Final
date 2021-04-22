@@ -34,15 +34,74 @@
                 </span>
             </div>
         </form>
-
+        
         <form action="">
             <h4 style="float:right; margin-right:114px; margin-top:50px; color:gray;"><a href="${path}/approval/approvalList">+ 결재목록 전체보기</a></h4>
-            <h2 style="margin-bottom: 0; margin-top:70px">결재 수신현황</h2>
+            <h2 style="margin-bottom: 0; margin-top:70px">결재 수신목록</h2>
             <table id="e-pay-list" style="margin-bottom:100px">
                 
                 <tr>
                     <th>번호</th>
                     <th>종류</th>
+                    <th>제목</th>
+                    <th>기안자</th>
+                    <th>부서</th>
+                    <th>기안일</th>
+                    <th>상태</th>
+                </tr>
+                
+                <c:if test="${empty mainList2}">
+                	</table>
+                		<h3 style="top:50%; text-align:center; margin-left:300px; margin-top:150px; margin-bottom:140px">
+                			조회된 결재목록이 없습니다.
+                		</h3>
+                </c:if>
+                
+                <c:if test="${mainList2 != null}">
+	                <c:forEach var="list2" items="${mainList2}">
+		                <tr>
+		                    <td>${list2.rowNum}</td>
+		                    <c:choose>
+			                    <c:when test="${list2.appKinds eq '품의서'}">
+			                    	<td><a style="color:black" href="${path}/approval/letterOfApprovalView?appNo=${list2.appNo}">${list2.appKinds}</a></td>
+			                    </c:when>
+			                    <c:when test="${list2.appKinds eq '휴가신청서'}">
+			                    	<td><a style="color:black" href="${path}/approval/leaveApplicationView?appNo=${list2.appNo}">${list2.appKinds}</a></td>
+			                    </c:when>
+			                    <c:when test="${list2.appKinds eq '지출결의서'}">
+			                    	<td><a style="color:black" href="${path}/approval/expenseReportView?appNo=${list2.appNo}">${list2.appKinds}</a></td>
+			                    </c:when>
+		                    </c:choose>
+		                    <c:choose>
+			                    <c:when test="${list2.appKinds eq '품의서'}">
+			                    	<td><a style="color:black" href="${path}/approval/letterOfApprovalView?appNo=${list2.appNo}">${list2.loaTitle}</a></td>
+			                    </c:when>
+			                    <c:when test="${list2.appKinds eq '휴가신청서'}">
+			                    	<td><a style="color:black" href="${path}/approval/leaveApplicationView?appNo=${list2.appNo}">${list2.leaveClassify}</a></td>
+			                    </c:when>
+			                    <c:when test="${list2.appKinds eq '지출결의서'}">
+			                    	<td><a style="color:black" href="${path}/approval/expenseReportView?appNo=${list2.appNo}">${list2.erTitle}</a></td>
+			                    </c:when>
+		                    </c:choose>
+		                    <td>${list2.userName}</td>
+		                    <td>${list2.deptName}</td>
+		                    <td><fmt:formatDate value="${list2.appWriteDate}" pattern="yyyy/MM/dd"/></td>
+		                    <td>${list2.appCheckProgress}</td>
+		                </tr>
+	                </c:forEach>
+                </c:if>
+        	</table>        
+        </form>
+
+        <form action="">
+            <h4 style="float:right; margin-right:114px; margin-top:50px; color:gray;"><a href="${path}/approval/approvalList">+ 결재목록 전체보기</a></h4>
+            <h2 style="margin-bottom: 0; margin-top:70px">내 결재 목록</h2>
+            <table id="e-pay-list" style="margin-bottom:100px">
+                
+                <tr>
+                    <th>번호</th>
+                    <th>종류</th>
+                    <th>제목</th>
                     <th>기안자</th>
                     <th>부서</th>
                     <th>기안일</th>
@@ -62,13 +121,24 @@
 		                    <td>${list.rowNum}</td>
 		                    <c:choose>
 			                    <c:when test="${list.appKinds eq '품의서'}">
-			                    	<td><a href="${path}/approval/letterOfApprovalView?appNo=${list.appNo}">${list.appKinds}</a></td>
+			                    	<td><a style="color:black" href="${path}/approval/letterOfApprovalView?appNo=${list.appNo}">${list.appKinds}</a></td>
 			                    </c:when>
 			                    <c:when test="${list.appKinds eq '휴가신청서'}">
-			                    	<td><a href="${path}/approval/leaveApplicationView?appNo=${list.appNo}">${list.appKinds}</a></td>
+			                    	<td><a style="color:black" href="${path}/approval/leaveApplicationView?appNo=${list.appNo}">${list.appKinds}</a></td>
 			                    </c:when>
 			                    <c:when test="${list.appKinds eq '지출결의서'}">
-			                    	<td><a href="${path}/approval/expenseReportView?appNo=${list.appNo}">${list.appKinds}</a></td>
+			                    	<td><a style="color:black" href="${path}/approval/expenseReportView?appNo=${list.appNo}">${list.appKinds}</a></td>
+			                    </c:when>
+		                    </c:choose>
+		                    <c:choose>
+			                    <c:when test="${list.appKinds eq '품의서'}">
+			                    	<td><a style="color:black" href="${path}/approval/letterOfApprovalView?appNo=${list.appNo}">${list.loaTitle}</a></td>
+			                    </c:when>
+			                    <c:when test="${list.appKinds eq '휴가신청서'}">
+			                    	<td><a style="color:black" href="${path}/approval/leaveApplicationView?appNo=${list.appNo}">${list.leaveClassify}</a></td>
+			                    </c:when>
+			                    <c:when test="${list.appKinds eq '지출결의서'}">
+			                    	<td><a style="color:black" href="${path}/approval/expenseReportView?appNo=${list.appNo}">${list.erTitle}</a></td>
 			                    </c:when>
 		                    </c:choose>
 		                    <td>${list.userName}</td>
@@ -89,6 +159,7 @@
                 <tr>
                     <th>번호</th>
                     <th>종류</th>
+                    <th>제목</th>
                     <th>기안자</th>
                     <th>부서</th>
                     <th>기안일</th>
@@ -108,13 +179,24 @@
 		                    <td>${list1.rowNum}</td>
 		                    <c:choose>
 			                    <c:when test="${list1.appKinds eq '품의서'}">
-			                    	<td><a href="${path}/approval/letterOfApprovalView?appNo=${list1.appNo}">${list1.appKinds}</a></td>
+			                    	<td><a style="color:black" href="${path}/approval/letterOfApprovalView?appNo=${list1.appNo}">${list1.appKinds}</a></td>
 			                    </c:when>
 			                    <c:when test="${list1.appKinds eq '휴가신청서'}">
-			                    	<td><a href="${path}/approval/leaveApplicationView?appNo=${list1.appNo}">${list1.appKinds}</a></td>
+			                    	<td><a style="color:black" href="${path}/approval/leaveApplicationView?appNo=${list1.appNo}">${list1.appKinds}</a></td>
 			                    </c:when>
 			                    <c:when test="${list1.appKinds eq '지출결의서'}">
-			                    	<td><a href="${path}/approval/expenseReportView?appNo=${list1.appNo}">${list1.appKinds}</a></td>
+			                    	<td><a style="color:black" href="${path}/approval/expenseReportView?appNo=${list1.appNo}">${list1.appKinds}</a></td>
+			                    </c:when>
+		                    </c:choose>
+		                    <c:choose>
+			                    <c:when test="${list1.appKinds eq '품의서'}">
+			                    	<td><a style="color:black" href="${path}/approval/letterOfApprovalView?appNo=${list1.appNo}">${list1.loaTitle}</a></td>
+			                    </c:when>
+			                    <c:when test="${list1.appKinds eq '휴가신청서'}">
+			                    	<td><a style="color:black" href="${path}/approval/leaveApplicationView?appNo=${list1.appNo}">${list1.leaveClassify}</a></td>
+			                    </c:when>
+			                    <c:when test="${list1.appKinds eq '지출결의서'}">
+			                    	<td><a style="color:black" href="${path}/approval/expenseReportView?appNo=${list1.appNo}">${list1.erTitle}</a></td>
 			                    </c:when>
 		                    </c:choose>
 		                    <td>${list1.userName}</td>

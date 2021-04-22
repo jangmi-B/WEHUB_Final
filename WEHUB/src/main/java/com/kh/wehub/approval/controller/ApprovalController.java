@@ -66,9 +66,11 @@ public class ApprovalController {
 		int approvalCount_UNDER = service.approvalCount_UNDER(loginMember);
 		int approvalCount_DONE = service.approvalCount_DONE(loginMember);
 
-		List<Approval> mainList = null;
+		List<Approval> mainList = null; // 내 결재 목록
 
-		List<Approval> mainList1 = null;
+		List<Approval> mainList1 = null; // 내가 작성한 결재
+		
+		List<Approval> mainList2 = null; // 결재 수신목록
 
 		System.out.println(approvalCount_YET);
 		System.out.println(approvalCount_UNDER);
@@ -77,11 +79,14 @@ public class ApprovalController {
 		mainList = service.getRecentList(loginMember);
 
 		mainList1 = service.getRecentList1(loginMember);
+		
+		mainList2 = service.getRecentList2(loginMember);
 
 		System.out.println("mainList : " + mainList);
 
 		model.addObject("mainList", mainList);
 		model.addObject("mainList1", mainList1);
+		model.addObject("mainList2", mainList2);
 		model.addObject("countYet", approvalCount_YET);
 		model.addObject("countUnder", approvalCount_UNDER);
 		model.addObject("countDone", approvalCount_DONE);
@@ -501,17 +506,18 @@ public class ApprovalController {
 //	}
 	
 	@RequestMapping(value = "/leaveApplicationView", method = { RequestMethod.GET })
-	public ModelAndView leaveApplicationView(@RequestParam("appNo") int appNo, ModelAndView model) {
-		
-		Approval approval = service.findListByLeaveNo(appNo);
 
-//		System.out.println("507번줄 : " + approval);
+    public ModelAndView leaveApplicationView(@RequestParam("appNo") int appNo, ModelAndView model) {
+      
+       Approval approval = service.findListByLeaveNo(appNo);
 
-		model.addObject("approval", approval);
-		model.setViewName("/approval/leaveApplicationView");
+//	       System.out.println("507번줄 : " + approval);
 
-		return model;
-	}
+       model.addObject("approval", approval);
+       model.setViewName("/approval/leaveApplicationView");
+
+       return model;
+    }
 	
 	
 	

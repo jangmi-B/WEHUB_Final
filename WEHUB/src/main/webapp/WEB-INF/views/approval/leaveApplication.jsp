@@ -41,7 +41,7 @@
 
 <%@ include file="../approval/approvalSubMenu.jsp" %>	
     
-<form action="${path}/approval/updateLeave" method="POST">
+<form name="leaveWriteForm" action="${path}/approval/updateLeave" method="POST" enctype="multipart/form-data">
     <div class="cash-form-section" style="height: 100%; width:68%; margin: 0 300px 0 300px;">
         <div class="cash-disbursement" style="text-align: center; margin: 80px 0px 80px 200px; border: 2px solid black;">
             <table border="2" style="width: 100%; font-size: 20px; border-collapse: collapse;">
@@ -182,6 +182,28 @@
         </div>
     </div>
 </form>
+
+	<!-- 필수 입력 스크립트 -->
+	<script>
+
+		function check_onclick() {
+		    var leaveWriteForm = document.leaveWriteForm;
+		    
+		    if(leaveWriteForm.leaveClassify.value=="" || leaveWriteForm.leaveDetail.value==""){
+		        alert("상세내용 또는 제목란이 비어있습니다. 확인 후 등록하세요.");
+		        
+		        return false;
+		    } else if(leaveWriteForm.proposerText.value=="") {
+		       alert("서명 후 등록을 완료해주세요.");
+		       
+		       return false;
+			} else {
+				return true;
+			}
+		    
+		}
+
+	</script>
     
 	<!-- 서명 클릭 스크립트  -->
     

@@ -19,6 +19,7 @@ public interface ApprovalDao {
 
 	List<Approval> selectRecentList(Member loginMember);	
 	List<Approval> selectRecentList1(Member loginMember);
+	List<Approval> selectRecentList2(Member loginMember);
 
 	List<Approval> selectApprovalList(RowBounds rowBounds, String searchText);
 	
@@ -52,4 +53,5 @@ public interface ApprovalDao {
 	int insertExpenseReport3(Approval approval);
 	
 	
+	Approval viewAppLeaveList(int appNo); //APP_LEAVE DAO
 }

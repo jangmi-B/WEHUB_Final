@@ -228,7 +228,7 @@
             <div style="font-size:26px; margin:30px">
             	반려 사유를 입력해주세요.
             </div>
-            <textarea name="rejectReasonText" rows="5" cols="40" style="font-size:23px; margin-left:23px; resize: none;"></textarea>
+            <textarea name="rejectReasonText" rows="6" cols="45" style="font-size:23px; margin-left:23px; resize: none;"></textarea>
             <div style="margin: 9.3% 0px 0% 53%;">
                 <span style="padding-right: 20px; margin-left:46px;float: left;" >
                     <button type="submit" class="closeBtn-in rejModalOk2" id="rejectReason">확인</button>
@@ -246,7 +246,7 @@
             <div style="font-size:26px; margin:30px">
             	반려사유 :
             </div>
-            <textarea name="rejectReasonText" rows="6" cols="41" style="font-size:23px; margin-left:23px; resize: none;" readonly>${approval.appReason}</textarea>
+            <textarea name="rejectReasonText" rows="6" cols="45" style="font-size:23px; margin-left:23px; resize: none;" readonly>${approval.appReason}</textarea>
             <div style="margin: 5% 0px 0% 69%;">
                 <span style="padding-right: 20px; margin-left:46px; float: left;" >
                     <button type="button" class="closeBtn-in3">확인</button>

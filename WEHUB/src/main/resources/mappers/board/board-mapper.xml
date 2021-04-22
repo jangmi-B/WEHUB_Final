@@ -55,8 +55,9 @@
 		<result property="status" column="STATUS"/>
 		<result property="boardCreateDate" column="BOARD_CREATE_DATE"/>
 		<result property="boardModifyDate" column="BOARD_MODIFY_DATE"/>
-		<result property="memberImage" column="B_MEMBER_IMAGE"/>
+		<result property="memberImage" column="USER_IMG_REFILENAME"/>
 		<result property="dept_name" column="DEPT_NAME"/>		
+		<result property="rownum" column="RNUM"/>		
 		<!-- <result property="replyBoardNo" column="R.BOARD_NO"/>
 		<result property="replyUserName" column="R_USER_NAME"/>
 		<result property="replyContent" column="REPLY_CONTENT"/>
@@ -119,7 +120,7 @@
 	</select>
 
 	<select id="selectBoardDetail" parameterType="string" resultMap="boardDetailResultMap">
-		SELECT B.BOARD_NO,
+		SELECT S.* FROM (SELECT ROWNUM AS RNUM, B.BOARD_NO,
 		       M.USER_ID AS B_USER_ID,
 		       M.USER_NAME AS B_USER_NAME,
 		       B.BOARD_WRITER_NO,
@@ -127,16 +128,18 @@
 		       B.BOARD_CREATE_DATE,
 		       B.BOARD_MODIFY_DATE,
 		       B.STATUS AS B_STATUS,
-		       M.USER_IMG_REFILENAME AS B_MEMBER_IMAGE,
+		       M.USER_IMG_REFILENAME,
                D.DEPT_NAME
         FROM BOARD B
         JOIN MEMBER M ON(B.BOARD_WRITER_NO = M.USER_NO)
         JOIN DEPARTMENT D ON (M.DEPT_CODE = D.DEPT_CODE)
-        WHERE B.STATUS='Y'<!--  AND ROWNUM <![CDATA[ < ]]>= 2 -->
-         <if test="keyword != null">
-         AND (M.USER_NAME LIKE '%'||#{keyword}||'%' OR B.BOARD_CONTENT LIKE '%'||#{keyword}||'%')
-         </if>
-        ORDER BY B.BOARD_NO DESC
+        WHERE B.STATUS='Y'
+        <if test="keyword != null">
+        	AND (M.USER_NAME LIKE '%'||#{keyword}||'%' OR B.BOARD_CONTENT LIKE '%'||#{keyword}||'%')
+        </if>
+        ORDER BY B.BOARD_NO DESC) S
+        WHERE ROWNUM <![CDATA[ < ]]>= 3 
+        ORDER BY RNUM
 	</select>
 	
 	<insert id="insertBoard" parameterType="map"
@@ -194,8 +197,8 @@
 		UPDATE REPLY SET STATUS='N' WHERE REPLY_NO=#{replyNo}	
 	</update>
 	
-	<select id="infiniteScrollDown" resultType="Board">
-		SELECT B.BOARD_NO,
+	<select id="infiniteScrollDown" resultMap="boardDetailResultMap" parameterType="map">
+		SELECT K.* FROM (SELECT ROWNUM AS RNUM, S.* FROM (SELECT B.BOARD_NO,
 		       M.USER_ID AS B_USER_ID,
 		       M.USER_NAME AS B_USER_NAME,
 		       B.BOARD_WRITER_NO,
@@ -208,11 +211,13 @@
         FROM BOARD B
         JOIN MEMBER M ON(B.BOARD_WRITER_NO = M.USER_NO)
         JOIN DEPARTMENT D ON (M.DEPT_CODE = D.DEPT_CODE)
-        WHERE B.BOARD_NO <![CDATA[ < ]]>= #{board.No} AND B.BOARD_NO > #{board.No}-2
-         <if test="keyword != null">
-         AND (M.USER_NAME LIKE '%'||#{keyword}||'%' OR B.BOARD_CONTENT LIKE '%'||#{keyword}||'%')
-         </if>
-        ORDER BY B.BOARD_NO DESC
+        WHERE B.STATUS = 'Y'
+        <if test="keyword != null">
+			AND (M.USER_NAME LIKE '%'||#{keyword}||'%' OR B.BOARD_CONTENT LIKE '%'||#{keyword}||'%')
+        </if>
+        ORDER BY B.BOARD_NO DESC) S
+        ORDER BY ROWNUM) K
+        where RNUM <![CDATA[ < ]]>= #{bnoToStart} AND RNUM <![CDATA[ > ]]> #{bnoToStart}-3
 	</select>
 	
 	

@@ -36,7 +36,7 @@
 		<result property="erNo" column="ER_SEQ"/>
 		<result property="erAppNo" column="ER_APP_SEQ"/>
 		<result property="erDeadline" column="ER_DEADLINE"/>
-		<result property="erSlassify" column="ER_CLASSIFY"/>
+		<result property="erClassify" column="ER_CLASSIFY"/>
 		<result property="erTitle" column="ER_TITLE"/>
 		<result property="erDetail" column="ER_DETAIL"/>
 		<result property="erAmount" column="ER_AMOUNT"/>
@@ -45,6 +45,7 @@
 		<result property="erPresent" column="ER_PRESENT"/>
 		<result property="allAmount" column="ER_ALLAMOUNT"/>
 		<result property="monetaryUnit" column="ER_MONETARYUNIT"/>
+<<<<<<< HEAD
 		
 		<result property="leaveNo" column="LEAVE_SEQ"/>
 		<result property="leaveAppNo" column="LEAVE_APP_SEQ"/>
@@ -55,6 +56,18 @@
 		<result property="leaveStatus" column="LEAVE_STATUS"/>
 		<result property="leavePreasent" column="LEAVE_PRESENT"/>
 		<result property="appEmergncyCall" column="APP_EMERGENCYCALL"/>
+=======
+
+		<result property="leaveNo" column="LEAVE_SEQ"/>
+      	<result property="leaveAppNo" column="LEAVE_APP_SEQ"/>
+      	<result property="leaveClassify" column="LEAVE_CLASSIFY"/>
+     	<result property="leaveStart" column="LEAVE_START"/>
+	    <result property="leaveFinish" column="LEAVE_FINISH"/>
+	    <result property="leaveDetail" column="LEAVE_DETAIL"/>
+	    <result property="leaveStatus" column="LEAVE_STATUS"/>
+	    <result property="leavePreasent" column="LEAVE_PRESENT"/>
+	    <result property="appEmergncyCall" column="APP_EMERGENCYCALL"/>
+>>>>>>> Approval
 		<!-- <collection property="app_loa" javaType="java.util.ArrayList" resultMap="app_loa"/> -->
 	</resultMap>
 	
@@ -99,6 +112,8 @@
 		<result property="allAmount" column="ER_ALLAMOUNT"/>
 		<result property="monetaryUnit" column="ER_MONETARYUNIT"/>
 	</resultMap>
+	
+	
 
 	<select id="selectRecentList" parameterType="map" resultMap="approvalResultMap">
 		SELECT ROWNUM, B.* FROM (
@@ -116,11 +131,17 @@
 			M.USER_NAME,
 			M.RANK,
 			A.APPROVAL_KINDS,
-			D.DEPT_NAME
+			D.DEPT_NAME,
+			L.LOA_TITLE,
+			LEA.LEAVE_CLASSIFY,
+			ER.ER_TITLE
 		FROM APPROVAL A 
 		JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
 		JOIN DEPARTMENT D ON (D.DEPT_CODE = M.DEPT_CODE)
-		WHERE <!-- ROWNUM <![CDATA[ < ]]>= 6 AND  -->((#{user_name} = A.FIRST_TIME_APPROVER) OR 
+		LEFT JOIN APP_LOA L ON (A.APP_SEQ = L.LOA_APP_SEQ)
+		LEFT JOIN APP_LEAVE LEA ON (A.APP_SEQ = LEA.LEAVE_APP_SEQ)
+		LEFT JOIN APP_ER ER ON (A.APP_SEQ = ER.ER_APP_SEQ)
+		WHERE ROWNUM <![CDATA[ < ]]>= 6 AND ((#{user_name} = A.FIRST_TIME_APPROVER) OR 
 			                                  (#{user_name} = A.INTERIM_APPROVER) OR 
 			                                  (#{user_name} = A.FINAL_APPROVER)) 
 		ORDER BY A.APP_SEQ DESC) B
@@ -142,11 +163,48 @@
 		     M.USER_NAME,
 		     M.RANK,
 		     A.APPROVAL_KINDS,
-		     D.DEPT_NAME
+		     D.DEPT_NAME,
+			 L.LOA_TITLE,
+			 LEA.LEAVE_CLASSIFY,
+			 ER.ER_TITLE
 		FROM APPROVAL A 
 		JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
 		JOIN DEPARTMENT D ON (D.DEPT_CODE = M.DEPT_CODE)
-		WHERE <!-- ROWNUM <![CDATA[ < ]]>= 6 AND  --> (#{user_no} = A.APP_WRITER_NO)
+		LEFT JOIN APP_LOA L ON (A.APP_SEQ = L.LOA_APP_SEQ)
+		LEFT JOIN APP_LEAVE LEA ON (A.APP_SEQ = LEA.LEAVE_APP_SEQ)
+		LEFT JOIN APP_ER ER ON (A.APP_SEQ = ER.ER_APP_SEQ)
+		WHERE ROWNUM <![CDATA[ < ]]>= 6 AND (#{user_no} = A.APP_WRITER_NO)
+		ORDER BY A.APP_SEQ DESC) B
+		ORDER BY ROWNUM
+	</select>
+	
+	<select id="selectRecentList2" parameterType="map" resultMap="approvalResultMap">
+		SELECT ROWNUM, B.* FROM (SELECT A.APP_SEQ,
+		     A.APP_WRITER_NO,
+		     A.APP_WRITE_SYS,
+		     A.FIRST_TIME_APPROVER,
+		     A.INTERIM_APPROVER,
+		     A.FINAL_APPROVER,
+		     A.APP_CHECK_SYSDATE,
+		     A.APP_CHECK_PROGRESS,
+		     A.APP_REASON,
+		     A.APP_ORIFILENAME,
+		     A.APP_REFILENAME,
+		     M.USER_NAME,
+		     M.RANK,
+		     A.APPROVAL_KINDS,
+		     D.DEPT_NAME,
+			 L.LOA_TITLE,
+			 LEA.LEAVE_CLASSIFY,
+			 ER.ER_TITLE
+		FROM APPROVAL A 
+		JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
+		JOIN DEPARTMENT D ON (D.DEPT_CODE = M.DEPT_CODE)
+		LEFT JOIN APP_LOA L ON (A.APP_SEQ = L.LOA_APP_SEQ)
+		LEFT JOIN APP_LEAVE LEA ON (A.APP_SEQ = LEA.LEAVE_APP_SEQ)
+		LEFT JOIN APP_ER ER ON (A.APP_SEQ = ER.ER_APP_SEQ)
+		LEFT JOIN app_receive_ref arr ON (A.APP_SEQ = arr.RECEIVE_REF_APP_SEQ)
+		WHERE ROWNUM <![CDATA[ < ]]>= 6 AND arr.RECEIVE_REF_CC LIKE '%'|| #{user_name} ||'%'
 		ORDER BY A.APP_SEQ DESC) B
 		ORDER BY ROWNUM
 	</select>
@@ -154,7 +212,8 @@
 	<select id="approvalCount_YET" parameterType="map" resultType="_int">
 		SELECT COUNT(*)
 		FROM APPROVAL A
-		WHERE APP_CHECK_PROGRESS = '결재대기' <!-- AND (((#{user_name} = A.FIRST_TIME_APPROVER) OR 
+		LEFT JOIN app_receive_ref arr ON (A.APP_SEQ = arr.RECEIVE_REF_APP_SEQ)
+		WHERE arr.RECEIVE_REF_CC LIKE '%'|| #{user_name} ||'%' AND APP_CHECK_PROGRESS = '결재대기' <!-- AND (((#{user_name} = A.FIRST_TIME_APPROVER) OR 
 			                                  (#{user_name} = A.INTERIM_APPROVER) OR 
 			                                  (#{user_name} = A.FINAL_APPROVER)) OR 
 			                                  (#{user_no} = A.APP_WRITER_NO)) -->
@@ -163,7 +222,8 @@
 	<select id="approvalCount_UNDER" parameterType="map" resultType="_int">
 		SELECT COUNT(*)
 		FROM APPROVAL A
-		WHERE APP_CHECK_PROGRESS = '결재중' <!-- AND (((#{user_name} = A.FIRST_TIME_APPROVER) OR 
+		LEFT JOIN app_receive_ref arr ON (A.APP_SEQ = arr.RECEIVE_REF_APP_SEQ)
+		WHERE arr.RECEIVE_REF_CC LIKE '%'|| #{user_name} ||'%' AND APP_CHECK_PROGRESS = '결재중' <!-- AND (((#{user_name} = A.FIRST_TIME_APPROVER) OR 
 			                                  (#{user_name} = A.INTERIM_APPROVER) OR 
 			                                  (#{user_name} = A.FINAL_APPROVER)) OR 
 			                                  (#{user_no} = A.APP_WRITER_NO)) -->
@@ -172,7 +232,8 @@
 	<select id="approvalCount_DONE" parameterType="map" resultType="_int">
 		SELECT COUNT(*)
 		FROM APPROVAL A
-		WHERE APP_CHECK_PROGRESS = '결재완료' <!-- AND (((#{user_name} = A.FIRST_TIME_APPROVER) OR 
+		LEFT JOIN app_receive_ref arr ON (A.APP_SEQ = arr.RECEIVE_REF_APP_SEQ)
+		WHERE arr.RECEIVE_REF_CC LIKE '%'|| #{user_name} ||'%' AND APP_CHECK_PROGRESS = '결재완료' <!-- AND (((#{user_name} = A.FIRST_TIME_APPROVER) OR 
 			                                  (#{user_name} = A.INTERIM_APPROVER) OR 
 			                                  (#{user_name} = A.FINAL_APPROVER)) OR 
 			                                  (#{user_no} = A.APP_WRITER_NO)) -->
@@ -193,17 +254,23 @@
 		     M.USER_NAME,
 		     M.RANK,
 		     A.APPROVAL_KINDS,
-		     D.DEPT_NAME
+		     D.DEPT_NAME,
+			 L.LOA_TITLE,
+			 LEA.LEAVE_CLASSIFY,
+			 ER.ER_TITLE
 		FROM APPROVAL A 
 		JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
 		JOIN DEPARTMENT D ON (D.DEPT_CODE = M.DEPT_CODE)
+		LEFT JOIN APP_LOA L ON (A.APP_SEQ = L.LOA_APP_SEQ)
+		LEFT JOIN APP_LEAVE LEA ON (A.APP_SEQ = LEA.LEAVE_APP_SEQ)
+		LEFT JOIN app_receive_ref arr ON (A.APP_SEQ = arr.RECEIVE_REF_APP_SEQ)
+		LEFT JOIN APP_ER ER ON (A.APP_SEQ = ER.ER_APP_SEQ)
+        WHERE arr.RECEIVE_REF_CC LIKE '%'|| #{user_name} ||'%'
         <if test="searchText != 'null'">
-			<where>
-				M.USER_NAME LIKE '%'|| #{searchText} ||'%'
+			AND	M.USER_NAME LIKE '%'|| #{searchText} ||'%'
 				OR A.APPROVAL_KINDS LIKE '%'|| #{searchText} ||'%'
 				OR A.APP_CHECK_PROGRESS LIKE '%'|| #{searchText} ||'%'
 				OR D.DEPT_NAME LIKE '%'|| #{searchText} ||'%'
-			</where>
 		</if>
 		ORDER BY A.APP_WRITE_SYS DESC) B
         ORDER BY ROWNUM ASC
@@ -291,7 +358,7 @@
   			RECEIVE_REF_CC
   		)
   		VALUES(
-  			SEQ_LOA_SEQ.NEXTVAL,
+  			SEQ_RECEIVE_REF_SEQ.NEXTVAL,
   			#{receiveRefAppNo},
   			#{referList}
  		)
@@ -455,7 +522,21 @@
 	<insert id="insertExpenseReport" parameterType="map"
   		useGeneratedKeys="true" keyProperty="appNo" keyColumn="APP_SEQ">
   		
-  		INSERT INTO APPROVAL
+  		INSERT INTO APPROVAL(
+  			APP_SEQ,
+  			APP_WRITE_SYS,
+  			FIRST_TIME_APPROVER,
+  			INTERIM_APPROVER,
+  			FINAL_APPROVER,
+  			APP_CHECK_SYSDATE,
+  			APP_REASON,
+  			APP_ORIFILENAME,
+  			APP_REFILENAME,
+  			APP_WRITER_NO,
+  			APP_CHECK_PROGRESS,
+  			APPROVAL_KINDS,
+  			APP_PRESENT
+  		)
   		VALUES(
   			SEQ_APP_SEQ.NEXTVAL,
   			SYSDATE,
@@ -476,7 +557,20 @@
   	<insert id="insertExpenseReport2" parameterType="map"
   		useGeneratedKeys="true" keyProperty="erAppNo" keyColumn="ER_APP_SEQ">
   		
-  		INSERT INTO APP_ER
+  		INSERT INTO APP_ER(
+			ER_SEQ,
+  			ER_APP_SEQ,
+  			ER_DEADLINE,
+  			ER_CLASSIFY,
+  			ER_TITLE,
+  			ER_DETAIL,
+  			ER_AMOUNT,
+  			ER_REFERENCE,
+  			ER_STATUS,
+  			ER_PRESENT,
+  			ER_ALLAMOUNT,
+  			ER_MONETARYUNIT
+  		)
   		VALUES(
   			SEQ_ER_SEQ.NEXTVAL,
   			#{erAppNo},
@@ -541,4 +635,40 @@
         WHERE A.APP_SEQ = #{appNo}
 	</select>
 
+<<<<<<< HEAD
+=======
+	<select id="viewAppLeaveList" parameterType="_int" resultMap="approvalResultMap">
+      SELECT A.APP_SEQ,
+              A.APP_WRITER_NO,
+              A.APP_WRITE_SYS,
+              A.FIRST_TIME_APPROVER,
+              A.INTERIM_APPROVER,
+              A.FINAL_APPROVER,
+              A.APP_CHECK_SYSDATE,
+              A.APP_CHECK_PROGRESS,
+              A.APP_REASON,
+              A.APP_ORIFILENAME,
+              A.APP_REFILENAME,
+              M.USER_NAME,
+              M.RANK,
+              A.APPROVAL_KINDS,
+              D.DEPT_NAME,
+              R.RECEIVE_REF_CC,
+              R.RECEIVE_REF_APP_SEQ,
+              A.APP_PRESENT,
+              L.LEAVE_APP_SEQ,
+              L.LEAVE_CLASSIFY,
+              L.LEAVE_START,
+              L.LEAVE_FINISH,
+              L.LEAVE_DETAIL,
+              L.APP_EMERGENCYCALL
+      FROM APPROVAL A 
+      JOIN MEMBER M ON (A.APP_WRITER_NO = M.USER_NO)
+      JOIN DEPARTMENT D ON (D.DEPT_CODE = M.DEPT_CODE)
+      JOIN APP_RECEIVE_REF R ON (A.APP_SEQ = R.RECEIVE_REF_APP_SEQ)
+      JOIN APP_LEAVE L ON (A.APP_SEQ = L.LEAVE_APP_SEQ)
+      WHERE A.APP_SEQ = #{appNo}
+   </select>
+
+>>>>>>> Approval
 </mapper>

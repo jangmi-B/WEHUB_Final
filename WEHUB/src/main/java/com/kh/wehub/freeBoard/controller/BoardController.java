@@ -279,11 +279,12 @@ public class BoardController {
 	
 	@ResponseBody
 	@RequestMapping(value="/infiniteScrollDown", method=RequestMethod.POST)
-	public List<Board> infiniteScrollDown(@RequestBody Board board) {
+	public List<Board> infiniteScrollDown(@RequestParam("rownumdata") int rownumdata) {
+		
 		
 		List<Board> list = null;
 		
-		Integer bnoToStart = board.getBoardNo()-1;
+		int bnoToStart = rownumdata + 3;
 		
 		System.out.println("bnoToStart : " + bnoToStart);
 		

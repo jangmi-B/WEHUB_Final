@@ -13,6 +13,8 @@ public interface ApprovalService {
 	int approvalCount_DONE(Member loginMember);
 
 	List<Approval> getRecentList(Member loginMember);
+	List<Approval> getRecentList1(Member loginMember);
+	List<Approval> getRecentList2(Member loginMember);
 	
 	List<Approval> getApprovalList(PageInfo pageInfo, String searchText);
 	
@@ -24,8 +26,6 @@ public interface ApprovalService {
 	int saveLetterOfApproval3(Approval approval);
 	
 	Approval findListByNo(int appNo);
-	
-	List<Approval> getRecentList1(Member loginMember);
 	
 	int rejectUpdate(Approval approval);
 	
@@ -46,7 +46,6 @@ public interface ApprovalService {
 	Approval findExpenseReportListByNo(int appNo);
 	
 	// 휴가신청서 상세보기
-	Approval findListByLeaveNo(int appNo);
-	
+    Approval findListByLeaveNo(int appNo);
 
 }

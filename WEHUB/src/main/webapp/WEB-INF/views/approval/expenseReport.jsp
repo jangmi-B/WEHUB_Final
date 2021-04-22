@@ -15,9 +15,12 @@
 <% Calendar today =  Calendar.getInstance(); %>
 
 <%@ include file="../approval/approvalSubMenu.jsp" %>
+<style>
+    * {font-family: 'InfinitySans-RegularA1'; }
+</style>
 
-<form action="${path}/approval/letterOfApproval" method="POST" name="loaWriteForm" onsubmit="return check_onclick()"> 
-    <div class="cash-form-section" style="height: 100%; margin: 0 300px 0 300px;">
+<form action="${path}/approval/expenseReport" method="POST" name="erWriteForm" onsubmit="return check_onclick()"> 
+    <div class="cash-form-section" style="height: 100%; width:68%; margin: 0 300px 0 300px;">
         <div class="cash-disbursement" style="text-align: center; margin: 80px 0px 80px 200px; border: 2px solid black;">
             <table border="2" style="width: 100%; font-size: 20px; border-collapse: collapse;">
                 <tr>
@@ -56,10 +59,12 @@
                     <td style="width: 80px;">직 급</td>
                     <td colspan="3"><input type="text" value="${loginMember.rank}" readonly></td>
                 </tr>
-                <tr>
-                    <td style="height: 70px; width: 80px;">지출금액</td>
-                    <td colspan="5"><input type="text" name="allAmount" id="allAmount" ></td>
-                    <td colspan="2">
+                 <tr>                    
+                    <td colspan="1">마감일</td>
+                    <td colspan="1"><input type="date" name="erDeadline" id="erDeadline" style="font-size:20px;" ></td>
+                    <td colspan="1" style="height: 70px; width: 80px;">지출금액</td>
+                    <td colspan="2"><input type="text" name="allAmount" id="allAmount" ></td>
+                    <td colspan="3">
 	                    <select name="monetaryUnit" style="width:130px; height:40px; font-size:18px">
 							<option value="">화폐단위</option>
 							<option value="KRW">KRW</option>
@@ -88,10 +93,10 @@
 					</td>
                 </tr>
                 <tr id="putContents">
-                    <td colspan="2"><input type="text" name="briefs" id="briefs"></td>
-                    <td colspan="2"><input type="text" name="price" id="price"></td>
-                    <td colspan="3"><input type="text" name="etc" id="etc"></td> 
-                </tr>                
+                    <td colspan="2"><input type="text" name="erDetail" id="erDetail"></td>
+                    <td colspan="2"><input type="text" name="erAmount" id="erAmount"></td>
+                    <td colspan="3"><input type="text" name="erReference" id="erReference" value="-"></td> 
+                </tr>                 
                 <tr>
                     <td colspan="8" style="text-align: center; height: 100px; border-bottom: none;">위 금액을 청구하오니 결재바랍니다.</td>
                 </tr>
@@ -163,22 +168,33 @@
     <!-- 필수 입력 스크립트 -->
 	<script>
 		function check_onclick() {
-		    var loaWriteForm = document.loaWriteForm;
+		    var erWriteForm = document.erWriteForm;
 		    
-		    if(loaWriteForm.loaContent.value=="" || loaWriteForm.loaTitle.value==""){
-		        alert("상세내용 또는 제목란이 비어있습니다. 확인 후 등록하세요.");
+		    /* if(erWriteForm.erDetail.value=="" || erWriteForm.erAmount.value==""){
+		        alert("적요 또는 금액란이 비어있습니다. 확인 후 등록하세요.");
 		        
 		        return false;
-		    } else if(loaWriteForm.proposerText.value=="") {
+		    } else  */if(erWriteForm.allAmount.value=="" || erWriteForm.erTitle.value=="") {
+		    	alert("지출금액 또는 제목란이 비어있습니다. 확인 후 등록하세요.");
+			        
+			    return false;
+		    } else if(erWriteForm.proposerText.value=="") {
 		       alert("서명 후 등록을 완료해주세요.");
 		       
 		       return false;
-			} else {
+		    } else if(erWriteForm.erDeadline.value=="") {
+		    	alert("마감일자란이 비어있습니다. 확인 후 등록하세요.");
+			        
+			    return false;
+		    } else if(erWriteForm.monetaryUnit.value=="") {
+		    	alert("화폐단위를 선택해주세요.");
+			        
+			    return false;
+		    } else {
 				return true;
 			}
 		}
 	</script>
-
     <!-- 서명 클릭 스크립트  -->
     
     <script>
@@ -193,13 +209,15 @@
     
     <script>
     	$("#addRow").on("click", function() {
+    		
     		$('#putContents').after(
     			 '<tr id="putContents">'
-                +'<td colspan="2"><input type="text" name="briefs" id="briefs"></td>'
-                +'<td colspan="2"><input type="text" name="price" id="price"></td>'
-                +'<td colspan="3"><input type="text" name="etc" id="etc"></td> '
+                +'<td colspan="2"><input type="text" name="erDetail" id="erDetail"></td>'
+                +'<td colspan="2"><input type="text" name="erAmount" id="erAmount"></td>'
+                +'<td colspan="3"><input type="text" name="erReference" id="erReference" value="-"></td>'
             	+'</tr> '
-            );
+            	/* +'<script>$(document).ready(function(){$("#price").bind("keyup keydown",function(){inputNumberFormat(this);});function inputNumberFormat(obj) {obj.value = comma(uncomma(obj.value));}function comma(str) {str = String(str);return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,");}function uncomma(str) {str = String(str);return str.replace(/[^\d]+/g, "");}function cf_getNumberOnly (str) {var len= str.length;var sReturn  = "";for (var i=0; i<len; i++){if ( (str.charAt(i) >= "0") && (str.charAt(i) <= "9") ){sReturn += str.charAt(i);}}return sReturn;}});<\/script>' 
+             */);
     	});
     	
     	$("#deleteRow").on("click", function() {
