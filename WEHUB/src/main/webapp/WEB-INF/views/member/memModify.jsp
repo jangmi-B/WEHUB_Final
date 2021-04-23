@@ -50,19 +50,9 @@
 				    <td><input id="modify_id" type="text" name="user_id" value="${ loginMember.user_id }" readonly></td>
 				    <td></td>
 				</tr>
-				<%-- <tr>
-				    <td><label for="modify_password">비밀번호</label></td>
-				    <td><input class="modify_input" id="modify_password" type="password" name="user_pwd" placeholder="변경할 비밀번호를 입력해 주세요." ></td>
-				    <td><button class="btn" id="modify_btn_pw" type="button" id="pw_modify" onclick="location.href='${path}/member/updatePassword'">비밀번호변경</button></td>
-				</tr> --%>
-				<tr>
-				    <td><label for="modify_company">회사명</label></td>
-				    <td><input id="modify_company" name="user_companyname" type="text" value="${ loginMember.user_companyname }" readonly></td>
-				    <td></td>
-				</tr>
 				<tr>
 				    <td><label for="modify_userNo">사번</label></td>
-				    <td><input id="modify_userNo" name="userNo" type="text" value="A12345" readonly></td>
+				    <td><input id="modify_userNo" name="userNo" type="text" value="${ loginMember.newUserNo }" readonly></td>
 				    <td></td>
 				</tr>
 				<tr>
