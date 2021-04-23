@@ -117,13 +117,14 @@
                 </tr>
             </table>
         </div>
-        <div id="button">
-	        <button type="submit">등록</button>
-	        <input type="text" style="border: none; width: 40px;" disabled>
-	        <button type="button" class="resetLeave" onclick=""><a href="${path}/approval/approvalMain">취소<a></button>
-        </div>
     </div>
 </form>
+
+<div id="button">
+	<button type="submit">등록</button>
+	<input type="text" style="border: none; width: 40px;" disabled>
+	<button type="button" class="resetLeave" onclick=""><a href="${path}/approval/approvalMain">취소<a></button>
+</div>
 
 	<script>
 	$(document).ready(function(){
