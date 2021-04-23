@@ -55,16 +55,6 @@
 				    <td id="imgTd" >
 					    <input type="file" id="modify_img" type="text" name="user_img" value="" style="">
 					</td>
-			    		<%-- <c:set var="userImgChk" value="${path}/upload/userProfileImg/${loginMember.user_imgRename}">
-							<c:choose>
-								<c:when test="${ empty userImgChk }">
-									<img class="UserModifyImg" src="${path}/images/userImage.png">
-								</c:when>
-								<c:when test="${ !empty userImgChk }">
-									<img class="UserModifyImg" src="userImgChk">
-								</c:when>		
-							</c:choose>
-						</c:set> --%>
 				</tr>
 				<tr>
 				    <td><label for="modify_id">아이디</label></td>
@@ -97,7 +87,6 @@
 				</tr>
 				<tr>
 				    <td>
-				    	<!-- <label for="modify_address">주소</label> -->
 				    	<button class="btn" id="modify_btn_addr" type="button" onclick="sample6_execDaumPostcode();">주소찾기</button>
 				    </td>
 				    <td><input class="modify_input" name="address" id="kakao_postcode" type="text" value="${arr[0]}" readonly="readonly"></td>
@@ -119,7 +108,6 @@
             <button class="btn" id="notModify_btn" type="button" onclick="location.href='${path}/main'">홈으로</button>
             <button class="btn" id="modify_btn" type="submit" onclick="location.href='${path}/member/update'">회원정보수정</button>
           </div> 
-        	<%-- <button class="btn" id="pass_btn" type="button" onclick="location.href='${path}/member/updatePassword'">비밀번호수정</button> --%>
         </form>
       </div>  
     </div>
