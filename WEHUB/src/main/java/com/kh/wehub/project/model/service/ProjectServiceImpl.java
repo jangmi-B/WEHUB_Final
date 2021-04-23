@@ -56,7 +56,7 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public Member findReceiver(String name, String rank, String deptName) {
 		
-		return projectDao.findReceiver(name,rank, deptName);
+		return projectDao.findReceiver(name, rank, deptName);
 	}
 
 	@Override
