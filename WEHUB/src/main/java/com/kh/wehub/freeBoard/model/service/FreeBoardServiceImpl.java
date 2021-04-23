@@ -100,6 +100,18 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 		return boardDao.infiniteScrollDown(bnoToStart);
 	}
 
+	@Override
+	public List<Board> selectBoardDetail(int rownumdata) {
+
+		return boardDao.selectBoardDetail(rownumdata);
+	}
+
+	@Override
+	public List<Board> selectBoardDetailKeyword(String keyword) {
+		
+		return boardDao.selectBoardDetailKeyword(keyword);
+	}
+
 	
 	
 }
