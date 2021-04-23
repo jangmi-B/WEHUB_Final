@@ -16,7 +16,7 @@
 
     <title>WEHUB</title>
 
-    <link rel="stylesheet" href="${path}/css/LoginForm.css">
+    <link rel="stylesheet" href="${path}/css/LogInForm.css">
 	</head>
 	<body>
     	<div class="wrapper">
