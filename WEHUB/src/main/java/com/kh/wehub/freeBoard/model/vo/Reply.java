@@ -2,6 +2,8 @@ package com.kh.wehub.freeBoard.model.vo;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,8 +26,10 @@ public class Reply {
 	
 	private String status;
 	
+	@JsonFormat(pattern="yyyy/MM/dd")
 	private Date replyCreateDate;
 	
+	@JsonFormat(pattern="yyyy/MM/dd")
 	private Date replyModifyDate;
 	
 	private String memberImage;

@@ -1,7 +1,9 @@
 package com.kh.wehub.freeBoard.model.vo;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,8 +27,10 @@ public class Board {
 
 	private List<Reply> replies; 
 	
+	@JsonFormat(pattern="yyyy/MM/dd")
 	private Date boardCreateDate;
 	
+	@JsonFormat(pattern="yyyy/MM/dd")
 	private Date boardModifyDate;
 	
 	private String memberImage;

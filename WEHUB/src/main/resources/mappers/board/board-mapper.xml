@@ -102,7 +102,7 @@
 		ORDER BY B.BOARD_CREATE_DATE DESC
 	</select>
 	
-	<select id="selectReplyList" parameterType="map" resultMap="replyResultMap">
+	<select id="selectReplyList" parameterType="Reply" resultMap="replyResultMap">
 		SELECT R.REPLY_NO,
 			   R.BOARD_NO,
 			   R.REPLY_WRITER_NO,
@@ -119,7 +119,31 @@
 		WHERE R.STATUS='Y' AND R.REPLY_NO=#{replyNo}
 	</select>
 
-	<select id="selectBoardDetail" parameterType="string" resultMap="boardDetailResultMap">
+	<select id="selectBoardDetail" parameterType="_int" resultMap="boardDetailResultMap">
+		SELECT S.* FROM (SELECT ROWNUM AS RNUM, B.BOARD_NO,
+		       M.USER_ID AS B_USER_ID,
+		       M.USER_NAME AS B_USER_NAME,
+		       B.BOARD_WRITER_NO,
+		       B.BOARD_CONTENT,
+		       B.BOARD_CREATE_DATE,
+		       B.BOARD_MODIFY_DATE,
+		       B.STATUS AS B_STATUS,
+		       M.USER_IMG_REFILENAME,
+               D.DEPT_NAME
+        FROM BOARD B
+        JOIN MEMBER M ON(B.BOARD_WRITER_NO = M.USER_NO)
+        JOIN DEPARTMENT D ON (M.DEPT_CODE = D.DEPT_CODE)
+        WHERE B.STATUS='Y'
+        ORDER BY B.BOARD_NO DESC) S
+        WHERE ROWNUM <![CDATA[ < ]]>= 3 
+        <if test="rownumdata != null">
+        AND (RNUM <![CDATA[ > ]]> #{rownumdata} AND RNUM <![CDATA[ < ]]> = #{rownumdata}+3)
+		</if>
+        
+        ORDER BY RNUM
+	</select>
+	
+	<select id="selectBoardDetailKeyword" parameterType="string" resultMap="boardDetailResultMap">
 		SELECT S.* FROM (SELECT ROWNUM AS RNUM, B.BOARD_NO,
 		       M.USER_ID AS B_USER_ID,
 		       M.USER_NAME AS B_USER_NAME,
@@ -135,9 +159,10 @@
         JOIN DEPARTMENT D ON (M.DEPT_CODE = D.DEPT_CODE)
         WHERE B.STATUS='Y'
         <if test="keyword != null">
-        	AND (M.USER_NAME LIKE '%'||#{keyword}||'%' OR B.BOARD_CONTENT LIKE '%'||#{keyword}||'%')
+			AND (M.USER_NAME LIKE '%'||#{keyword}||'%' OR B.BOARD_CONTENT LIKE '%'||#{keyword}||'%')
         </if>
-        ORDER BY B.BOARD_NO DESC) S
+        ORDER BY B.BOARD_NO DESC
+        ) S
         WHERE ROWNUM <![CDATA[ < ]]>= 3 
         ORDER BY RNUM
 	</select>
@@ -217,7 +242,7 @@
         </if>
         ORDER BY B.BOARD_NO DESC) S
         ORDER BY ROWNUM) K
-        where RNUM <![CDATA[ < ]]>= #{bnoToStart} AND RNUM <![CDATA[ > ]]> #{bnoToStart}-3
+        where RNUM <![CDATA[ < ]]>= #{bnoToStart} AND RNUM <![CDATA[ > ]]> #{bnoToStart}+3
 	</select>
 	
 	

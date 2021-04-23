@@ -29,4 +29,8 @@ public interface FreeBoardService {
 
 	List<Board> infiniteScrollDown(int bnoToStart);
 
+	List<Board> selectBoardDetail(int rownumdata);
+
+	List<Board> selectBoardDetailKeyword(String keyword);
+
 }
