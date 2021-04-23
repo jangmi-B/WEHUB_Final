@@ -174,14 +174,15 @@
                 </tr>
             </table>
         </div>
-        <div id="button">
-        	<input type="hidden" name="appKinds" value="휴가신청서">
-        	<button type="submit" class="goToLeave" onclick="">등록</button><!-- ${path}/approval/updateLeave -->
-        	<input type="text" style="border: none; width: 40px;" disabled>
-        	<button type="button" class="resetLeave" onclick=""><a href="${path}/approval/approvalMain">취소<a></button>
-        </div>
     </div>
 </form>
+
+<div id="button">
+	<input type="hidden" name="appKinds" value="휴가신청서">
+	<button type="submit" class="goToLeave" onclick="">등록</button><!-- ${path}/approval/updateLeave -->
+	<input type="text" style="border: none; width: 40px;" disabled>
+	<button type="button" class="resetLeave" onclick=""><a href="${path}/approval/approvalMain">취소<a></button>
+</div>
 
 	<!-- 필수 입력 스크립트 -->
 	<script>
