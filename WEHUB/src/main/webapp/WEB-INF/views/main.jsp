@@ -90,96 +90,114 @@
 			  	<col style="width:17%;"/>
 			  	<col style="width:80%;"/>
 		  	</colgroup>
-	        <c:forEach var="receiveList" items="${receiveList}">
-	        	<tr>
-		        	<td style="padding:7px 0;" class="<c:out value="${receiveList.readStatus}"/>"><span class="senderName" id="s_name(${receiveList.msgNo})"><c:out value="${receiveList.userName}"/> <c:out value="${receiveList.rank}"/></span></td>
-		        	<td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;" class="<c:out value="${receiveList.readStatus}"/>">
-			            <a href="javascript:detailMsg(${receiveList.msgNo})" id="detail(${receiveList.msgNo})" class="<c:out value="${receiveList.readStatus}"/>">
-							<c:out value="${receiveList.msgContent}"/>
-						</a>
-					</td>
-				</tr>
-				<div class="modal_view fade modalNo${receiveList.msgNo}">
-					    <div class="bg"></div>
-					    <div class="modalContainer">
-					      <h2 style="margin-left: 18px; font-size:27px; border:none; margin-top:12px;">받은쪽지</h2>
-					        <div class="view_form info" style="margin-left:20px; text-align:left;">
-					          <input type="hidden" id="msgNo${receiveList.msgNo}" value="<c:out value="${receiveList.msgNo}"/>">
-					          <input type="hidden" id="sName${receiveList.msgNo}" value="<c:out value="${receiveList.userName}"/>">
-					          <input type="hidden" id="sRank${receiveList.msgNo}" value="<c:out value="${receiveList.rank}"/>">
-					          <input type="hidden" id="sDept${receiveList.msgNo}" value="<c:out value="${receiveList.deptName}"/>">
-					          <input type="hidden" id="readCheck${receiveList.msgNo}" value="<c:out value="${receiveList.readStatus}"/>">
-					          
-					          <label>From : <c:out value="${receiveList.userName}"/> <c:out value="${receiveList.rank}"/> (<c:out value="${receiveList.deptName}"/>)</label> <br>
-					          <label>Date : </label> <fmt:formatDate type="both" value="${receiveList.createDate}"/>
-					        </div>
-					        <div class ="view_form">
-					        <div class = "form-control" id="contentsDiv" rows="3" name ="messageContent"  style="overflow: scroll; margin-left:20px; margin-top:10px;">
-					       		<p style="text-align:left; margin:5px;">${ fn:replace(receiveList.msgContent, replaceChar, "<br/>" )}</p> 
-					        </div>
-					        </div>
-					        <div class="msg_btns">
-				       		 <button type="button" id ="exitBtn(${receiveList.msgNo})">닫기</button>
-					        </div>
-					       
-					    </div>
-					  </div>
-	        </c:forEach>
+		  	<c:choose>
+	        	<c:when test="${receiveList.size() == 0}">
+			        <li>
+			        	받은 쪽지가 없습니다.
+			        </li>
+		        </c:when>
+		        <c:otherwise>
+			        <c:forEach var="receiveList" items="${receiveList}">
+			        	<tr>
+				        	<td style="padding:7px 0;" class="<c:out value="${receiveList.readStatus}"/>"><span class="senderName" id="s_name(${receiveList.msgNo})"><c:out value="${receiveList.userName}"/> <c:out value="${receiveList.rank}"/></span></td>
+				        	<td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;" class="<c:out value="${receiveList.readStatus}"/>">
+					            <a href="javascript:detailMsg(${receiveList.msgNo})" id="detail(${receiveList.msgNo})" class="<c:out value="${receiveList.readStatus}"/>">
+									<c:out value="${receiveList.msgContent}"/>
+								</a>
+							</td>
+						</tr>
+						<div class="modal_view fade modalNo${receiveList.msgNo}">
+							    <div class="bg"></div>
+							    <div class="modalContainer">
+							      <h2 style="margin-left: 18px; font-size:27px; border:none; margin-top:12px;">받은쪽지</h2>
+							        <div class="view_form info" style="margin-left:20px; text-align:left;">
+							          <input type="hidden" id="msgNo${receiveList.msgNo}" value="<c:out value="${receiveList.msgNo}"/>">
+							          <input type="hidden" id="sName${receiveList.msgNo}" value="<c:out value="${receiveList.userName}"/>">
+							          <input type="hidden" id="sRank${receiveList.msgNo}" value="<c:out value="${receiveList.rank}"/>">
+							          <input type="hidden" id="sDept${receiveList.msgNo}" value="<c:out value="${receiveList.deptName}"/>">
+							          <input type="hidden" id="readCheck${receiveList.msgNo}" value="<c:out value="${receiveList.readStatus}"/>">
+							          
+							          <label>From : <c:out value="${receiveList.userName}"/> <c:out value="${receiveList.rank}"/> (<c:out value="${receiveList.deptName}"/>)</label> <br>
+							          <label>Date : </label> <fmt:formatDate type="both" value="${receiveList.createDate}"/>
+							        </div>
+							        <div class ="view_form">
+							        <div class = "form-control" id="contentsDiv" rows="3" name ="messageContent"  style="overflow: scroll; margin-left:20px; margin-top:10px;">
+							       		<p style="text-align:left; margin:5px;">${ fn:replace(receiveList.msgContent, replaceChar, "<br/>" )}</p> 
+							        </div>
+							        </div>
+							        <div class="msg_btns">
+						       		 <button type="button" id ="exitBtn(${receiveList.msgNo})">닫기</button>
+							        </div>
+							       
+							    </div>
+							  </div>
+			        </c:forEach>
+	        	</c:otherwise>
+		    </c:choose>
         </table>
         </div>
         
         <div style="border-radius: 10px;">
         <h2 class="h2d">진행중인 프로젝트<a href="${path}/project/list"><i class="fas fa-plus con1" style="color: #5b18ff;"></i></a></h2>
-        <c:forEach var="projectList" items="${projectList}" varStatus="status">
-	        <p style="margin:11px;">
-	        	${status.count}. 
-	        	<fmt:formatDate var="sDate" value="${projectList.startDate}" pattern="yyyy-MM-dd"/>
-          		<fmt:parseDate var="strDate" value="${sDate}" pattern="yyyy-MM-dd"/>
-          		<fmt:parseNumber value="${strDate.time / (1000*60*60*24)}" integerOnly="true" var="SDate"></fmt:parseNumber>
-          		<fmt:formatDate var="dDate" value="${projectList.dueDate}" pattern="yyyy-MM-dd"/>
-          		<fmt:parseDate var="endDate" value="${dDate}" pattern="yyyy-MM-dd"/>
-          		<fmt:parseNumber value="${endDate.time / (1000*60*60*24)}" integerOnly="true" var="EDate"></fmt:parseNumber>
-       			<span style="color:red;">[D - ${EDate - SDate}] </span>
-	        	<a href="javascript:projectView(${projectList.projectNo})" id="detail(${projectList.projectNo})"><c:out value="${projectList.projectTitle}"/></a>
-	        </p>
-	        <div class="modal_project fade proNo${projectList.projectNo}">
-		    <div class="bg"></div>
-		    <div class="proContainer" style="border-radius:35px">
-		        <div class="view_form info">
-		          <input type="hidden" id="pojectNo${projectList.projectNo}" value="<c:out value="${projectList.projectNo}"/>">
-		          <input type="hidden" id="sName${projectList.projectNo}" value="<c:out value="${projectList.userName}"/>">
-		          <div class="titleDiv pj${ status.count }" style="border-top-left-radius: 20px; border-top-right-radius: 20px;">
-		          		<p id="proTitle"><i class="far fa-newspaper"></i> <c:out value="${projectList.projectTitle}"/></p>
-		          </div>
-		          <div class="project_info" style="margin:20px; text-align:left;">
-		          		<label><span style="font-size:20px; font-weight:600;">참여자 :  </span><c:out value="${projectList.userName}"/>님 포함 총 <c:out value="${projectList.projectCount}"/>명</label>
-							<a href="${path}/message/list" title="쪽지함으로 이동" style="font-size:20px;"> <i class="far fa-comments"></i></a> <br>
-							<div style="border:2px solid lightgrey; padding:10px; margin: 10px 0px;border-radius:15px; min-height:50px; overflow: auto;">
-								<c:out value="${projectList.participant}"/>
-							</div>        			
-		          		<label>
-		          		<fmt:formatDate var="sDate" value="${projectList.startDate}" pattern="yyyy-MM-dd"/>
+        <c:choose>
+        	<c:when test="${projectList.size() == 0}">
+		        <li>
+		        	등록된 프로젝트가 없습니다.
+		        </li>
+	        </c:when>
+	        <c:otherwise>
+		        <c:forEach var="projectList" items="${projectList}" varStatus="status">
+			        <p style="margin:11px;">
+			        	${status.count}. 
+			        	<fmt:formatDate var="sDate" value="${projectList.startDate}" pattern="yyyy-MM-dd"/>
 		          		<fmt:parseDate var="strDate" value="${sDate}" pattern="yyyy-MM-dd"/>
 		          		<fmt:parseNumber value="${strDate.time / (1000*60*60*24)}" integerOnly="true" var="SDate"></fmt:parseNumber>
 		          		<fmt:formatDate var="dDate" value="${projectList.dueDate}" pattern="yyyy-MM-dd"/>
 		          		<fmt:parseDate var="endDate" value="${dDate}" pattern="yyyy-MM-dd"/>
 		          		<fmt:parseNumber value="${endDate.time / (1000*60*60*24)}" integerOnly="true" var="EDate"></fmt:parseNumber>
-		          			<span style="font-size:20px; font-weight:600;"> 프로젝트 일정 : </span> ${sDate} ~ ${dDate}
-		          			<span style="color:red;">( D - ${EDate - SDate} )</span>
-		          		</label> 
-		          </div>
-		        </div>
-		        <div class ="view_form">
-			        <div class = "form-control" id="contentsDiv" rows="3" name ="messageContent"  style="overflow: auto; margin-left:20px; margin-top:10px;">
-			       		<p style="text-align:left; margin:5px;">${ fn:replace(projectList.projectContent, replaceChar, "<br/>" )}</p> 
-			        </div>
-		        </div>
-		        <div class="project_btns">
-	       		 <button type="button" id="exitBtn(${projectList.projectNo})">닫기</button>
-		        </div>
-		    </div>
-		  </div>	
-        </c:forEach>
+		       			<span style="color:red;">[D - ${EDate - SDate}] </span>
+			        	<a href="javascript:projectView(${projectList.projectNo})" id="detail(${projectList.projectNo})"><c:out value="${projectList.projectTitle}"/></a>
+			        </p>
+			        <div class="modal_project fade proNo${projectList.projectNo}">
+				    <div class="bg"></div>
+				    <div class="proContainer" style="border-radius:35px">
+				        <div class="view_form info">
+				          <input type="hidden" id="pojectNo${projectList.projectNo}" value="<c:out value="${projectList.projectNo}"/>">
+				          <input type="hidden" id="sName${projectList.projectNo}" value="<c:out value="${projectList.userName}"/>">
+				          <div class="titleDiv pj${ status.count }" style="border-top-left-radius: 20px; border-top-right-radius: 20px;">
+				          		<p id="proTitle"><i class="far fa-newspaper"></i> <c:out value="${projectList.projectTitle}"/></p>
+				          </div>
+				          <div class="project_info" style="margin:20px; text-align:left;">
+				          		<label><span style="font-size:20px; font-weight:600;">참여자 :  </span><c:out value="${projectList.userName}"/>님 포함 총 <c:out value="${projectList.projectCount}"/>명</label>
+									<a href="${path}/message/list" title="쪽지함으로 이동" style="font-size:20px;"> <i class="far fa-comments"></i></a> <br>
+									<div style="border:2px solid lightgrey; padding:10px; margin: 10px 0px;border-radius:15px; min-height:50px; overflow: auto;">
+										<c:out value="${projectList.participant}"/>
+									</div>        			
+				          		<label>
+				          		<fmt:formatDate var="sDate" value="${projectList.startDate}" pattern="yyyy-MM-dd"/>
+				          		<fmt:parseDate var="strDate" value="${sDate}" pattern="yyyy-MM-dd"/>
+				          		<fmt:parseNumber value="${strDate.time / (1000*60*60*24)}" integerOnly="true" var="SDate"></fmt:parseNumber>
+				          		<fmt:formatDate var="dDate" value="${projectList.dueDate}" pattern="yyyy-MM-dd"/>
+				          		<fmt:parseDate var="endDate" value="${dDate}" pattern="yyyy-MM-dd"/>
+				          		<fmt:parseNumber value="${endDate.time / (1000*60*60*24)}" integerOnly="true" var="EDate"></fmt:parseNumber>
+				          			<span style="font-size:20px; font-weight:600;"> 프로젝트 일정 : </span> ${sDate} ~ ${dDate}
+				          			<span style="color:red;">( D - ${EDate - SDate} )</span>
+				          		</label> 
+				          </div>
+				        </div>
+				        <div class ="view_form">
+					        <div class = "form-control" id="contentsDiv" rows="3" name ="messageContent"  style="overflow: auto; margin-left:20px; margin-top:10px;">
+					       		<p style="text-align:left; margin:5px;">${ fn:replace(projectList.projectContent, replaceChar, "<br/>" )}</p> 
+					        </div>
+				        </div>
+				        <div class="project_btns">
+			       		 <button type="button" id="exitBtn(${projectList.projectNo})">닫기</button>
+				        </div>
+				    </div>
+				  </div>	
+		        </c:forEach>
+	        </c:otherwise>
+	    </c:choose>
         </div>
          <div style="border-radius: 10px; grid-row: 6 / 9; overflow: hidden;">
         	<h2 class="h2d">Community <i class="fas fa-shopping-cart"></i><a href="${path}/community/list"><i class="fas fa-plus con1" style="color: #5b18ff;"></i></a></h2>

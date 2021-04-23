@@ -75,9 +75,6 @@
 			        </div>
 		        </div>
 		        <div class="project_btns">
-		        <c:if test="${ !empty loginMember && (loginMember.user_no == projectList.projectMake)}">
-	        	 <button style="width:100px; background:" type="button" id="deleteBtn(${projectList.projectNo})" class="pj${ status.count }" onclick="closeProject(${projectList.projectNo});">프로젝트종료</button>
-	        	</c:if>
 	       		 <button type="button" id="exitBtn(${projectList.projectNo})">닫기</button>
 		        </div>
 		    </div>
@@ -383,6 +380,7 @@
 		let addPerson = $("#memSearch").val();
 		let totalPerson = $("#participantDiv").text();
 		let arr =  totalPerson.split("/ ");
+		var val = Math.round( Math.random()*100 );
 		
 		console.log(addPerson);
 		console.log(totalPerson);
@@ -398,12 +396,19 @@
 				  }
 			})
 		} else{
-			$("#participantDiv").append(addPerson + "/ ");
+			$("#participantDiv").append('<span id=' + (val) + '>'+ addPerson + '<button class="deleteMem" onclick="deleteMem('+ (val) + ');"><i class="fas fa-times"></i></button>'  + '/ </span>');
+			
 			
 			document.getElementById("memSearch").value= "";
 			$('#memSearch').focus();
 		}
 	}
+	
+	function deleteMem(val){
+		var deleteMember =  document.getElementById(val);
+		deleteMember.remove();
+	}
+	
 	
 	$(document).ready(function () {
 	    $.datepicker.setDefaults($.datepicker.regional['ko']); 

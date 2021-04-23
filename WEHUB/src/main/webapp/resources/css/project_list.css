@@ -314,4 +314,11 @@ input#memSearch {
   border-radius: 5px;
   resize: none;
   padding:7px;
+}
+
+button.deleteMem{
+	width:30px;
+	height:30px;
+	background: none;
+	color:red;
 } 

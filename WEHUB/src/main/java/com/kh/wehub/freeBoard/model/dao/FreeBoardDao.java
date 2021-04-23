@@ -32,10 +32,14 @@ public interface FreeBoardDao {
 
 	Reply selectReplyList(int replyNo);
 
-	int deleteReply(int replyNo);
+	int deleteReply(@Param("replyNo") int replyNo);
 
 	List<Board> selectBoardDetail();
 
 	List<Board> infiniteScrollDown(int bnoToStart);
+
+	List<Board> selectBoardDetail(int rownumdata);
+
+	List<Board> selectBoardDetailKeyword(String keyword);
 
 }

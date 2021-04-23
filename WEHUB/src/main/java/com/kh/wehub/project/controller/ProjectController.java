@@ -144,6 +144,8 @@ public class ProjectController {
 			forMsg.setDeptName(name[2]);
 			
 			message.add(i,forMsg);
+			
+			System.out.println(member);
 		}
 		Map<String, Object> map = new HashMap<>();
 		map.put("list", message);

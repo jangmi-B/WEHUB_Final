@@ -37,9 +37,17 @@
 					<td>
 						<label for="modify_img">프로필 사진</label>
 					</td>
-					<th style="height: 100px;">			
-					    <img class="UserModifyImg" src="${path}/upload/userProfileImg/${loginMember.user_imgRename}" 
+					<th style="height: 100px;">	
+					<c:choose>
+			      		<c:when test="${ loginMember.user_imgRename == null }">
+			            	<img alt="x" src="${path}/upload/userProfileImg/noUserImg.png" style="width: 100px; height:100px; border-radius: 100px; object-fit: cover;" accept=".gif, .jpg, .png">
+			            </c:when>
+			            <c:otherwise>
+					        <img class="UserModifyImg" src="${path}/upload/userProfileImg/${loginMember.user_imgRename}" 
 					    		style="width: 100px; height:100px; border-radius: 100px; object-fit: cover;" accept=".gif, .jpg, .png">
+			            </c:otherwise>
+			      	</c:choose>		
+					    
 					</th>
 				</tr>
 				<tr>
@@ -47,33 +55,15 @@
 				    <td id="imgTd" >
 					    <input type="file" id="modify_img" type="text" name="user_img" value="" style="">
 					</td>
-			    		<%-- <c:set var="userImgChk" value="${path}/upload/userProfileImg/${loginMember.user_imgRename}">
-							<c:choose>
-								<c:when test="${ empty userImgChk }">
-									<img class="UserModifyImg" src="${path}/images/userImage.png">
-								</c:when>
-								<c:when test="${ !empty userImgChk }">
-									<img class="UserModifyImg" src="userImgChk">
-								</c:when>		
-							</c:choose>
-						</c:set> --%>
 				</tr>
 				<tr>
 				    <td><label for="modify_id">아이디</label></td>
 				    <td><input id="modify_id" type="text" name="user_id" value="${ loginMember.user_id }" readonly></td>
 				</tr>
-				<%-- <tr>
-				    <td><label for="modify_password">비밀번호</label></td>
-				    <td><input class="modify_input" id="modify_password" type="password" name="user_pwd" placeholder="변경할 비밀번호를 입력해 주세요." ></td>
-				    <td><button class="btn" id="modify_btn_pw" type="button" id="pw_modify" onclick="location.href='${path}/member/updatePassword'">비밀번호변경</button></td>
-				</tr> --%>
-				<tr>
-				    <td><label for="modify_company">회사명</label></td>
-				    <td><input id="modify_company" name="user_companyname" type="text" value="${ loginMember.user_companyname }" readonly></td>
-				</tr>
 				<tr>
 				    <td><label for="modify_userNo">사번</label></td>
-				    <td><input id="modify_userNo" name="userNo" type="text" value="${ loginMember.user_no }" readonly></td>
+				    <td><input id="modify_userNo" name="userNo" type="text" value="${ loginMember.newUserNo }" readonly></td>
+				    <td></td>
 				</tr>
 				<tr>
 				    <td><label for="modify_userName">사원명</label></td>
@@ -97,7 +87,6 @@
 				</tr>
 				<tr>
 				    <td>
-				    	<!-- <label for="modify_address">주소</label> -->
 				    	<button class="btn" id="modify_btn_addr" type="button" onclick="sample6_execDaumPostcode();">주소찾기</button>
 				    </td>
 				    <td><input class="modify_input" name="address" id="kakao_postcode" type="text" value="${arr[0]}" readonly="readonly"></td>
@@ -119,7 +108,6 @@
             <button class="btn" id="notModify_btn" type="button" onclick="location.href='${path}/main'">홈으로</button>
             <button class="btn" id="modify_btn" type="submit" onclick="location.href='${path}/member/update'">회원정보수정</button>
           </div> 
-        	<%-- <button class="btn" id="pass_btn" type="button" onclick="location.href='${path}/member/updatePassword'">비밀번호수정</button> --%>
         </form>
       </div>  
     </div>

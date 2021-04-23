@@ -16,7 +16,6 @@
 <style>
     * {font-family: 'InfinitySans-RegularA1'; }
 </style>
-
 <form action="${path}/approval/letterOfApproval" method="POST" name="loaWriteForm" onsubmit="return check_onclick()" enctype="multipart/form-data">
     <div class="cash-form-section" style="height: 100%; width:68%; margin: 0 300px 0 300px;">
         <div class="cash-disbursement" style="text-align: center; margin: 80px 0px 80px 200px; border: 2px solid black;">
@@ -49,8 +48,8 @@
                         <button class="send-open" type="button">수신참조자 +</button>
                     </td>
                     <td colspan="6" style="height: 70px;">
-                    	<textArea readonly name="referList" id="referList" style="border:none;margin-bottom:-12px; font-size:19px; width:600px; height:60px; text-align: center; resize: none;"></textArea>
-                    </td>	
+                       <textArea readonly name="referList" id="referList" style="border:none;margin-bottom:-12px; font-size:19px; width:600px; height:60px; text-align: center; resize: none;"></textArea>
+                    </td>   
                 </tr>
                 <tr>
                     <td style="height: 70px; width: 80px;">성 명</td>
@@ -68,11 +67,11 @@
                     <td colspan="8" style="height: 90px;" >
                         <!-- <label class="inputFileButton" for="inputFile">
                        첨부파일 업로드
-                   		</label>
+                         </label>
                
-                   		<input type="file" id="inputFile" style="display: none;" /> -->
+                         <input type="file" id="inputFile" style="display: none;" /> -->
                    
-                   		<input type="file" id="inputFile" name="appLoaFileUpload"/>
+                         <input type="file" id="inputFile" name="appLoaFileUpload"/>
                     </td>
                 </tr>
                 <tr>
@@ -102,46 +101,46 @@
             </table>
         </div>
         <div id="button">
-        	<input type="hidden" name="appKinds" value="품의서">
-        	<button type="submit"class="goToLeave">등록</button>
-	        <input type="text" style="border: none; width: 40px;" disabled>
-	        <button type="reset" class="resetLeave" onclick="">취소</button>
+           <input type="hidden" name="appKinds" value="품의서">
+           <button type="submit"class="goToLeave">등록</button>
+           <input type="text" style="border: none; width: 40px;" disabled>
+           <button type="reset" class="resetLeave" onclick="">취소</button>
         </div>
     </div>
 </form>
     
     <!-- 필수 입력 스크립트 -->
-	<script>
+   <script>
 
-		function check_onclick() {
-		    var loaWriteForm = document.loaWriteForm;
-		    
-		    if(loaWriteForm.loaContent.value=="" || loaWriteForm.loaTitle.value==""){
-		        alert("상세내용 또는 제목란이 비어있습니다. 확인 후 등록하세요.");
-		        
-		        return false;
-		    } else if(loaWriteForm.proposerText.value=="") {
-		       alert("서명 후 등록을 완료해주세요.");
-		       
-		       return false;
-			} else {
-				return true;
-			}
-		    
-		}
+      function check_onclick() {
+          var loaWriteForm = document.loaWriteForm;
+          
+          if(loaWriteForm.loaContent.value=="" || loaWriteForm.loaTitle.value==""){
+              alert("상세내용 또는 제목란이 비어있습니다. 확인 후 등록하세요.");
+              
+              return false;
+          } else if(loaWriteForm.proposerText.value=="") {
+             alert("서명 후 등록을 완료해주세요.");
+             
+             return false;
+         } else {
+            return true;
+         }
+          
+      }
 
-	</script>
+   </script>
 
     <!-- 서명 클릭 스크립트  -->
     
     <script>
-    	$("#proposer").one("click",function(){
-     		var proposerValue = $("input[name='writerName']").val();
-     	
-     		$("#proposerText").append(proposerValue);
-    	});
+       $("#proposer").one("click",function(){
+           var proposerValue = $("input[name='writerName']").val();
+        
+           $("#proposerText").append(proposerValue);
+       });
     </script>
-	
+   
 <%@ include file="../approval/selectReferList.jsp" %>
 <%@ include file="../approval/appAutocomplete.jsp" %>
 <%@ include file="../common/footer.jsp" %>
