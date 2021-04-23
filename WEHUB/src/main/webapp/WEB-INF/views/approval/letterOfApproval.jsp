@@ -105,7 +105,7 @@
         	<input type="hidden" name="appKinds" value="품의서">
         	<button type="submit"class="goToLeave">등록</button>
 	        <input type="text" style="border: none; width: 40px;" disabled>
-	        <button type="reset" class="resetLeave" onclick="">취소</button>
+	        <button type="button" class="resetLeave" onclick=""><a href="${path}/approval/approvalMain">취소<a></button>
         </div>
     </div>
 </form>

@@ -41,7 +41,7 @@ public class FreeBoardController {
 		
 		
 		if(keyword != null) { 
-			list = service.selectBoardDetail(keyword);
+			list = service.selectBoardDetailKeyword(keyword);
 			
 			if(list.isEmpty()) {
 				model.addObject("msg", "조회된 게시물이 없습니다.");
@@ -247,30 +247,24 @@ public class FreeBoardController {
 	@RequestMapping("/deleteReply")
 	public ModelAndView deleteReply(ModelAndView model,
 			@SessionAttribute(name = "loginMember", required = false) Member loginMember,
-			@RequestParam("replyNo") int replyNo, Member member) {
+			@RequestParam(value="replyNo", required=false) int replyNo, Member member) {
 		
 		Reply reply = service.findReplyByNo(replyNo);
 		
 		System.out.println(reply);
 		
-		member = service2.findMemberByUserIdForFreeBoard(loginMember.getUser_id());
-		
 		int result = 0;
+		
+		result = service.deleteReply(replyNo);
 
-		if (loginMember.getUser_id().equals(member.getUser_id())) {
-			result = service.deleteReply(replyNo);
-
-			if (result > 0) {
-				model.addObject("msg", "정상적으로 댓글이 삭제되었습니다.");
-				model.addObject("location", "/freeBoard/board");
-			} else {
-				model.addObject("msg", "정상적으로 댓글이 삭제되지 않았습니다. 다시 시도해주세요.");
-				model.addObject("location", "/freeBoard/board");
-			}
+		if (result > 0) {
+			model.addObject("msg", "정상적으로 댓글이 삭제되었습니다.");
+			model.addObject("location", "/freeBoard/board");
 		} else {
-			model.addObject("msg", "잘못된 접근입니다.");
+			model.addObject("msg", "정상적으로 댓글이 삭제되지 않았습니다. 다시 시도해주세요.");
 			model.addObject("location", "/freeBoard/board");
 		}
+		
 
 		model.setViewName("common/msg");
 
@@ -279,16 +273,15 @@ public class FreeBoardController {
 	
 	@ResponseBody
 	@RequestMapping(value="/infiniteScrollDown", method=RequestMethod.POST)
-	public List<Board> infiniteScrollDown(@RequestParam("rownumdata") int rownumdata) {
+	public List<Board> infiniteScrollDown(@RequestParam("rownumdata") int rownumdata,
+			@RequestParam(value="keyword", required=false) String keyword) {
 		
 		
 		List<Board> list = null;
 		
-		int bnoToStart = rownumdata + 3;
+		System.out.println("rownumdata : " + rownumdata);
 		
-		System.out.println("bnoToStart : " + bnoToStart);
-		
-		list = service.infiniteScrollDown(bnoToStart);
+		list = service.selectBoardDetail(rownumdata);
 		
 		System.out.println(list);
 		
