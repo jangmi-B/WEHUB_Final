@@ -87,6 +87,12 @@ form input {
     font-weight: 300;
 }
 
+.newMemInput{
+	background:white; 
+	color:#5b18ff; 
+	font-size:13px;
+}
+
 form input:hover {
     background-color: rgba(255, 255, 255, 0.4);
 }

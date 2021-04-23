@@ -33,14 +33,12 @@ public class Member {
 
 	private String dept_code;
 
-	private String dept_name;
+	private String dept_name; //이거 있어야합니당.. 지우지 맙시당...
 	
 	private String user_imgOriname;
 	
 	private String user_imgRename;
 
-	
-	
+	private int newUserNo; // 임시테이블 사번
 
-  
 }

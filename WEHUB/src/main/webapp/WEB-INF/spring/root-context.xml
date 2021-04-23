@@ -10,9 +10,10 @@
 	<context:property-placeholder location="classpath:driver.properties"/>
 	
 	<import resource="mybatis-context.xml"/>
-	
-	<import resource="security-context.xml"/>	
+
+	<import resource="security-context.xml"/>
 	
 	<!-- File Upload import -->
-	<import resource="multipart_context.xml"/>	
+	<import resource="multipart_context.xml"/>		
+
 </beans>

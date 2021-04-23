@@ -4,15 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
-import javax.servlet.http.HttpServletResponse;
+import org.joda.time.DateTime;
 
-import org.apache.ibatis.session.SqlSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,16 +22,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
-
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.wehub.approval.model.service.ApprovalService;
+import com.kh.wehub.approval.model.vo.Approval;
+import com.kh.wehub.board.model.service.BoardService;
+import com.kh.wehub.board.model.vo.Notice;
+import com.kh.wehub.community.model.service.CommunityService;
+import com.kh.wehub.community.model.vo.Community;
 import com.kh.wehub.member.model.service.MemberService;
 import com.kh.wehub.member.model.service.UserMailSendService;
 import com.kh.wehub.member.model.vo.Member;
-
-
+import com.kh.wehub.memberInfo.model.vo.InsertNewMember;
+import com.kh.wehub.memo.model.service.MemoService;
+import com.kh.wehub.memo.model.vo.Memo;
+import com.kh.wehub.message.model.service.MessageService;
+import com.kh.wehub.message.model.vo.Message;
+import com.kh.wehub.project.model.service.ProjectService;
+import com.kh.wehub.project.model.vo.Project;
+import com.kh.wehub.schedule.model.service.ScheduleService;
+import com.kh.wehub.schedule.model.vo.DateData;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,12 +56,33 @@ public class MemberController {
 	@Autowired
 	private MemberService service;
 
-	@RequestMapping(value="/loginn", method={RequestMethod.POST})
-	public ModelAndView login(@SessionAttribute(name="loginMember", required=false)Member loginMember , 
-												ModelAndView model, 
-												@RequestParam(name="userId") String userId, 
-												@RequestParam(name="userPwd") String userPwd) {
+	@Autowired
+	private MemoService memoService;
 	
+	@Autowired
+	private MessageService messageService;
+	
+	@Autowired
+	private ProjectService projectService;
+	
+	@Autowired
+	private ScheduleService ScheduleService;
+	
+	@Autowired
+	private CommunityService communityService;
+	
+	@Autowired
+	private BoardService boardService;
+	
+	@Autowired
+	private ApprovalService appSerivce;
+	
+	@RequestMapping(value="/login", method={RequestMethod.POST})
+	public ModelAndView login(ModelAndView model, @RequestParam("userId") String userId, 
+												  @RequestParam("userPwd") String userPwd) {
+		
+		Member loginMember = null;
+		
 		loginMember = service.login(userId, userPwd);
 		log.info("loginmember in mcontroller :"+ loginMember);
 		if(loginMember != null) {
@@ -67,14 +99,80 @@ public class MemberController {
 	}
 
 	//메인 화면 띄우기
-	@RequestMapping(value="main")
+	@RequestMapping(value="/main")
 	public ModelAndView mainPage(ModelAndView model,
 			@SessionAttribute("loginMember")Member loginMember) {
 		
-		model.addObject("loginMember", loginMember);
-		model.setViewName("/main");
+				// project리스트 가져오기
+				List<Project> projectList = null;
+				
+				projectList = projectService.homeProjectList(loginMember.getUser_no());
+				
+				for(int i = 0; i < projectList.size(); i++) {
+					String[] arr = projectList.get(i).getParticipant().split("/ ");
+					
+					projectList.get(i).setProjectCount(arr.length);
+				}
+
+				
+				//쪽지 리스트 가져오기
+				List<Message> receiveList = null;
+				
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("msgTo", loginMember.getUser_no());
+				
+				receiveList = messageService.getHomeReceiveList(loginMember.getUser_no());
+				
+				
+				//쪽지 아이콘 색 변하게 하는 코드
+				int unreadCheck = 0;
+				unreadCheck = messageService.getUnreadCheck(loginMember.getUser_no());
+				
+				// memo리스트 가져오기
+				String[] array = null;
+				String content = null;
+				List<String> memoContent = new ArrayList<>();
+				List<Memo> memoList = memoService.getMemoList(loginMember.getUser_no());
+				
+				if(!memoList.isEmpty()) {
+					content = memoList.get(0).getMemoContent();
+					
+					array = content.split("_");
+					
+					for(int i=0; i<array.length; i++) {
+						memoContent.add(array[i]);
+					}
+				} 
+				//오늘 일정 Section
+				DateTime dt = new DateTime();
+				String today = dt.toString("yyyy M d");
+				String[] arr = today.split(" ");
+				
+				List<DateData> todaySchedule = ScheduleService.todaySchedule(loginMember, arr);
+				
+				//커뮤니티 Section
+				List<Community> communityList = communityService.selectMainList();
+				
+				//공지사항 Section
+				List<Notice> NoticeList = boardService.selectList(); 
+				
+				// 메인 전자결재 수신참조 리스트 뽑기
+				List<Approval> mainAppList = null;
+				mainAppList = appSerivce.getRecentList2(loginMember);
+				
+				model.addObject("mainAppList", mainAppList);
+				model.addObject("todaySchedule",todaySchedule);
+				model.addObject("communityList", communityList);
+				model.addObject("NoticeList", NoticeList);
+				model.addObject("projectList",projectList);
+				model.addObject("receiveList",receiveList);
+				model.addObject("unreadCheck",unreadCheck);
+				model.addObject("memoContent",memoContent);
+				model.addObject("loginMember",loginMember);
+				model.setViewName("/main");
+				
+				return model;
 		
-		return model;
 	}
 	
 	@RequestMapping("/logout")
@@ -103,7 +201,7 @@ public class MemberController {
 		
 		return "member/findID";
 	}
-
+	
 	@RequestMapping(value="member/findID", method={RequestMethod.POST})
 	public ModelAndView findID(ModelAndView model,@ModelAttribute Member member) {
 		
@@ -124,22 +222,6 @@ public class MemberController {
 		return model;
 	}
 	
-//	@RequestMapping(value="member/findPwd",method={RequestMethod.POST})
-//	public ModelAndView findPWD(ModelAndView model,@ModelAttribute Member member) {
-//		
-//		String findPWD =service.findPWD(member);
-//		if(findPWD!=null) {
-//		//model.addObject("userPwd" , findPWD);
-//		log.info("찾은 pwd");
-//		model.addObject("msg","찾은 pwd는"+ findPWD);
-//		}else {
-//			model.addObject("msg", "찾은 비밀번호는 존재하지 않습니다");
-//		}
-//		model.setViewName("common/msg");
-//		//model.setViewName("redirect:/");
-//	return model;
-//	}
-	
 	/* 비밀번호 찾기 */
 	@RequestMapping(value="member/findPwd")
 	public String findPWD() {
@@ -150,37 +232,20 @@ public class MemberController {
 
     @Autowired
     private UserMailSendService mailsender;
-
-//    .@responseBody는 리턴 값을 http 몸체로 변환하는데 사용하는데 , Ajax 처리할 시 
-//    @responseBody 어노테이션을 붙여줬음.
-
-//
-//	 @RequestMapping(value = "member/findPwd", method = RequestMethod.POST)
-//	  
-//	  @ResponseBody public String
-//	  findPwd(@RequestParam(value="user_id",required=false)String user_id,
-//			  @RequestParam(value="email" ,required = false)String email,
-//			  									HttpServletRequest request )
-//	 
-//	 { 	log.info("wanna go findPwd");
-//	 	log.info("in controller email, user_id : "+email+" "+user_id);
-//	 	mailsender.mailSendWithPassword(user_id, email, request);
-//	
-//	  	return "member/findPwd"; }
     
 	 @RequestMapping(value = "member/findPwd", method = RequestMethod.POST)
-	 
-	 @ResponseBody public String
-	 findPwd(@RequestParam(value="user_id",required=false)String user_id,
+	 @ResponseBody public String findPwd(@RequestParam(value="user_id",required=false)String user_id,
 			 @RequestParam(value="email" ,required = false)String email,
 			 HttpServletRequest request )
 	 
 	 { 	
 		 log.info("wanna go findPwd");
 		 log.info("in controller email, user_id : "+email+" "+user_id);
-	 mailsender.mailSendWithPassword(user_id, email, request);
-	 
-	 return "member/findPwd"; }
+	    mailsender.mailSendWithPassword(user_id, email, request);
+	     String alert="메일을 확인해주시요. 메일이 안왔다면 이메일을 확인하시고 다시 시도하세요";
+		 // String alert="check for email plz";
+		 
+	 return alert; }
 	 
     
     // 회원가입
@@ -202,7 +267,7 @@ public class MemberController {
 	public void enrollViewUpfile() {
 		log.info("회원가입 작성 페이지 요청");
 		
-//		return "member/signUpForm";
+		//return "member/signUpForm";
 	}
 	
 	@RequestMapping(value = "/member/signUpForm", method = {RequestMethod.POST})
@@ -324,6 +389,14 @@ public class MemberController {
 		return model;
 	}
 	
+	/* 회원탈퇴 단독 페이지 */
+	@RequestMapping(value="member/DeactivateAccount", method = {RequestMethod.GET})
+	public String DeactivateAccount_1() {
+		log.info("회원 탈퇴 약관동의 new 페이지 요청");
+		
+		return "member/DeactivateAccount";
+	}
+	
 	// 회원 삭제
 	@RequestMapping("/member/delete")
 	public ModelAndView delete(ModelAndView model,
@@ -389,11 +462,11 @@ public class MemberController {
 			if(result > 0) {
 				System.out.println(loginMember.getUser_id().equals(member.getUser_id()) + ",  result : " + result);
 				model.addObject("loginMember", service.findMemberByUserId(loginMember.getUser_id()));
-				model.addObject("msg", "회원정보 수정을 완료했습니다.");
-				model.addObject("location", "/member/updatePassword");				
+				model.addObject("msg", "비밀번호 수정을 완료했습니다.");
+				model.addObject("location", "/main");				
 			} else {
-				model.addObject("msg", "회원정보 수정에 실패 했습니다.");
-				model.addObject("location", "/member/updatePassword");
+				model.addObject("msg", "비밀번호 수정에 실패 했습니다.");
+				model.addObject("location", "/member/newUpdatePassword");
 			}
 		} else {
 			model.addObject("msg", "잘못된 접근입니다.");
@@ -401,8 +474,27 @@ public class MemberController {
 		}
 		
 		model.setViewName("common/msg");
-		
 		return model;
+	}
+	
+	// 회원가입할 때 사번으로 임시회원을 조회해오는 코드입니다
+	@RequestMapping("member/findNewMem")
+	@ResponseBody
+	public Object findNewMem(@RequestParam("value")String userNo) {
+		
+		InsertNewMember member = service.getNewMember(userNo);
+		Member memberfind = service.checkNewMem(userNo);
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		if(member != null && memberfind == null) {
+			map.put("member", member);
+		} else if(member == null && memberfind == null) {
+			map.put("member", 0);
+		}  else if(member != null && memberfind != null) {
+			map.put("member", 1);
+		}
+		return map;
 	}
 	
 	private String saveFile(MultipartFile file, HttpServletRequest request) {
@@ -450,4 +542,5 @@ public class MemberController {
 			file.delete();
 		}	
 	}
+
 }

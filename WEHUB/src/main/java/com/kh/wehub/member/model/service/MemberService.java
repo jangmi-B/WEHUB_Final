@@ -1,24 +1,9 @@
-//package com.kh.wehub.member.model.service;
-//
-//import com.kh.wehub.member.model.vo.Member;
-//
-//public interface MemberService {
-//
-//	Member login(String userId, String userPwd);
-//
-//	boolean validate(String userId);
-//
-//	Member findMemberByUserId(String userId);
-//
-//	int saveMember(Member member);
-//
-//}
-
 package com.kh.wehub.member.model.service;
 
 import java.util.List;
 
 import com.kh.wehub.member.model.vo.Member;
+import com.kh.wehub.memberInfo.model.vo.InsertNewMember;
 
 public interface MemberService {
 
@@ -38,6 +23,9 @@ public interface MemberService {
 	
 	boolean validate(String userId);
 	
+	InsertNewMember getNewMember(String userNo); //임시회원 찾아오기
+
+	Member checkNewMem(String userNo);
 	Member findMemberByUserIdForFreeBoard(String userId);
 
 	List<Member> selectMemberAllForApproval(String userId);

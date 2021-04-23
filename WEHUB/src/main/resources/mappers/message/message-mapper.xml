@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kh.wehub.message.model.dao.MessageDao">
+	
+	<sql id="receiveMessageSql">
+		SELECT R.MSG_NO,
+		       R.MSG_TO,
+		       R.MSG_FROM,
+		       R.MSG_CONTENT,
+		       R.CREATE_DATE, 
+		       R.DELETE_DATE,
+		       R.READ_DATE,
+		       R.READ_STATUS,
+		       R.STATUS,
+		       M.USER_NAME,
+		       M.RANK,
+		       D.DEPT_NAME
+		FROM MESSAGE R
+		JOIN MEMBER M ON(R.MSG_FROM = M.USER_NO)
+		JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
+	</sql>
+	
+	<sql id="sendMessageSql">
+		SELECT S.MSG_NO,
+		       S.MSG_TO,
+		       S.MSG_FROM,
+		       S.MSG_CONTENT,
+		       S.CREATE_DATE, 
+		       S.DELETE_DATE,
+		       S.READ_DATE,
+		       S.READ_STATUS,
+		       S.STATUS,
+		       M.USER_NAME,
+		       M.RANK,
+		       D.DEPT_NAME
+		FROM MESSAGE S
+		JOIN MEMBER M ON(S.MSG_TO = M.USER_NO)
+		JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
+	</sql>
+	
+	<resultMap type="Member" id="memberResultMap">
+		<id property="user_no" column="USER_NO"/>
+		<result property="user_companyname" column="USER_COMPANYNAME"/>
+		<result property="user_id" column="USER_ID"/>
+		<result property="user_pwd" column="USER_PWD"/>
+		<result property="user_name" column="USER_NAME"/>
+		<result property="rank" column="RANK"/>
+		<result property="email" column="EMAIL"/>
+		<result property="comcall" column="COMCALL"/>
+		<result property="phone" column="PHONE"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="user_status" column="USER_STATUS"/>
+		<result property="dept_code" column="DEPT_CODE"/>
+	</resultMap>
+	
+	<resultMap type="Message" id="messageResultMap">
+		<id property="msgNo" column="MSG_NO"/>
+		<result property="msgTo" column="MSG_TO"/>
+		<result property="msgFrom" column="MSG_FROM"/>
+		<result property="msgContent" column="MSG_CONTENT"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="deleteDate" column="DELETE_DATE"/>
+		<result property="readDate" column="READ_DATE"/>
+		<result property="readStatus" column="READ_STATUS"/>
+		<result property="status" column="STATUS"/>
+		<result property="sendStatus" column="SEND_STATUS"/>
+		<result property="userName" column="USER_NAME"/>
+		<result property="rank" column="RANK"/>
+		<result property="deptName" column="DEPT_NAME"/>
+	</resultMap>
+
+	<select id="getMessageCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM MESSAGE R
+		JOIN MEMBER M ON(R.MSG_FROM = M.USER_NO)
+		WHERE STATUS ='Y' 
+		AND MSG_TO = #{msgTo}
+		<if test="msgSearchList == 'all'">
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'name'">
+			AND (M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'content'">
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%')
+		</if>
+	</select>
+
+	<select id="selectMessageList" parameterType="map" resultMap="messageResultMap">
+		
+		<include refid="receiveMessageSql"></include>
+		
+		WHERE R.STATUS='Y' AND MSG_TO = #{msgTo}
+       	<if test="msgSearchList == 'all'">
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'name'">
+			AND (M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'content'">
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		ORDER BY R.MSG_NO DESC
+	</select>
+	
+	<update id="deleteMessage" parameterType="_int">
+		UPDATE MESSAGE 
+		SET 
+		    STATUS='N',
+		    DELETE_DATE=SYSDATE
+		WHERE 
+		    MSG_NO= #{msgNo}
+	</update>
+	
+	<select id="getUnreadCheck" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM MESSAGE
+		WHERE STATUS='Y' AND READ_STATUS='N' AND MSG_TO=#{msgNo}
+	</select>
+	
+	<!-- 안읽은쪽지 구현 -->
+	<update id="readCheckMsg" parameterType="_int">
+		UPDATE MESSAGE 
+		SET 
+		    READ_STATUS='Y',
+		    READ_DATE=SYSDATE
+		WHERE 
+		    MSG_NO= #{msgNo}
+	</update>
+	
+	<!-- 체크된 메세지 삭제 (받은쪽지)-->
+	<update id="deleteCheckMsg" parameterType="java.util.List">
+			UPDATE MESSAGE 
+			SET 
+			    STATUS='N',
+			    DELETE_DATE=SYSDATE
+			WHERE MSG_NO IN
+		<foreach item="item" index="index" collection="list" separator="," open="(" close=")">
+			    #{item}
+		</foreach>
+	</update>
+	
+	<!-- 체크메세지 안읽음 표시 -->
+	<update id="readCheckSelected" parameterType="java.util.List">
+			UPDATE MESSAGE 
+			SET 
+			    READ_STATUS='N'
+			WHERE MSG_NO IN
+		<foreach item="item" index="index" collection="list" separator="," open="(" close=")">
+			    #{item}
+		</foreach>
+	</update>
+	
+	<!-- 체크한 받은편지 보관함 -->
+	<update id="saveSelected" parameterType="java.util.List">
+			UPDATE MESSAGE 
+			SET 
+			    STATUS='S'
+			WHERE MSG_NO IN
+		<foreach item="item" index="index" collection="list" separator="," open="(" close=")">
+			    #{item}
+		</foreach>
+	</update>
+	
+	<select id="getReceiver" parameterType="map"  resultMap="memberResultMap">
+		SELECT M.USER_NO,
+		        M.USER_ID,
+		        M.USER_PWD,
+		        M.USER_NAME,
+		        M.RANK,
+		        D.DEPT_NAME
+		FROM MEMBER M
+		JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
+		WHERE USER_STATUS ='Y' AND (USER_NAME = '${user_name}' AND DEPT_NAME= '${dept_name}')
+	</select>
+	
+	<insert id="sendMsg" parameterType="map"
+  		useGeneratedKeys="true" keyProperty="msgNo" keyColumn="MSG_NO">
+  		
+		INSERT INTO MESSAGE 
+  		VALUES(
+  			SEQ_MSG_NO.NEXTVAL,
+  			#{msgTo},
+  			#{msgFrom},
+  			#{msgContent},
+  			SYSDATE,
+  			SYSDATE,
+  			SYSDATE,
+  			DEFAULT,
+  			DEFAULT,
+  			DEFAULT
+ 		)
+	</insert>
+	
+	<select id="getSendMessageCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM MESSAGE S
+		JOIN MEMBER M ON(S.MSG_TO = M.USER_NO)
+		WHERE SEND_STATUS ='Y' 
+		AND MSG_FROM = #{msgFrom}
+		<if test="msgSearchList == 'all'">
+			AND (S.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'name'">
+			AND (M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'content'">
+			AND (S.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%')
+		</if>
+	</select>
+	
+	<select id="selectSendMsgList" parameterType="map" resultMap="messageResultMap">
+	
+		<include refid="sendMessageSql"></include>
+		
+		WHERE S.SEND_STATUS='Y' AND MSG_FROM = #{msgFrom}
+       		<if test="msgSearchList == 'all'">
+			AND (S.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'name'">
+			AND (M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'content'">
+			AND (S.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		ORDER BY S.MSG_NO DESC
+	</select>
+	
+	<!-- 체크된 메세지 삭제 (보낸쪽지)-->
+	<update id="deleteCheckSendMsg" parameterType="java.util.List">
+			UPDATE MESSAGE 
+			SET 
+			    SEND_STATUS='X',
+			    DELETE_DATE=SYSDATE
+			WHERE MSG_NO IN
+		<foreach item="item" index="index" collection="list" separator="," open="(" close=")">
+			    #{item}
+		</foreach>
+	</update>
+	
+	<update id="deleteSendMessage" parameterType="_int">
+		UPDATE MESSAGE 
+		SET 
+		    SEND_STATUS='X',
+		    DELETE_DATE=SYSDATE
+		WHERE 
+		    MSG_NO= #{msgNo}
+	</update>
+	
+	<!-- 체크한 보낸편지 보관함 -->
+	<update id="saveSendSelected" parameterType="java.util.List">
+			UPDATE MESSAGE 
+			SET 
+			    SEND_STATUS='S'
+			WHERE MSG_NO IN
+		<foreach item="item" index="index" collection="list" separator="," open="(" close=")">
+			    #{item}
+		</foreach>
+	</update>
+	
+	<!-- 휴지통쿼리 -->
+	<select id="getDeletedMessageCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM MESSAGE R
+		JOIN MEMBER M ON(R.MSG_FROM = M.USER_NO)
+		WHERE STATUS ='N' 
+		AND MSG_TO = #{msgTo}
+		<if test="msgSearchList == 'all'">
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'name'">
+			AND (M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'content'">
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%')
+		</if>
+	</select>
+	
+	<select id="selectDeletedMsgList" parameterType="map" resultMap="messageResultMap">
+	
+		<include refid="receiveMessageSql"></include>
+		
+		WHERE R.STATUS='N' AND MSG_TO = #{msgTo}
+       	<if test="msgSearchList == 'all'">
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'name'">
+			AND (M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'content'">
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		ORDER BY R.MSG_NO DESC
+	</select>
+	
+	<!-- 체크된 메세지 삭제 (휴지통쪽지)-->
+	<update id="deleteCheckDeletedMsg" parameterType="java.util.List">
+			UPDATE MESSAGE 
+			SET 
+			    STATUS='X',
+		    	DELETE_DATE=SYSDATE
+			WHERE MSG_NO IN
+		<foreach item="item" index="index" collection="list" separator="," open="(" close=")">
+			    #{item}
+		</foreach>
+	</update>
+	
+	<update id="deletedMsgDelete" parameterType="_int">
+		UPDATE MESSAGE 
+		SET 
+		    STATUS='X',
+		    DELETE_DATE=SYSDATE
+		WHERE 
+		    MSG_NO= #{MSG_NO}
+	</update>
+	
+	<!-- 받은쪽지 리스트 카운트 -->
+	<select id="getSaveRecCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM MESSAGE R
+		JOIN MEMBER M ON(R.MSG_FROM = M.USER_NO)
+		WHERE STATUS ='S' 
+		AND MSG_TO = #{msgTo}
+		<if test="msgSearchList == 'all'">
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'name'">
+			AND (M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'content'">
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%')
+		</if>
+	</select>
+	
+	<!-- 받은쪽지 보관함 -->
+	<select id="selectRecSaveList" parameterType="map" resultMap="messageResultMap">
+	
+		<include refid="receiveMessageSql"></include>
+		
+		WHERE R.STATUS='S' AND MSG_TO = #{msgTo}
+       	<if test="msgSearchList == 'all'">
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'name'">
+			AND (M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'content'">
+			AND (R.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		ORDER BY R.MSG_NO DESC
+	</select>
+	
+	<update id="deleteCheckSavedMsg" parameterType="java.util.List">
+			UPDATE MESSAGE 
+			SET 
+			    STATUS='X',
+		    	DELETE_DATE=SYSDATE
+			WHERE MSG_NO IN
+		<foreach item="item" index="index" collection="list" separator="," open="(" close=")">
+			    #{item}
+		</foreach>
+	</update>
+	
+	<select id="getSearchMember" parameterType="string" resultMap="memberResultMap">
+		SELECT M.USER_NAME, D.DEPT_NAME, M.rank
+		FROM MEMBER M
+		LEFT OUTER JOIN DEPARTMENT D ON (M.DEPT_CODE = D.DEPT_CODE)
+		WHERE USER_NAME LIKE '%'|| #{user_name} ||'%'
+	</select>
+	
+	<!-- 보낸편지 보관함 -->
+	<select id="saveSendMsgCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM MESSAGE S
+		JOIN MEMBER M ON(S.MSG_TO = M.USER_NO)
+		WHERE SEND_STATUS ='S' 
+		AND MSG_FROM = #{msgFrom}
+		<if test="msgSearchList == 'all'">
+			AND (S.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'name'">
+			AND (M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'content'">
+			AND (S.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%')
+		</if>
+	</select>
+	
+	<select id="saveSendMsgList" parameterType="map" resultMap="messageResultMap">
+	
+		<include refid="sendMessageSql"></include>
+		
+		WHERE S.SEND_STATUS='S' AND MSG_FROM = #{msgFrom}
+       		<if test="msgSearchList == 'all'">
+			AND (S.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'name'">
+			AND (M.USER_NAME LIKE '%'||#{msgSearchText}||'%'
+			OR M.RANK LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		<if test="msgSearchList == 'content'">
+			AND (S.MSG_CONTENT LIKE '%'||#{msgSearchText}||'%')
+		</if>
+		ORDER BY S.MSG_NO DESC
+	</select>
+	
+	<select id="getHomeReceiveList" parameterType="_int" resultMap="messageResultMap">
+		SELECT ROWNUM, A.*
+			FROM (SELECT R.MSG_NO,
+			       R.MSG_TO,
+			       R.MSG_FROM,
+			       R.MSG_CONTENT,
+			       R.CREATE_DATE, 
+			       R.DELETE_DATE,
+			       R.READ_DATE,
+			       R.READ_STATUS,
+			       R.STATUS,
+			       M.USER_NAME,
+			       M.RANK,
+			       D.DEPT_NAME
+			FROM MESSAGE R
+			JOIN MEMBER M ON(R.MSG_FROM = M.USER_NO)
+			JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
+			WHERE R.STATUS='Y' AND MSG_TO = #{msgTo}
+			ORDER BY CREATE_DATE DESC) A
+		<![CDATA[WHERE ROWNUM < 6]]>
+	</select>
+	
+</mapper>

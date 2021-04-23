@@ -31,12 +31,11 @@ public class HomeController {
 		
 		String formattedDate = dateFormat.format(date);
 		
-		model.addAttribute("serverTime", formattedDate );
-		
 
-		System.out.println("홈 콘트롤러 보내는척");
+		model.addAttribute("serverTime", formattedDate );
 
 		return "/member/login";
 	}
 	
 }
+

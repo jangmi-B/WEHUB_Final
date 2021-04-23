@@ -14,14 +14,17 @@
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="/js/**" location="/resources/js/" />
 	<resources mapping="/css/**" location="/resources/css/" />
+	<resources mapping="/fullcalendar-5.6.0/**" location="/resources/fullcalendar-5.6.0/" />
 	<resources mapping="/images/**" location="/resources/images/" />
 	<resources mapping="/upload/userProfileImg/**" location="/resources/upload/userProfileImg/" />
+	<resources mapping="/ckeditor/**" location="/resources/ckeditor/" />
+	<resources mapping="/upload/**" location="/resources/upload/**" />
 
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
-	
+
 	<!-- 회원가입 메일 인증(메일 보내기) -->
 	<beans:bean id="mailSender"	class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<beans:property name="host" value="smtp.gmail.com" />
@@ -45,16 +48,14 @@
 	<context:component-scan base-package="com.kh.wehub" />
 
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
-
 	 <interceptors>
 	 	<interceptor>
 	 	  <mapping path="/main"/>
 	 	  <mapping path="/member/memModify"/>
-	 
-	 	<mapping path="/board/**"/>
+	 	  <mapping path="/board/**"/>
 	 	
-	 		<exclude-mapping path="/member/findIDorPwd"/>
-	 		<exclude-mapping path="/member/signUpForm"/>
+ 		  <exclude-mapping path="/member/findIDorPwd"/>
+ 		  <exclude-mapping path="/member/signUpForm"/>
 	 		
 	 	<beans:bean id="loginCheckInterceptor" class="com.kh.wehub.common.interceptor.LoginCheckInterceptor"/>
 	 	</interceptor>

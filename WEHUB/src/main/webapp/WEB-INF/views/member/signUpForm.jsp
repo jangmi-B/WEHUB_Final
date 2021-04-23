@@ -14,6 +14,9 @@
     <script src="${path}/js/jquery-3.5.1.js"></script>
     <link rel="stylesheet" href="${path}/css/SignUpForm.css">
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 </head>
 <body>
     <div class="wrapper">
@@ -37,16 +40,18 @@
                 <input type="tel" name="comcall" placeholder="ExtensionNumber">
                 <input type="tel"name="phone"  placeholder="Phone">
                 -->
+                <input type="button" onclick="findNewMem();" class="openBtn" value="사번입력 click!" style="background:#B7A4EE; border-radius:20px; font-size: 13px;"/>
+
                 <input type="file" name="user_img" id="user_imgOri" style="padding: 6px 35px; font-size: 13px;" accept=".gif, .jpg, .png">
                 
+                <input type="hidden" id="newUserNo" name="newUserNo">
                 <!-- <input type="text" name="user_companyname"  placeholder="킆릭하여 프로필 이미지 선택하기" style="font-size: 13px;" readonly="readonly"> -->
-                <input type="text" name="user_companyname"  placeholder="회사명  CompanyName" style="font-size: 13px;" required>
                 <!-- <input type="button" name="user_companyname_btn"  value="회사 확인" onclick="" style="font-size: 13px;"> -->
-                <input type="text" name="rank" placeholder="직급  Rank" style="font-size: 13px;">
-                <input type="email" name="email" placeholder="이메일  E-Mail" style="font-size: 13px;">
+                <input type="text" id="user_name"  name="user_name" placeholder="이름  UserName" style="font-size: 13px;" readonly>
+                <input type="text" id="rank" name="rank" placeholder="직급  Rank" style="font-size: 13px;" readonly>
                 <!-- <input type="text" name="employeeNum" placeholder="사번  employee Number" style="font-size: 13px;"> -->
-                <input type="text" name="user_name" placeholder="이름  UserName" style="font-size: 13px;" required>
-                <input type="text" name="dept_code" placeholder="부서이름  DepartmentName" style="font-size: 13px;">
+                <input type="text" id="dept_code"  name="dept_code" placeholder="부서이름  DepartmentName" style="font-size: 13px;" readonly>
+                <input type="email" name="email" placeholder="이메일  E-Mail" style="font-size: 13px;">
                 <br><br>
                 <input type="text" name="user_id" placeholder="아이디  UserId" style="font-size: 13px;" id="user_id" required>
                 <input type="button" name="user_id_btn" value="아이디 중복 확인" style="font-size: 13px;" id="id_Check_Btn">
@@ -68,16 +73,75 @@
                     -->
                     <a href="${path}/" id="fpas" style="font-size: 12px;">벌써 회원이신가요?</a>
                 </p>
+                
             </form>
-            <!--  
-            <form class="form1">    
-            </form>
-            -->
-        </div>
-    </div>
+      </div>
+  </div>
 </body>
 
 <script>
+	/* 사번으로 검색하는 모달 */
+	function findNewMem(){
+		const { value: userNo } = Swal.fire({
+			  title: '사번을 입력해 주세요',
+			  input: 'text',
+			  inputLabel: '사번을 입력해 주세요 :)',
+			  showCancelButton: true,
+			  inputValidator: (value) => {
+				  console.log(value);
+				  
+				  $.ajax({
+						type: "post",
+						url: "${path}/member/findNewMem",
+						dataType: "json",
+						data: {
+							value: value
+						},
+						success: function(data) {
+							if(data.member != 0 && data.member != 1){
+								$("#user_name").attr('class','newMemInput');
+								$("#rank").attr('class','newMemInput');
+								$("#dept_code").attr('class','newMemInput');
+								
+								document.getElementById('newUserNo').value = data.member.new_no;
+								document.getElementById('user_name').value = data.member.new_name;
+								document.getElementById('rank').value = data.member.new_rank;
+								document.getElementById('dept_code').value = data.member.new_dept;
+								
+							} else if(data.member == 0){
+								document.getElementById('newUserNo').value = "";
+								document.getElementById('user_name').value = "";
+								document.getElementById('rank').value = "";
+								document.getElementById('dept_code').value = "";
+								
+								Swal.fire({
+									  icon: 'error',
+									  text: "유효하지 않은 사번입니다.!",
+									})
+							} else if(data.member == 1){
+								document.getElementById('newUserNo').value = "";
+								document.getElementById('user_name').value = "";
+								document.getElementById('rank').value = "";
+								document.getElementById('dept_code').value = "";
+								
+								Swal.fire({
+									  icon: 'error',
+									  text: "이미 가입된 사번입니다.!",
+									})
+							}
+						},
+						error: function(e) {
+							 
+						}				
+					});
+				  
+			    if (!value) {
+			      return 'You need to write something!'
+			    }
+			  }
+			});
+	}
+	
 	function dataCheck() {
 		var pass1 = document.getElementById('pass1').value;
 		var pass2 = document.getElementById('pass2').value;
@@ -209,8 +273,6 @@
 	          }
 	    }
 	});
-
-	
 </script>
 
 </html>

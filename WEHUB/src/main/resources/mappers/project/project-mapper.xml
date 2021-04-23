@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kh.wehub.project.model.dao.ProjectDao">
+	
+	<resultMap type="Member" id="memberResultMap">
+		<id property="user_no" column="USER_NO"/>
+		<result property="user_companyname" column="USER_COMPANYNAME"/>
+		<result property="user_id" column="USER_ID"/>
+		<result property="user_pwd" column="USER_PWD"/>
+		<result property="user_name" column="USER_NAME"/>
+		<result property="rank" column="RANK"/>
+		<result property="email" column="EMAIL"/>
+		<result property="comcall" column="COMCALL"/>
+		<result property="phone" column="PHONE"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="user_status" column="USER_STATUS"/>
+		<result property="dept_code" column="DEPT_CODE"/>
+	</resultMap>
+	
+	<resultMap type="Project" id="projectResultMap">
+		<id property="projectNo" column="PROJECT_NO"/>
+		<result property="projectMake" column="PROJECT_MAKE"/>
+		<result property="participant" column="PARTICIPANT"/>
+		<result property="projectTitle" column="PROJECT_TITLE"/>
+		<result property="projectContent" column="PROJECT_CONTENT"/>
+		<result property="startDate" column="START_DATE"/>
+		<result property="dueDate" column="DUE_DATE"/>
+		<result property="status" column="STATUS"/>
+		<result property="userName" column="USER_NAME"/>
+		<result property="projectCount" column="PCOUNT"/>
+		<result property="bookmark" column="BOOKMARK"/>
+	</resultMap>
+	
+	<resultMap type="Bookmark" id="BookmarkResultMap">
+		<id property="bookmarkNo" column="BOOKMARK_NO"/>
+		<result property="userNo" column="USER_ID"/>
+		<result property="projectNo" column="PROJECT_NO"/>
+	</resultMap>
+	
+	<select id="getProjectCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM PROJECT P
+		JOIN MEMBER M ON(P.PROJECT_MAKE = M.USER_NO)
+		WHERE STATUS ='Y'
+		<if test="searchText != 'null'">
+			AND (P.PROJECT_CONTENT LIKE '%'||#{searchText}||'%'
+			OR P.PROJECT_TITLE LIKE '%'||#{searchText}||'%'
+			OR P.PARTICIPANT LIKE '%'||#{searchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{searchText}||'%')
+		</if>
+	</select>
+	
+	<select id="getProjectList" parameterType="map" resultMap="projectResultMap">
+		SELECT P.PROJECT_NO,
+		       P.PROJECT_MAKE,
+		       P.PARTICIPANT,
+		       P.PROJECT_TITLE,
+		       P.PROJECT_CONTENT, 
+		       P.START_DATE,
+		       P.DUE_DATE,
+		       P.STATUS,
+		       M.USER_NAME,
+		       M.RANK,
+		       D.DEPT_NAME,
+		       (SELECT COUNT(*) FROM PROJECT) AS PCOUNT,
+               NVL2(B.USER_ID, 'Y','N') AS BOOKMARK
+		FROM PROJECT P
+		LEFT OUTER JOIN (SELECT USER_ID, PROJECT_NO FROM BOOKMARK WHERE USER_ID=#{userNo}) B
+		ON (P.PROJECT_NO = B.PROJECT_NO)
+		JOIN MEMBER M ON(P.PROJECT_MAKE = M.USER_NO)
+		JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
+		WHERE P.STATUS ='Y'
+		<if test="searchText != 'null'">
+			AND (P.PROJECT_CONTENT LIKE '%'||#{searchText}||'%'
+			OR P.PROJECT_TITLE LIKE '%'||#{searchText}||'%'
+			OR P.PARTICIPANT LIKE '%'||#{searchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{searchText}||'%')
+		</if>
+		ORDER BY P.PROJECT_NO DESC
+	</select>
+	
+	<select id="getSearchMember" parameterType="string" resultMap="memberResultMap">
+		SELECT M.USER_NAME, D.DEPT_NAME, M.RANK
+		FROM MEMBER M
+		LEFT OUTER JOIN DEPARTMENT D ON (M.DEPT_CODE = D.DEPT_CODE)
+		WHERE USER_NAME LIKE '%'|| #{user_name} ||'%'
+	</select>
+	
+	<insert id="makeProject" parameterType="map"
+  		useGeneratedKeys="true" keyProperty="projectNo" keyColumn="PROJECT_NO">
+		INSERT INTO PROJECT 
+  		VALUES(
+  			SEQ_PROJECT_NO.NEXTVAL,
+  			#{projectMake},
+  			#{participant},
+  			#{projectTitle},
+  			#{projectContent},
+  			#{startDate},
+  			#{dueDate},
+  			DEFAULT
+ 		)
+	</insert>
+	
+	<select id="findReceiver" parameterType="string"  resultMap="memberResultMap">
+		SELECT M.USER_NO,
+		        M.USER_ID,
+		        M.USER_PWD,
+		        M.USER_NAME,
+		        M.RANK,
+		        D.DEPT_NAME
+		FROM MEMBER M
+		JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
+		WHERE USER_STATUS ='Y' AND (USER_NAME = '${name}' AND DEPT_NAME= '${deptName}' AND RANK= '${rank}')
+	</select>
+	
+	<insert id="sendProjectMsg" parameterType="java.util.List">
+			INSERT INTO MESSAGE (
+				MSG_NO,
+				MSG_TO,
+				MSG_FROM,
+				MSG_CONTENT,
+				CREATE_DATE,
+				DELETE_DATE,
+				READ_DATE,
+				READ_STATUS,
+				STATUS,
+				SEND_STATUS
+			)
+			SELECT SEQ_MSG_NO.NEXTVAL AS MSG_NO
+				, T.* 
+			FROM(
+  				<foreach collection="list" item="item" index="index" separator="UNION ALL">
+					SELECT 
+						   #{item.msgTo} AS MSG_TO,
+						   #{item.msgFrom} AS MSG_FROM,
+						   #{item.msgContent} AS MSG_CONTENT,
+						   SYSDATE AS CREATE_DATE,
+						   SYSDATE AS DELETE_DATE,
+						   SYSDATE AS READ_DATE,
+						   'N' AS READ_STATUS,
+						   'Y' AS STATUS,
+						   'Y' AS SEND_STATUS
+					FROM DUAL
+  				</foreach>
+			) T
+	</insert>
+	
+	<insert id="makeFav" parameterType="map">
+		INSERT INTO BOOKMARK
+		VALUES(
+			SEQ_BOOKMARK_NO.NEXTVAL,
+			#{userNo},
+			#{proNum}
+		)
+	</insert>
+	
+	<delete id="removeFav" parameterType="_int">
+		DELETE FROM BOOKMARK
+		WHERE USER_ID=#{userNo} AND PROJECT_NO=#{proNum}
+	</delete>
+	
+	<select id="findStatus" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOOKMARK
+		WHERE USER_ID=#{userNo} and PROJECT_NO=#{proNum}
+	</select>
+	
+	<select id="getParticipantCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM PROJECT P
+		JOIN MEMBER M ON(P.PROJECT_MAKE = M.USER_NO)
+		WHERE STATUS ='Y'
+		AND (P.PROJECT_MAKE = #{userNo}
+			OR P.PARTICIPANT LIKE '%'||#{userName}||'_' ||#{rank}||'_'||#{deptName}||'%')
+		<if test="searchText != 'null'">
+			AND (P.PROJECT_CONTENT LIKE '%'||#{searchText}||'%'
+			OR P.PROJECT_TITLE LIKE '%'||#{searchText}||'%'
+			OR P.PARTICIPANT LIKE '%'||#{searchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{searchText}||'%')
+		</if>
+	</select>
+	
+	<select id="getParticipantList" parameterType="map" resultMap="projectResultMap">
+		SELECT P.PROJECT_NO,
+		       P.PROJECT_MAKE,
+		       P.PARTICIPANT,
+		       P.PROJECT_TITLE,
+		       P.PROJECT_CONTENT, 
+		       P.START_DATE,
+		       P.DUE_DATE,
+		       P.STATUS,
+		       M.USER_NAME,
+		       M.RANK,
+		       D.DEPT_NAME,
+		       (SELECT COUNT(*) FROM PROJECT) AS PCOUNT,
+		       NVL2(B.USER_ID, 'Y','N') AS BOOKMARK
+		FROM PROJECT P
+		LEFT OUTER JOIN (SELECT USER_ID, PROJECT_NO FROM BOOKMARK WHERE USER_ID=#{userNo}) B
+		ON (P.PROJECT_NO = B.PROJECT_NO)
+		JOIN MEMBER M ON(P.PROJECT_MAKE = M.USER_NO)
+		JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
+		WHERE P.STATUS ='Y'
+		AND (P.PROJECT_MAKE = #{userNo}
+			OR P.PARTICIPANT LIKE '%'||#{userName}||'_'||#{rank}||'_'||#{deptName}||'%')
+       	<if test="searchText != 'null'">
+			AND (P.PROJECT_CONTENT LIKE '%'||#{searchText}||'%'
+			OR P.PROJECT_TITLE LIKE '%'||#{searchText}||'%'
+			OR P.PARTICIPANT LIKE '%'||#{searchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{searchText}||'%')
+		</if>
+		ORDER BY P.PROJECT_NO DESC
+	</select>
+	
+	<select id="getFavCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM PROJECT P
+		JOIN MEMBER M ON(P.PROJECT_MAKE = M.USER_NO)
+		WHERE STATUS ='S'
+		<if test="searchText != 'null'">
+			AND (P.PROJECT_CONTENT LIKE '%'||#{searchText}||'%'
+			OR P.PROJECT_TITLE LIKE '%'||#{searchText}||'%'
+			OR P.PARTICIPANT LIKE '%'||#{searchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{searchText}||'%')
+		</if>
+	</select>
+	
+	<select id="getFavList" parameterType="map" resultMap="projectResultMap">
+		SELECT P.PROJECT_NO,
+		       P.PROJECT_MAKE,
+		       P.PARTICIPANT,
+		       P.PROJECT_TITLE,
+		       P.PROJECT_CONTENT, 
+		       P.START_DATE,
+		       P.DUE_DATE,
+		       P.STATUS,
+		       M.USER_NAME,
+		       M.RANK,
+		       D.DEPT_NAME,
+		       (SELECT COUNT(*) FROM PROJECT) AS PCOUNT,
+		       NVL2(B.USER_ID, 'Y','N') AS BOOKMARK
+		FROM PROJECT P
+		JOIN (SELECT USER_ID, PROJECT_NO FROM BOOKMARK WHERE USER_ID=#{userNo}) B
+		ON (P.PROJECT_NO = B.PROJECT_NO)
+		JOIN MEMBER M ON(P.PROJECT_MAKE = M.USER_NO)
+		JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
+		WHERE P.STATUS ='Y' 
+       	<if test="searchText != 'null'">
+			AND (P.PROJECT_CONTENT LIKE '%'||#{searchText}||'%'
+			OR P.PROJECT_TITLE LIKE '%'||#{searchText}||'%'
+			OR P.PARTICIPANT LIKE '%'||#{searchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{searchText}||'%')
+		</if>
+		ORDER BY P.PROJECT_NO DESC
+	</select>
+	
+	<update id="closeProject" parameterType="_int">
+		UPDATE PROJECT 
+		SET 
+		    STATUS='N'
+		WHERE 
+		    PROJECT_NO= #{proNum}
+	</update>
+	
+	<select id="homeProjectList" parameterType="_int" resultMap="projectResultMap">
+		SELECT ROWNUM, A.* 
+		FROM
+			(SELECT P.PROJECT_NO,
+			       P.PROJECT_MAKE,
+			       P.PARTICIPANT,
+			       P.PROJECT_TITLE,
+			       P.PROJECT_CONTENT, 
+			       P.START_DATE,
+			       P.DUE_DATE,
+			       P.STATUS,
+			       M.USER_NAME,
+			       M.RANK,
+			       D.DEPT_NAME,
+			       (SELECT COUNT(*) FROM PROJECT) AS PCOUNT,
+			       NVL2(B.USER_ID, 'Y','N') AS BOOKMARK
+			FROM PROJECT P
+			LEFT OUTER JOIN (SELECT USER_ID, PROJECT_NO FROM BOOKMARK WHERE USER_ID=#{userNo}) B
+			ON (P.PROJECT_NO = B.PROJECT_NO)
+			JOIN MEMBER M ON(P.PROJECT_MAKE = M.USER_NO)
+			JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
+			WHERE P.STATUS ='Y'
+			ORDER BY P.PROJECT_NO DESC) A
+		<![CDATA[WHERE ROWNUM < 7]]>
+	</select>
+	
+	<select id="getEndProjectCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM PROJECT P
+		JOIN MEMBER M ON(P.PROJECT_MAKE = M.USER_NO)
+		WHERE STATUS ='N'
+		<if test="searchText != 'null'">
+			AND (P.PROJECT_CONTENT LIKE '%'||#{searchText}||'%'
+			OR P.PROJECT_TITLE LIKE '%'||#{searchText}||'%'
+			OR P.PARTICIPANT LIKE '%'||#{searchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{searchText}||'%')
+		</if>
+	</select>
+	
+	<select id="getEndProjectList" parameterType="map" resultMap="projectResultMap">
+		SELECT P.PROJECT_NO,
+		       P.PROJECT_MAKE,
+		       P.PARTICIPANT,
+		       P.PROJECT_TITLE,
+		       P.PROJECT_CONTENT, 
+		       P.START_DATE,
+		       P.DUE_DATE,
+		       P.STATUS,
+		       M.USER_NAME,
+		       M.RANK,
+		       D.DEPT_NAME,
+		       (SELECT COUNT(*) FROM PROJECT) AS PCOUNT,
+               NVL2(B.USER_ID, 'Y','N') AS BOOKMARK
+		FROM PROJECT P
+		LEFT OUTER JOIN (SELECT USER_ID, PROJECT_NO FROM BOOKMARK WHERE USER_ID=#{userNo}) B
+		ON (P.PROJECT_NO = B.PROJECT_NO)
+		JOIN MEMBER M ON(P.PROJECT_MAKE = M.USER_NO)
+		JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
+		WHERE P.STATUS ='N'
+		<if test="searchText != 'null'">
+			AND (P.PROJECT_CONTENT LIKE '%'||#{searchText}||'%'
+			OR P.PROJECT_TITLE LIKE '%'||#{searchText}||'%'
+			OR P.PARTICIPANT LIKE '%'||#{searchText}||'%'
+			OR M.USER_NAME LIKE '%'||#{searchText}||'%')
+		</if>
+		ORDER BY P.PROJECT_NO DESC
+	</select>
+	
+</mapper>

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.wehub.member.model.dao.MemberDao;
 import com.kh.wehub.member.model.vo.Member;
+import com.kh.wehub.memberInfo.model.vo.InsertNewMember;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -46,7 +47,9 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public String findID(Member member) {
 		// TODO Auto-generated method stub
+		System.out.println(memberDao.findID(member));
 		return memberDao.findID(member);
+		
 	}
 
 	@Override
@@ -94,6 +97,17 @@ public class MemberServiceImpl implements MemberService {
 		return result;
 	}
 	
+	@Override
+	public InsertNewMember getNewMember(String userNo) {
+		
+		return memberDao.getNewMember(userNo);
+	}
+
+	@Override
+	public Member checkNewMem(String userNo) {
+		
+		return memberDao.checkNewMem(userNo);
+	}
 	
 	@Override
 	public Member findMemberByUserIdForFreeBoard(String userId) {
@@ -127,4 +141,4 @@ public class MemberServiceImpl implements MemberService {
 	}
 }
 
-	
+
