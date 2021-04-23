@@ -110,8 +110,7 @@ footer > p {
   display: inline-block;
   font-size: 40px;
   color: #faebef;
-  padding-right: 10px;
-  padding-top: 6px;
+  padding: 10px 10px 0 0;
 }
 .header_userInfo {
   display: inline-block;
@@ -341,3 +340,9 @@ section > .index_section2 table{
   font-weight: 800;
 }
 
+@font-face {
+    font-family: 'InfinitySans-RegularA1';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-RegularA1.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}

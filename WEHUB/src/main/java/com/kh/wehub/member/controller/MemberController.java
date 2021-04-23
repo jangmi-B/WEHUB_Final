@@ -26,6 +26,8 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.wehub.approval.model.service.ApprovalService;
+import com.kh.wehub.approval.model.vo.Approval;
 import com.kh.wehub.board.model.service.BoardService;
 import com.kh.wehub.board.model.vo.Notice;
 import com.kh.wehub.community.model.service.CommunityService;
@@ -71,6 +73,9 @@ public class MemberController {
 	
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private ApprovalService appSerivce;
 	
 	@RequestMapping(value="/login", method={RequestMethod.POST})
 	public ModelAndView login(ModelAndView model, @RequestParam("userId") String userId, 
@@ -151,7 +156,11 @@ public class MemberController {
 				//공지사항 Section
 				List<Notice> NoticeList = boardService.selectList(); 
 				
+				// 메인 전자결재 수신참조 리스트 뽑기
+				List<Approval> mainAppList = null;
+				mainAppList = appSerivce.getRecentList2(loginMember);
 				
+				model.addObject("mainAppList", mainAppList);
 				model.addObject("todaySchedule",todaySchedule);
 				model.addObject("communityList", communityList);
 				model.addObject("NoticeList", NoticeList);
@@ -380,6 +389,14 @@ public class MemberController {
 		return model;
 	}
 	
+	/* 회원탈퇴 단독 페이지 */
+	@RequestMapping(value="member/DeactivateAccount", method = {RequestMethod.GET})
+	public String DeactivateAccount_1() {
+		log.info("회원 탈퇴 약관동의 new 페이지 요청");
+		
+		return "member/DeactivateAccount";
+	}
+	
 	// 회원 삭제
 	@RequestMapping("/member/delete")
 	public ModelAndView delete(ModelAndView model,
@@ -445,11 +462,11 @@ public class MemberController {
 			if(result > 0) {
 				System.out.println(loginMember.getUser_id().equals(member.getUser_id()) + ",  result : " + result);
 				model.addObject("loginMember", service.findMemberByUserId(loginMember.getUser_id()));
-				model.addObject("msg", "회원정보 수정을 완료했습니다.");
-				model.addObject("location", "/member/updatePassword");				
+				model.addObject("msg", "비밀번호 수정을 완료했습니다.");
+				model.addObject("location", "/main");				
 			} else {
-				model.addObject("msg", "회원정보 수정에 실패 했습니다.");
-				model.addObject("location", "/member/updatePassword");
+				model.addObject("msg", "비밀번호 수정에 실패 했습니다.");
+				model.addObject("location", "/member/newUpdatePassword");
 			}
 		} else {
 			model.addObject("msg", "잘못된 접근입니다.");
