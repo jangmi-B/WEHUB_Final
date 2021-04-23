@@ -1,98 +1,159 @@
+/* .member__modify{ font-family: 'InfinitySans-RegularA1'; font-size: 17px; } */
+
+@font-face {
+   font-family: 'InfinitySans-RegularA1';
+   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-RegularA1.woff') format('woff');
+   font-weight: normal;
+   font-style: normal;
+}
+
+input {
+   min-width: 300px;
+   min-height: 30px;
+}
+
+.UserModifyImg {
+   display: inline-flex;
+   width: 80px;
+   height: 80px;
+   border-radius: 50%;
+   overflow: hidden;
+   object-fit: cover;
+}
+
+td { height: 45px; font-family: 'InfinitySans-RegularA1'; }
+
+#modify_name {font-size: 30px; color: #5b18ff; font-weight: bolder;}
+
 .member__modify {
-  margin-top: 5%;
-  /* border: 1px solid gray; */
-  display: flex;
-  justify-content: center;
+   margin-top: 5%;
+   /* border: 1px solid gray; */
+   display: flex;
+   justify-content: center;
 }
 
 #modify_name {
-  font-size: 25px;
-  font-weight: 500;
-  /* text-shadow: 1px 1px 1px gray; */
+   font-size: 25px;
+   font-weight: 500;
+   /* text-shadow: 1px 1px 1px gray; */
 }
 
 #member__modify__form {
-  border: 1px solid transparent;
-  border-radius: 6px;
-  min-width: 700px;
-  height: 740px;
-  display: flex;
-  justify-content: center;
-  padding-top: 30px;
-  margin-bottom: 50px;
-  background-color: white;
-  box-shadow: 4px 4px 8px gray;
+   border: 1px solid transparent;
+   border-radius: 6px;
+   min-width: 700px;
+   height: 1040px;
+   display: flex;
+   justify-content: center;
+   padding-top: 30px;
+   margin-bottom: 50px;
+   background-color: white;
+   box-shadow: 4px 4px 8px gray;
+   font-family: 'InfinitySans-RegularA1';
 }
 
 #member__modify__form table {
-  margin: 30px;
+   margin: 30px;
 }
 #member__modify__form table tr {
-  height: 35px;
+   height: 35px;
 }
 #member__modify__form table label {
-  font-weight: 500;
+   font-weight: 500;
 }
 
 #member__modify__form input {
-  width: 220px;
-  border: 1px solid rgb(192, 191, 191);
-  height: 25px;
-  border-radius: 5px;
-  /* margin-left: 10px; */
-  padding-left: 8px;
-  margin: 5px 5px 0 10px;
+   width: 220px;
+   border: 1px solid rgb(192, 191, 191);
+   height: 25px;
+   border-radius: 5px;
+   /* margin-left: 10px; */
+   padding-left: 8px;
+   margin: 5px 5px 0 10px;
 }
 #member__modify__form .modify_input:focus {
-  border: 2px solid #5b18ff;
+   border: 2px solid #5b18ff;
 }
 
 #modify_button {
-  margin-left: 25%;
+   margin-left: 20%;
 }
 
 #modify_btn {
-  width: 100px;
-  height: 30px;
-  color: white;
-  background-color: #5b18ff;
-  border: none;
-  border-radius: 8px;
+   font-size: 18px;
+   margin: 35px 0 0 15px;
+   border: 1px solid #5b18ff;
+   border-radius: 3px;
+   background-color: #5b18ff;
+   color: #fff;
+   width: 150px;
+   height: 48px;
+}
+
+#modify_btn:hover { 
+   border: 1px solid #5b18ff;
+   background: linear-gradient(to right, #5b18ff, #8b5dff);
+   color: white; 
+}
+
+#notModify_btn {
+   font-size: 18px;
+   margin-top: 35px;
+   border: 1px solid #5b18ff;
+   border-radius: 3px;
+   background-color: #fff;
+   color: #5b18ff;
+   width: 120px;
+   height: 48px;
+}
+
+#notModify_btn:hover {
+   border: 1px solid #5b18ff;
+    background: linear-gradient(to right, #fff, #e1daf6);
+    color: #5b18ff;
 }
 
 #modify_btn_b {
-  background-color: lightgray;
-  border: none;
-  width: 100px;
-  height: 30px;
-  border-radius: 8px;
+   background-color: lightgray;
+   border: none;
+   width: 100px;
+   height: 30px;
+   border-radius: 8px;
 }
 #modify_btn_pw {
-  background-color: lightgray;
-  border: none;
-  height: 25px;
-  border-radius: 5px;
+   background-color: lightgray;
+   border: none;
+   height: 25px;
+   border-radius: 5px;
 }
 
 #modify_btn_addr {
-  background-color: lightgray;
-  border: none;
-  width: 70px;
-  height: 25px;
-  border-radius: 8px;
+   background-color: #5b18ff;
+   color: #fff;
+   border: none;
+   width: 90px;
+   height: 35px;
+   border-radius: 8px;
+   font-size: 17px;
+}
+
+#modify_btn_addr:hover { 
+   border: 1px solid #5b18ff;
+   background: linear-gradient(to right, #5b18ff, #8b5dff);
+   color: white; 
 }
 
 .btn:focus {
-  border: 0;
-  outline: 0;
-  box-shadow: 3px 3px 3px gray;
+   border: 0;
+   outline: 0;
+   box-shadow: 2px 2px 2px gray;
 }
 
 .btn {
-  box-shadow: 1px 1px 3px gray;
+   box-shadow: 1px 1px 3px gray;
 }
 
 input:read-only {
-  background-color: #f1ebff;
-  box-shadow: 1px 1px 1px lightgrey;
+   background-color: #f1ebff;
+   box-shadow: 1px 1px 1px lightgrey;
 }

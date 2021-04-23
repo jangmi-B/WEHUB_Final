@@ -12,7 +12,7 @@
             <div class="line"></div>
             <ul>
               <li><a href="${path}/notice/list">공지사항</a></li>
-              <li>자유게시판</li>
+              <li><a href="${path}/freeBoard/board">자유게시판</a></li>
             </ul>
           </li>
           <li>

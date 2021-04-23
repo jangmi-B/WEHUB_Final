@@ -48,8 +48,18 @@
 
         <h2 class="h2d">오늘 결재사항<a href="${path}/approval/approvalMain"><i class="fas fa-plus con1" style="color: #5b18ff;"></i></a></h2>
         <ul>
-            <li>[03/09] 지출결의서_개발2팀</li>
-            <li>[03/09] 지출결의서_인사행정팀</li>
+            <c:choose>
+            	<c:when test="${ mainAppList.size() == 0 }">
+            		<li>결재문서가 존재하지 않습니다.</li>
+            	</c:when>
+            	<c:otherwise>
+            		<li>
+            			<c:forEach var="mainAppList" items="${mainAppList}" end="5" varStatus="i">
+            				<a href="${path}/approval/approvalMain"><p>${i.count} ${mainAppList.appKinds}</p></a>
+            			</c:forEach>
+            		</li>
+            	</c:otherwise>
+            </c:choose>
         </ul>
         </div>
         <div style="border-radius: 10px;">

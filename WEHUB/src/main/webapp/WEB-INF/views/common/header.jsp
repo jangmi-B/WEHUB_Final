@@ -37,7 +37,14 @@
     </div>
     <div class="header_user_wrap">
       <div class="header_profile">
-        <img alt="x" src="${path}/upload/userProfileImg/${loginMember.user_imgRename}" style="width: 40px; border-radius: 30px;">
+      	<c:choose>
+      		<c:when test="${ loginMember.user_imgRename == null }">
+            	<img alt="x" src="${path}/upload/userProfileImg/noUserImg.png" style="width: 35px; height:35px; border-radius: 30px; object-fit: cover;">
+            </c:when>
+            <c:otherwise>
+		        <img alt="x" src="${path}/upload/userProfileImg/${loginMember.user_imgRename}" style="width: 35px; height:35px; border-radius: 30px; object-fit: cover;">
+            </c:otherwise>
+      	</c:choose>
       </div>
       <div class="header_userInfo">
         <ul id="header_user">
