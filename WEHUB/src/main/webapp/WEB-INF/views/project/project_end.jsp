@@ -75,9 +75,6 @@
 			        </div>
 		        </div>
 		        <div class="project_btns">
-		        <c:if test="${ !empty loginMember && (loginMember.user_no == projectList.projectMake)}">
-	        	 <button style="width:100px; background:" type="button" id="deleteBtn(${projectList.projectNo})" class="pj${ status.count }" onclick="closeProject(${projectList.projectNo});">프로젝트종료</button>
-	        	</c:if>
 	       		 <button type="button" id="exitBtn(${projectList.projectNo})">닫기</button>
 		        </div>
 		    </div>
