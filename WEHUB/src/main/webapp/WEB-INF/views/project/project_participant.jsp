@@ -385,6 +385,7 @@
 		let addPerson = $("#memSearch").val();
 		let totalPerson = $("#participantDiv").text();
 		let arr =  totalPerson.split("/ ");
+		var val = Math.round( Math.random()*100 );
 		
 		console.log(addPerson);
 		console.log(totalPerson);
@@ -400,11 +401,17 @@
 				  }
 			})
 		} else{
-			$("#participantDiv").append(addPerson + "/ ");
+			$("#participantDiv").append('<span id=' + (val) + '>'+ addPerson + '<button class="deleteMem" onclick="deleteMem('+ (val) + ');"><i class="fas fa-times"></i></button>'  + '/ </span>');
+			
 			
 			document.getElementById("memSearch").value= "";
 			$('#memSearch').focus();
 		}
+	}
+	
+	function deleteMem(val){
+		var deleteMember =  document.getElementById(val);
+		deleteMember.remove();
 	}
 	
 	$(document).ready(function () {
