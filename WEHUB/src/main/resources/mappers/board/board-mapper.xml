@@ -95,6 +95,7 @@
 		JOIN MEMBER M ON(R.REPLY_WRITER_NO = M.USER_NO)
 		JOIN BOARD B ON(R.BOARD_NO = B.BOARD_NO)
 		WHERE R.STATUS = 'Y' AND B.BOARD_NO=#{boardNo}
+		ORDER BY R.REPLY_CREATE_DATE DESC
 	</select>
 
 	<select id="selectBoardList" parameterType="map" resultMap="boardResultMap">
@@ -137,10 +138,10 @@
         ORDER BY B.BOARD_NO DESC) S
         WHERE ROWNUM <![CDATA[ < ]]>= 3 
         <if test="rownumdata != null">
-        AND (RNUM <![CDATA[ > ]]> #{rownumdata} AND RNUM <![CDATA[ < ]]> = #{rownumdata}+3)
+        AND (RNUM <![CDATA[ > ]]>= #{rownumdata}-3 AND RNUM <![CDATA[ < ]]>  #{rownumdata})
 		</if>
         
-        ORDER BY RNUM
+        ORDER BY RNUM DESC
 	</select>
 	
 	<select id="selectBoardDetailKeyword" parameterType="string" resultMap="boardDetailResultMap">
