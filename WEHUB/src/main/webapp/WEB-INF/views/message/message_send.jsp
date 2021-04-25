@@ -89,7 +89,7 @@
 					    <div class="bg"></div>
 					    <div class="modalContainer">
 					      <h2 style="margin-left: 18px;">보낸쪽지</h2>
-					        <div class="view_form info">
+					        <div class="view_form info" style="margin-left:20px; text-align:left;">
 					          <label>To : </label> <c:out value="${sendList.userName}"/> <c:out value="${sendList.rank}"/> (<c:out value="${sendList.deptName}"/>)<br>
 					          <label>Date : </label> <fmt:formatDate type="both" value="${sendList.createDate}"/>
 					        </div>

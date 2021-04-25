@@ -83,8 +83,8 @@
 					    <div class="bg"></div>
 					    <div class="modalContainer">
 					      <h2 style="margin-left: 18px;">휴지통(받은쪽지)</h2>
-					        <div class="view_form info">
-					          <label>From : </label> <c:out value="${deletedList.msgFrom}"/> <c:out value="${deletedList.rank}"/> (<c:out value="${deletedList.deptName}"/>)<br>
+					        <div class="view_form info" style="margin-left:20px; text-align:left;">
+					          <label>From : </label> <c:out value="${deletedList.userName}"/> <c:out value="${deletedList.rank}"/> (<c:out value="${deletedList.deptName}"/>)<br>
 					          <label>Date : </label> <fmt:formatDate type="both" value="${deletedList.createDate}"/>
 					        </div>
 					        <div class ="view_form">
