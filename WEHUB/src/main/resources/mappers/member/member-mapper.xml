@@ -261,4 +261,28 @@
 		LEFT OUTER JOIN DEPARTMENT D ON (M.DEPT_CODE = D.DEPT_CODE)
 		WHERE USER_NAME LIKE '%'|| #{user_name} ||'%' AND USER_STATUS ='Y'
 	</select>
+	
+	<select id="findUserInfo" parameterType="string" resultMap="memberResultMap">
+		 SELECT
+		 		USER_NO,
+		 		NEW_USER_NO,
+		 		USER_COMPANYNAME,
+		        USER_ID,
+		        USER_PWD,
+		        USER_NAME,
+		        RANK,
+	         	EMAIL,
+	         	COMCALL,
+	         	PHONE,
+	         	ADDRESS,
+		        USER_STATUS,
+		        M.DEPT_CODE,
+		        D.DEPT_NAME,
+		        USER_IMG_ORIFILENAME,
+		        USER_IMG_REFILENAME
+			FROM MEMBER M
+			JOIN DEPARTMENT D ON D.DEPT_CODE = M.DEPT_CODE
+			JOIN NEWMEMBER NM ON NM.NEW_NO = M.NEW_USER_NO
+			WHERE USER_STATUS ='Y' AND USER_ID = #{user_id}
+	</select>
 </mapper>

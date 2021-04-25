@@ -139,6 +139,12 @@ public class MemberServiceImpl implements MemberService {
 		
 		return memberDao.getSearchMemberApp(user_name);
 	}
+
+	@Override
+	public Member findUserInfo(String userId) {
+		
+		return memberDao.findUserInfo(userId);
+	}
 }
 
 

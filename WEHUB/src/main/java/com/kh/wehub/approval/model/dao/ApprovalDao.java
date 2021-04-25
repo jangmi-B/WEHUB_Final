@@ -51,4 +51,7 @@ public interface ApprovalDao {
 	Approval selectExpenseReportListDetail(int appNo);
 	
 	Approval viewAppLeaveList(int appNo); //APP_LEAVE DAO
+	
+	// 쪽지관련
+	Approval findByAppNoMsg(int appNo);
 }

@@ -27,19 +27,7 @@
             </div>
             
             <form class="form" action="${path}/member/signUpForm" method="post" enctype="multipart/form-data" style="margin-top: -187px;">
-				<!--  
-                <input type="text" name="user_id" placeholder="UserId">
-                <input type="password" name="user_pwd"  placeholder="Password">
-                <input type="password" placeholder="PasswordCheck">
-                <input type="text"name="user_companyname"  placeholder="CompanyName">
-                <input type="text" name="user_name" placeholder="UserName">
-                <input type="text" name="dept_code" placeholder="DepartmentName">
-                <input type="text" name="rank" placeholder="Rank">
-                <input type="email" name="email" placeholder="E-Mail">
-                <input type="text"name="address"  placeholder="Address">
-                <input type="tel" name="comcall" placeholder="ExtensionNumber">
-                <input type="tel"name="phone"  placeholder="Phone">
-                -->
+			
                 <input type="button" onclick="findNewMem();" class="openBtn" value="사번입력 click!" style="background:#B7A4EE; border-radius:20px; font-size: 13px;"/>
 
                 <input type="file" name="user_img" id="user_imgOri" style="padding: 6px 35px; font-size: 13px;" accept=".gif, .jpg, .png">
@@ -66,7 +54,7 @@
                 <input type="tel" name="comcall" placeholder="내선번호 ExtensionNumber" id="comcall" style="font-size: 13px;">
                 <input type="tel" name="phone"  placeholder="휴대번호  Phone" id="phone" style="font-size: 13px;">
                 
-                <button type="submit" id="login-button" onclick="javascript:dataCheck();">가입하기</button> <!-- Create -->
+                <button type="button" id="login-button">가입하기</button> <!-- Create  onclick="javascript:dataCheck();"-->
                 <!-- <button type="button" id="login-button" onclick="javascript:dataCheck();">기능확인</button> -->
                 <p id="findPwdAndSignUp">
                     <!-- <a href="file:///C:/Users/User/Desktop/Coding/FinalProjectHTML/LogInForm.html" id="fpas">Already have an account?</a>
@@ -142,7 +130,7 @@
 			});
 	}
 	
-	function dataCheck() {
+	/* function dataCheck() {
 		var pass1 = document.getElementById('pass1').value;
 		var pass2 = document.getElementById('pass2').value;
 		
@@ -157,7 +145,7 @@
 			
 			return false;
 		}
-	}
+	} */
 	
 	$(document).on("keyup", "#comcall, #phone", function() { 
 		$(this).val( $(this).val()
@@ -191,6 +179,42 @@
 						alert("사용 가능한 아이디 입니다.");
 					} else {
 						alert("이미 사용중인 아이디 입니다. 다시 입력하여 주십시오.");						
+					}
+				},
+				error: function(e) {
+					console.log(e);
+				}				
+			});
+		});
+	});
+	
+	$(document).ready(() => {
+		$("#login-button").on("click", () => {
+			let user_id = $("#user_id").val().trim();
+			var idReg = /^[a-z][a-z0-9]{3,10}$/g;
+			
+			if(!idReg.test(user_id)) {
+				alert("아이디는 영문 소문자와 숫자를 4~12자리로 입력하세요.");
+				
+				return;
+			}
+			
+			$.ajax({
+				type: "post",
+				url: "${path}/member/idCheck",
+				dataType: "json",
+				data: {
+					user_id: user_id // 파라미터_키값: value값
+				},
+				success: function(data) {
+					console.log(data);
+					
+					if(data.validate !== true) {
+						$('.form').submit();
+						/* location.href="${path}/member/signUpForm"; */
+					} else {
+						alert("이미 사용중인 아이디 입니다. 다시 입력하여 주십시오.");		
+						return;
 					}
 				},
 				error: function(e) {

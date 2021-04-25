@@ -36,5 +36,7 @@ public interface MemberService {
 	
 	List<Member> getSearchMember(String userName); // Approval 자동완성
 
+	Member findUserInfo(String userId); // 회원수정 사번 갖고올때
+
 }
 

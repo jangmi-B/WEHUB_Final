@@ -7,6 +7,9 @@
 <link rel="stylesheet" href="${path}/css/member_modify.css">
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <style>
+	* {
+		font-family: 'InfinitySans-RegularA1';
+	}
 	img {
 		width: 100px;
 	    height: 100px;
@@ -50,17 +53,19 @@
 						<c:choose>
 				      		<c:when test="${ loginMember.user_imgRename == null }">
 				            	<div id="image_container">
-				            		<img alt="x" src="${path}/upload/userProfileImg/noUserImg.png" style="width: 100px; height:100px; border-radius: 100px; object-fit: cover;" accept=".gif, .jpg, .png">
-				            		<i class="fas fa-angle-right" style="color: #5b18ff;"></i>
-				            	
+					            	<div id="myImgDiv">
+					            		<img alt="x" src="${path}/upload/userProfileImg/noUserImg.png" class="firstImg"
+					            			style="width: 100px; height:100px; border-radius: 100px; object-fit: cover;" accept=".gif, .jpg, .png">
+					            	</div>
 				            	</div>
 				            </c:when>
 				            
 				            <c:otherwise>
 					            <div id="image_container">
-							        <img class="UserModifyImg" src="${path}/upload/userProfileImg/${loginMember.user_imgRename}" 
-							    		style="width: 100px; height:100px; border-radius: 100px; object-fit: cover;" accept=".gif, .jpg, .png">
-							    	<i class="fas fa-angle-right" style="color: #5b18ff;"></i>
+					            	<div id="myImgDiv2">
+								        <img class="UserModifyImg" src="${path}/upload/userProfileImg/${loginMember.user_imgRename}"  class="firstImg"
+								    		style="width: 100px; height:100px; border-radius: 100px; object-fit: cover;" accept=".gif, .jpg, .png">
+					            	</div>
 	    						</div>
 				            </c:otherwise>
 				      	</c:choose>
@@ -130,16 +135,35 @@
     </div>
     
 <script>
-	// 썸네일 미리보기
+	// 썸네일 미리보기 (loginMember.user_imgRename == null)
 	function setThumbnail(event) { 
-	    var reader = new FileReader(); 
-	
+	    var reader = new FileReader();
+	    const div = document.getElementById('myImgDiv');
+	    
+	    div.remove();
+	    
 	    reader.onload = function(event) { 
 	        var img = document.createElement("img"); 
 	        img.setAttribute("src", event.target.result); 
 	        document.querySelector("div#image_container").appendChild(img); 
 	    }; 
+	    
+	    reader.readAsDataURL(event.target.files[0]); 
+	}
 	
+	// 썸네일 미리보기
+	function setThumbnail(event) { 
+	    var reader = new FileReader();
+	    const div2 = document.getElementById('myImgDiv2');
+	    
+	    div2.remove();
+	    
+	    reader.onload = function(event) { 
+	        var img = document.createElement("img"); 
+	        img.setAttribute("src", event.target.result); 
+	        document.querySelector("div#image_container").appendChild(img); 
+	    }; 
+	    
 	    reader.readAsDataURL(event.target.files[0]); 
 	}
 	
