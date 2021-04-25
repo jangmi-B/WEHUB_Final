@@ -142,6 +142,7 @@ footer > p {
   background-color: #38546d;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
+  transition-duration: 2s;
 }
 
 #header_user > li > ul:hover {
@@ -150,6 +151,7 @@ footer > p {
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
   background-color: #38546d;
+  transition-duration: 2s;
 }
 
 /* section */
