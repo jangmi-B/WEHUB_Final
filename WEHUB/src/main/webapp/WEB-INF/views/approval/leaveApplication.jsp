@@ -41,7 +41,7 @@
 
 <%@ include file="../approval/approvalSubMenu.jsp" %>	
     
-<form name="leaveWriteForm" action="${path}/approval/updateLeave" method="POST" enctype="multipart/form-data">
+<form name="leaveWriteForm" action="${path}/approval/updateLeave" method="POST" onsubmit="return check_onclick()">
     <div class="cash-form-section" style="height: 100%; width:68%; margin: 0 300px 0 300px;">
         <div class="cash-disbursement" style="text-align: center; margin: 80px 0px 80px 200px; border: 2px solid black;">
             <table border="2" style="width: 100%; font-size: 20px; border-collapse: collapse;">
@@ -168,7 +168,7 @@
                     <td colspan="8" style="text-align: right; height: 100px; padding-right: 50px;">
                         <input type="button" name="proposer" id="proposer" style="font-size:15px; width:70px; height:30px; border: none; text-align: center; border-radius:20px; margin-right:10px" value="서명" />
                         신청자 : 
-                        <textArea name="proposerText" id="proposerText" style="width:130px; border: none; text-align: center; resize: none; font-size:24px; margin-bottom:-42px"></textArea>
+                        <textArea name="proposerText" id="proposerText" style="width:130px; border: none; text-align: center; resize: none; font-size:24px; margin-bottom:-42px" readonly></textArea>
                         (인)
                     </td>
                 </tr>
