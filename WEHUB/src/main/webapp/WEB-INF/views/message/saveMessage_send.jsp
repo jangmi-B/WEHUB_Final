@@ -82,7 +82,7 @@
 					      <h2 style="margin-left: 18px;">보낸쪽지</h2>
 					        <div class="view_form info" style="margin-left:20px; text-align:left;">
 					          <label>To : </label> <c:out value="${saveSendMessage.userName}"/> <c:out value="${saveSendMessage.rank}"/> (<c:out value="${saveSendMessage.deptName}"/>)<br>
-					          <label>Date : </label> <fmt:formatDate type="both" value="${sendList.createDate}"/>
+					          <label>Date : </label> <fmt:formatDate type="both" value="${saveSendMessage.createDate}"/>
 					        </div>
 					        <div class ="view_form">
 					        <div class = "form-control" id="contentsDiv" rows="3" name ="messageContent"  style="overflow: scroll; margin-left:20px; margin-top:10px;">
