@@ -278,7 +278,7 @@
 		            tdArr.push(dept);
 		            tdArr.push(position);
 	            	
-		            var str = name + " " + position +"(" + dept + ")" + ", ";
+		            var str = name + "_" + position +"_" + dept + ", ";
 		            
 		            $('#referList').append(str);		            	
 		           

@@ -621,5 +621,21 @@
       JOIN APP_LEAVE L ON (A.APP_SEQ = L.LEAVE_APP_SEQ)
       WHERE A.APP_SEQ = #{appNo}
    </select>
+   
+	<!-- 쪽지 관련  -->
+	<select id="findByAppNoMsg" parameterType="_int" resultMap="approvalResultMap">
+		SELECT 
+		    A.APP_WRITER_NO, 
+		    A.FIRST_TIME_APPROVER,
+		    A.INTERIM_APPROVER,
+		    A.FINAL_APPROVER,
+		    A.APP_CHECK_PROGRESS,
+		    A.APP_PRESENT,
+		    A.APPROVAL_KINDS,
+		    R.RECEIVE_REF_CC
+		FROM APPROVAL A 
+		JOIN APP_RECEIVE_REF R ON (A.APP_SEQ = R.RECEIVE_REF_APP_SEQ)
+		WHERE A.APP_SEQ = #{appNo}
+	</select>
 
 </mapper>

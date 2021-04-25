@@ -43,5 +43,7 @@ public interface MemberDao {
 	public List<Member> getSearchMemberForApproval(String user_name);
 	
 	List<Member> getSearchMemberApp(String user_name); // Approval 자동완성
+
+	Member findUserInfo(String userId); // 회원수정 사번 갖고올때
 }
 

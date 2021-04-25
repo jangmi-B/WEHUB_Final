@@ -12,7 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-   <%-- <script src="${path}/js/jquery-3.5.1.js"></script> --%>
+	<script src="${path}/js/jquery-3.5.1.js"></script>
 
     <title>WEHUB</title>
 
@@ -22,7 +22,7 @@
     	<div class="wrapper">
         <div class="container">
 
-            <img src="${path}/images/wehub(white).png"/>
+            <img src="${path}/images/WEHUB_LogoW.png"/>
 
             <form class="form" action="login" method="POST" id="loginForm" onsubmit="loginForm();">
 
@@ -43,7 +43,6 @@
 
   	$("#login-button").click(function(event){
 	
-
 		$('form').fadeOut(300);
 		$('.wrapper').addClass('form-success');
 		setTimeout(function() {

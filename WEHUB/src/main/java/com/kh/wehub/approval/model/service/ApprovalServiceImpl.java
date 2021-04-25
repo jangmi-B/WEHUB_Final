@@ -199,4 +199,12 @@ public class ApprovalServiceImpl implements ApprovalService {
       
        return approvalDao.viewAppLeaveList(appNo);
     }
+    
+    // 결재 수신참조자 쪽지보내기
+    @Override
+    public Approval findByAppNoMsg(int appNo) {
+       System.out.println("findByAppNoMsg : " + appNo);
+
+       return approvalDao.findByAppNoMsg(appNo);
+    }
 }

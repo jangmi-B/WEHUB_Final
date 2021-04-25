@@ -463,7 +463,7 @@ public class MemberController {
 				System.out.println(loginMember.getUser_id().equals(member.getUser_id()) + ",  result : " + result);
 				model.addObject("loginMember", service.findMemberByUserId(loginMember.getUser_id()));
 				model.addObject("msg", "비밀번호 수정을 완료했습니다.");
-				model.addObject("location", "/main");				
+				model.addObject("location", "/member/memModify");				
 			} else {
 				model.addObject("msg", "비밀번호 수정에 실패 했습니다.");
 				model.addObject("location", "/member/newUpdatePassword");
