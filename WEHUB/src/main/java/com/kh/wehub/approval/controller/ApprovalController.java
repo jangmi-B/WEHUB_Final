@@ -39,6 +39,8 @@ import com.kh.wehub.approval.model.vo.Approval;
 import com.kh.wehub.common.util.PageInfo;
 import com.kh.wehub.member.model.service.MemberService;
 import com.kh.wehub.member.model.vo.Member;
+import com.kh.wehub.message.model.vo.Message;
+import com.kh.wehub.project.model.service.ProjectService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -55,6 +57,9 @@ public class ApprovalController {
 	
 	@Autowired
 	private ResourceLoader resourceLoader;
+	
+	@Autowired
+	private ProjectService projectService;
 
 	/** 메인화면 */
 
@@ -321,9 +326,54 @@ public class ApprovalController {
 	@ResponseBody
 	@RequestMapping(value = "/loaApproved3", method = { RequestMethod.POST })
 	public int loaApproved3(@SessionAttribute(name = "loginMember", required = false) Member loginMember,
-			@RequestParam(value = "appNo") int appNo) {
+			@RequestParam(value = "appNo") int appNo, Message msg) {
 		int result = 0;
 		result = service.approved3(appNo);
+		
+		// 쪽지보내기 기능
+		Approval approval = service.findByAppNoMsg(appNo);
+		
+		if(approval.getAppPresent().equals("D")) {
+			
+			String[] arr = approval.getReferList().split(", ");
+			
+			for(int num1=0; num1<arr.length; num1++ ) {
+				System.out.println(arr[num1]);
+			}
+			
+			int msgResult = 0;
+			List<Message> message = new ArrayList<Message>();
+
+			String msgContent = approval.getAppKinds() + "가 결재완료되었습니다.";
+
+			for(int i=0; i <arr.length; i++) {
+				Message forMsg = new Message();
+				
+				String[] name = arr[i].split("_");
+				
+				Member member = projectService.findReceiver(name[0], name[1], name[2]);
+				
+				forMsg.setMsgFrom(loginMember.getUser_no());
+				forMsg.setMsgTo(member.getUser_no());
+				forMsg.setMsgContent(msgContent);
+				forMsg.setRank(name[1]);
+				forMsg.setDeptName(name[2]);
+				
+				message.add(i,forMsg);
+				
+			}
+			
+			Map<String, Object> map = new HashMap<>();
+			map.put("list", message);
+			
+			msgResult = projectService.sendProjectMsg(map);
+
+			if(msgResult > 0) {
+				System.out.println("전송완료");
+			} else {
+				System.out.println("전송실패");
+			}
+		}
 
 		return result;
 	}

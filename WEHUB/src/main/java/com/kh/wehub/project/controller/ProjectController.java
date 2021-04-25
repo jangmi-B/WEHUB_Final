@@ -135,6 +135,10 @@ public class ProjectController {
 			
 			String[] name = arr[i].split("_");
 			
+			for(int num = 0; num < name.length; num++) {
+				System.out.println(name[i]);
+			}
+			
 			Member member = service.findReceiver(name[0], name[1], name[2]);
 			
 			forMsg.setMsgFrom(getMsgFrom);

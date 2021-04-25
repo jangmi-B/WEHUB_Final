@@ -47,5 +47,8 @@ public interface ApprovalService {
 	
 	// 휴가신청서 상세보기
     Approval findListByLeaveNo(int appNo);
+    
+    // 쪽지 보내기전 자료 불러오기
+    Approval findByAppNoMsg(int appNo);
 
 }

@@ -44,7 +44,7 @@ public interface ApprovalDao {
 	// ApprovalDetailView
 	Approval selectApprovalListDetail(int appNo); // APP_LOA
 	Approval selectExpenseReportListDetail(int appNo); // APP_ER
-	Approval viewAppLeaveList(int appNo); //APP_LEAVE
+	Approval viewAppLeaveList(int appNo); //APP_LEAVEDAO
 	int LeaveDay(int leaveDay);
 	
 	// 지출결의서 등록
@@ -52,6 +52,7 @@ public interface ApprovalDao {
 	int insertExpenseReport2(Approval approval);
 	int insertExpenseReport3(Approval approval);
 	
+	// 쪽지관련
+	Approval findByAppNoMsg(int appNo);
 	
-	Approval viewAppLeaveList(int appNo); //APP_LEAVE DAO
 }

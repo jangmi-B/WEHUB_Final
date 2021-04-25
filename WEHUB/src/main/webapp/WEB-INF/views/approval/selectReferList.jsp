@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+fsend-open<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
 <!-- modal section -->
@@ -278,7 +278,7 @@
 		            tdArr.push(dept);
 		            tdArr.push(position);
 	            	
-		            var str = name + " " + position +"(" + dept + ")" + ", ";
+		            var str = name + "_" + position +"_" + dept + ", ";
 		            
 		            $('#referList').append(str);		            	
 		           
