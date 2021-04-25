@@ -6,6 +6,15 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <link rel="stylesheet" href="${path}/css/member_modify.css">
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<style>
+	img {
+		width: 100px;
+	    height: 100px;
+	    border-radius: 70px;
+	    overflow: hidden;
+	    object-fit: cover;
+	}
+</style>
 
 	<c:set var="adressArr" value="${ loginMember.address }"></c:set>
 	<c:set var="arr" value="${fn:split(adressArr,',')}"/>
@@ -38,22 +47,30 @@
 						<label for="modify_img">프로필 사진</label>
 					</td>
 					<th style="height: 100px;">	
-					<c:choose>
-			      		<c:when test="${ loginMember.user_imgRename == null }">
-			            	<img alt="x" src="${path}/upload/userProfileImg/noUserImg.png" style="width: 100px; height:100px; border-radius: 100px; object-fit: cover;" accept=".gif, .jpg, .png">
-			            </c:when>
-			            <c:otherwise>
-					        <img class="UserModifyImg" src="${path}/upload/userProfileImg/${loginMember.user_imgRename}" 
-					    		style="width: 100px; height:100px; border-radius: 100px; object-fit: cover;" accept=".gif, .jpg, .png">
-			            </c:otherwise>
-			      	</c:choose>		
-					    
+						<c:choose>
+				      		<c:when test="${ loginMember.user_imgRename == null }">
+				            	<div id="image_container">
+				            		<img alt="x" src="${path}/upload/userProfileImg/noUserImg.png" style="width: 100px; height:100px; border-radius: 100px; object-fit: cover;" accept=".gif, .jpg, .png">
+				            		<i class="fas fa-angle-right" style="color: #5b18ff;"></i>
+				            	
+				            	</div>
+				            </c:when>
+				            
+				            <c:otherwise>
+					            <div id="image_container">
+							        <img class="UserModifyImg" src="${path}/upload/userProfileImg/${loginMember.user_imgRename}" 
+							    		style="width: 100px; height:100px; border-radius: 100px; object-fit: cover;" accept=".gif, .jpg, .png">
+							    	<i class="fas fa-angle-right" style="color: #5b18ff;"></i>
+	    						</div>
+				            </c:otherwise>
+				      	</c:choose>
 					</th>
 				</tr>
 				<tr>
 				    <td></td>
 				    <td id="imgTd" >
-					    <input type="file" id="modify_img" type="text" name="user_img" value="" style="">
+					    <!-- <input type="file" id="modify_img" type="text" name="user_img" value="" style=""> -->
+					    <input type="file" id="image" accept="image/*" name="user_img"  onchange="setThumbnail(event);"/> 
 					</td>
 				</tr>
 				<tr>
@@ -113,6 +130,18 @@
     </div>
     
 <script>
+	// 썸네일 미리보기
+	function setThumbnail(event) { 
+	    var reader = new FileReader(); 
+	
+	    reader.onload = function(event) { 
+	        var img = document.createElement("img"); 
+	        img.setAttribute("src", event.target.result); 
+	        document.querySelector("div#image_container").appendChild(img); 
+	    }; 
+	
+	    reader.readAsDataURL(event.target.files[0]); 
+	}
 	
 	// kakao 주소찾기 api
 	function sample6_execDaumPostcode() {
