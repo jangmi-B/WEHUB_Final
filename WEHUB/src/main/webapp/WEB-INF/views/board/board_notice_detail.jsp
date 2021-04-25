@@ -83,7 +83,7 @@
       <div class="coment_container">
         <form id="commentForm" name="commentForm" method="get" action="${path}/notice/comments">
           <div>
-              <span><strong>Comments</strong></span> <span id="cCnt">(2)</span>
+              <span><strong>Comments</strong></span> <span id="cCnt">(${notice.noticCommentCount})</span>
               <div class="comment_line"></div>
           </div>
           <div id="comment_div">

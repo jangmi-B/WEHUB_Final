@@ -368,10 +368,13 @@ public class BoardController {
 			
 		}
 		
-		
-		
 		notice = service.findNoticeByNo(noticeNo);
 //		System.out.println("후" + notice);
+		
+		int count = service.getCommentsCount(noticeNo);
+		notice.setNoticCommentCount(count);
+		
+		System.out.println("notice댓글수 확인 : " + notice);
 		
 		//댓글 등록한 유저 이름 가져오기
 		List<Comments> comments = service.findComments(noticeNo);

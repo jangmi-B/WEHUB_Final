@@ -40,7 +40,7 @@
 	          </div>
 	          <div class="projectdivInfo pj${ status.count }">
 	            <span style=""><c:out value="${projectList.userName}"/>님 외 총 <c:out value="${projectList.projectCount}"/>명</span>
-	            <a href="javascript:clickFav(${projectList.projectNo})" id="favBtn" class="fav${projectList.bookmark}"><i class="fas fa-star"></i></a>
+	            <a href="javascript:clickFav(${projectList.projectNo})" id="favBtn${projectList.projectNo}" class="fav${projectList.bookmark}"><i class="fas fa-star"></i></a>
 	          </div>
 	        </div>
 	        <div class="modal_project fade proNo${projectList.projectNo}">
@@ -150,28 +150,28 @@
 	}
 	
 	function clickFav(proNum){
-	    var className = $('#favBtn'+ proNum).attr('class');
-	    $.ajax({
-	       type: "post",
-	       url:"${path}/project/makeFav",
-	       data:{
-	          proNum:proNum
-	       },
-	       success:function(data){
-	          if(className == 'favY'){
-	             $('#favBtn'+ proNum).attr('class','favN');
-	             $('#favBtn'+ proNum).css('color', 'white');
-	          }else {
-	             $('#favBtn'+ proNum).attr('class','favY');
-	             $('#favBtn'+ proNum).css('color', 'yellow');
-	          }
-	       },
-	       error: function(e){
-	          alert("즐겨찾기 실패");
-	          console.log(e);
-	       }
-	    });
-	 }
+	      var className = $('#favBtn'+ proNum).attr('class');
+	      $.ajax({
+	         type: "post",
+	         url:"${path}/project/makeFav",
+	         data:{
+	            proNum:proNum
+	         },
+	         success:function(data){
+	            if(className == 'favY'){
+	               $('#favBtn'+ proNum).attr('class','favN');
+	               $('#favBtn'+ proNum).css('color', 'white');
+	            }else {
+	               $('#favBtn'+ proNum).attr('class','favY');
+	               $('#favBtn'+ proNum).css('color', 'yellow');
+	            }
+	         },
+	         error: function(e){
+	            alert("즐겨찾기 실패");
+	            console.log(e);
+	         }
+	      });
+	   }
 	
 	function closeProject(proNo){
 		console.log(proNo);
