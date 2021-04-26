@@ -71,7 +71,7 @@
 			<button style="font-size: 18px; border:none; background:none; cursor:pointer;" onclick="location.href='${path}/community/list?page=${pageInfo.getMaxPage()}'">마지막페이지</button>
 		</div>
 		
-		<div class="modal fade">
+		<div class="modalWrite fade">
 		    <div class="bg"></div>
 		    <div class="modalContainer">
 		      <h2 style="margin-left:18px;">쪽지쓰기 </h2>
@@ -414,95 +414,95 @@ function updateBtn(no) {
 	}
 	
 	function GoMsg(no,userId,userNo){
-      	document.querySelector(".modal").classList.remove("fade");
-      	document.getElementById("memSearchInput").value= userId;
-      	document.getElementById("msgTo").value= userNo;
-	  
-	    const close = () => {
-	      document.getElementById("memSearchInput").value= "";
-	      document.getElementById("msgContent").value= "";
-	      document.querySelector(".modal").classList.add("fade");
-	    }
-	    
-// 	    document.querySelector(".SwalDeleteBtn").addEventListener("click", open);	  
-	    document.querySelector(".closeBtn").addEventListener("click", close);
-	    
-	    
-	    $("#msgContent").on("keyup",function(){
-	        let inputLength = $(this).val().length;
+        document.querySelector(".modalWrite").classList.remove("fade");
+        document.getElementById("memSearchInput").value= userId;
+        document.getElementById("msgTo").value= userNo;
+    
+      const close = () => {
+        document.getElementById("memSearchInput").value= "";
+        document.getElementById("msgContent").value= "";
+        document.querySelector(".modalWrite").classList.add("fade");
+      }
+      
+//       document.querySelector(".SwalDeleteBtn").addEventListener("click", open);     
+      document.querySelector(".closeBtn").addEventListener("click", close);
+      
+      
+      $("#msgContent").on("keyup",function(){
+          let inputLength = $(this).val().length;
 
-	        $("#writeCnt").text(inputLength);
+          $("#writeCnt").text(inputLength);
 
-	        let remain = $("#writeMax").text() - inputLength;
+          let remain = $("#writeMax").text() - inputLength;
 
-	        if(remain < 0){
-	          $("#writeCnt").css("color","red");
-	        } else {
-	          $("#writeCnt").css("color","black");
-	        }
-      });
-	}
-	
-	$(function(){
-		$("#sendBtn").on("click",function(){
-			let msgFrom = $("#msgFrom").val();
-			let msgTo = $("#msgTo").val();
-			let userName = $("#memSearchInput").val();
-			let msgContent = $("#msgContent").val();
-			let writeCnt = parseInt($("#writeCnt").text());
-			let writeMax = parseInt($("#writeMax").text());
-			
-			if(userName == ""){
-				Swal.fire({
-					  icon: 'error',
-					  text: '받는사람을 작성하지 않으셨습니다!',
-					  didClose: () => {
-						  $('#memSearchInput').focus();
-					  }
-					})
-			} else if(msgContent == ""){
-				Swal.fire({
-					  icon: 'error',
-					  text: '내용을 작성하지 않으셨습니다.!',
-					  didClose: () => {
-						  $('#msgContent').focus();
-					  }
-					})
-			} else if(writeCnt > 300){
-				Swal.fire({
-					  icon: 'error',
-					  text: writeMax + "자를 초과입력할 수 없습니다.!",
-					  didClose: () => {
-						  $('#msgContent').focus();
-					  }
-					})
-			} else{
-				$.ajax({
-					type: "post",
-					url:"${path}/community/Msgsend",
-					data:{
-						msgFrom:msgFrom,
-						msgTo:msgTo,
-						msgContent:msgContent
-					},
-					success:function(data){
-						Swal.fire({
-	                         icon: 'success',
-	                         text: '쪽지를 성공적으로 전송하였습니다.'
-	                     });
-						
-						document.getElementById("memSearchInput").value= "";
-					    document.getElementById("msgContent").value= "";
-						document.querySelector(".modal").classList.add("fade");
-					},
-					error: function(e){
-						alert("실패");
-						console.log(e);
-					}
-				});
-			}
-		});
-	});
+          if(remain < 0){
+            $("#writeCnt").css("color","red");
+          } else {
+            $("#writeCnt").css("color","black");
+          }
+     });
+  }
+  
+  $(function(){
+     $("#sendBtn").on("click",function(){
+        let msgFrom = $("#msgFrom").val();
+        let msgTo = $("#msgTo").val();
+        let userName = $("#memSearchInput").val();
+        let msgContent = $("#msgContent").val();
+        let writeCnt = parseInt($("#writeCnt").text());
+        let writeMax = parseInt($("#writeMax").text());
+        
+        if(userName == ""){
+           Swal.fire({
+                icon: 'error',
+                text: '받는사람을 작성하지 않으셨습니다!',
+                didClose: () => {
+                   $('#memSearchInput').focus();
+                }
+              })
+        } else if(msgContent == ""){
+           Swal.fire({
+                icon: 'error',
+                text: '내용을 작성하지 않으셨습니다.!',
+                didClose: () => {
+                   $('#msgContent').focus();
+                }
+              })
+        } else if(writeCnt > 300){
+           Swal.fire({
+                icon: 'error',
+                text: writeMax + "자를 초과입력할 수 없습니다.!",
+                didClose: () => {
+                   $('#msgContent').focus();
+                }
+              })
+        } else{
+           $.ajax({
+              type: "post",
+              url:"${path}/community/Msgsend",
+              data:{
+                 msgFrom:msgFrom,
+                 msgTo:msgTo,
+                 msgContent:msgContent
+              },
+              success:function(data){
+                 Swal.fire({
+                           icon: 'success',
+                           text: '쪽지를 성공적으로 전송하였습니다.'
+                       });
+                 
+                 document.getElementById("memSearchInput").value= "";
+                  document.getElementById("msgContent").value= "";
+                 document.querySelector(".modalWrite").classList.add("fade");
+              },
+              error: function(e){
+                 alert("실패");
+                 console.log(e);
+              }
+           });
+        }
+     });
+  });
 	
 	function cm_bookMark(no, userNo){
 		$.ajax({
