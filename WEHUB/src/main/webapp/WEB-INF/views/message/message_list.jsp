@@ -315,11 +315,11 @@
 	    const close = () => {
     	  document.getElementById("memSearchInput").value= "";
 	      document.getElementById("msgContent").value= "";
-	      document.querySelector(".modal").classList.add("fade");
+	      document.querySelector(".modalWrite").classList.add("fade");
 	    }
 	    
 		document.querySelector(".modalNo" + msgNo).classList.add("fade");
-		document.querySelector(".modal").classList.remove("fade");
+		document.querySelector(".modalWrite").classList.remove("fade");
 		
 		document.getElementById("memSearchInput").value= sName + "_" + sRank + "_" + sDept;
 	  
