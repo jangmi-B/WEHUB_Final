@@ -505,43 +505,43 @@ public class ApprovalController {
 		System.out.println("expenseReportView : " + approval);
 
 		
-	    String erDetailStr = approval.getErDetail();
-	    System.out.println("erDetailStr : " + erDetailStr);
-	  
-	    String[] erDetailStrArray = erDetailStr.split(",");
+//	    String erDetailStr = approval.getErDetail();
+//	    System.out.println("erDetailStr : " + erDetailStr);
+//	  
+//	    String[] erDetailStrArray = erDetailStr.split(",");
+//	    
+//	    List<String> erDetailStrList = new ArrayList<>();
+//	    for (int i = 0; i < erDetailStrArray.length; i++) {
+//	    	erDetailStrList.add(erDetailStrArray[i]);
+//	    }
+//	    
+//	    String erReferenceStr = approval.getErReference();
+//	    System.out.println("erReferenceStr : " + erReferenceStr);
+//	  
+//	    String[] erReferenceStrArray = erReferenceStr.split(",");
+//	    
+//	    List<String> erReferenceStrList = new ArrayList<>();
+//	    for (int i = 0; i < erReferenceStrArray.length; i++) {
+//	    	erReferenceStrList.add(erReferenceStrArray[i]);
+//	    }
+//	    
+//	    String erAmountStr = approval.getErAmount();
+//	    System.out.println("erAmountStr : " + erAmountStr);
+//	  
+//	    String[] erAmountStrArray = erAmountStr.split(",");
+//	    
+//	    List<String> erAmountStrList = new ArrayList<>();
+//	    for (int i = 0; i < erAmountStrArray.length; i++) {
+//	    	erAmountStrList.add(erAmountStrArray[i]);
+//	    }
+//	    
+//	    Map<Object, List<String>> map = new HashMap<Object, List<String>>();
+//	    
+//	    map.put("erDetailStrList", erDetailStrList);
+//	    map.put("erReferenceStrList", erReferenceStrList);
+//	    map.put("erAmountStrList", erAmountStrList);
 	    
-	    List<String> erDetailStrList = new ArrayList<>();
-	    for (int i = 0; i < erDetailStrArray.length; i++) {
-	    	erDetailStrList.add(erDetailStrArray[i]);
-	    }
-	    
-	    String erReferenceStr = approval.getErReference();
-	    System.out.println("erReferenceStr : " + erReferenceStr);
-	  
-	    String[] erReferenceStrArray = erReferenceStr.split(",");
-	    
-	    List<String> erReferenceStrList = new ArrayList<>();
-	    for (int i = 0; i < erReferenceStrArray.length; i++) {
-	    	erReferenceStrList.add(erReferenceStrArray[i]);
-	    }
-	    
-	    String erAmountStr = approval.getErAmount();
-	    System.out.println("erAmountStr : " + erAmountStr);
-	  
-	    String[] erAmountStrArray = erAmountStr.split(",");
-	    
-	    List<String> erAmountStrList = new ArrayList<>();
-	    for (int i = 0; i < erAmountStrArray.length; i++) {
-	    	erAmountStrList.add(erAmountStrArray[i]);
-	    }
-	    
-	    Map<Object, List<String>> map = new HashMap<Object, List<String>>();
-	    
-	    map.put("erDetailStrList", erDetailStrList);
-	    map.put("erReferenceStrList", erReferenceStrList);
-	    map.put("erAmountStrList", erAmountStrList);
-	    
-	    model.addObject("map", map);
+//	    model.addObject("map", map);
 		model.addObject("approval", approval);
 		model.setViewName("/approval/expenseReportView");
 

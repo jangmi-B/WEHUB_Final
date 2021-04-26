@@ -14,6 +14,8 @@
     <script src="${path}/js/jquery-3.5.1.js"></script>
     <title>BeforeSignUp</title>
     <link rel="stylesheet" href="${path}/css/BeforeSignUp.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
     <div class="wrapper">
@@ -586,7 +588,12 @@
 	    	
 	        return location.href=pageLink; 
 	    } else { 
-	        alert("모든 약관에 동의해 주세요.") 
+	        /* alert("모든 약관에 동의해 주세요.") */
+	        Swal.fire({
+			  icon: 'error',
+			  title: '실패!!',
+			  text: '모든 약관에 동의해 주세요.'
+			})
 	    } 
 	}
 </script>

@@ -171,19 +171,34 @@
 		var updateForm = document.formUpdatePass;
 	
 		if(!(check1||check2||check3)){
-			alert("사용할 수 없은 조합입니다.\n패스워드 설정안내를 확인해 주세요.");
+			/* alert("사용할 수 없은 조합입니다.\n패스워드 설정안내를 확인해 주세요."); */
+			Swal.fire({
+				  icon: 'error',
+				  title: '비밀번호 변경 실패!',
+				  text: '사용할 수 없은 조합입니다.'
+			})
 	
 			return false;
 		}
 	
 		if(/(\w)\1\1/.test(mbrPwd)){
-			alert('같은 문자를 3번 이상 사용하실 수 없습니다.\n패스워드 설정안내를 확인해 주세요.');
+			/* alert('같은 문자를 3번 이상 사용하실 수 없습니다.\n패스워드 설정안내를 확인해 주세요.'); */
+			Swal.fire({
+				  icon: 'error',
+				  title: '비밀번호 변경 실패!',
+				  text: '같은 문자를 3번 이상 사용하실 수 없습니다.'
+			})
 	
 			return false;
 		}
 	
 		if(mbrPwd.search(mbrId)>-1){
-			alert("비밀번호에 아이디가 포함되었습니다.\n패스워드 설정안내를 확인해 주세요.");
+			/* alert("비밀번호에 아이디가 포함되었습니다.\n패스워드 설정안내를 확인해 주세요."); */
+			Swal.fire({
+				  icon: 'error',
+				  title: '비밀번호 변경 실패!',
+				  text: '비밀번호에 아이디가 포함되었습니다.'
+			})
 	
 			return false;
 		}

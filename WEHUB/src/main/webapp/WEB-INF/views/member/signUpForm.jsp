@@ -275,27 +275,35 @@
 	
 	$("input[id=user_imgOri]").change(function(){
 		 
-	    if($(this).val() != ""){
-	      // 확장자 체크
-	          var ext = $(this).val().split(".").pop().toLowerCase();
-	          if($.inArray(ext, ["gif","jpg","jpeg","png"]) == -1){
-	              alert("gif, jpg, jpeg, png 파일만 업로드 해주세요.");
-	              $(this).val("");
-	              return;
-	          }
+		if($(this).val() != ""){
+			// 확장자 체크
+			var ext = $(this).val().split(".").pop().toLowerCase();
+		
+			if($.inArray(ext, ["gif","jpg","jpeg","png"]) == -1){
+				/* alert("gif, jpg, jpeg, png 파일만 업로드 해주세요."); */
+				Swal.fire({
+					  icon: 'error',
+					  title: '이미지 확장자 틀림!',
+					  text: 'gif, jpg, jpeg, png 파일만 업로드 해주세요.'
+					})
+			    $(this).val("");
+			    return;
+			}
 	          
-	          // 용량 체크
-	          for (var i=0; i<this.files.length; i++) {
-	            var fileSize = this.files[i].size;
-	            var fSMB = (fileSize / (1024 * 1024)).toFixed(2);
-	            var maxSize = 1024 * 1024 * 5;
-	            var mSMB = (maxSize / (1024 * 1024));
-	            if(fileSize > maxSize){
-	              alert(this.files[i].name + "(이)가 용량 5MB을 초과했습니다.\n\n<font color='red'>" + fSMB + "MB</font> / " + mSMB + "MB");
-	              $(this).val("");    
-	            }
-	          }
-	    }
+			// 용량 체크
+			for (var i=0; i<this.files.length; i++) {
+				var fileSize = this.files[i].size;
+				var fSMB = (fileSize / (1024 * 1024)).toFixed(2);
+				var maxSize = 1024 * 1024 * 5;
+				var mSMB = (maxSize / (1024 * 1024));
+				
+				if(fileSize > maxSize){
+					alert(this.files[i].name + "(이)가 용량 5MB을 초과했습니다.\n\n<font color='red'>" + fSMB + "MB</font> / " + mSMB + "MB");
+					
+					$(this).val("");    
+				}
+			}
+ 		}
 	});
 </script>
 

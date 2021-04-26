@@ -52,6 +52,12 @@
 		
 		$('#loginForm').submit();
 	}); 
+  	
+  	function loginForm() {
+	  	setTimeout("loginForm()", 3000);
+  		console.log("될려나..ㅎㅎ");
+  	}
+  	
 
 </script>
 </html>

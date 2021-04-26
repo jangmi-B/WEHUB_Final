@@ -189,11 +189,20 @@
           var leaveWriteForm = document.leaveWriteForm;
           
           if(leaveWriteForm.leaveClassify.value=="" || leaveWriteForm.leaveDetail.value==""){
-              alert("상세내용 또는 제목란이 비어있습니다. 확인 후 등록하세요.");
+              
+              Swal.fire({
+     			   icon: 'error',
+     			   title: '상세내용 또는 \n제목란이 비어있습니다.',
+     			   text: '확인 후 등록하세요!'
+     		})
               
               return false;
           } else if(leaveWriteForm.proposerText.value=="") {
-             alert("서명 후 등록을 완료해주세요.");
+        	  Swal.fire({
+				  icon: 'error',
+				  title: '서명 후 등록을 완료해주세요.',
+				  text: '확인 후 등록하세요!'
+			})
              
              return false;
          } else {

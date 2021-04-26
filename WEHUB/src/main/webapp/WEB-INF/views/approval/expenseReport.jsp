@@ -175,19 +175,39 @@
 		        
 		        return false;
 		    } else  */if(erWriteForm.allAmount.value=="" || erWriteForm.erTitle.value=="") {
-		    	alert("지출금액 또는 제목란이 비어있습니다. 확인 후 등록하세요.");
+		    	/* alert("지출금액 또는 제목란이 비어있습니다. 확인 후 등록하세요."); */
+		    	Swal.fire({
+				  icon: 'error',
+				  title: '지출금액 또는 제목란이 비어있습니다.',
+				  text: '확인 후 등록하세요!'
+				})
 			        
 			    return false;
 		    } else if(erWriteForm.proposerText.value=="") {
-		       alert("서명 후 등록을 완료해주세요.");
+		       /* alert("서명 후 등록을 완료해주세요."); */
+		       Swal.fire({
+					  icon: 'error',
+					  title: '서명 후 등록을 완료해주세요.',
+					  text: '확인 후 등록하세요!'
+				})
 		       
 		       return false;
 		    } else if(erWriteForm.erDeadline.value=="") {
-		    	alert("마감일자란이 비어있습니다. 확인 후 등록하세요.");
+		    	/* alert("마감일자란이 비어있습니다. 확인 후 등록하세요."); */
+		    	Swal.fire({
+					  icon: 'error',
+					  title: '마감일자란이 비어있습니다.',
+					  text: '확인 후 등록하세요!'
+				})
 			        
 			    return false;
 		    } else if(erWriteForm.monetaryUnit.value=="") {
-		    	alert("화폐단위를 선택해주세요.");
+		    	/* alert("화폐단위를 선택해주세요."); */
+		    	Swal.fire({
+					  icon: 'error',
+					  title: '화폐단위를 선택해주세요.',
+					  text: '확인 후 등록하세요!'
+				})
 			        
 			    return false;
 		    } else {

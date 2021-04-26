@@ -75,7 +75,14 @@
 				    <td></td>
 				    <td id="imgTd" >
 					    <!-- <input type="file" id="modify_img" type="text" name="user_img" value="" style=""> -->
-					    <input type="file" id="image" accept="image/*" name="user_img"  onchange="setThumbnail(event);"/> 
+					    <c:choose>
+				      		<c:when test="${ loginMember.user_imgRename == null }">
+							    <input type="file" id="image" accept="image/*" name="user_img"  onchange="setThumbnail(event);"/> 
+					    	</c:when>
+					    	 <c:otherwise>
+					    	 	<input type="file" id="image" accept="image/*" name="user_img"  onchange="setThumbnail2(event);"/> 
+					    	 </c:otherwise>
+					    </c:choose>
 					</td>
 				</tr>
 				<tr>
@@ -152,7 +159,7 @@
 	}
 	
 	// 썸네일 미리보기
-	function setThumbnail(event) { 
+	function setThumbnail2(event) { 
 	    var reader = new FileReader();
 	    const div2 = document.getElementById('myImgDiv2');
 	    

@@ -180,7 +180,12 @@
 	    	
 	        return location.href=pageLink; 
 	    } else { 
-	        alert("약관에 동의하지 않으면 탈퇴할 수 없습니다.");
+	        /* alert("약관에 동의하지 않으면 탈퇴할 수 없습니다."); */
+	        Swal.fire({
+	        	  icon: 'error',
+	        	  title: '회원 탈퇴 실패!',
+	        	  text: '약관에 동의하지 않으면 탈퇴할 수 없습니다.'
+	        })
 	    } 
 	}
 </script>

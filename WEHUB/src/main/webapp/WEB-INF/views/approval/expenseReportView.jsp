@@ -309,10 +309,18 @@
 	                	   var url = "${path}/approval/approvalMain";
                	           
 	                	   if(data != 0) {
-	                		   alert("결재반려 처리가 정상적으로 완료되었습니다.");
+	                		   /* alert("결재반려 처리가 정상적으로 완료되었습니다."); */
+	                		   Swal.fire({
+	                			   icon: 'success',
+	                			   title: '결재반려 처리가 \n정상적으로 완료되었습니다.'
+	                			})
       		    	   	       $(location).attr('href',url);
 	                	   } else {
-	                		   alert("결재반려 처리에 실패하였습니다.");
+	                		   /* alert("결재반려 처리에 \n실패하였습니다."); */
+	                		   Swal.fire({
+	                  			   icon: 'error',
+	                  			   title: '결재반려 처리에 \n실패하였습니다.'
+	                  			})
       		    	   	       $(location).attr('href',url);
 	                	   }
 	            	   },
@@ -330,7 +338,11 @@
                 type: "post",
                 url: "${path}/approval/loaApproved1?appNo="+${approval.appNo},
                 success: function(){
-           		   alert("결재서명이 완료되었습니다.");
+           		   /* alert("결재서명이 완료되었습니다."); */
+	           		/* Swal.fire({
+	     			   icon: 'success',
+	     			   title: '결재서명이 \n완료되었습니다.'
+	     			}) */
    				   $("#firstA").append('<img src="${path}/images/approved.png" id="checkIfApproved" style="position:absolute; width:130px; height:130px; margin-left:-92px; margin-top:-50px" />');
          	   },
                 error: function(){ alert("잠시 후 다시 시도해주세요."); }
@@ -343,7 +355,11 @@
                 type: "post",
                 url: "${path}/approval/loaApproved2?appNo="+${approval.appNo},
                 success: function(){
-           		   alert("결재서명이 완료되었습니다.");
+                	/* alert("결재서명이 완료되었습니다."); */
+	           		Swal.fire({
+	     			   icon: 'success',
+	     			   title: '결재서명이 \n완료되었습니다.'
+	     			})
    				   $("#interimA").append('<img src="${path}/images/approved.png" id="checkIfApproved" style="position:absolute; width:130px; height:130px; margin-left:-92px; margin-top:-50px" />');
          	   },
                 error: function(){ alert("잠시 후 다시 시도해주세요."); }
@@ -356,7 +372,11 @@
                 type: "post",
                 url: "${path}/approval/loaApproved3?appNo="+${approval.appNo},
                 success: function(){
-           		   alert("결재서명이 완료되었습니다.");
+                	/* alert("결재서명이 완료되었습니다."); */
+	           		Swal.fire({
+	     			   icon: 'success',
+	     			   title: '결재서명이 \n완료되었습니다.'
+	     			})
    				   $("#finalA").append('<img src="${path}/images/approved.png" id="checkIfApproved" style="position:absolute; width:130px; height:130px; margin-left:-92px; margin-top:-50px" />');
          	   },
                 error: function(){ alert("잠시 후 다시 시도해주세요."); }
@@ -369,11 +389,19 @@
    		$("#approveddone").click(function() {
    			if($('#checkIfApproved').length > 0) {
    				var url = "${path}/approval/approvalMain";
-	   			alert("결재가 완료되었습니다.");
+   				/* alert("결재서명이 완료되었습니다."); */
+           		Swal.fire({
+     			   icon: 'success',
+     			   title: '결재가 완료되었습니다.'
+     			})
 	   	        $(location).attr('href', url);  			
    			} else {
    				var url = "${path}/approval/letterOfApprovalView?appNo="+${approval.appNo};
-   				alert("결재서명 후 결재를 진행해주세요.");
+   				/* alert("결재서명 후 결재를 진행해주세요."); */
+   				Swal.fire({
+      			   icon: 'error',
+      			   title: '결재서명 후 \n결재를 진행해주세요.'
+      			})
    			}
    		});
    		

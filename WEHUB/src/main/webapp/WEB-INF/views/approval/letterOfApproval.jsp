@@ -116,11 +116,19 @@
           var loaWriteForm = document.loaWriteForm;
           
           if(loaWriteForm.loaContent.value=="" || loaWriteForm.loaTitle.value==""){
-              alert("상세내용 또는 제목란이 비어있습니다. 확인 후 등록하세요.");
+              /* alert("상세내용 또는 제목란이 비어있습니다. 확인 후 등록하세요."); */
+              Swal.fire({
+            	  icon: 'error',
+            	  title: '상세내용 또는 \n제목란이 비어있습니다.',
+            	  text: '확인 후 등록하세요!'
+            	})
               
               return false;
           } else if(loaWriteForm.proposerText.value=="") {
-             alert("서명 후 등록을 완료해주세요.");
+				Swal.fire({
+     			   icon: 'error',
+     			   title: '결재서명 후 \n결재를 진행해주세요.'
+     			})
              
              return false;
          } else {
