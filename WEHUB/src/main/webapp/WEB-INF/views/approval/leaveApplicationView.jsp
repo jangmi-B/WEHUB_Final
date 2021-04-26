@@ -400,39 +400,30 @@
       </script>
       
       <!-- 하단 결재버튼 -->
-      <script>
-         $("#approveddone").click(function() {
-            if($('#checkIfApproved').length > 0) {
-               var url = "${path}/approval/approvalMain";
-               Swal.fire({
-     			   icon: 'success',
-     			   title: '결재가 완료되었습니다.'
-     			})
-               
-               console.log(location);
-               
-                 location.href="${path}/approval/approvalMain";
-            } else {
-               var url = "${path}/approval/letterOfApprovalView?appNo="+${approval.appNo};
-               Swal.fire({
-      			   icon: 'error',
-      			   title: '결재서명 후 \n결재를 진행해주세요.'
-      			})
-            }
-         });
-         
-         /* function checkIfApproved() {
-          if(document.getElementById('checkIfApproved')){
-              alert("결재가 완료되었습니다.");
-              
-            return true;
-         } else {
-              alert("결재서명 후 결재를 진행해주세요.");
-              
-              return false;
-         }
-      } */
-      </script>
+   	<script>
+   		$("#approveddone").click(function() {
+   			if($('#checkIfApproved').length > 0) {
+   				var url = "${path}/approval/approvalMain";
+	   			alert("결재가 완료되었습니다.");
+	   	        $(location).attr('href', url);  			
+   			} else {
+   				var url = "${path}/approval/letterOfApprovalView?appNo="+${approval.appNo};
+   				alert("결재서명 후 결재를 진행해주세요.");
+   			}
+   		});
+   		
+   		/* function checkIfApproved() {
+		    if(document.getElementById('checkIfApproved')){
+		        alert("결재가 완료되었습니다.");
+		        
+				return true;
+			} else {
+		        alert("결재서명 후 결재를 진행해주세요.");
+		        
+		        return false;
+			}
+		} */
+   	</script>
 
       
       <script type="text/javascript">
