@@ -260,7 +260,6 @@
 	const open3 = () => {
     	document.querySelector(".modal3").classList.remove("hidden");
     }
-
     const close3 = () => {
         document.querySelector(".modal3").classList.add("hidden");
     }
@@ -296,7 +295,6 @@
 	    document.querySelector(".rejModalOk1").addEventListener("click", close);
 	    document.querySelector(".rejModalOk1").addEventListener("click", open2);
 	    document.querySelector(".rejModalNo2").addEventListener("click", close2);
-
 	    
     	document.querySelector(".rejModalOk2").addEventListener("click",close2);
     	
@@ -393,17 +391,11 @@
    		$("#approveddone").click(function() {
    			if($('#checkIfApproved').length > 0) {
    				var url = "${path}/approval/approvalMain";
-   				Swal.fire({
-      			   icon: 'success',
-      			   title: '결재가 완료되었습니다.'
-      			})
+	   			alert("결재가 완료되었습니다.");
 	   	        $(location).attr('href', url);  			
    			} else {
    				var url = "${path}/approval/letterOfApprovalView?appNo="+${approval.appNo};
-   				Swal.fire({
-       			   icon: 'error',
-       			   title: '결재서명 후 \n결재를 진행해주세요.'
-       			})
+   				alert("결재서명 후 결재를 진행해주세요.");
    			}
    		});
    		
@@ -419,22 +411,5 @@
 			}
 		} */
    	</script>
-   	
-   	<!-- <script>
-    $("#approveddone").on("click",function(){
-    		
-    	var refList = $("textarea[name='referList']").val();
-    	
-        $.ajax({
-               type: "get",
-               url: "${path}/messageApproval/approved",
-               data: { refList : refList },
-               success: function(data){
-               	   
-        	   },
-               error: function(){ alert("잠시 후 다시 시도해주세요."); }
-   		});
-	});
-	</script> -->
 
 <%@ include file="../common/footer.jsp" %>

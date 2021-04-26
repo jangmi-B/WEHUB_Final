@@ -389,19 +389,11 @@
    		$("#approveddone").click(function() {
    			if($('#checkIfApproved').length > 0) {
    				var url = "${path}/approval/approvalMain";
-   				/* alert("결재서명이 완료되었습니다."); */
-           		Swal.fire({
-     			   icon: 'success',
-     			   title: '결재가 완료되었습니다.'
-     			})
+	   			alert("결재가 완료되었습니다.");
 	   	        $(location).attr('href', url);  			
    			} else {
    				var url = "${path}/approval/letterOfApprovalView?appNo="+${approval.appNo};
-   				/* alert("결재서명 후 결재를 진행해주세요."); */
-   				Swal.fire({
-      			   icon: 'error',
-      			   title: '결재서명 후 \n결재를 진행해주세요.'
-      			})
+   				alert("결재서명 후 결재를 진행해주세요.");
    			}
    		});
    		
