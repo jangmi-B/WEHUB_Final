@@ -419,5 +419,22 @@
 			}
 		} */
    	</script>
+   	
+   	<!-- <script>
+    $("#approveddone").on("click",function(){
+    		
+    	var refList = $("textarea[name='referList']").val();
+    	
+        $.ajax({
+               type: "get",
+               url: "${path}/messageApproval/approved",
+               data: { refList : refList },
+               success: function(data){
+               	   
+        	   },
+               error: function(){ alert("잠시 후 다시 시도해주세요."); }
+   		});
+	});
+	</script> -->
 
 <%@ include file="../common/footer.jsp" %>

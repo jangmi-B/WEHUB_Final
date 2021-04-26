@@ -64,10 +64,10 @@
 	</form>	
 	
 <div style="margin-top: -90px; margin-left: -260px;" id="firstDiv">
-   		<c:if test="${list == null}">
+   		<c:if test="${empty list}">
    			<div id="contentForm">
   					<div id="box">
-					<div>
+					<div style="text-align: center; margin-top:75px">
 						조회된 게시글이 없습니다.
 					</div>
 				</div>

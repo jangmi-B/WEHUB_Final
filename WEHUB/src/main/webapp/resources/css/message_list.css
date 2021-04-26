@@ -199,7 +199,7 @@ a.Y{
 	box-shadow: 1px 1px 1px grey;
 }
 
-.modal {
+.modalWrite {
   position: fixed;
   top: 0;
   left: 0;
@@ -210,7 +210,7 @@ a.Y{
   align-items: center;
 }
 
-.modal .bg {
+.modalWrite .bg {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
