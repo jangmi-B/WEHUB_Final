@@ -89,7 +89,7 @@
       </c:if>
       </div>
       
-      <div class="modal fade">
+      <div class="modalWrite fade">
           <div class="bg"></div>
           <div class="modalContainer">
             <h2 style="margin-left:18px;">쪽지쓰기 </h2>
@@ -430,14 +430,14 @@
    }
    
    function GoMsg(no,userId,userNo){
-         document.querySelector(".modal").classList.remove("fade");
+         document.querySelector(".modalWrite").classList.remove("fade");
          document.getElementById("memSearchInput").value= userId;
          document.getElementById("msgTo").value= userNo;
      
        const close = () => {
          document.getElementById("memSearchInput").value= "";
          document.getElementById("msgContent").value= "";
-         document.querySelector(".modal").classList.add("fade");
+         document.querySelector(".modalWrite").classList.add("fade");
        }
        
 //        document.querySelector(".SwalDeleteBtn").addEventListener("click", open);     
@@ -509,7 +509,7 @@
                   
                   document.getElementById("memSearchInput").value= "";
                    document.getElementById("msgContent").value= "";
-                  document.querySelector(".modal").classList.add("fade");
+                  document.querySelector(".modalWrite").classList.add("fade");
                },
                error: function(e){
                   alert("실패");
