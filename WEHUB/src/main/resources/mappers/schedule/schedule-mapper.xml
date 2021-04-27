@@ -44,7 +44,7 @@
         JOIN APPROVAL A ON A.APP_WRITER_NO= M.USER_NO
         JOIN APP_LEAVE AP ON A.APP_SEQ= AP.LEAVE_APP_SEQ
         JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
-		WHERE M.DEPT_CODE = #{dept_code} 
+		WHERE M.DEPT_CODE = #{dept_code} AND A.APP_PRESENT='D'
 	</select> 
 
 	<insert id="insertCalendar" parameterType="map"
@@ -84,8 +84,8 @@
         FROM MEMBER M
         JOIN APPROVAL A ON (A.APP_WRITER_NO = M.USER_NO)
         JOIN APP_ER ER ON (A.APP_SEQ = ER.ER_APP_SEQ)
-        JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_NAME)
-		WHERE M.DEPT_CODE = #{dept_code} AND ER.ER_PRESENT='A'
+        JOIN DEPARTMENT D ON(M.DEPT_CODE = D.DEPT_CODE)
+		WHERE M.DEPT_CODE = #{dept_code} AND A.APP_PRESENT='D'
 	</select> 
 
 </mapper>
