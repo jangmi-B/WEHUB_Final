@@ -5,10 +5,11 @@
 ## 1.1.1 프로젝트 기간
 * 프로젝트 기간 : 2021년 2월 27일 ~  2021년 4월 26일
 
-<img>
+<img> 
 
 ## 1.2. 프로젝트 컨셉
 우리들이 업무를 공유하는 공간 'WE' + 'HUB' 
+
 
 ## 2.1. 기획의도
 * 비용이 저렴하며 기본에 충실한 그룹웨어입니다.
@@ -36,17 +37,17 @@
 * Sourcetree
 
 ## 3.2. 사용한 API
-    kakao 우편번호 서비스
-    Google Mail
-    CKEditor 4
-    TinyMCE
-    fullcalendar-5.6.0
+    - kakao 우편번호 서비스
+    - Google Mail
+    - CKEditor 4
+    - TinyMCE
+    - fullcalendar-5.6.0
 
 ## 3.3. 필요한 라이브러리
-    taglibs-standard-compat-1.2.5.jar
-    taglibs-standard-impl-1.2.5.jar
-    taglibs-standard-jstlel-1.2.5.jar
-    taglibs-standard-spec-1.2.5.jar
+    - taglibs-standard-compat-1.2.5.jar
+    - taglibs-standard-impl-1.2.5.jar
+    - taglibs-standard-jstlel-1.2.5.jar
+    - taglibs-standard-spec-1.2.5.jar
 
 ##  4. 화면설계 및 기능 구현
 
@@ -146,6 +147,8 @@
 ### 전자결재
 * 결재대기/결재중/결재완료 리스트 조회
 * 결재 수신목록/내 결재 목록/내가 작성한 결재 리스트 최신순으로 조회
+
+#### 품의서 / 지출결의서 / 휴거신청서 양식
 * 품의서/지출결의서/휴가신청서 양식 제공/등록
 * 모든 결재 등록 시 승인자(자동완성), 수신참조자(이름/부서/직책) 검색 기능 구현(modal)
 * 품의서 등록 시 파일 업로드 구현/조회 시 파일 다운로드 구현
