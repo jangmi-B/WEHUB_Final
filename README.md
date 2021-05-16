@@ -100,15 +100,17 @@
 * 페이징 처리, 부서/이름/직급 사원 검색 구현
 * 관리자 계정 : 등록할 사원의 이름/직급/부서 등록 구현
 
-
+<br><br>
 ***
+<br><br>
 
 ![2-1 메인페이지](https://user-images.githubusercontent.com/76435884/118402403-c4f1ba00-b6a4-11eb-94e2-b1ecea44e5df.PNG)
 
 * 메인페이지
 
-
+<br><br>
 ***
+<br><br>
 
 ![9 쪽지 페이지](https://user-images.githubusercontent.com/76435884/118402413-c7ecaa80-b6a4-11eb-88c7-73fc1dfa99b1.PNG)
 
@@ -126,8 +128,10 @@
 
 ### 쪽지쓰기
 * 자동완성 기능
-
+* 
+<br><br>
 ***
+<br><br>
 
 ![13-1 프로젝트 메인 페이지](https://user-images.githubusercontent.com/76435884/118402417-c8854100-b6a4-11eb-85b9-830588b3bd72.PNG)
 
@@ -154,7 +158,9 @@
 * 프로젝트 생성 시 참가자 자동완성 기능 구현
 * 프로젝트 생성 시 Datepicker 사용하여 날짜 입력 기능 구현
 
+<br><br>
 ***
+<br><br>
 
 ![14 공지사항 페이지](https://user-images.githubusercontent.com/76435884/118402421-c9b66e00-b6a4-11eb-9465-0ac324b50473.PNG)
 
@@ -176,7 +182,9 @@
 * 게시글 등록,수정,삭제/찜하기 등록,해제/판매자 쪽지보내기 기능 구현
 * CKEditor API 구현 및 이미지 업로드 구현
 
+<br><br>
 ***
+<br><br>
 
 ![16 전자결재 리스트](https://user-images.githubusercontent.com/76435884/118402423-ca4f0480-b6a4-11eb-9176-1a98bbb5a998.PNG)
 
@@ -202,7 +210,9 @@
 #### 결재 반려
 * 반려사유 입력창(modal) 생성 후 사유 입력 후 반려 처리 구현
 
+<br><br>
 ***
+<br><br>
 
 ### 스케쥴 관리
 
@@ -218,13 +228,17 @@
 * 대한민국 공휴일 리스트 조회
 * 전자결재(지출결의서-마감일/휴가신청서-휴가기간) 날짜 조회
 
+<br><br>
 ***
+<br><br>
 
 
 ## 5. DB 설계
 
 ![99-DB](https://user-images.githubusercontent.com/76435884/118402433-ccb15e80-b6a4-11eb-8284-02366a746089.png)
 
+<br><br>
 ***
+<br><br>
 
 감사합니다.
